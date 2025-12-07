@@ -1,0 +1,17 @@
+export const modelKeys = {
+  articles: 'articles',
+  blacklist: 'blacklist',
+  categories: 'categories',
+  comments: 'comments',
+  customFields: 'customFields',
+  files: 'files',
+  members: 'members',
+  menu: 'menu',
+  menuItems: 'menuItems',
+  messages: 'messages',
+  pages: 'pages',
+  requests: 'requests',
+  tags: 'tags',
+  translations: 'translations',
+  users: 'users',
+} as const;

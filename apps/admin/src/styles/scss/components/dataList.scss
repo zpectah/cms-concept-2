@@ -1,0 +1,22 @@
+#DataList {
+
+  &.view--table {}
+  &.view--files {}
+
+  &.model--articles {}
+  /* TODO */
+
+}
+
+#DataListTableView {
+
+  &.model--articles {}
+  /* TODO */
+
+}
+
+#DataListFilesView {
+
+  &.model--files {}
+
+}

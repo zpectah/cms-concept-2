@@ -1,25 +1,5 @@
-import { ReactNode } from 'react';
-import {
-  Drawer,
-  Button,
-  CloseButton,
-  ButtonProps,
-  DrawerRootProps,
-} from '@chakra-ui/react';
-import { WithChildren } from '@common';
-
-interface DrawerActionProps extends ButtonProps {
-  id: string;
-  label: ReactNode;
-}
-
-interface DrawerComposedProps extends WithChildren {
-  actions?: DrawerActionProps[];
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  rootProps?: Partial<DrawerRootProps>;
-  title?: ReactNode;
-}
+import { Drawer, Button, CloseButton } from '@chakra-ui/react';
+import { DrawerComposedProps } from './types';
 
 const DrawerComposed = ({
   children,

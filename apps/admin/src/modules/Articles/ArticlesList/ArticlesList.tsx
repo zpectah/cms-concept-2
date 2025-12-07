@@ -1,11 +1,22 @@
-import { Link } from 'react-router-dom';
+import { modelKeys } from '@model';
+import { DataList } from '../../../components';
 
 const ArticlesList = () => {
   return (
-    <div>
-      ...ArticlesList...
-      <Link to="/articles/5">Article detail</Link>
-    </div>
+    <DataList
+      model={modelKeys.articles}
+      rowActions={{
+        onDetail: (id) => null,
+        onDelete: (id) => null,
+        onToggle: (id) => null,
+        onDeletePermanent: (id) => null,
+      }}
+      selectedActions={{
+        onToggleSelected: (ids) => null,
+        onDeleteSelected: (ids) => null,
+        onDeletePermanentSelected: (ids) => null,
+      }}
+    />
   );
 };
 
