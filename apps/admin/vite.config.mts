@@ -1,29 +1,44 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: '../../node_modules/.vite/apps/admin',
   server: {
-    port: 4200,
+    port: 4210,
     host: 'localhost',
   },
   preview: {
-    port: 4300,
+    port: 4211,
     host: 'localhost',
   },
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [],
   // },
   build: {
-    outDir: './dist',
+    outDir: '../../dist/admin',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
       transformMixedEsModules: true,
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          axios: ['axios'],
+          emotion: ['@emotion/react', '@emotion/styled'],
+          i18n: ['i18next', 'i18next-http-backend', 'react-i18next'],
+          'chakra-ui': ['@chakra-ui/react'],
+          react: ['react', 'react-dom', 'react-router-dom'],
+          'react-hook-form': ['react-hook-form', '@hookform/resolvers'],
+          zod: ['zod'],
+          zustand: ['zustand'],
+        },
+      },
     },
   },
   test: {

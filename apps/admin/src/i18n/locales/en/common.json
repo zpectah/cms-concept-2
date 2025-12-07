@@ -1,0 +1,25 @@
+{
+  "button": {
+    "open": "Open"
+  },
+  "label": {},
+  "message": {},
+  "routes": {
+    "articles": "Articles",
+    "categories": "Categories",
+    "custom-fields": "Custom fields",
+    "dashboard": "Dashboard",
+    "demo": "Demo",
+    "files": "Files",
+    "login": "Login",
+    "members": "Members",
+    "menu": "Menu",
+    "messages": "Messages",
+    "pages": "Pages",
+    "password-recovery": "Password recovery",
+    "settings": "Settings",
+    "tags": "Tags",
+    "translations": "Translations",
+    "users": "Users"
+  }
+}

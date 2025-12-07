@@ -1,0 +1,130 @@
+.app-layout {
+  width: 100%;
+  height: auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &-wrapper {
+    width: 100%;
+    padding-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1;
+  }
+
+  &.default {}
+  &.minimal {}
+}
+
+.main {
+  width: 100%;
+  flex: 1;
+  display: flex;
+}
+
+.view-layout {
+  width: 100%;
+  padding-top: var(--chakra-spacing-4);
+  padding-bottom: var(--chakra-spacing-4);
+  flex: 1;
+
+  &-wrapper {
+    padding-top: var(--chakra-spacing-4);
+    padding-bottom: var(--chakra-spacing-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--chakra-spacing-8);
+  }
+
+  &-heading{
+    display: flex;
+    flex-direction: column;
+    gap: var(--chakra-spacing-4);
+
+    &-title{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--chakra-spacing-4);
+    }
+
+  }
+
+  &.default {}
+  &.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .view-layout-wrapper {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+}
+
+.header {
+  width: 100%;
+  height: 4rem;
+  padding: var(--chakra-spacing-2);
+  flex: 0;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--chakra-z-index-sticky);
+  background-color: var(--chakra-colors-bg);
+  border-bottom: 1px solid var(--chakra-colors-border);
+
+  &-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--chakra-spacing-4);
+  }
+}
+
+.footer {
+  padding-top: var(--chakra-spacing-4);
+  padding-bottom: var(--chakra-spacing-4);
+
+  &-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--chakra-spacing-4);
+  }
+
+  &-block {
+    color: var(--chakra-colors-fg-muted);
+  }
+}
+
+.layout-preloader {
+  width: 100%;
+  height: auto;
+  min-height: calc(100dvh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--chakra-spacing-2);
+}

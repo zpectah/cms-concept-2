@@ -16,6 +16,14 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@cms-concept-2/source"]
+    "customConditions": ["@cms-concept-2/source"],
+    "baseUrl": ".",
+    "paths": {
+      "@common": ["libs/common/src/index.ts"],
+      "@core": ["libs/core/src/index.ts"],
+      "@model": ["libs/model/src/index.ts"]
+    },
+    "resolveJsonModule": true,
+    "references": []
   }
 }
