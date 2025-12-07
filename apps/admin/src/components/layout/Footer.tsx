@@ -3,8 +3,6 @@ import { getConfig } from '../../config';
 import { classNames } from '../../utils';
 import { FooterProps } from './types';
 
-import './layout.scss';
-
 const Footer = ({ children }: FooterProps) => {
   const {
     cms: { version, meta },

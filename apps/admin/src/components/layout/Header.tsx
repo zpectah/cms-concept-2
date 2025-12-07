@@ -6,8 +6,6 @@ import { ThemeModeToggle, ProfileToggle } from '../controls';
 import { MainMenu, LocalesMenu } from '../menu';
 import Logo from './Logo';
 
-import './layout.scss';
-
 interface HeaderProps {
   variant?: AppLayoutVariant;
 }

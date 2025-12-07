@@ -2,8 +2,6 @@ import { Container } from '@chakra-ui/react';
 import { useAppStore } from '../../store';
 import { Alert } from '../../components';
 
-import './toaster.scss';
-
 const Toaster = () => {
   const { toasts, removeToast } = useAppStore();
 

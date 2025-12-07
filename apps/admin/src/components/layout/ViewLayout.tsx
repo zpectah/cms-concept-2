@@ -8,8 +8,6 @@ import { ViewLayoutProps } from './types';
 import Preloader from './Preloader';
 import Breadcrumbs from './Breadcrumbs';
 
-import './layout.scss';
-
 /** Layout for wrap page for view **/
 
 const ViewLayout = ({

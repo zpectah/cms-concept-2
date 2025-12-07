@@ -6,8 +6,6 @@ import { AppLayoutProps } from './types';
 import Header from './Header';
 import Footer from './Footer';
 
-import './layout.scss';
-
 /** Layout for wrap app page in router **/
 
 const AppLayout = ({
