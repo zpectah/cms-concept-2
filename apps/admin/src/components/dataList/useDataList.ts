@@ -7,9 +7,9 @@ import { filterDefaults } from './constants';
 
 export const useDataList = <T extends CommonModelItem>({
   items = [],
-  searchKeys,
   categories = [],
   tags = [],
+  searchKeys = [],
 }: UseDataListProps<T>) => {
   const [query, setQuery] = useState<string>('');
   const [filter, setFilter] = useState<DataListFilter>(filterDefaults);
@@ -133,7 +133,6 @@ export const useDataList = <T extends CommonModelItem>({
 
   return {
     rows,
-    rawRows,
     query,
     setQuery,
     filter,

@@ -7,9 +7,9 @@ import {
 
 export const useDataListPagination = <T extends CommonModelItem>({
   rows,
-}: UseDataListPaginationProps<T>): UseDataListPaginationReturn => {
+}: UseDataListPaginationProps<T>): UseDataListPaginationReturn<T> => {
   const [page, setPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(15);
+  const [perPage, setPerPage] = useState<number>(10);
 
   const pages = useMemo(
     () => Math.max(1, Math.ceil(rows.length / perPage)),
@@ -39,6 +39,12 @@ export const useDataListPagination = <T extends CommonModelItem>({
   const isFirstDisabled = useMemo(() => page === 1, [page]);
   const isLastDisabled = useMemo(() => page === pages, [page, pages]);
 
+  const paginatedRows = useMemo(() => {
+    const start = (page - 1) * perPage;
+
+    return rows.slice(start, start + perPage);
+  }, [rows, page, perPage]);
+
   return {
     onPageChange: pageChangeHandler,
     onPerPageChange: perPageChangeHandler,
@@ -55,5 +61,6 @@ export const useDataListPagination = <T extends CommonModelItem>({
       next: isLastDisabled,
       last: isLastDisabled,
     },
+    rows: paginatedRows,
   };
 };

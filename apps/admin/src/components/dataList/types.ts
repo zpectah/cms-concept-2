@@ -47,12 +47,6 @@ export interface DataListPagination {
   };
 }
 
-export interface DataListFilterItems {
-  categories?: Categories;
-  tags?: Tags;
-  types?: string[];
-}
-
 export interface DataListFilter {
   categories: number[];
   tags: number[];
@@ -66,13 +60,14 @@ export interface UseDataListProps<T extends CommonModelItem> {
   tags?: Tags;
 }
 
-// export interface UseDataListReturn {}
-
 export interface UseDataListPaginationProps<T extends CommonModelItem> {
   rows: T[];
 }
 
-export type UseDataListPaginationReturn = DataListPagination;
+export type UseDataListPaginationReturn<T extends CommonModelItem> =
+  DataListPagination & {
+    rows: T[];
+  };
 
 export interface DataListColumnProps<T extends CommonModelItem> {
   name: keyof T;
@@ -82,43 +77,60 @@ export interface DataListColumnProps<T extends CommonModelItem> {
 }
 
 export interface DataListProps<T extends CommonModelItem> {
-  model: ModelNames; // Model name
-  view?: DataListView; // View type
-  root: string; // Url of root list
-  rowActions: DataListRowAction; // Item actions
-  selectedActions: DataListSelectedActions; // Actions for selected items
-  modelActions: ModelActions; // Authorized actions
-  items: T[]; // Items
-  categories?: Categories; // Raw categories items
-  tags?: Tags; // Raw tags items
-  columns: DataListColumnProps<T>[]; // Columns
+  /** Model name */
+  model: ModelNames;
+  /** View type */
+  view?: DataListView;
+  /** Url of root list */
+  root: string;
+  /** Row item actions */
+  rowActions: DataListRowAction;
+  /** Actions for selected items */
+  selectedActions: DataListSelectedActions;
+  /** Authorized actions */
+  modelActions: ModelActions;
+  /** Items by model type */
+  items: T[];
+  /** Raw categories items for filtering */
+  categories?: Categories;
+  /** Raw tags items for filtering */
+  tags?: Tags;
+  /** Columns */
+  columns: DataListColumnProps<T>[];
+  /** Keys */
   keys: {
-    order: (keyof T)[]; // Keys of model for ordering
-    search: (keyof T)[]; // Keys of model for search
+    /** Order keys for list ordering */
+    order: (keyof T)[];
+    /** Search keys for list filtering */
+    search: (keyof T)[];
   };
 }
 
-// interface ViewCommon {}
+interface ViewCommon<T extends CommonModelItem> {
+  rows: T[];
+  columns: DataListColumnProps<T>[];
+}
 
-// export type TableViewProps = ViewCommon;
+export type TableViewProps<T extends CommonModelItem> = ViewCommon<T>;
 
-// export type FilesViewProps = ViewCommon;
+export type FilesViewProps<T extends CommonModelItem> = ViewCommon<T>;
 
 export interface IDataListContext {
   model: ModelNames | 'unknown';
   view: DataListView;
   root: string;
-  // Actions
   rowActions: DataListRowAction;
   selectedActions: DataListSelectedActions;
   modelActions: ModelActions;
-  // Search
   query: string;
   setQuery: (query: string) => void;
-  // Filter & sort
   filter: DataListFilter;
   setFilter: (filter: DataListFilter) => void;
   onOrderBy: (key: string) => void;
-  // Pagination
+  options: {
+    categories?: Categories;
+    tags?: Tags;
+    types: string[];
+  };
   pagination: DataListPagination;
 }

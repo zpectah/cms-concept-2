@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { CommonModelItem } from '@model';
 import { classNames } from '../../utils';
 import { dataListViewKeys } from './enums';
@@ -22,13 +23,16 @@ const DataList = <T extends CommonModelItem>({
   columns,
   keys,
 }: DataListProps<T>) => {
-  const { query, setQuery, rows, filter, setFilter, onOrderBy } = useDataList({
-    items,
-    searchKeys: keys.search,
-    categories,
-    tags,
+  const { query, setQuery, rows, filter, setFilter, onOrderBy, options } =
+    useDataList({
+      items,
+      searchKeys: keys.search,
+      categories,
+      tags,
+    });
+  const { rows: paginatedRows, ...pagination } = useDataListPagination({
+    rows,
   });
-  const { ...pagination } = useDataListPagination({ rows });
 
   const contextValue = {
     model,
@@ -42,19 +46,19 @@ const DataList = <T extends CommonModelItem>({
     filter,
     setFilter,
     onOrderBy: (key: string) => onOrderBy(key as keyof T),
+    options,
     pagination,
   };
 
-  const renderView = () => {
+  const renderView = useMemo(() => {
     switch (view) {
       case dataListViewKeys.files:
-        return <FilesView />;
+        return <FilesView<T> rows={paginatedRows} columns={columns} />;
 
       case dataListViewKeys.table:
-      default:
-        return <TableView />;
+        return <TableView<T> rows={paginatedRows} columns={columns} />;
     }
-  };
+  }, [view, paginatedRows, columns]);
 
   return (
     <DataListContextProvider value={contextValue}>
@@ -63,12 +67,7 @@ const DataList = <T extends CommonModelItem>({
         className={classNames(`view--${view}`, `model--${model}`)}
       >
         <DataListControls />
-        <div>{renderView()}</div>
-        <div>
-          <pre>
-            <code>{JSON.stringify(rows, null, 2)}</code>
-          </pre>
-        </div>
+        <div id="DataListWrapper">{renderView}</div>
         <DataListPagination />
       </div>
     </DataListContextProvider>

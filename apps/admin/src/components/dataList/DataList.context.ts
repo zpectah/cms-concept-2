@@ -6,7 +6,6 @@ const defaultDataListContext: IDataListContext = {
   model: 'unknown',
   view: dataListViewKeys.table,
   root: '',
-  // Actions
   rowActions: {},
   selectedActions: {},
   modelActions: {
@@ -15,10 +14,8 @@ const defaultDataListContext: IDataListContext = {
     modify: false,
     delete: false,
   },
-  // Search
   query: '',
   setQuery: () => null,
-  // Filter
   filter: {
     categories: [],
     tags: [],
@@ -26,7 +23,11 @@ const defaultDataListContext: IDataListContext = {
   },
   setFilter: () => null,
   onOrderBy: () => null,
-  // Pagination
+  options: {
+    categories: [],
+    tags: [],
+    types: [],
+  },
   pagination: {
     onPageChange: () => null,
     onPerPageChange: () => null,
@@ -36,7 +37,7 @@ const defaultDataListContext: IDataListContext = {
     onPageLast: () => null,
     page: 1,
     pages: 1,
-    perPage: 5,
+    perPage: 1,
     disabledButton: {
       first: true,
       prev: true,
