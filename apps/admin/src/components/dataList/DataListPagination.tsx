@@ -4,8 +4,10 @@ const DataListPagination = () => {
   const { view, model } = useDataListContext();
 
   return (
-    <div>
+    <div id="DataListPagination">
       ...DataListPagination...{view}:{model}...
+      <br />
+      <span>...</span>
     </div>
   );
 };

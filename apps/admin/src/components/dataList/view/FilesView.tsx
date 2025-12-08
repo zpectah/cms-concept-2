@@ -1,8 +1,7 @@
-import { FilesViewProps } from '../types';
 import { classNames } from '../../../utils';
 import { useDataListContext } from '../DataList.context';
 
-const FilesView = ({ test }: FilesViewProps) => {
+const FilesView = () => {
   const { model } = useDataListContext();
 
   return (

@@ -1,8 +1,7 @@
-import { TableViewProps } from '../types';
 import { classNames } from '../../../utils';
 import { useDataListContext } from '../DataList.context';
 
-const TableView = ({ test }: TableViewProps) => {
+const TableView = () => {
   const { model } = useDataListContext();
 
   return (

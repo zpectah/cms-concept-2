@@ -1,7 +1,7 @@
-import { Model } from '@model';
+import { ModelNames } from '@model';
 import { DrawerComposedProps } from '../ui';
 
 export interface DetailDrawerProps extends DrawerComposedProps {
-  model: Model;
+  model: ModelNames;
   onClose?: () => void;
 }
