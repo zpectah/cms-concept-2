@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { useAppContext } from '../contexts';
-import { ViewLayout, ButtonBase } from '../components';
+import { ViewLayout, Button } from '../components';
 
 interface ErrorViewProps {
   code?: number;
@@ -21,7 +21,7 @@ const ErrorView = ({ code }: ErrorViewProps) => {
     <ViewLayout variant="centered">
       <Box>
         ...Error view...{code}
-        <ButtonBase variant="outline">Button</ButtonBase>
+        <Button variant="outline">Button</Button>
       </Box>
     </ViewLayout>
   );

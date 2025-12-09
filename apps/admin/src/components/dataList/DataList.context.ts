@@ -45,6 +45,7 @@ const defaultDataListContext: IDataListContext = {
       last: true,
     },
   },
+  rowsLength: 0,
 };
 
 export const DataListContext = createContext(defaultDataListContext);

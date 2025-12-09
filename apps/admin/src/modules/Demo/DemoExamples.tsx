@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Box, Stack, StackSeparator, VStack, HStack } from '@chakra-ui/react';
 import { useAppStore } from '../../store';
-import { ButtonBase } from '../../components';
+import { Button } from '../../components';
 
 const DemoExamples = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ const DemoExamples = () => {
         <Box>
           <VStack>
             <HStack>
-              <ButtonBase
+              <Button
                 variant="outline"
                 onClick={() =>
                   setConfirmDialog({
@@ -24,10 +24,10 @@ const DemoExamples = () => {
                 }
               >
                 {t('button.open')} (confirm dialog)
-              </ButtonBase>
+              </Button>
             </HStack>
             <HStack>
-              <ButtonBase
+              <Button
                 onClick={() => {
                   addToast({
                     title: 'Toast info title',
@@ -37,9 +37,9 @@ const DemoExamples = () => {
                 }}
               >
                 Open info toast
-              </ButtonBase>
+              </Button>
 
-              <ButtonBase
+              <Button
                 onClick={() => {
                   addToast({
                     title: 'Toast success title',
@@ -49,9 +49,9 @@ const DemoExamples = () => {
                 }}
               >
                 Open success toast
-              </ButtonBase>
+              </Button>
 
-              <ButtonBase
+              <Button
                 onClick={() => {
                   addToast({
                     title: 'Toast error title',
@@ -60,7 +60,7 @@ const DemoExamples = () => {
                 }}
               >
                 Open error toast
-              </ButtonBase>
+              </Button>
             </HStack>
           </VStack>
         </Box>

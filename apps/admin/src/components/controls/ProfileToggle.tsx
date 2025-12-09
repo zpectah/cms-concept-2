@@ -1,6 +1,6 @@
 import { useAppStore } from '../../store';
 import { useProfile } from '../../hooks';
-import { ButtonBase } from '../ui';
+import { Button } from '../ui';
 
 const ProfileToggle = () => {
   const { setProfileDialog } = useAppStore();
@@ -9,9 +9,9 @@ const ProfileToggle = () => {
   // TODO
 
   return (
-    <ButtonBase variant="outline" onClick={() => setProfileDialog(true)}>
+    <Button variant="outline" onClick={() => setProfileDialog(true)}>
       {user.email}
-    </ButtonBase>
+    </Button>
   );
 };
 

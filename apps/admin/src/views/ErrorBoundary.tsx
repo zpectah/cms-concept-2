@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useRouteError, isRouteErrorResponse, Link } from 'react-router-dom';
-import { EmptyState, VStack, Text } from '@chakra-ui/react';
+import { EmptyState, VStack, Text, Card } from '@chakra-ui/react';
 import { IconAlertTriangle } from '@tabler/icons-react';
+import { Button } from '../components';
 import { getConfig } from '../config';
 
 const ErrorBoundary = () => {
@@ -29,23 +30,33 @@ const ErrorBoundary = () => {
   }, [error]);
 
   return (
-    <EmptyState.Root>
-      <EmptyState.Content>
-        <EmptyState.Indicator>
-          <IconAlertTriangle />
-        </EmptyState.Indicator>
-        <VStack>
-          <EmptyState.Title>System Error</EmptyState.Title>
-          <EmptyState.Description>
-            Sorry, an unexpected error has occurred
-          </EmptyState.Description>
-          <Text>{errorMessage}</Text>
-          <div>
-            <Link to={routes.base.root}>Return</Link>
-          </div>
-        </VStack>
-      </EmptyState.Content>
-    </EmptyState.Root>
+    <div style={{ height: '100dvh', display: 'flex', alignItems: 'center' }}>
+      <EmptyState.Root>
+        <EmptyState.Content>
+          <EmptyState.Indicator>
+            <IconAlertTriangle />
+          </EmptyState.Indicator>
+          <VStack>
+            <EmptyState.Title>System Error</EmptyState.Title>
+            <EmptyState.Description>
+              Sorry, an unexpected error has occurred
+            </EmptyState.Description>
+            <div style={{ width: '75dvw' }}>
+              <Card.Root size="sm">
+                <Card.Body style={{ textAlign: 'center' }}>
+                  <Text>{errorMessage}</Text>
+                </Card.Body>
+              </Card.Root>
+            </div>
+            <div>
+              <Button asChild>
+                <Link to={routes.base.root}>Return</Link>
+              </Button>
+            </div>
+          </VStack>
+        </EmptyState.Content>
+      </EmptyState.Root>
+    </div>
   );
 };
 

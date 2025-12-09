@@ -5,10 +5,10 @@ import { dataListViewKeys } from './enums';
 import { DataListProps } from './types';
 import { DataListContextProvider } from './DataList.context';
 import { TableView, FilesView } from './view';
-import DataListControls from './DataListControls';
-import DataListPagination from './DataListPagination';
 import { useDataList } from './useDataList';
 import { useDataListPagination } from './useDataListPagination';
+import DataListControls from './DataListControls';
+import DataListPagination from './DataListPagination';
 
 const DataList = <T extends CommonModelItem>({
   model,
@@ -48,6 +48,7 @@ const DataList = <T extends CommonModelItem>({
     onOrderBy: (key: string) => onOrderBy(key as keyof T),
     options,
     pagination,
+    rowsLength: rows.length,
   };
 
   const renderView = useMemo(() => {

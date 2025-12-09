@@ -133,4 +133,5 @@ export interface IDataListContext {
     types: string[];
   };
   pagination: DataListPagination;
+  rowsLength: number;
 }
