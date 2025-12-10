@@ -1,11 +1,111 @@
+import { useMemo } from 'react';
+import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 import { useDataListContext } from './DataList.context';
-import { Input, InputSelect } from '../ui';
-import { useState } from 'react';
+import { Input, TagSelect, OptionItem, ButtonProps } from '../ui';
+import { dataListSortOrderKeys } from './enums';
 
 const DataListControls = () => {
-  const { query, setQuery, options, filter, pagination } = useDataListContext();
+  const {
+    query,
+    setQuery,
+    options,
+    filter,
+    setFilter,
+    pagination,
+    onOrderBy,
+    sortBy,
+    orderBy,
+    keys,
+  } = useDataListContext();
 
-  const [test, setTest] = useState<number[]>([]);
+  const commonButtonProps: Partial<ButtonProps> = { size: 'sm' };
+
+  const orderByActive = useMemo(
+    () => keys?.order && keys?.order.length,
+    [keys.order]
+  );
+  const filterByTypeActive = useMemo(
+    () => options?.types && options?.types.length,
+    [options.types]
+  );
+  const filterByCategoriesActive = useMemo(
+    () => options?.categories && options?.categories.length,
+    [options.categories]
+  );
+  const filterByTagsActive = useMemo(
+    () => options?.tags && options?.tags.length,
+    [options.tags]
+  );
+
+  const rowsPerPageOptionsList = useMemo(() => {
+    const optionsList: OptionItem<number>[] = [];
+
+    options.pages?.forEach((item) => {
+      optionsList.push({
+        id: String(item),
+        value: item,
+        label: item,
+      });
+    });
+
+    return optionsList;
+  }, [options.pages]);
+
+  const orderByOptionsList = useMemo(() => {
+    const optionsList: OptionItem<string>[] = [];
+
+    keys.order?.forEach((item) => {
+      optionsList.push({
+        id: item,
+        value: item,
+        label: item, // TODO: i18n
+      });
+    });
+
+    return optionsList;
+  }, [keys.order]);
+
+  const typesOptionsList = useMemo(() => {
+    const optionsList: OptionItem<string>[] = [];
+
+    options.types?.forEach((item) => {
+      optionsList.push({
+        id: item,
+        value: item,
+        label: item, // TODO: i18n
+      });
+    });
+
+    return optionsList;
+  }, [options.types]);
+
+  const categoriesOptionsList = useMemo(() => {
+    const optionsList: OptionItem<number>[] = [];
+
+    options.categories?.forEach((item) => {
+      optionsList.push({
+        id: String(item.id),
+        value: item.id,
+        label: item.name,
+      });
+    });
+
+    return optionsList;
+  }, [options.categories]);
+
+  const tagsOptionsList = useMemo(() => {
+    const optionsList: OptionItem<number>[] = [];
+
+    options.tags?.forEach((item) => {
+      optionsList.push({
+        id: String(item.id),
+        value: item.id,
+        label: item.name,
+      });
+    });
+
+    return optionsList;
+  }, [options.tags]);
 
   return (
     <div id="DataListControls">
@@ -19,74 +119,85 @@ const DataListControls = () => {
       </div>
       <div>
         rows per page
-        <InputSelect
+        <TagSelect
           value={pagination.perPage}
           onChange={(value) => pagination.onPerPageChange(value as number)}
-          options={[
-            {
-              id: '1',
-              value: 1,
-              label: '1',
-            },
-            {
-              id: '5',
-              value: 5,
-              label: '5',
-            },
-            {
-              id: '10',
-              value: 10,
-              label: '10',
-            },
-            {
-              id: '15',
-              value: 15,
-              label: '15',
-            },
-          ]}
-          placeholder="Vyberte počet řádků na stránku"
-        />
-        <br />
-        <br />
-        <InputSelect
-          value={test}
-          onChange={(value) => setTest(value as number[])}
-          options={[
-            {
-              id: '1',
-              value: 1,
-              label: '1',
-            },
-            {
-              id: '5',
-              value: 5,
-              label: '5',
-            },
-            {
-              id: '10',
-              value: 10,
-              label: '10',
-            },
-            {
-              id: '15',
-              value: 15,
-              label: '15',
-            },
-            {
-              id: '25',
-              value: 25,
-              label: '25',
-              disabled: true,
-            },
-          ]}
-          placeholder="Vyberte počet řádků na stránku ..."
-          multiple
+          options={rowsPerPageOptionsList}
+          buttonProps={commonButtonProps}
         />
       </div>
-      <div>sort & order</div>
-      <div>filter: type</div>
-      <div>filter: categories</div>
-      <div>filter: tags</div>
+      {orderByActive && (
+        <div>
+          sort & order
+          <TagSelect
+            value={sortBy}
+            onChange={(value) => onOrderBy(value as string)}
+            options={orderByOptionsList}
+            buttonProps={commonButtonProps}
+            renderSelectedValue={(option) => (
+              <>
+                {option.label}{' '}
+                {orderBy === dataListSortOrderKeys.asc ? (
+                  <IconSortAscending />
+                ) : (
+                  <IconSortDescending />
+                )}
+              </>
+            )}
+          />
+        </div>
+      )}
+      {filterByTypeActive && (
+        <div>
+          filter: type
+          <TagSelect
+            value={filter.types}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                types: value as string[],
+              });
+            }}
+            options={typesOptionsList}
+            buttonProps={commonButtonProps}
+            multiple
+          />
+        </div>
+      )}
+      {filterByCategoriesActive && (
+        <div>
+          filter: categories
+          <TagSelect
+            value={filter.categories}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                categories: value as number[],
+              });
+            }}
+            options={categoriesOptionsList}
+            buttonProps={commonButtonProps}
+            multiple
+          />
+        </div>
+      )}
+      {filterByTagsActive && (
+        <div>
+          filter: tags
+          <TagSelect
+            value={filter.tags}
+            onChange={(value) => {
+              setFilter({
+                ...filter,
+                tags: value as number[],
+              });
+            }}
+            options={tagsOptionsList}
+            buttonProps={commonButtonProps}
+            multiple
+          />
+        </div>
+      )}
     </div>
   );
 };

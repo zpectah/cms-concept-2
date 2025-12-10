@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { IDataListContext } from './types';
-import { dataListViewKeys } from './enums';
+import { dataListSortOrderKeys, dataListViewKeys } from './enums';
 
 const defaultDataListContext: IDataListContext = {
   model: 'unknown',
@@ -22,11 +22,18 @@ const defaultDataListContext: IDataListContext = {
     types: [],
   },
   setFilter: () => null,
+  sortBy: 'id',
+  orderBy: dataListSortOrderKeys.asc,
   onOrderBy: () => null,
   options: {
     categories: [],
     tags: [],
     types: [],
+    pages: [],
+  },
+  keys: {
+    order: [],
+    search: [],
   },
   pagination: {
     onPageChange: () => null,

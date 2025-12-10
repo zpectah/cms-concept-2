@@ -7,8 +7,9 @@ import {
   ForwardedRef,
   ReactElement,
 } from 'react';
-import { Input, Menu, InputGroup } from '@chakra-ui/react';
+import { Menu, InputGroup } from '@chakra-ui/react';
 import { IconChevronDown } from '@tabler/icons-react';
+import { Input } from '../input';
 import { InputSelectProps } from './types';
 
 const InputSelect = forwardRef(

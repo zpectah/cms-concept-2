@@ -127,10 +127,17 @@ export interface IDataListContext {
   filter: DataListFilter;
   setFilter: (filter: DataListFilter) => void;
   onOrderBy: (key: string) => void;
+  sortBy: string;
+  orderBy: string;
   options: {
     categories?: Categories;
     tags?: Tags;
     types: string[];
+    pages: number[];
+  };
+  keys: {
+    order: string[];
+    search: string[];
   };
   pagination: DataListPagination;
   rowsLength: number;

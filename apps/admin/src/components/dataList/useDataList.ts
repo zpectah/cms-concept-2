@@ -142,6 +142,9 @@ export const useDataList = <T extends CommonModelItem>({
       types: typeOptions,
       categories: categoriesOptions,
       tags: tagsOptions,
+      pages: [5, 10, 25, 50, 75, 100], // TODO
     },
+    sortBy,
+    orderBy,
   };
 };
