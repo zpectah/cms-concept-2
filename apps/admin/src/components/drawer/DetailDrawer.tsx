@@ -1,25 +1,92 @@
-import { Drawer } from '../ui';
+import { FieldValues } from 'react-hook-form';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import { ControlledForm } from '../form';
+import { Button, DrawerBase, DrawerLayout, ButtonProps } from '../ui';
 import { DetailDrawerProps } from './types';
+import { DetailDrawerContextProvider } from './DetailDrawer.context';
+import { useDetailDrawer } from './useDetailDrawer';
 
-const DetailDrawer = ({
+const DetailDrawer = <T extends FieldValues>({
   children,
-  model,
+  open,
   onClose,
-  ...rest
-}: DetailDrawerProps) => {
+  initWidth,
+  defaultTitle,
+  form,
+  onSubmit,
+  actions = [],
+  drawerProps,
+}: DetailDrawerProps<T>) => {
+  const { context, setFullscreen } = useDetailDrawer({ defaultTitle });
+
+  const closeHandler = () => {
+    onClose();
+    setFullscreen(false);
+  };
+
+  const drawerHeadingActions = [
+    {
+      children: context.fullscreen ? (
+        <FullscreenExitIcon />
+      ) : (
+        <FullscreenIcon />
+      ),
+      onClick: () => context.onFullscreenToggle(),
+      tooltip: context.fullscreen ? 'Exit fullscreen' : 'Open fullscreen',
+    },
+  ];
+
+  const drawerFooterActions: ButtonProps[] = [
+    ...actions,
+    {
+      children: 'Cancel',
+      onClick: closeHandler,
+      variant: 'outlined',
+    },
+    {
+      type: 'submit',
+      children: 'Submit',
+      variant: 'contained',
+    },
+  ];
+
   return (
-    <Drawer
-      onOpenChange={(open) => {
-        if (!open) onClose?.();
-      }}
-      rootProps={{
-        unmountOnExit: true,
-        size: 'xl', // TODO: udelat toggle a přepínat tuto hodnotu na full a zpět
-      }}
-      {...rest}
-    >
-      {children}
-    </Drawer>
+    <DetailDrawerContextProvider value={context}>
+      <DrawerBase
+        anchor="right"
+        labelId="detail-drawer"
+        open={open}
+        onClose={closeHandler}
+        width={
+          context.fullscreen
+            ? '100%'
+            : {
+                xs: '100%',
+                md: initWidth ? initWidth : '720px',
+              }
+        }
+        disableEscapeKeyDown={context.disableEscapeKeyDown}
+        disableBackdropClose={context.disableBackdropClose}
+        {...drawerProps}
+      >
+        <ControlledForm<T>
+          form={form}
+          onSubmit={form.handleSubmit(onSubmit)}
+          sx={{ width: '100%', height: '100%' }}
+        >
+          <DrawerLayout
+            title={context.title}
+            titleActions={drawerHeadingActions}
+            actions={drawerFooterActions?.map((button, index) => (
+              <Button key={index} {...button} />
+            ))}
+            onClose={closeHandler}
+            children={children}
+          />
+        </ControlledForm>
+      </DrawerBase>
+    </DetailDrawerContextProvider>
   );
 };
 

@@ -7,11 +7,11 @@ export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: '../../node_modules/.vite/apps/admin',
   server: {
-    port: 4210,
+    port: 4444,
     host: 'localhost',
   },
   preview: {
-    port: 4211,
+    port: 4445,
     host: 'localhost',
   },
   plugins: [react(), tsconfigPaths()],
@@ -29,14 +29,13 @@ export default defineConfig(() => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          axios: ['axios'],
           emotion: ['@emotion/react', '@emotion/styled'],
-          i18n: ['i18next', 'i18next-http-backend', 'react-i18next'],
-          'chakra-ui': ['@chakra-ui/react'],
+          i18n: ['i18next', 'i18next-http-backend', 'react-i18next', 'i18next-browser-languagedetector'],
+          mui: ['@mui/icons-material', '@mui/material', '@mui/x-date-pickers'],
           react: ['react', 'react-dom', 'react-router-dom'],
-          'react-hook-form': ['react-hook-form', '@hookform/resolvers'],
-          zod: ['zod'],
-          zustand: ['zustand'],
+          form: ['react-hook-form', '@hookform/resolvers'],
+          data: ['axios', 'zod', 'zustand'],
+          ui: ['mapbox-gl', 'react-advanced-cropper', 'react-pdf', 'react-simple-wysiwyg']
         },
       },
     },

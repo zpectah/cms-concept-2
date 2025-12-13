@@ -1,34 +1,60 @@
 import { Outlet } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { styled } from '@mui/material';
 import { classNames } from '../../utils';
 import { appLayoutVariantKeys } from '../../enums';
 import { AppLayoutProps } from './types';
 import Header from './Header';
-import Footer from './Footer';
 
-/** Layout for wrap app page in router **/
+const Wrapper = styled('div')(() => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+}));
+const HeaderContainer = styled('div')(() => ({
+  flex: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+}));
+const ContentContainer = styled('div')(() => ({
+  minHeight: 0,
+  flex: 1,
+  flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflowY: 'auto',
+  overscrollBehavior: 'contain',
+}));
+const Content = styled('main')(() => ({
+  width: '100%',
+  minHeight: 0,
+  flex: 1,
+  position: 'relative',
+  boxSizing: 'content-box',
+}));
 
 const AppLayout = ({
   variant = appLayoutVariantKeys.default,
   slots,
 }: AppLayoutProps) => {
-  const { i18n } = useTranslation();
-
   return (
     <>
-      <div
-        id="app-layout"
-        className={classNames('app-layout', variant)}
-        data-locale={i18n.language}
-      >
-        <Header variant={variant} />
-        <div className={classNames('app-layout-wrapper')}>
-          <main className="main">
+      <Wrapper id="app-layout" className={classNames(`variant--${variant}`)}>
+        <HeaderContainer>
+          {slots?.announcements}
+          <Header variant={variant} />
+        </HeaderContainer>
+        <ContentContainer>
+          <Content>
             <Outlet />
-          </main>
-          <Footer />
-        </div>
-      </div>
+          </Content>
+        </ContentContainer>
+      </Wrapper>
       {slots?.toasts}
       {slots?.profile}
       {slots?.confirmDialog}

@@ -1,1 +1,1 @@
-export * from './ui.config';
+export { default as theme } from './theme';

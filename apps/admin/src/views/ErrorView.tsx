@@ -1,28 +1,22 @@
-import { useEffect } from 'react';
-import { Box } from '@chakra-ui/react';
-import { useAppContext } from '../contexts';
-import { ViewLayout, Button } from '../components';
+import { useTranslation } from 'react-i18next';
+import { CONTAINER_WIDTH_CENTERED } from '../constants';
+import { ViewLayout } from '../components';
 
 interface ErrorViewProps {
   code?: number;
 }
 
 const ErrorView = ({ code }: ErrorViewProps) => {
-  const { setPageTitle } = useAppContext();
-
-  useEffect(() => {
-    setPageTitle('Error 404');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // TODO
+  const { t } = useTranslation(['views']);
 
   return (
-    <ViewLayout variant="centered">
-      <Box>
-        ...Error view...{code}
-        <Button variant="outline">Button</Button>
-      </Box>
+    <ViewLayout
+      variant="centered"
+      containerWidth={CONTAINER_WIDTH_CENTERED}
+      rootUrl={null}
+      title={t('error.title', { code })}
+    >
+      ...ErrorView...
     </ViewLayout>
   );
 };

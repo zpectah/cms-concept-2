@@ -1,116 +1,139 @@
+import { useTranslation } from 'react-i18next';
 import { getConfig } from '../config';
 
 export const useMenuItems = () => {
-  const { routes } = getConfig();
+  const {
+    routes,
+    locales,
+    cms: {
+      admin: { locale },
+    },
+  } = getConfig();
 
-  const primaryMenu = [
+  const { i18n } = useTranslation();
+
+  const createLocaleMenu = () => {
+    const items: { id: string; label: string; isActive: boolean }[] = [];
+
+    locale.active.forEach((loc) => {
+      items.push({
+        id: loc,
+        label: (locales as Record<string, { label: string }>)[loc].label,
+        isActive: loc === i18n.language,
+      });
+    });
+
+    return items;
+  };
+
+  const mainMenu = [
     {
-      id: '1',
+      id: 'articles',
       label: 'Articles',
       path: routes.articles.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '2',
+      id: 'categories',
       label: 'Categories',
       path: routes.categories.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '3',
+      id: 'customFields',
       label: 'Custom fields',
       path: routes.customFields.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '4',
+      id: 'files',
       label: 'Files',
       path: routes.files.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '5',
+      id: 'members',
       label: 'Members',
       path: routes.members.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '6',
+      id: 'menu',
       label: 'Menu',
       path: routes.menu.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '7',
+      id: 'messages',
       label: 'Messages',
       path: routes.messages.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '8',
+      id: 'pages',
       label: 'Pages',
       path: routes.pages.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '9',
+      id: 'settings',
       label: 'Settings',
       path: routes.settings.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '10',
+      id: 'tags',
       label: 'Tags',
       path: routes.tags.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '11',
+      id: 'translations',
       label: 'Translations',
       path: routes.translations.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '12',
+      id: 'users',
       label: 'Users',
       path: routes.users.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '13',
+      id: 'dashboard',
       label: 'Dashboard',
       path: routes.dashboard.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '14',
+      id: 'login',
       label: 'Login',
       path: routes.login.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '15',
+      id: 'passwordRecovery',
       label: 'Password recovery',
       path: routes.passwordRecovery.root,
       disabled: false,
       hidden: false,
     },
     {
-      id: '16',
+      id: 'demo',
       label: 'Demo',
       path: routes.demo.root,
       disabled: false,
@@ -119,6 +142,7 @@ export const useMenuItems = () => {
   ];
 
   return {
-    primary: primaryMenu,
+    main: mainMenu,
+    locale: createLocaleMenu(),
   };
 };

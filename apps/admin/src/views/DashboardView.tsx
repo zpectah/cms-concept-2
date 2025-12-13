@@ -1,25 +1,18 @@
-import { useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
-import { testConst } from '@common';
-import { testModelConst } from '@model';
-import { useAppContext } from '../contexts';
+import { lazy } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
+const Dashboard = lazy(() => import('../modules/Dashboard/Dashboard'));
+
 const DashboardView = () => {
-  // const { t } = useTranslation();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Dashboard');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // TODO
+  const { t } = useTranslation(['views']);
 
   return (
-    <ViewLayout>
-      <div>{testConst}</div>
-      <div>{testModelConst}</div>
+    <ViewLayout rootUrl={routes.dashboard.root} title={t('dashboard.title')}>
+      <Dashboard />
     </ViewLayout>
   );
 };

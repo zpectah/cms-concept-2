@@ -1,26 +1,39 @@
-import { Container, Text } from '@chakra-ui/react';
+import { styled, Container, Typography } from '@mui/material';
 import { getConfig } from '../../config';
-import { classNames } from '../../utils';
-import { FooterProps } from './types';
+import { useAppContext } from '../../contexts';
+import { SPACING } from '../../constants';
 
-const Footer = ({ children }: FooterProps) => {
+const Wrapper = styled('footer')(({ theme }) => ({
+  paddingTop: theme.spacing(SPACING.content),
+  paddingBottom: theme.spacing(SPACING.content),
+  width: '100%',
+}));
+
+const Content = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-evenly',
+  gap: theme.spacing(SPACING.content),
+}));
+
+const Footer = () => {
   const {
-    cms: { version, meta },
+    version,
+    cms: { meta },
   } = getConfig();
 
+  const { containerWidth } = useAppContext();
+
   return (
-    <footer className={classNames('footer')}>
-      <Container>
-        <div className={classNames('footer-wrapper')}>
-          <div className="footer-block">
-            <Text fontWeight="light" fontSize=".75rem">
-              {meta.title} v{version} | {meta.description}
-            </Text>
-          </div>
-          {children && <div className="footer-block">{children}</div>}
-        </div>
+    <Wrapper id="footer">
+      <Container maxWidth={containerWidth}>
+        <Content>
+          <Typography variant="caption" color="textDisabled">
+            {meta.title} v{version} | {meta.description}
+          </Typography>
+        </Content>
       </Container>
-    </footer>
+    </Wrapper>
   );
 };
 

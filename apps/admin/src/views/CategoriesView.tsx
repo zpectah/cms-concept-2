@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
 const CategoriesView = () => {
-  const { id } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Categories');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
-  return <ViewLayout>...CategoriesView...{id}</ViewLayout>;
+  return (
+    <ViewLayout
+      model={modelKeys.categories}
+      rootUrl={routes.categories.root}
+      title={t('categories.title')}
+    >
+      ...CategoriesView...
+    </ViewLayout>
+  );
 };
 
 export default CategoriesView;

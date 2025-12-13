@@ -1,62 +1,88 @@
-import { forwardRef } from 'react';
-import { Menu } from '@chakra-ui/react';
+import { forwardRef, useState, MouseEvent } from 'react';
+import { styled, Stack, Menu, MenuItem } from '@mui/material';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Button } from '../button';
 import { ButtonSelectProps } from './types';
-import { IconChevronDown } from '@tabler/icons-react';
 
-const ButtonSelect = forwardRef<HTMLInputElement, ButtonSelectProps>(
+const SelectWrapper = styled(Stack)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+  flexDirection: 'row',
+  gap: theme.spacing(1),
+}));
+
+const ButtonSelect = forwardRef<HTMLButtonElement, ButtonSelectProps>(
   (props, ref) => {
     const {
-      options = [],
-      disabled,
-      placeholder,
+      label,
+      id = 'button-select',
       value,
+      defaultValue,
       onChange,
-      children,
+      options = [],
       buttonProps,
     } = props;
 
-    const handleItemClick = (itemValue: string | number) => {
-      (onChange as (value: string | number) => void)(itemValue);
-    };
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const getDisplayValue = (): string | undefined => {
-      const selectedOption = options?.find((item) => item.value === value);
-      return selectedOption ? (selectedOption.value as string) : placeholder;
+    const open = Boolean(anchorEl);
+    const icon = open ? <ExpandLessIcon /> : <ExpandMoreIcon />;
+
+    const openHandler = (event: MouseEvent<HTMLButtonElement>) =>
+      setAnchorEl(event.currentTarget);
+
+    const closeHandler = () => setAnchorEl(null);
+
+    const changeHandler = (value: string | number) => {
+      onChange?.(value);
+      closeHandler();
     };
 
     return (
-      <>
-        <input type="hidden" value={getDisplayValue()} ref={ref} />
-        <Menu.Root positioning={{}} lazyMount>
-          <Menu.Trigger disabled={disabled} asChild>
-            <Button variant="outline" {...buttonProps}>
-              {getDisplayValue()} <IconChevronDown />
-            </Button>
-          </Menu.Trigger>
-          <Menu.Positioner>
-            <Menu.Content>
-              {options?.map((item) => {
-                const IsSelected = item.value === value;
-                const isDisabled = item.disabled;
+      <SelectWrapper>
+        <Button
+          id={id}
+          aria-controls={open ? `${id}-menu` : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={openHandler}
+          value={defaultValue ?? value}
+          ref={ref}
+          endIcon={icon}
+          {...buttonProps}
+        >
+          {(defaultValue || value) ?? label}
+        </Button>
+        <Menu
+          id={`${id}-menu`}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={closeHandler}
+          slotProps={{
+            list: {
+              'aria-labelledby': id,
+            },
+          }}
+        >
+          {options.map(({ label, ...option }) => {
+            const itemIsSelected = option.value === (defaultValue ?? value);
 
-                return (
-                  <Menu.Item
-                    key={item.value as string}
-                    value={String(item.value)}
-                    onClick={() => handleItemClick(item.value)}
-                    disabled={isDisabled}
-                  >
-                    {item.label}&nbsp;
-                    {IsSelected ? '✓ ' : ''}
-                  </Menu.Item>
-                );
-              })}
-              {children}
-            </Menu.Content>
-          </Menu.Positioner>
-        </Menu.Root>
-      </>
+            if (option.hidden) return null;
+
+            return (
+              <MenuItem
+                key={option.id}
+                onClick={() => changeHandler(option.value)}
+                selected={itemIsSelected}
+                {...option}
+              >
+                {label}
+              </MenuItem>
+            );
+          })}
+        </Menu>
+      </SelectWrapper>
     );
   }
 );

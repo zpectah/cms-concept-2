@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
 const UsersView = () => {
-  const { id } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Users');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
-  return <ViewLayout>...UsersView...{id}</ViewLayout>;
+  return (
+    <ViewLayout
+      model={modelKeys.users}
+      rootUrl={routes.users.root}
+      title={t('users.title')}
+    >
+      ...UsersView...
+    </ViewLayout>
+  );
 };
 
 export default UsersView;

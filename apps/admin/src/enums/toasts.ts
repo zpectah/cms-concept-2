@@ -3,4 +3,4 @@ export const toastsItemSeverityKeys = {
   success: 'success',
   warning: 'warning',
   error: 'error',
-};
+} as const;

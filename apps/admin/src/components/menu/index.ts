@@ -1,2 +1,2 @@
-export { default as LocalesMenu } from './LocalesMenu';
+export { default as LocaleMenu } from './LocaleMenu';
 export { default as MainMenu } from './MainMenu';

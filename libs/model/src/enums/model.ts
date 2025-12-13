@@ -11,6 +11,7 @@ export const modelKeys = {
   messages: 'messages',
   pages: 'pages',
   requests: 'requests',
+  settings: 'settings',
   tags: 'tags',
   translations: 'translations',
   users: 'users',

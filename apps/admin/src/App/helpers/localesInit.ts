@@ -1,7 +1,7 @@
 import { getConfig } from '../../config';
 import { LOCALE_STORAGE_KEY } from '../../constants';
 
-(function () {
+(() => {
   const {
     cms: { admin },
   } = getConfig();

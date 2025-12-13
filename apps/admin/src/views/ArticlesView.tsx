@@ -1,10 +1,8 @@
 import { lazy } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
 import { getConfig } from '../config';
-import { usePageTitle } from '../helpers';
-import { NEW_ITEM_KEY } from '../constants';
-import { ViewLayout } from '../components';
+import { LinkButton, ViewLayout } from '../components';
 
 const ArticlesList = lazy(
   () => import('../modules/Articles/ArticlesList/ArticlesList')
@@ -16,25 +14,21 @@ const ArticlesDetailForm = lazy(
 const ArticlesView = () => {
   const { routes } = getConfig();
 
-  const { id } = useParams();
-
-  usePageTitle({
-    id,
-    title: {
-      new: 'New article',
-      detail: 'Article detail',
-      page: 'Articles',
-    },
-  });
+  const { t } = useTranslation(['views']);
 
   return (
     <ViewLayout
+      model={modelKeys.articles}
+      rootUrl={routes.articles.root}
+      title={t('articles.title')}
       titleSlot={
-        <Button asChild>
-          <Link to={`${routes.articles.root}/${NEW_ITEM_KEY}`}>
-            New article
-          </Link>
-        </Button>
+        <LinkButton
+          variant="contained"
+          color="success"
+          to={`${routes.articles.root}/id/new`}
+        >
+          + {t('articles.new')}
+        </LinkButton>
       }
     >
       <ArticlesList />

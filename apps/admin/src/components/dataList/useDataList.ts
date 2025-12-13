@@ -10,7 +10,9 @@ export const useDataList = <T extends CommonModelItem>({
   categories = [],
   tags = [],
   searchKeys = [],
+  activeOnly,
 }: UseDataListProps<T>) => {
+  const [showDeleted, setShowDeleted] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [filter, setFilter] = useState<DataListFilter>(filterDefaults);
   const [sortBy, setSortBy] = useState<keyof T>('id');
@@ -22,6 +24,13 @@ export const useDataList = <T extends CommonModelItem>({
 
   const rows = useMemo(() => {
     return [...rawRows]
+      .filter((item) => {
+        if (showDeleted) return true;
+
+        // TODO
+
+        return item.deleted === false;
+      })
       .filter((item) => {
         if (filter.types?.length === 0) return true;
 
@@ -43,7 +52,7 @@ export const useDataList = <T extends CommonModelItem>({
         return tags.some((t) => filter.tags?.includes(t));
       })
       .sort(sortItems(sortBy, orderBy));
-  }, [rawRows, sortBy, orderBy, filter]);
+  }, [rawRows, showDeleted, sortBy, orderBy, filter]);
 
   const typeOptions = useMemo(() => {
     const types: string[] = [];
@@ -131,6 +140,12 @@ export const useDataList = <T extends CommonModelItem>({
     [orderBy, sortBy]
   );
 
+  const showDeletedHandler = useCallback(() => {
+    if (activeOnly) return;
+
+    setShowDeleted(!showDeleted);
+  }, [activeOnly, showDeleted]);
+
   return {
     rows,
     query,
@@ -146,5 +161,7 @@ export const useDataList = <T extends CommonModelItem>({
     },
     sortBy,
     orderBy,
+    showDeleted,
+    onToggleShowDeleted: showDeletedHandler,
   };
 };

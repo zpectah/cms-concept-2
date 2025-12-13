@@ -1,0 +1,69 @@
+{
+  "articles": {
+    "title": "Articles",
+    "new": "New article"
+  },
+  "categories": {
+    "title": "Categories",
+    "new": "New category"
+  },
+  "customFields": {
+    "title": "Custom fields",
+    "new": "New custom field"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "demo": {
+    "title": "Demo"
+  },
+  "error": {
+    "title": "Error {{code}}"
+  },
+  "files": {
+    "title": "Files",
+    "new": "New file"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Login to administration"
+  },
+  "members": {
+    "title": "Members",
+    "new": "New member"
+  },
+  "menu": {
+    "title": "Menu",
+    "new": "New menu"
+  },
+  "messages": {
+    "title": "Messages"
+  },
+  "pages": {
+    "title": "Pages",
+    "new": "New page"
+  },
+  "passwordRecovery": {
+    "title": "Password recovery"
+  },
+  "settings": {
+    "title": "Settings",
+    "panels": {
+      "global": "Global",
+      "client": "Client",
+      "blacklist": "Blacklist"
+    }
+  },
+  "tags": {
+    "title": "Tags",
+    "new": "New tag"
+  },
+  "translations": {
+    "title": "Translations",
+    "new": "New translation"
+  },
+  "users": {
+    "title": "Users",
+    "new": "New user"
+  }
+}

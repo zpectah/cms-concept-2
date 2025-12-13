@@ -1,63 +1,56 @@
 import { ReactNode } from 'react';
-import { SegmentGroupRootProps } from '@chakra-ui/react';
-import { WithChildren } from '@common';
+import { SelectProps as MuiSelectProps, MenuItemProps } from '@mui/material';
 import { ButtonProps } from '../button';
-import { InputProps } from '../input';
 
 export interface OptionItem<T = string | number> {
   id: string;
   value: T;
   label: ReactNode;
+  itemProps?: Partial<Omit<MenuItemProps, 'children'>>;
   disabled?: boolean;
+  hidden?: boolean;
 }
 
-interface BaseCustomSelectProps<T>
-  extends Partial<WithChildren>,
-    Omit<InputProps, 'value' | 'onChange'> {
-  placeholder?: string;
-  options?: OptionItem<T>[];
-  disabled?: boolean;
+interface SelectOptionsProps {
+  options: OptionItem[];
 }
 
 interface SingleSelectProps<T> {
   multiple?: false;
-  value: T | undefined;
-  onChange: (value: T) => void;
+  value?: T | undefined;
+  defaultValue?: T | undefined;
+  onChange?: (value: T) => void;
 }
 
 interface MultipleSelectProps<T> {
   multiple: true;
-  value: T[];
-  onChange: (value: T[]) => void;
+  value?: T[];
+  defaultValue?: T[];
+  onChange?: (value: T[]) => void;
 }
 
 export type SelectBase<T = string | number> =
   | SingleSelectProps<T>
   | MultipleSelectProps<T>;
 
-export type InputSelectProps<T = string | number> = BaseCustomSelectProps<T> &
-  SelectBase<T>;
+export type SelectProps = Omit<MuiSelectProps, 'label' | 'helperText'> &
+  SelectOptionsProps & {
+    options: OptionItem[];
+    placeholder?: string;
+  };
 
-export interface ButtonSelectProps extends Partial<WithChildren> {
-  placeholder?: string;
-  options?: OptionItem<string | number>[];
-  disabled?: boolean;
-  value: string | number | undefined;
-  onChange: (value: string | number) => void;
+export type TagSelectProps<T = string | number> = SelectOptionsProps &
+  SelectBase<T> & {
+    disabled?: boolean;
+    buttonProps?: Partial<ButtonProps>;
+    renderSelectedValue?: (option: OptionItem<T>) => ReactNode;
+  };
+
+export interface ButtonSelectProps extends SelectOptionsProps {
+  label?: string;
+  id?: string;
+  value?: string | number;
+  defaultValue?: string | number;
+  onChange?: (value: string | number) => void;
   buttonProps?: Partial<ButtonProps>;
 }
-
-export interface ButtonSegmentProps
-  extends Partial<Omit<SegmentGroupRootProps, 'value' | 'onChange'>> {
-  options?: OptionItem<string | number>[];
-  disabled?: boolean;
-  value: string | number | undefined;
-  onChange: (value: string | number) => void;
-}
-
-export type TagSelectProps<T = string | number> = SelectBase<T> & {
-  options?: OptionItem<T>[];
-  disabled?: boolean;
-  buttonProps?: Partial<ButtonProps>;
-  renderSelectedValue?: (option: OptionItem<T>) => ReactNode;
-};

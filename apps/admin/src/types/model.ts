@@ -3,6 +3,6 @@ export interface ModelActions {
   create: boolean;
   modify: boolean;
   delete: boolean;
+  deletePermanent: boolean;
   approve?: boolean;
-  selfApprove?: boolean;
 }

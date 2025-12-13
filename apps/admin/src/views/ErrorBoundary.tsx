@@ -1,62 +1,89 @@
-import { useMemo } from 'react';
-import { useRouteError, isRouteErrorResponse, Link } from 'react-router-dom';
-import { EmptyState, VStack, Text, Card } from '@chakra-ui/react';
-import { IconAlertTriangle } from '@tabler/icons-react';
-import { Button } from '../components';
+import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+import { Box, Stack, Typography, styled } from '@mui/material';
 import { getConfig } from '../config';
+import { LinkButton } from '../components';
+
+const WrapperOuter = styled(Box)(() => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  bottom: 0,
+}));
+
+const WrapperInner = styled('main')({
+  width: '100%',
+  flex: 1,
+  overflowY: 'auto',
+  flexDirection: 'column',
+});
+
+const Content = styled(Box)(({ theme }) => ({
+  width: '100%',
+  minHeight: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  flexDirection: 'column',
+  paddingTop: theme.spacing(6),
+  paddingBottom: theme.spacing(6),
+  gap: theme.spacing(4),
+}));
 
 const ErrorBoundary = () => {
   const { routes } = getConfig();
+
   const error = useRouteError();
 
-  const errorMessage = useMemo(() => {
-    let message: string;
+  let errorMessage: string;
 
-    if (isRouteErrorResponse(error)) {
-      message =
-        (error as { error?: { message?: string } })?.error?.message ||
-        error.statusText;
-    } else if (error instanceof Error) {
-      message = error.message;
-    } else if (typeof error === 'string') {
-      message = error;
-    } else {
-      message = 'Unknown error';
-    }
-
-    console.error(error);
-
-    return message;
-  }, [error]);
+  if (isRouteErrorResponse(error)) {
+    errorMessage =
+      (error as { error?: { message?: string } })?.error?.message ||
+      error.statusText;
+  } else if (error instanceof Error) {
+    errorMessage = error.message;
+  } else if (typeof error === 'string') {
+    errorMessage = error;
+  } else {
+    errorMessage = 'Unknown error';
+  }
 
   return (
-    <div style={{ height: '100dvh', display: 'flex', alignItems: 'center' }}>
-      <EmptyState.Root>
-        <EmptyState.Content>
-          <EmptyState.Indicator>
-            <IconAlertTriangle />
-          </EmptyState.Indicator>
-          <VStack>
-            <EmptyState.Title>System Error</EmptyState.Title>
-            <EmptyState.Description>
-              Sorry, an unexpected error has occurred
-            </EmptyState.Description>
-            <div style={{ width: '75dvw' }}>
-              <Card.Root size="sm">
-                <Card.Body style={{ textAlign: 'center' }}>
-                  <Text>{errorMessage}</Text>
-                </Card.Body>
-              </Card.Root>
-            </div>
-            <div>
-              <Button asChild>
-                <Link to={routes.base.root}>Return</Link>
-              </Button>
-            </div>
-          </VStack>
-        </EmptyState.Content>
-      </EmptyState.Root>
-    </div>
+    <WrapperOuter>
+      <WrapperInner>
+        <Content>
+          <Box
+            sx={{
+              marginTop: 'auto',
+              marginBottom: 'auto',
+              textAlign: 'center',
+            }}
+          >
+            <Stack gap={4}>
+              <Typography variant="h1">ERROR</Typography>
+              <Typography variant="h3">
+                Sorry, an unexpected error has occurred
+              </Typography>
+              <Typography variant="h5">{errorMessage}</Typography>
+
+              <div>
+                <LinkButton
+                  variant="outlined"
+                  size="large"
+                  to={routes.login.root}
+                >
+                  Return
+                </LinkButton>
+              </div>
+            </Stack>
+          </Box>
+        </Content>
+      </WrapperInner>
+    </WrapperOuter>
   );
 };
 

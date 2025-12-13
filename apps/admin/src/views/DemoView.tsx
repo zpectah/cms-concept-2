@@ -1,19 +1,15 @@
 import { lazy } from 'react';
-import { usePageTitle } from '../helpers';
 import { ViewLayout } from '../components';
+import { getConfig } from '../config';
 
-const DemoExamples = lazy(() => import('../modules/Demo/DemoExamples'));
+const Demo = lazy(() => import('../modules/Demo/Demo'));
 
 const DemoView = () => {
-  usePageTitle({
-    title: {
-      page: 'Demo',
-    },
-  });
+  const { routes } = getConfig();
 
   return (
-    <ViewLayout>
-      <DemoExamples />
+    <ViewLayout title="Demo examples" rootUrl={routes.demo.root}>
+      <Demo />
     </ViewLayout>
   );
 };

@@ -4,7 +4,7 @@ export const routes = {
   },
   articles: {
     root: '/articles',
-    detail: ':id',
+    detail: 'id/:id', // TODO: test
   },
   categories: {
     root: '/categories',

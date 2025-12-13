@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
 const MembersView = () => {
-  const { id } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Members');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
-  return <ViewLayout>...MembersView...{id}</ViewLayout>;
+  return (
+    <ViewLayout
+      model={modelKeys.members}
+      rootUrl={routes.members.root}
+      title={t('members.title')}
+    >
+      ...MembersView...
+    </ViewLayout>
+  );
 };
 
 export default MembersView;

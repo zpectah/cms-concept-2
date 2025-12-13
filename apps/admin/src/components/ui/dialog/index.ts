@@ -1,1 +1,3 @@
-export { default as Dialog } from './DialogComposed';
+export { default as Dialog } from './Dialog';
+
+export * from './types';

@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
 const MenuView = () => {
-  const { id } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Menu');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
-  return <ViewLayout>...MenuView...{id}</ViewLayout>;
+  return (
+    <ViewLayout
+      model={modelKeys.menu}
+      rootUrl={routes.menu.root}
+      title={t('menu.title')}
+    >
+      ...MenuView...
+    </ViewLayout>
+  );
 };
 
 export default MenuView;

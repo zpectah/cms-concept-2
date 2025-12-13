@@ -1,34 +1,32 @@
-import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { NEW_ITEM_KEY } from '../../../constants';
+import { useForm } from 'react-hook-form';
+import { useViewContext } from '../../../contexts';
+import { IArticlesDetailForm } from './types';
 
 export const useArticlesDetailForm = () => {
-  const { id } = useParams();
-
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { rootUrl } = useViewContext();
+  const form = useForm<IArticlesDetailForm>();
 
-  const title = useMemo(
-    () => (id === NEW_ITEM_KEY ? 'New article' : 'Article detail'), // TODO
-    [id]
-  );
+  const detailTitle = 'Article detail'; // TODO
 
-  const closeHandler = () => navigate(`/articles`);
-
-  const resetHandler = () => {
-    /* TODO */
+  const closeHandler = () => {
+    navigate(rootUrl);
   };
 
-  const submitHandler = () => {
-    /* TODO */
+  const submitHandler = (data: IArticlesDetailForm) => {
+    // TODO
+
+    console.log('data', data);
   };
 
   return {
     id,
-    title,
-    open: !!id,
-    onClose: closeHandler,
-    onReset: resetHandler,
-    form: {}, // TODO
+    rootUrl,
+    detailTitle,
+    form,
     onSubmit: submitHandler,
+    onClose: closeHandler,
   };
 };

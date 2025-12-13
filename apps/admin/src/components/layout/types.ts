@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
-import { ContainerProps } from '@chakra-ui/react';
+import { ContainerProps } from '@mui/material';
 import { WithChildren } from '@common';
 import { AppLayoutVariant, ViewLayoutVariant } from '../../types';
+import { ModelNames } from '@model';
 
 export interface AppLayoutProps {
   variant?: AppLayoutVariant;
@@ -9,21 +10,23 @@ export interface AppLayoutProps {
     toasts?: ReactNode;
     profile?: ReactNode;
     confirmDialog?: ReactNode;
+    announcements?: ReactNode;
   };
 }
 
 export interface ViewLayoutProps extends WithChildren {
-  containerProps?: Partial<ContainerProps>;
-  disableSuspense?: boolean;
-  disableTitle?: boolean;
-  preloader?: ReactNode;
-  slot?: ReactNode;
-  titleSlot?: ReactNode;
   variant?: ViewLayoutVariant;
+  slot?: ReactNode;
+  preloader?: ReactNode;
+  disableSuspense?: boolean;
+  containerWidth?: ContainerProps['maxWidth'];
+  containerProps?: Partial<Omit<ContainerProps, 'maxWidth'>>;
+  title?: ReactNode;
+  titleSlot?: ReactNode;
+  rootUrl: string | null;
+  model?: ModelNames;
 }
 
-export type FooterProps = Partial<WithChildren>;
-
-export interface LogoProps {
-  disableLink?: boolean;
+export interface HeaderProps {
+  variant?: AppLayoutVariant;
 }

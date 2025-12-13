@@ -1,24 +1,73 @@
 import { Suspense, useEffect } from 'react';
-import { Container, Heading, SkeletonText } from '@chakra-ui/react';
+import { styled, Container, Stack, Typography } from '@mui/material';
 import { getConfig } from '../../config';
-import { classNames } from '../../utils';
+import { classNames, setDocumentMeta } from '../../utils';
 import { useAppContext } from '../../contexts';
 import { viewLayoutVariantKeys } from '../../enums';
+import { CONTAINER_WIDTH_DEFAULT, SPACING } from '../../constants';
+import { ViewContextProvider } from '../../contexts';
 import { ViewLayoutProps } from './types';
-import Preloader from './Preloader';
+import { useViewLayout } from './useViewLayout';
 import Breadcrumbs from './Breadcrumbs';
+import Preloader from './Preloader';
+import Footer from './Footer';
 
-/** Layout for wrap page for view **/
+const Wrapper = styled('div')(({ theme }) => ({
+  width: '100%',
+  minHeight: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(SPACING.body),
+
+  '&.variant--default': {},
+  '&.variant--centered': {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
+
+const ContainerContent = styled('div')(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(SPACING.body),
+}));
+
+const ViewHeading = styled('div')(({ theme }) => ({
+  width: '100%',
+  paddingTop: theme.spacing(SPACING.heading),
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+const ViewBody = styled('div')(({ theme }) => ({
+  width: '100%',
+  paddingTop: theme.spacing(SPACING.content),
+  paddingBottom: theme.spacing(SPACING.content),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(SPACING.content),
+
+  '.variant--default &': {},
+  '.variant--centered &': {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+}));
 
 const ViewLayout = ({
   children,
-  variant = viewLayoutVariantKeys.default,
   slot,
-  containerProps,
   preloader,
-  disableTitle,
-  titleSlot,
   disableSuspense,
+  containerProps,
+  title,
+  titleSlot,
+  containerWidth = CONTAINER_WIDTH_DEFAULT,
+  variant = viewLayoutVariantKeys.default,
+  model,
+  rootUrl,
 }: ViewLayoutProps) => {
   const {
     cms: {
@@ -26,49 +75,84 @@ const ViewLayout = ({
     },
   } = getConfig();
 
-  const { pageTitle } = useAppContext();
+  const { setContainerWidth, setPageTitle } = useAppContext();
+  const { listSelected, setListSelected } = useViewLayout();
 
-  const descriptionElement = document.querySelector(
-    "meta[name='description']"
-  ) as HTMLElement;
+  const isDefaultVariant = variant === viewLayoutVariantKeys.default;
 
   useEffect(() => {
-    let title = meta.title;
+    setContainerWidth(containerWidth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [containerWidth]);
 
-    if (pageTitle) title = `${pageTitle} | ${title}`;
+  useEffect(() => {
+    setPageTitle(title);
 
-    document.title = title;
-    descriptionElement.setAttribute('content', meta.description);
-  }, [meta, pageTitle, descriptionElement]);
+    let page_title = meta.title;
+
+    if (title) page_title = `${title} | ${page_title}`;
+
+    setDocumentMeta({ title: page_title });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, meta]);
 
   return (
-    <div id="view-layout" className={classNames('view-layout', variant)}>
-      <Container {...containerProps}>
-        <div className={classNames('view-layout-wrapper')}>
-          <div className="view-layout-heading">
-            {variant === viewLayoutVariantKeys.default && <Breadcrumbs />}
-            <div className="view-layout-heading-title">
-              {!disableTitle && (
-                <Heading as="h2" size="3xl">
-                  {pageTitle === '...' ? <SkeletonText /> : pageTitle}
-                </Heading>
+    <ViewContextProvider
+      value={{
+        model,
+        rootUrl: rootUrl ?? '',
+        list: {
+          selected: listSelected,
+          setSelected: setListSelected,
+        },
+        detail: {
+          /* TODO */
+        },
+        panels: {
+          /* TODO */
+        },
+      }}
+    >
+      <Wrapper id="view-layout" className={classNames(`variant--${variant}`)}>
+        <Container maxWidth={containerWidth} {...containerProps}>
+          <ContainerContent>
+            <ViewHeading>
+              {isDefaultVariant && <Breadcrumbs />}
+              <Stack
+                direction="row"
+                gap={2}
+                alignItems="center"
+                justifyContent={
+                  title && titleSlot
+                    ? 'space-between'
+                    : isDefaultVariant
+                    ? 'flex-start'
+                    : 'center'
+                }
+              >
+                {title && <Typography variant="h1">{title}</Typography>}
+                {titleSlot && (
+                  <Stack direction="row" gap={2}>
+                    {titleSlot}
+                  </Stack>
+                )}
+              </Stack>
+            </ViewHeading>
+            <ViewBody>
+              {disableSuspense ? (
+                children
+              ) : (
+                <Suspense fallback={preloader ? preloader : <Preloader />}>
+                  {children}
+                </Suspense>
               )}
-              {titleSlot}
-            </div>
-          </div>
-          <div>
-            {disableSuspense ? (
-              children
-            ) : (
-              <Suspense fallback={preloader ? preloader : <Preloader />}>
-                {children}
-              </Suspense>
-            )}
-          </div>
-        </div>
-      </Container>
-      {slot}
-    </div>
+              <Footer />
+            </ViewBody>
+          </ContainerContent>
+        </Container>
+        {slot}
+      </Wrapper>
+    </ViewContextProvider>
   );
 };
 

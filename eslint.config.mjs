@@ -18,6 +18,7 @@ export default [
       '@nx/enforce-module-boundaries': [
         'error',
         {
+          // TODO
           // enforceBuildableLibDependency: true,
           enforceBuildableLibDependency: false,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],

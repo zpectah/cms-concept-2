@@ -1,31 +1,65 @@
-import { Container } from '@chakra-ui/react';
-import { classNames } from '../../utils';
-import { AppLayoutVariant } from '../../types';
+import { styled, Container, Stack } from '@mui/material';
+import { useAppContext } from '../../contexts';
+import { SPACING } from '../../constants';
 import { appLayoutVariantKeys } from '../../enums';
-import { ThemeModeToggle, ProfileToggle } from '../controls';
-import { MainMenu, LocalesMenu } from '../menu';
+import { classNames } from '../../utils';
+import { MainMenu, LocaleMenu } from '../menu';
+import { LogoutTrigger, ThemeModeToggle, ProfileToggle } from '../controls';
+import { HeaderProps } from './types';
 import Logo from './Logo';
 
-interface HeaderProps {
-  variant?: AppLayoutVariant;
-}
+const Wrapper = styled('header')(({ theme }) => ({
+  width: '100%',
+  backgroundColor: theme.palette.background.paper,
+  borderBottom: `1px solid ${theme.palette.divider}`,
+}));
 
-const Header = ({ variant }: HeaderProps) => (
-  <header className={classNames('header', variant)}>
-    <Container>
-      <div className={classNames('header-wrapper')}>
-        <div className={classNames('header-block')}>
-          {variant !== appLayoutVariantKeys.minimal && <MainMenu />}
-          <Logo disableLink={variant === appLayoutVariantKeys.minimal} />
-        </div>
-        <div className={classNames('header-block')}>
-          <ThemeModeToggle />
-          <LocalesMenu />
-          {variant !== appLayoutVariantKeys.minimal && <ProfileToggle />}
-        </div>
-      </div>
-    </Container>
-  </header>
-);
+const Content = styled('div')(({ theme }) => ({
+  minHeight: '4rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: theme.spacing(SPACING.content),
+}));
+
+const Block = styled(Stack)(({ theme }) => ({
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: theme.spacing(SPACING.actions),
+}));
+
+const Header = ({ variant }: HeaderProps) => {
+  const { containerWidth } = useAppContext();
+
+  const isDefaultVariant = variant === appLayoutVariantKeys.default;
+
+  return (
+    <Wrapper id="header" className={classNames(`variant--${variant}`)}>
+      <Container maxWidth={containerWidth}>
+        <Content>
+          {isDefaultVariant && (
+            <Block>
+              <MainMenu />
+            </Block>
+          )}
+          <Block>
+            <Logo />
+          </Block>
+          <Block>
+            <ThemeModeToggle />
+            <LocaleMenu />
+            {isDefaultVariant && (
+              <>
+                <ProfileToggle />
+                <LogoutTrigger />
+              </>
+            )}
+          </Block>
+        </Content>
+      </Container>
+    </Wrapper>
+  );
+};
 
 export default Header;

@@ -3,7 +3,7 @@ import { Categories, CommonModelItem, ModelNames, Tags } from '@model';
 import { ModelActions } from '../../types';
 import { dataListSortOrderKeys, dataListViewKeys } from './enums';
 
-type DataListView = keyof typeof dataListViewKeys;
+export type DataListView = keyof typeof dataListViewKeys;
 
 export type DataListSortOrder = keyof typeof dataListSortOrderKeys;
 
@@ -12,10 +12,10 @@ interface DataListRowAction {
   onToggle?: (id: number) => void;
   onDelete?: (id: number) => void;
   onDeletePermanent?: (id: number) => void;
-  // Articles
+  // For Articles
   onClone?: (id: number) => void;
   onApprove?: (id: number) => void;
-  // Messages
+  // For Messages
   onRead?: (id: string) => void;
 }
 
@@ -23,9 +23,9 @@ interface DataListSelectedActions {
   onToggleSelected?: (ids: number[]) => void;
   onDeleteSelected?: (ids: number[]) => void;
   onDeletePermanentSelected?: (ids: number[]) => void;
-  // Articles
+  // For Articles
   onApproveSelected?: (ids: number[]) => void;
-  // Messages
+  // For Messages
   onReadSelected?: (ids: number[]) => void;
 }
 
@@ -58,6 +58,7 @@ export interface UseDataListProps<T extends CommonModelItem> {
   searchKeys: (keyof T)[];
   categories?: Categories;
   tags?: Tags;
+  activeOnly: boolean;
 }
 
 export interface UseDataListPaginationProps<T extends CommonModelItem> {
@@ -78,7 +79,7 @@ export interface DataListColumnProps<T extends CommonModelItem> {
 
 export interface DataListProps<T extends CommonModelItem> {
   /** Model name */
-  model: ModelNames;
+  model: ModelNames | undefined;
   /** View type */
   view?: DataListView;
   /** Url of root list */
@@ -87,8 +88,6 @@ export interface DataListProps<T extends CommonModelItem> {
   rowActions: DataListRowAction;
   /** Actions for selected items */
   selectedActions: DataListSelectedActions;
-  /** Authorized actions */
-  modelActions: ModelActions;
   /** Items by model type */
   items: T[];
   /** Raw categories items for filtering */
@@ -104,6 +103,8 @@ export interface DataListProps<T extends CommonModelItem> {
     /** Search keys for list filtering */
     search: (keyof T)[];
   };
+  /** Disable toggling between active and deleted items */
+  activeOnly?: boolean;
 }
 
 interface ViewCommon<T extends CommonModelItem> {
@@ -116,7 +117,7 @@ export type TableViewProps<T extends CommonModelItem> = ViewCommon<T>;
 export type FilesViewProps<T extends CommonModelItem> = ViewCommon<T>;
 
 export interface IDataListContext {
-  model: ModelNames | 'unknown';
+  model: ModelNames | undefined;
   view: DataListView;
   root: string;
   rowActions: DataListRowAction;
@@ -141,4 +142,7 @@ export interface IDataListContext {
   };
   pagination: DataListPagination;
   rowsLength: number;
+  activeOnly: boolean;
+  showDeleted: boolean;
+  onToggleShowDeleted: () => void;
 }

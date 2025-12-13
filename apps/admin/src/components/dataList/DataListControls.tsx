@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
-import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
+import SwitchLeftIcon from '@mui/icons-material/SwitchLeft';
+import SwitchRightIcon from '@mui/icons-material/SwitchRight';
 import { useDataListContext } from './DataList.context';
-import { Input, TagSelect, OptionItem, ButtonProps } from '../ui';
+import { Button, SearchInput, TagSelect, OptionItem, ButtonProps } from '../ui';
 import { dataListSortOrderKeys } from './enums';
 
 const DataListControls = () => {
@@ -16,9 +17,14 @@ const DataListControls = () => {
     sortBy,
     orderBy,
     keys,
+    showDeleted,
+    onToggleShowDeleted,
   } = useDataListContext();
 
-  const commonButtonProps: Partial<ButtonProps> = { size: 'sm' };
+  const commonButtonProps: Partial<ButtonProps> = {
+    size: 'small',
+    color: 'inherit',
+  };
 
   const orderByActive = useMemo(
     () => keys?.order && keys?.order.length,
@@ -110,12 +116,21 @@ const DataListControls = () => {
   return (
     <div id="DataListControls">
       <div>
-        <Input
-          type="search"
+        <SearchInput
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Type to search in list"
+          fullWidth
         />
+      </div>
+      <div>
+        <Button
+          onClick={onToggleShowDeleted}
+          variant="outlined"
+          {...commonButtonProps}
+        >
+          Show deleted ({showDeleted ? 'true' : 'false'})
+        </Button>
       </div>
       <div>
         rows per page
@@ -138,9 +153,9 @@ const DataListControls = () => {
               <>
                 {option.label}{' '}
                 {orderBy === dataListSortOrderKeys.asc ? (
-                  <IconSortAscending />
+                  <SwitchLeftIcon />
                 ) : (
-                  <IconSortDescending />
+                  <SwitchRightIcon />
                 )}
               </>
             )}

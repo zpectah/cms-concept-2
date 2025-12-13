@@ -4,8 +4,13 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { getConfig } from '../config';
-import { AppLayout, AuthLayout, ConfirmDialog } from '../components';
-import { ProfileDialogForm, Toaster } from '../modules';
+import { AppLayout, AuthLayout } from '../components';
+import {
+  ConfirmDialog,
+  ProfileDialogForm,
+  Toasts,
+  Announcements,
+} from '../modules';
 import {
   ArticlesView,
   CategoriesView,
@@ -36,8 +41,9 @@ const AppRouter = () => {
         <AppLayout
           variant="minimal"
           slots={{
+            announcements: <Announcements />,
+            toasts: <Toasts />,
             confirmDialog: <ConfirmDialog />,
-            toasts: <Toaster />,
           }}
         />
       ),
@@ -83,9 +89,10 @@ const AppRouter = () => {
           element: (
             <AppLayout
               slots={{
+                announcements: <Announcements />,
+                toasts: <Toasts />,
                 confirmDialog: <ConfirmDialog />,
                 profile: <ProfileDialogForm />,
-                toasts: <Toaster />,
               }}
             />
           ),

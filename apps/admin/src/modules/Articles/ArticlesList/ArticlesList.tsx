@@ -1,5 +1,6 @@
-import { ArticlesItem, modelKeys } from '@model';
+import { ArticlesItem } from '@model';
 import { DataList } from '../../../components';
+import { useViewContext } from '../../../contexts';
 
 const mock_articles = [
   {
@@ -194,10 +195,12 @@ const mock_tags = [
 ];
 
 const ArticlesList = () => {
+  const { model, rootUrl } = useViewContext();
+
   return (
     <DataList<ArticlesItem>
-      model={modelKeys.articles}
-      root={'/articles'}
+      model={model}
+      root={rootUrl}
       rowActions={{
         onDetail: (id) => console.log('on detail', id),
         onDelete: (id) => console.log('on delete', id),
@@ -209,12 +212,6 @@ const ArticlesList = () => {
         onDeleteSelected: (ids) => console.log('onDeleteSelected', ids),
         onDeletePermanentSelected: (ids) =>
           console.log('onDeletePermanentSelected', ids),
-      }}
-      modelActions={{
-        view: true,
-        create: true,
-        modify: true,
-        delete: true,
       }}
       items={[...mock_articles]}
       tags={[...mock_tags]}

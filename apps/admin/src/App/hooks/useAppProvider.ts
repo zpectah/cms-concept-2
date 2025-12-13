@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { QueryClient } from '@tanstack/react-query';
-import { createSystem, defaultConfig } from '@chakra-ui/react';
-import { uiConfig } from '../../styles';
+import { CONTAINER_WIDTH_DEFAULT } from '../../constants';
+import { ContainerProps } from '@mui/material';
 
 const queryClient = new QueryClient();
-const systemContext = createSystem(defaultConfig, uiConfig);
 
 export const useAppProvider = () => {
-  const [pageTitle, setPageTitle] = useState<string>('...');
+  const [pageTitle, setPageTitle] = useState<string>('CMS concept | Admin');
+  const [containerWidth, setContainerWidth] = useState<
+    ContainerProps['maxWidth']
+  >(CONTAINER_WIDTH_DEFAULT);
 
   return {
-    pageTitle,
-    setPageTitle,
     queryClient,
-    systemContext,
+    appContext: {
+      pageTitle,
+      setPageTitle,
+      containerWidth,
+      setContainerWidth,
+    },
   };
 };

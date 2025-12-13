@@ -1,35 +1,63 @@
-import { Link } from 'react-router-dom';
-import { Menu, IconButton } from '@chakra-ui/react';
-import { IconMenu } from '@tabler/icons-react';
+import { useState, MouseEvent } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, MenuItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { useMenuItems } from '../../hooks';
+import { IconButtonPlus } from '../ui';
 
 const MainMenu = () => {
-  const { primary } = useMenuItems();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const { pathname } = useLocation();
+  const { main } = useMenuItems();
+
+  const open = Boolean(anchorEl);
+
+  const openHandler = (event: MouseEvent<HTMLButtonElement>) =>
+    setAnchorEl(event.currentTarget);
+  const closeHandler = () => setAnchorEl(null);
 
   return (
-    <Menu.Root>
-      <Menu.Trigger asChild>
-        <IconButton variant="outline" size="sm">
-          <IconMenu />
-        </IconButton>
-      </Menu.Trigger>
-      <Menu.Positioner>
-        <Menu.Content>
-          {primary.map((item) => {
-            return (
-              <Menu.Item
-                key={item.id}
-                value={item.path}
-                asChild
-                css={{ cursor: 'pointer' }}
-              >
-                <Link to={item.path}>{item.label}</Link>
-              </Menu.Item>
-            );
-          })}
-        </Menu.Content>
-      </Menu.Positioner>
-    </Menu.Root>
+    <>
+      <IconButtonPlus
+        id="main-menu-button"
+        aria-controls={open ? 'main-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={openHandler}
+        tooltip="Main menu"
+      >
+        {open ? <CloseIcon color="inherit" /> : <MenuIcon color="inherit" />}
+      </IconButtonPlus>
+      <Menu
+        id="main-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={closeHandler}
+        slotProps={{
+          list: {
+            'aria-labelledby': 'main-menu-button',
+          },
+        }}
+      >
+        {main.map((item) => {
+          const isActive = pathname.includes(item.path);
+
+          return (
+            <MenuItem
+              key={item.id}
+              onClick={closeHandler}
+              selected={isActive}
+              component={Link}
+              to={item.path}
+            >
+              {item.label}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    </>
   );
 };
 

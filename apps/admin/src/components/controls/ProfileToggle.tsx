@@ -1,17 +1,14 @@
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useAppStore } from '../../store';
-import { useProfile } from '../../hooks';
-import { Button } from '../ui';
+import { IconButtonPlus } from '../ui';
 
 const ProfileToggle = () => {
   const { setProfileDialog } = useAppStore();
-  const { user } = useProfile();
-
-  // TODO
 
   return (
-    <Button variant="outline" onClick={() => setProfileDialog(true)}>
-      {user.email}
-    </Button>
+    <IconButtonPlus tooltip="Profile" onClick={() => setProfileDialog(true)}>
+      <AccountBoxIcon color="inherit" />
+    </IconButtonPlus>
   );
 };
 

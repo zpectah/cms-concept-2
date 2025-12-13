@@ -3,7 +3,7 @@ import { IDataListContext } from './types';
 import { dataListSortOrderKeys, dataListViewKeys } from './enums';
 
 const defaultDataListContext: IDataListContext = {
-  model: 'unknown',
+  model: undefined,
   view: dataListViewKeys.table,
   root: '',
   rowActions: {},
@@ -13,6 +13,7 @@ const defaultDataListContext: IDataListContext = {
     create: false,
     modify: false,
     delete: false,
+    deletePermanent: false,
   },
   query: '',
   setQuery: () => null,
@@ -53,6 +54,9 @@ const defaultDataListContext: IDataListContext = {
     },
   },
   rowsLength: 0,
+  activeOnly: false,
+  showDeleted: false,
+  onToggleShowDeleted: () => null,
 };
 
 export const DataListContext = createContext(defaultDataListContext);

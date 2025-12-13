@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
 const TranslationsView = () => {
-  const { id } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Translations');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
-  return <ViewLayout>...TranslationsView...{id}</ViewLayout>;
+  return (
+    <ViewLayout
+      model={modelKeys.translations}
+      rootUrl={routes.translations.root}
+      title={t('translations.title')}
+    >
+      ...TranslationsView...
+    </ViewLayout>
+  );
 };
 
 export default TranslationsView;

@@ -1,19 +1,18 @@
 import { forwardRef } from 'react';
-import { Tooltip } from '../tooltip';
+import { Tooltip, IconButton } from '@mui/material';
 import { IconButtonPlusProps } from './types';
-import IconButton from './IconButton';
 
 const IconButtonPlus = forwardRef<HTMLButtonElement, IconButtonPlusProps>(
   (props, ref) => {
-    const { tooltip, tooltipProps, disabledTooltip, disabled, ...rest } = props;
+    const { tooltip, tooltipProps, ...rest } = props;
+
+    const button = <IconButton ref={ref} {...rest} />;
+
+    if (!tooltip) return button;
 
     return (
-      <Tooltip
-        content={tooltip}
-        disabled={disabled || disabledTooltip}
-        {...tooltipProps}
-      >
-        <IconButton ref={ref} disabled={disabled} {...rest} />
+      <Tooltip title={tooltip} {...tooltipProps}>
+        {button}
       </Tooltip>
     );
   }

@@ -1,9 +1,11 @@
 import { forwardRef } from 'react';
-import { Input as UiInput } from '@chakra-ui/react';
+import { TextField } from '@mui/material';
 import { InputProps } from './types';
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  return <UiInput ref={ref} {...props} />;
+  const { ...rest } = props;
+
+  return <TextField ref={ref} {...rest} />;
 });
 
 export default Input;

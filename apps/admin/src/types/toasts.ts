@@ -4,12 +4,12 @@ export type ToastsItemSeverity = keyof typeof toastsItemSeverityKeys;
 
 export interface ToastsItem {
   id: string;
-  severity: ToastsItemSeverity;
+  severity?: ToastsItemSeverity;
   title: string;
   description?: string;
 }
 
-export interface NewToastsItem extends Omit<ToastsItem, 'id'> {
+export interface IToastsItem extends Omit<ToastsItem, 'id'> {
   autoclose?: number | boolean;
 }
 

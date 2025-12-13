@@ -1,25 +1,21 @@
 import {
-  ButtonProps as UiButtonProps,
-  IconButtonProps as UiIconButtonProps,
-} from '@chakra-ui/react';
-import { TooltipProps } from '../tooltip';
-
-export interface ButtonProps extends UiButtonProps {
-  test?: string;
-}
-
-export interface IconButtonProps extends UiIconButtonProps {
-  test?: string;
-}
-
-export interface ButtonPlusProps extends ButtonProps {
-  tooltipProps?: Partial<Omit<TooltipProps, 'content' | 'disabled'>>;
-  tooltip: string;
-  disabledTooltip?: boolean;
-}
+  IconButtonProps,
+  TooltipProps,
+  ButtonProps as MuiButtonProps,
+} from '@mui/material';
 
 export interface IconButtonPlusProps extends IconButtonProps {
-  tooltipProps?: Partial<Omit<TooltipProps, 'content' | 'disabled'>>;
-  tooltip: string;
-  disabledTooltip?: boolean;
+  tooltip?: string;
+  tooltipProps?: Partial<Omit<TooltipProps, 'title'>>;
 }
+
+export type CloseButtonProps = IconButtonProps;
+
+export type ButtonProps = MuiButtonProps & {};
+
+export type LinkButtonProps = MuiButtonProps & {
+  to: string;
+};
+
+export type PrimaryButtonProps = Omit<ButtonProps, 'variant' | 'color'> & {};
+export type SecondaryButtonProps = Omit<ButtonProps, 'variant' | 'color'> & {};

@@ -1,12 +1,10 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton, Stack, Card } from '@chakra-ui/react';
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconChevronLeftPipe,
-  IconChevronRightPipe,
-} from '@tabler/icons-react';
+import { Stack, Card, CardContent } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
 import { IconButtonPlus, IconButtonPlusProps } from '../ui';
 import { useDataListContext } from './DataList.context';
 
@@ -26,9 +24,9 @@ const DataListPagination = () => {
   } = useDataListContext();
 
   const commonButtonProps: Partial<IconButtonPlusProps> = {
-    size: 'sm',
-    variant: 'ghost',
-    tooltipProps: { openDelay: 750 },
+    size: 'small',
+    // variant: 'outlined',
+    // tooltipProps: { openDelay: 750 },
   };
 
   const renderPages = useMemo(() => {
@@ -36,15 +34,15 @@ const DataListPagination = () => {
       const p = i + 1;
 
       return (
-        <IconButton
+        <IconButtonPlus
           key={`${p}`}
           onClick={() => onPageChange(p)}
-          variant={p === page ? 'outline' : 'ghost'}
-          size="sm"
+          // variant={p === page ? 'outline' : 'ghost'}
+          size="small"
           disabled={pages <= 1}
         >
           {p}
-        </IconButton>
+        </IconButtonPlus>
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,8 +50,8 @@ const DataListPagination = () => {
 
   return (
     <div id="DataListPagination">
-      <Card.Root size="sm">
-        <Card.Body>
+      <Card>
+        <CardContent>
           <Stack
             direction="row"
             gap={4}
@@ -67,7 +65,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.first}
                 {...commonButtonProps}
               >
-                <IconChevronLeftPipe />
+                <FirstPageIcon />
               </IconButtonPlus>
               <IconButtonPlus
                 tooltip={t('button.prevPage')}
@@ -75,7 +73,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.prev}
                 {...commonButtonProps}
               >
-                <IconChevronLeft />
+                <ChevronLeftIcon />
               </IconButtonPlus>
             </Stack>
             <Stack direction="row" gap={2}>
@@ -88,7 +86,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.next}
                 {...commonButtonProps}
               >
-                <IconChevronRight />
+                <ChevronRightIcon />
               </IconButtonPlus>
               <IconButtonPlus
                 tooltip={t('button.lastPage')}
@@ -96,12 +94,12 @@ const DataListPagination = () => {
                 disabled={disabledButton.last}
                 {...commonButtonProps}
               >
-                <IconChevronRightPipe />
+                <LastPageIcon />
               </IconButtonPlus>
             </Stack>
           </Stack>
-        </Card.Body>
-      </Card.Root>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -1,20 +1,21 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { getConfig } from '../config';
+import { CONTAINER_WIDTH_CENTERED } from '../constants';
 import { ViewLayout } from '../components';
 
 const PasswordRecoveryView = () => {
-  const { token } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Password recovery');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
   return (
-    <ViewLayout variant="centered" containerProps={{ maxW: '2xl' }}>
-      ...PasswordRecoveryView...{token}
+    <ViewLayout
+      variant="centered"
+      containerWidth={CONTAINER_WIDTH_CENTERED}
+      rootUrl={routes.passwordRecovery.root}
+      title={t('passwordRecovery.title')}
+    >
+      ...PasswordRecoveryView...
     </ViewLayout>
   );
 };

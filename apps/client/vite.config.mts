@@ -7,11 +7,11 @@ export default defineConfig(() => ({
   root: import.meta.dirname,
   cacheDir: '../../node_modules/.vite/apps/client',
   server: {
-    port: 4310,
+    port: 4545,
     host: 'localhost',
   },
   preview: {
-    port: 4311,
+    port: 4546,
     host: 'localhost',
   },
   plugins: [react(), tsconfigPaths()],
@@ -29,10 +29,16 @@ export default defineConfig(() => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          /* TODO */
-        }
+          // emotion: ['@emotion/react', '@emotion/styled'],
+          i18n: ['i18next', 'i18next-http-backend', 'react-i18next', 'i18next-browser-languagedetector'],
+          mui: ['@mui/icons-material', '@mui/material', '@mui/x-date-pickers'],
+          react: ['react', 'react-dom', 'react-router-dom'],
+          // form: ['react-hook-form', '@hookform/resolvers'],
+          // data: ['axios', 'zod', 'zustand'],
+          // ui: ['mapbox-gl', 'react-advanced-cropper', 'react-pdf', 'react-simple-wysiwyg']
+        },
       },
-    }
+    },
   },
   test: {
     name: '@cms-concept-2/client',

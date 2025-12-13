@@ -1,5 +1,6 @@
 /* eslint-disable @nx/enforce-module-boundaries */
 
+import packages from '../../../../package.json';
 import cms from '../../../../config.cms.json';
 import locales from '../../../../config.locales.json';
 import { routes } from './routes';
@@ -18,12 +19,17 @@ const getConfig = () => {
     locales,
     routes,
     environment: env,
+    version: packages.version,
     api: {
+      /** Api root url */
       url: apiUrl,
+      /** Api consumer token */
       token: apiToken,
     },
     uploads: {
+      /** Path for uploading files */
       target: uploadsTarget,
+      /** Path for getting files */
       source: uploadsSources,
     },
     // Helpers

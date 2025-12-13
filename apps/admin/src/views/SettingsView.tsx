@@ -1,18 +1,22 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppContext } from '../contexts';
+import { useTranslation } from 'react-i18next';
+import { modelKeys } from '@model';
+import { getConfig } from '../config';
 import { ViewLayout } from '../components';
 
 const SettingsView = () => {
-  const { panel } = useParams();
-  const { setPageTitle } = useAppContext();
+  const { routes } = getConfig();
 
-  useEffect(() => {
-    setPageTitle('Settings');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { t } = useTranslation(['views']);
 
-  return <ViewLayout>...SettingsView...{panel}</ViewLayout>;
+  return (
+    <ViewLayout
+      model={modelKeys.settings}
+      rootUrl={routes.settings.root}
+      title={t('settings.title')}
+    >
+      ...SettingsView...
+    </ViewLayout>
+  );
 };
 
 export default SettingsView;
