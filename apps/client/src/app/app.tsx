@@ -1,6 +1,6 @@
 // Uncomment this line to use CSS modules
 // import styles from './app.module.scss';
-import { commonConst } from '@common';
+import { testConst } from '@common';
 import NxWelcome from './nx-welcome';
 
 import { Route, Routes, Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ export function App() {
       <br />
       <hr />
       <br />
-      <div>{commonConst}</div>
+      <div>{testConst}</div>
       <br />
       <div role="navigation">
         <ul>
