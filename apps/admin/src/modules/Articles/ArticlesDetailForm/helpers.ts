@@ -1,5 +1,5 @@
-import { IArticlesDetailForm } from './types';
 import { ArticlesDetail } from '@model';
+import { IArticlesDetailForm } from './types';
 
 /** Gets default form values */
 export const defaultDataToForm = (): IArticlesDetailForm => {

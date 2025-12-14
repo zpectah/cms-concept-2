@@ -9,7 +9,9 @@
     "start:uploads": "php -S localhost:8181 ./scripts/serve/uploads-server.php",
     "build:admin": "nx build admin --configuration=production",
     "build:client": "nx build client --configuration=production",
-    "build:api": "nx build api"
+    "build:api": "nx build api",
+
+    "generate:form:model": "node ./scripts/generator/form-model.mjs"
   },
   "private": true,
   "dependencies": {

@@ -2,25 +2,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useViewContext } from '../../../contexts';
-import { IArticlesDetailForm } from './types';
-import { articlesDetailFormSchema } from './schema';
+import { ICategoriesDetailForm } from './types';
+import { categoriesDetailFormSchema } from './schema';
 
-export const useArticlesDetailForm = () => {
+export const useCategoriesDetailForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { rootUrl } = useViewContext();
-  const form = useForm<IArticlesDetailForm>({
-    resolver: zodResolver(articlesDetailFormSchema),
+  const form = useForm<ICategoriesDetailForm>({
+    resolver: zodResolver(categoriesDetailFormSchema),
     defaultValues: {},
   });
 
-  const detailTitle = 'Article detail'; // TODO
+  const detailTitle = 'Detail title'; // TODO
 
   const closeHandler = () => {
     navigate(rootUrl);
   };
 
-  const submitHandler = (data: IArticlesDetailForm) => {
+  const submitHandler = (data: ICategoriesDetailForm) => {
     // TODO
 
     console.log('data', data);
@@ -34,4 +34,4 @@ export const useArticlesDetailForm = () => {
     onSubmit: submitHandler,
     onClose: closeHandler,
   };
-};
+}
