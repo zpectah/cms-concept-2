@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { CONTAINER_WIDTH_DEFAULT } from '../../constants';
 import { ContainerProps } from '@mui/material';
@@ -6,10 +6,11 @@ import { ContainerProps } from '@mui/material';
 const queryClient = new QueryClient();
 
 export const useAppProvider = () => {
-  const [pageTitle, setPageTitle] = useState<string>('CMS concept | Admin');
+  const [pageTitle, setPageTitle] = useState<ReactNode>('CMS concept | Admin');
   const [containerWidth, setContainerWidth] = useState<
     ContainerProps['maxWidth']
   >(CONTAINER_WIDTH_DEFAULT);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return {
     queryClient,
@@ -18,6 +19,8 @@ export const useAppProvider = () => {
       setPageTitle,
       containerWidth,
       setContainerWidth,
+      loading,
+      setLoading,
     },
   };
 };

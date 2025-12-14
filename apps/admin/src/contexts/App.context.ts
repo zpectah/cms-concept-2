@@ -6,6 +6,8 @@ const defaultContext: IAppContext = {
   setPageTitle: () => null,
   containerWidth: undefined,
   setContainerWidth: () => null,
+  loading: false,
+  setLoading: () => null,
 };
 
 export const AppContext = createContext(defaultContext);

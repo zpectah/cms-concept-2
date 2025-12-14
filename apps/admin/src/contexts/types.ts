@@ -7,6 +7,8 @@ export interface IAppContext {
   setPageTitle: (pageTitle: ReactNode) => void;
   containerWidth: ContainerProps['maxWidth'];
   setContainerWidth: (width: ContainerProps['maxWidth']) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 export interface ViewContextList {
