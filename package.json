@@ -11,7 +11,7 @@
     "build:client": "nx build client --configuration=production",
     "build:api": "nx build api",
 
-    "generate:form:model": "node ./scripts/generator/form-model.mjs"
+    "generate": "node ./scripts/generator/index.mjs"
   },
   "private": true,
   "dependencies": {
