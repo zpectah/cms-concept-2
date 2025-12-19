@@ -38,13 +38,9 @@ const Header = ({ variant }: HeaderProps) => {
     <Wrapper id="header" className={classNames(`variant--${variant}`)}>
       <Container maxWidth={containerWidth}>
         <Content>
-          {isDefaultVariant && (
-            <Block>
-              <MainMenu />
-            </Block>
-          )}
           <Block>
-            <Logo />
+            {isDefaultVariant && <MainMenu />}
+            <Logo disableLink={!isDefaultVariant} />
           </Block>
           <Block>
             <ThemeModeToggle />
