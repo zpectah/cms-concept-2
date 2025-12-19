@@ -1,8 +1,12 @@
+import { EnumKeyValues } from '@common';
+import { articlesTypeKeys } from '../enums';
 import { ItemBase, ItemLocaleBase } from './item';
+
+export type ArticlesType = EnumKeyValues<typeof articlesTypeKeys>;
 
 export interface ArticlesItem extends ItemBase {
   name: string;
-  type: string; // TODO
+  type: ArticlesType;
 
   tags: number[];
   categories: number[];
