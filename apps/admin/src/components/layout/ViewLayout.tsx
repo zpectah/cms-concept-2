@@ -40,6 +40,12 @@ const ViewHeading = styled('div')(({ theme }) => ({
   flexDirection: 'column',
 }));
 
+const NavigationSlot = styled('div')(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
 const ViewBody = styled('div')(({ theme }) => ({
   width: '100%',
   paddingTop: theme.spacing(SPACING.content),
@@ -68,6 +74,7 @@ const ViewLayout = ({
   variant = viewLayoutVariantKeys.default,
   model,
   rootUrl,
+  navigationSlot,
 }: ViewLayoutProps) => {
   const {
     cms: {
@@ -138,6 +145,9 @@ const ViewLayout = ({
                 )}
               </Stack>
             </ViewHeading>
+            {navigationSlot && (
+              <NavigationSlot>{navigationSlot}</NavigationSlot>
+            )}
             <ViewBody>
               {disableSuspense ? (
                 children

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
+import { IconZoom } from '@tabler/icons-react';
 import { SearchInputProps } from './types';
 import InputPlus from './InputPlus';
 
@@ -12,7 +12,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         ref={ref}
         type="search"
         inputMode="search"
-        startAdornment={<SearchIcon />}
+        startAdornment={<IconZoom />}
         {...rest}
       />
     );

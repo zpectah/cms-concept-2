@@ -1,6 +1,5 @@
 import { Stack, Typography } from '@mui/material';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { IconZoom, IconZoomFilled } from '@tabler/icons-react';
 import {
   Button,
   PrimaryButton,
@@ -103,10 +102,10 @@ const DemoUi = () => {
         <SecondaryButton>SecondaryButton</SecondaryButton>
         <LinkButton to={'/'}>LinkButton</LinkButton>
         <IconButtonPlus>
-          <AcUnitIcon color="inherit" />
+          <IconZoom />
         </IconButtonPlus>
         <IconButtonPlus tooltip="Tooltip text">
-          <AddCircleIcon color="inherit" />
+          <IconZoomFilled />
         </IconButtonPlus>
       </Stack>
     </Stack>

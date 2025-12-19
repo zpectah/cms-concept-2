@@ -1,7 +1,6 @@
 import { forwardRef, useState, MouseEvent } from 'react';
 import { styled, Stack, Menu, MenuItem } from '@mui/material';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { IconChevronUp, IconChevronDown } from '@tabler/icons-react';
 import { Button } from '../button';
 import { ButtonSelectProps } from './types';
 
@@ -27,7 +26,11 @@ const ButtonSelect = forwardRef<HTMLButtonElement, ButtonSelectProps>(
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const open = Boolean(anchorEl);
-    const icon = open ? <ExpandLessIcon /> : <ExpandMoreIcon />;
+    const icon = open ? (
+      <IconChevronUp size="1rem" />
+    ) : (
+      <IconChevronDown size="1rem" />
+    );
 
     const openHandler = (event: MouseEvent<HTMLButtonElement>) =>
       setAnchorEl(event.currentTarget);

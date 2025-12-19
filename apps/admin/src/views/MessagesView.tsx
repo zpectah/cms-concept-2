@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { modelKeys } from '@model';
 import { getConfig } from '../config';
@@ -14,7 +15,7 @@ const MessagesView = () => {
       rootUrl={routes.messages.root}
       title={t('messages.title')}
     >
-      ...MessagesView...
+      <Outlet />
     </ViewLayout>
   );
 };

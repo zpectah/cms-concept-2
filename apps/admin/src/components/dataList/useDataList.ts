@@ -3,7 +3,12 @@ import { CommonModelItem, Categories, Tags } from '@model';
 import { DataListFilter, DataListSortOrder, UseDataListProps } from './types';
 import { searchItems, sortItems } from './helpers';
 import { dataListSortOrderKeys } from './enums';
-import { filterDefaults } from './constants';
+import {
+  dataListOrderByDefault,
+  dataListRowsPerPageOptions,
+  dataListSortByDefault,
+  filterDefaults,
+} from './constants';
 
 export const useDataList = <T extends CommonModelItem>({
   items = [],
@@ -11,13 +16,16 @@ export const useDataList = <T extends CommonModelItem>({
   tags = [],
   searchKeys = [],
   activeOnly,
+  onSelect,
 }: UseDataListProps<T>) => {
+  const [controlsOpen, setControlsOpen] = useState<boolean>(false);
   const [showDeleted, setShowDeleted] = useState<boolean>(false);
+  const [selected, setSelected] = useState<number[]>([]);
   const [query, setQuery] = useState<string>('');
   const [filter, setFilter] = useState<DataListFilter>(filterDefaults);
-  const [sortBy, setSortBy] = useState<keyof T>('id');
+  const [sortBy, setSortBy] = useState<keyof T>(dataListSortByDefault);
   const [orderBy, setOrderBy] = useState<DataListSortOrder>(
-    dataListSortOrderKeys.asc
+    dataListOrderByDefault
   );
 
   const rawRows = searchItems(items, query, searchKeys);
@@ -58,7 +66,7 @@ export const useDataList = <T extends CommonModelItem>({
     const types: string[] = [];
 
     // We know there is type attribute to filter
-    rawRows.forEach((item) => {
+    items.forEach((item) => {
       const type = item.type;
 
       if (!type) return;
@@ -67,7 +75,7 @@ export const useDataList = <T extends CommonModelItem>({
     });
 
     return types;
-  }, [rawRows]);
+  }, [items]);
 
   const categoriesOptions = useMemo(() => {
     const ids: number[] = [];
@@ -140,6 +148,41 @@ export const useDataList = <T extends CommonModelItem>({
     [orderBy, sortBy]
   );
 
+  const selectRowHandler = useCallback(
+    (id: number) => {
+      const newSelected: number[] = [...selected];
+      const index = newSelected.indexOf(id);
+
+      if (index > -1) {
+        newSelected.splice(index, 1);
+      } else {
+        newSelected.push(id);
+      }
+
+      setSelected(newSelected);
+      onSelect?.(newSelected);
+    },
+    [selected, onSelect]
+  );
+
+  const selectAllHandler = useCallback(() => {
+    let newSelected: number[] = [];
+
+    if (selected.length >= 0) {
+      newSelected = [];
+      rows.forEach((item) => {
+        newSelected.push(item.id);
+      });
+    }
+
+    if (selected.length === rows.length) newSelected = [];
+
+    setSelected(newSelected);
+    onSelect?.(newSelected);
+  }, [rows, selected, onSelect]);
+
+  const deselectHandler = () => setSelected([]);
+
   const showDeletedHandler = useCallback(() => {
     if (activeOnly) return;
 
@@ -152,16 +195,24 @@ export const useDataList = <T extends CommonModelItem>({
     setQuery,
     filter,
     setFilter,
+    onFilterReset: () => setFilter(Object.assign(filterDefaults)),
     onOrderBy: orderByChangeHandler,
     options: {
       types: typeOptions,
       categories: categoriesOptions,
       tags: tagsOptions,
-      pages: [5, 10, 25, 50, 75, 100], // TODO
+      pages: dataListRowsPerPageOptions,
     },
     sortBy,
     orderBy,
     showDeleted,
     onToggleShowDeleted: showDeletedHandler,
+    selected,
+    setSelected,
+    onSelectRow: selectRowHandler,
+    onSelectAll: selectAllHandler,
+    onDeselect: deselectHandler,
+    controlsOpen,
+    setControlsOpen,
   };
 };

@@ -1,17 +1,45 @@
-import { useMemo } from 'react';
-import SwitchLeftIcon from '@mui/icons-material/SwitchLeft';
-import SwitchRightIcon from '@mui/icons-material/SwitchRight';
+import { useCallback, useMemo } from 'react';
+import { Grid, Stack, Card, CardContent, Badge } from '@mui/material';
+import {
+  IconSortAscending,
+  IconSortDescending,
+  IconSquareDashed,
+  IconSquareDot,
+  IconSquareCheck,
+  IconBook,
+  IconEye,
+  IconShieldCheck,
+  IconTrash,
+  IconTrashX,
+  IconGhost3,
+  IconGhostOff,
+  IconAdjustments,
+} from '@tabler/icons-react';
+import { useAppStore } from '../../store';
+import { useUserActions } from '../../hooks';
+import {
+  Button,
+  IconButtonPlus,
+  ButtonSelect,
+  SearchInput,
+  TagSelect,
+  Drawer,
+  OptionItem,
+  IconButtonPlusProps,
+} from '../ui';
 import { useDataListContext } from './DataList.context';
-import { Button, SearchInput, TagSelect, OptionItem, ButtonProps } from '../ui';
-import { dataListSortOrderKeys } from './enums';
+import { dataListCheckboxStateKeys, dataListSortOrderKeys } from './enums';
 
 const DataListControls = () => {
+  const { setConfirmDialog } = useAppStore();
+  const { actions: userActions } = useUserActions();
   const {
     query,
     setQuery,
     options,
     filter,
     setFilter,
+    onFilterReset,
     pagination,
     onOrderBy,
     sortBy,
@@ -19,12 +47,13 @@ const DataListControls = () => {
     keys,
     showDeleted,
     onToggleShowDeleted,
+    rowsLength,
+    selectedActions,
+    selected,
+    onSelectAll,
+    controlsOpen,
+    setControlsOpen,
   } = useDataListContext();
-
-  const commonButtonProps: Partial<ButtonProps> = {
-    size: 'small',
-    color: 'inherit',
-  };
 
   const orderByActive = useMemo(
     () => keys?.order && keys?.order.length,
@@ -113,107 +142,302 @@ const DataListControls = () => {
     return optionsList;
   }, [options.tags]);
 
+  const checkboxState = useMemo(() => {
+    if (selected.length === 0) return dataListCheckboxStateKeys.none;
+    if (selected.length === rowsLength)
+      return dataListCheckboxStateKeys.checked;
+
+    return dataListCheckboxStateKeys.indeterminate;
+  }, [selected, rowsLength]);
+
+  const deleteConfirmHandler = useCallback(() => {
+    setConfirmDialog({
+      title: 'Confirm delete',
+      content: `Are you sure you want delete ${selected.length} selected items?`,
+      context: 'delete',
+      onConfirm: () => selectedActions?.onDeleteSelected?.(selected),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, selectedActions]);
+
+  const deletePermanentConfirmHandler = useCallback(() => {
+    setConfirmDialog({
+      title: 'Confirm permanent delete',
+      content: `Are you sure you want permanent delete ${selected.length} selected items?`,
+      context: 'delete',
+      onConfirm: () => selectedActions?.onDeletePermanentSelected?.(selected),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, selectedActions]);
+
+  const renderActions = useMemo(() => {
+    const selectCheckIcon = {
+      [dataListCheckboxStateKeys.none]: <IconSquareDashed />,
+      [dataListCheckboxStateKeys.checked]: <IconSquareCheck />,
+      [dataListCheckboxStateKeys.indeterminate]: <IconSquareDot />,
+    };
+
+    const actions = [
+      {
+        id: 'select',
+        label: 'Select all',
+        icon: selectCheckIcon[checkboxState],
+        onClick: onSelectAll,
+        disabled: false,
+        hidden: false,
+      },
+      {
+        id: 'deleted',
+        label: 'Show deleted',
+        icon: showDeleted ? <IconGhostOff /> : <IconGhost3 />,
+        onClick: onToggleShowDeleted,
+        disabled: false,
+        hidden: !userActions.deletePermanent,
+      },
+      {
+        id: 'toggle',
+        label: `Toggle ${selected.length} selected items`,
+        icon: <IconEye />,
+        onClick: () => selectedActions?.onToggleSelected?.(selected),
+        disabled: selected.length === 0 || !userActions.modify,
+        hidden: !selectedActions?.onToggleSelected,
+        color: 'primary',
+        badge: true,
+      },
+      {
+        id: 'approve',
+        label: `Approve ${selected.length} selected items`,
+        icon: <IconShieldCheck />,
+        onClick: () => selectedActions?.onApproveSelected?.(selected),
+        disabled: selected.length === 0 || !userActions.approve,
+        hidden: !selectedActions?.onApproveSelected,
+        color: 'primary',
+        badge: true,
+      },
+      {
+        id: 'read',
+        label: `Mark read ${selected.length} selected items`,
+        icon: <IconBook />,
+        onClick: () => selectedActions?.onReadSelected?.(selected),
+        disabled: selected.length === 0 || !userActions.modify,
+        hidden: !selectedActions?.onReadSelected,
+        color: 'primary',
+        badge: true,
+      },
+      {
+        id: 'delete',
+        label: `Delete ${selected.length} selected items`,
+        icon: <IconTrash />,
+        onClick: deleteConfirmHandler,
+        disabled: selected.length === 0 || !userActions.delete,
+        hidden: !selectedActions?.onDeleteSelected,
+        color: 'error',
+        badge: true,
+      },
+      {
+        id: 'delete-permanent',
+        label: `Permanent delete ${selected.length} selected items`,
+        icon: <IconTrashX />,
+        onClick: deletePermanentConfirmHandler,
+        disabled: selected.length === 0,
+        hidden:
+          !selectedActions?.onDeletePermanentSelected ||
+          !userActions.deletePermanent ||
+          !showDeleted,
+        color: 'error',
+        badge: true,
+      },
+    ];
+
+    return (
+      <Stack direction="row" gap={1}>
+        {actions.map(({ id, label, icon, hidden, color, badge, ...rest }) => {
+          if (hidden) return null;
+
+          const button = (
+            <IconButtonPlus
+              key={id}
+              tooltip={label}
+              color={
+                color ? (color as IconButtonPlusProps['color']) : 'default'
+              }
+              {...rest}
+            >
+              {icon}
+            </IconButtonPlus>
+          );
+
+          if (badge) {
+            return (
+              <Badge key={id} badgeContent={selected.length}>
+                {button}
+              </Badge>
+            );
+          }
+
+          return button;
+        })}
+      </Stack>
+    );
+  }, [
+    checkboxState,
+    showDeleted,
+    userActions,
+    selected,
+    selectedActions,
+    deleteConfirmHandler,
+    deletePermanentConfirmHandler,
+    onSelectAll,
+    onToggleShowDeleted,
+  ]);
+
   return (
-    <div id="DataListControls">
-      <div>
-        <SearchInput
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Type to search in list"
-          fullWidth
-        />
+    <>
+      <div id="data-list-controls">
+        <Card>
+          <CardContent>
+            <Grid container spacing={2}>
+              <Grid size={12}>
+                <SearchInput
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Type to search in list"
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid size={6}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="flex-start"
+                  flexWrap="wrap"
+                  gap={2}
+                >
+                  {renderActions}
+                </Stack>
+              </Grid>
+
+              <Grid size={6}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="flex-end"
+                  flexWrap="wrap"
+                  gap={2}
+                >
+                  <ButtonSelect
+                    value={pagination.perPage}
+                    onChange={(value) =>
+                      pagination.onPerPageChange(value as number)
+                    }
+                    options={rowsPerPageOptionsList}
+                    buttonProps={{
+                      color: 'inherit',
+                      size: 'small',
+                    }}
+                  />
+
+                  <IconButtonPlus
+                    tooltip="Open controls"
+                    onClick={() => setControlsOpen(true)}
+                  >
+                    <IconAdjustments />
+                  </IconButtonPlus>
+                </Stack>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
       </div>
-      <div>
-        <Button
-          onClick={onToggleShowDeleted}
-          variant="outlined"
-          {...commonButtonProps}
-        >
-          Show deleted ({showDeleted ? 'true' : 'false'})
-        </Button>
-      </div>
-      <div>
-        rows per page
-        <TagSelect
-          value={pagination.perPage}
-          onChange={(value) => pagination.onPerPageChange(value as number)}
-          options={rowsPerPageOptionsList}
-          buttonProps={commonButtonProps}
-        />
-      </div>
-      {orderByActive && (
-        <div>
-          sort & order
-          <TagSelect
-            value={sortBy}
-            onChange={(value) => onOrderBy(value as string)}
-            options={orderByOptionsList}
-            buttonProps={commonButtonProps}
-            renderSelectedValue={(option) => (
-              <>
-                {option.label}{' '}
-                {orderBy === dataListSortOrderKeys.asc ? (
-                  <SwitchLeftIcon />
-                ) : (
-                  <SwitchRightIcon />
-                )}
-              </>
+
+      <Drawer
+        anchor="right"
+        width={{
+          xs: '100%',
+          sm: '350px',
+        }}
+        title="Table controls"
+        open={controlsOpen}
+        onClose={() => setControlsOpen(!controlsOpen)}
+        actions={
+          <Button variant="outlined" onClick={onFilterReset}>
+            Reset filter
+          </Button>
+        }
+      >
+        <Grid container spacing={2}>
+          <Grid size={12}>
+            {orderByActive && (
+              <TagSelect
+                label="Sort and order"
+                value={sortBy}
+                onChange={(value) => onOrderBy(value as string)}
+                options={orderByOptionsList}
+                renderSelectedIcon={() =>
+                  orderBy === dataListSortOrderKeys.asc ? (
+                    <IconSortAscending size="1rem" />
+                  ) : (
+                    <IconSortDescending size="1rem" />
+                  )
+                }
+              />
             )}
-          />
-        </div>
-      )}
-      {filterByTypeActive && (
-        <div>
-          filter: type
-          <TagSelect
-            value={filter.types}
-            onChange={(value) => {
-              setFilter({
-                ...filter,
-                types: value as string[],
-              });
-            }}
-            options={typesOptionsList}
-            buttonProps={commonButtonProps}
-            multiple
-          />
-        </div>
-      )}
-      {filterByCategoriesActive && (
-        <div>
-          filter: categories
-          <TagSelect
-            value={filter.categories}
-            onChange={(value) => {
-              setFilter({
-                ...filter,
-                categories: value as number[],
-              });
-            }}
-            options={categoriesOptionsList}
-            buttonProps={commonButtonProps}
-            multiple
-          />
-        </div>
-      )}
-      {filterByTagsActive && (
-        <div>
-          filter: tags
-          <TagSelect
-            value={filter.tags}
-            onChange={(value) => {
-              setFilter({
-                ...filter,
-                tags: value as number[],
-              });
-            }}
-            options={tagsOptionsList}
-            buttonProps={commonButtonProps}
-            multiple
-          />
-        </div>
-      )}
-    </div>
+          </Grid>
+
+          <Grid size={12}>
+            {filterByTypeActive && (
+              <TagSelect
+                label="Filter by type"
+                value={filter.types}
+                onChange={(value) => {
+                  setFilter({
+                    ...filter,
+                    types: value as string[],
+                  });
+                }}
+                options={typesOptionsList}
+                multiple
+              />
+            )}
+          </Grid>
+
+          <Grid size={12}>
+            {filterByCategoriesActive && (
+              <TagSelect
+                label="Filter by categories"
+                value={filter.categories}
+                onChange={(value) => {
+                  setFilter({
+                    ...filter,
+                    categories: value as number[],
+                  });
+                }}
+                options={categoriesOptionsList}
+                multiple
+              />
+            )}
+          </Grid>
+
+          <Grid size={12}>
+            {filterByTagsActive && (
+              <TagSelect
+                label="Filter by tags"
+                value={filter.tags}
+                onChange={(value) => {
+                  setFilter({
+                    ...filter,
+                    tags: value as number[],
+                  });
+                }}
+                options={tagsOptionsList}
+                multiple
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Drawer>
+    </>
   );
 };
 

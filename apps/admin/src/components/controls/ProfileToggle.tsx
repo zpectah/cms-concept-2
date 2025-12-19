@@ -1,4 +1,4 @@
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { IconUserSquare } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { IconButtonPlus } from '../ui';
 
@@ -7,7 +7,7 @@ const ProfileToggle = () => {
 
   return (
     <IconButtonPlus tooltip="Profile" onClick={() => setProfileDialog(true)}>
-      <AccountBoxIcon color="inherit" />
+      <IconUserSquare />
     </IconButtonPlus>
   );
 };

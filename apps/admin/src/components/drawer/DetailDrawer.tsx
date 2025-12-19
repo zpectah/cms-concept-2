@@ -1,6 +1,5 @@
 import { FieldValues } from 'react-hook-form';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-react';
 import { ControlledForm } from '../form';
 import { Button, DrawerBase, DrawerLayout, ButtonProps } from '../ui';
 import { DetailDrawerProps } from './types';
@@ -28,9 +27,9 @@ const DetailDrawer = <T extends FieldValues>({
   const drawerHeadingActions = [
     {
       children: context.fullscreen ? (
-        <FullscreenExitIcon />
+        <IconWindowMinimize />
       ) : (
-        <FullscreenIcon />
+        <IconWindowMaximize />
       ),
       onClick: () => context.onFullscreenToggle(),
       tooltip: context.fullscreen ? 'Exit fullscreen' : 'Open fullscreen',

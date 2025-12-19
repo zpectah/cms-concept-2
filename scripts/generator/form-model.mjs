@@ -116,7 +116,7 @@ export type I${componentName} = z.infer<typeof ${toCamelCase(componentName)}Sche
 
 export function formModelGenerator(name, target) {
   const componentName = name;
-  const targetPath = path;
+  const targetPath = target;
 
   if (!/^[A-Z][a-zA-Z0-9]*$/.test(componentName)) {
     console.error('Název komponenty musí být ve formátu PascalCase (např. MyComponent).');

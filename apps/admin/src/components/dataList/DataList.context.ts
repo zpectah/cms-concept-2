@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react';
 import { IDataListContext } from './types';
 import { dataListSortOrderKeys, dataListViewKeys } from './enums';
+import { dataListSortByDefault } from './constants';
 
 const defaultDataListContext: IDataListContext = {
   model: undefined,
@@ -23,7 +24,8 @@ const defaultDataListContext: IDataListContext = {
     types: [],
   },
   setFilter: () => null,
-  sortBy: 'id',
+  onFilterReset: () => null,
+  sortBy: dataListSortByDefault,
   orderBy: dataListSortOrderKeys.asc,
   onOrderBy: () => null,
   options: {
@@ -54,9 +56,17 @@ const defaultDataListContext: IDataListContext = {
     },
   },
   rowsLength: 0,
+  itemsLength: 0,
   activeOnly: false,
   showDeleted: false,
   onToggleShowDeleted: () => null,
+  selected: [],
+  setSelected: () => null,
+  onSelectRow: () => null,
+  onSelectAll: () => null,
+  onDeselect: () => null,
+  controlsOpen: false,
+  setControlsOpen: () => null,
 };
 
 export const DataListContext = createContext(defaultDataListContext);

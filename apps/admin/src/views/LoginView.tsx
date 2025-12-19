@@ -1,7 +1,10 @@
+import { lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getConfig } from '../config';
 import { CONTAINER_WIDTH_CENTERED } from '../constants';
 import { ViewLayout } from '../components';
+
+const LoginForm = lazy(() => import('../modules/Login/LoginForm/LoginForm'));
 
 const LoginView = () => {
   const { routes } = getConfig();
@@ -15,7 +18,7 @@ const LoginView = () => {
       rootUrl={routes.login.root}
       title={t('login.title')}
     >
-      ...LoginView...
+      <LoginForm />
     </ViewLayout>
   );
 };

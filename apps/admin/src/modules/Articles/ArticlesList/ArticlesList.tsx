@@ -1,6 +1,7 @@
 import { ArticlesItem } from '@model';
 import { DataList } from '../../../components';
 import { useViewContext } from '../../../contexts';
+import { ArticlesDetailForm } from '../ArticlesDetailForm';
 
 const mock_articles = [
   {
@@ -198,43 +199,53 @@ const ArticlesList = () => {
   const { model, rootUrl } = useViewContext();
 
   return (
-    <DataList<ArticlesItem>
-      model={model}
-      root={rootUrl}
-      rowActions={{
-        onDetail: (id) => console.log('on detail', id),
-        onDelete: (id) => console.log('on delete', id),
-        onToggle: (id) => console.log('on toggle', id),
-        onDeletePermanent: (id) => console.log('on delete permanent', id),
-      }}
-      selectedActions={{
-        onToggleSelected: (ids) => console.log('onToggleSelected', ids),
-        onDeleteSelected: (ids) => console.log('onDeleteSelected', ids),
-        onDeletePermanentSelected: (ids) =>
-          console.log('onDeletePermanentSelected', ids),
-      }}
-      items={[...mock_articles]}
-      tags={[...mock_tags]}
-      categories={[...mock_categories]}
-      columns={[
-        {
-          name: 'name',
-          isTitle: true,
-        },
-        {
-          name: 'type',
-          renderValue: (row) => row.type,
-        },
-        {
-          name: 'updated',
-          renderValue: (row) => row.updated,
-        },
-      ]}
-      keys={{
-        order: ['id', 'name', 'type', 'active'],
-        search: ['name', 'type'],
-      }}
-    />
+    <>
+      <DataList<ArticlesItem>
+        model={model}
+        root={rootUrl}
+        rowActions={{
+          onDetail: (id) => console.log('on detail', id),
+          onDelete: (id) => console.log('on delete', id),
+          onToggle: (id) => console.log('on toggle', id),
+          onDeletePermanent: (id) => console.log('on delete permanent', id),
+          onClone: (id) => console.log('on clone', id),
+          onApprove: (id) => console.log('on approve', id),
+          // TODO DEMO
+          onRead: (id) => console.log('on read', id),
+        }}
+        selectedActions={{
+          onToggleSelected: (ids) => console.log('onToggleSelected', ids),
+          onDeleteSelected: (ids) => console.log('onDeleteSelected', ids),
+          onDeletePermanentSelected: (ids) =>
+            console.log('onDeletePermanentSelected', ids),
+          onApproveSelected: (ids) => console.log('onApproveSelected', ids),
+          // TODO DEMO
+          onReadSelected: (ids) => console.log('onReadSelected', ids),
+        }}
+        items={[...mock_articles]}
+        tags={[...mock_tags]}
+        categories={[...mock_categories]}
+        columns={[
+          {
+            name: 'name',
+            isTitle: true,
+          },
+          {
+            name: 'type',
+            renderValue: (row) => row.type,
+          },
+          {
+            name: 'updated',
+            renderValue: (row) => row.updated,
+          },
+        ]}
+        keys={{
+          order: ['id', 'name', 'type', 'active'],
+          search: ['name', 'type'],
+        }}
+      />
+      <ArticlesDetailForm />
+    </>
   );
 };
 

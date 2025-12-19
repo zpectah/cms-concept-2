@@ -1,8 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, MenuItem } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import { IconMenu, IconX } from '@tabler/icons-react';
 import { useMenuItems } from '../../hooks';
 import { IconButtonPlus } from '../ui';
 
@@ -28,7 +27,7 @@ const MainMenu = () => {
         onClick={openHandler}
         tooltip="Main menu"
       >
-        {open ? <CloseIcon color="inherit" /> : <MenuIcon color="inherit" />}
+        {open ? <IconX /> : <IconMenu />}
       </IconButtonPlus>
       <Menu
         id="main-menu"

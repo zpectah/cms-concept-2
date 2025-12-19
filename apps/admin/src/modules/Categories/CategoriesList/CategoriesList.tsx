@@ -1,5 +1,12 @@
+import { CategoriesDetailForm } from '../CategoriesDetailForm';
+
 const CategoriesList = () => {
-  return <>...CategoriesList...</>;
+  return (
+    <>
+      ...CategoriesList...
+      <CategoriesDetailForm />
+    </>
+  );
 };
 
 export default CategoriesList;

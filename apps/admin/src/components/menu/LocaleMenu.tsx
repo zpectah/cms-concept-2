@@ -1,7 +1,6 @@
 import { useState, MouseEvent } from 'react';
 import { Menu, MenuItem } from '@mui/material';
-import TranslateIcon from '@mui/icons-material/Translate';
-import CloseIcon from '@mui/icons-material/Close';
+import { IconLanguage, IconX } from '@tabler/icons-react';
 import { getConfig } from '../../config';
 import { useLocale, useMenuItems } from '../../hooks';
 import { IconButtonPlus } from '../ui';
@@ -37,11 +36,7 @@ const LocaleMenu = () => {
         onClick={openHandler}
         tooltip="Locale menu"
       >
-        {open ? (
-          <CloseIcon color="inherit" />
-        ) : (
-          <TranslateIcon color="inherit" />
-        )}
+        {open ? <IconX /> : <IconLanguage />}
       </IconButtonPlus>
       <Menu
         id="locale-menu"

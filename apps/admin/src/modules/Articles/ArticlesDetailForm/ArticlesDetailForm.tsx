@@ -13,7 +13,7 @@ const ArticlesDetailForm = () => {
       onClose={onClose}
       onSubmit={onSubmit}
     >
-      <>...ArticlesDetailForm...</>
+      <>...ArticlesDetailForm...id: {id}</>
     </DetailDrawer>
   );
 };

@@ -1,4 +1,4 @@
-import LogoutIcon from '@mui/icons-material/Logout';
+import { IconLogout } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { IconButtonPlus } from '../ui';
 
@@ -20,7 +20,7 @@ const LogoutTrigger = () => {
         });
       }}
     >
-      <LogoutIcon color="inherit" />
+      <IconLogout />
     </IconButtonPlus>
   );
 };

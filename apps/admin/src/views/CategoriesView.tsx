@@ -1,16 +1,8 @@
-import { lazy } from 'react';
+import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { modelKeys } from '@model';
 import { getConfig } from '../config';
-import { ViewLayout } from '../components';
-
-const CategoriesList = lazy(
-  () => import('../modules/Categories/CategoriesList/CategoriesList')
-);
-const CategoriesDetailForm = lazy(
-  () =>
-    import('../modules/Categories/CategoriesDetailForm/CategoriesDetailForm')
-);
+import { NewItemButton, ViewLayout } from '../components';
 
 const CategoriesView = () => {
   const { routes } = getConfig();
@@ -22,9 +14,9 @@ const CategoriesView = () => {
       model={modelKeys.categories}
       rootUrl={routes.categories.root}
       title={t('categories.title')}
+      titleSlot={<NewItemButton model={modelKeys.categories} />}
     >
-      <CategoriesList />
-      <CategoriesDetailForm />
+      <Outlet />
     </ViewLayout>
   );
 };

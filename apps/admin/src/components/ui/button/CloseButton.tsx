@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 import { IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { IconX } from '@tabler/icons-react';
 import { CloseButtonProps } from './types';
 
 const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(
@@ -9,7 +9,7 @@ const CloseButton = forwardRef<HTMLButtonElement, CloseButtonProps>(
 
     return (
       <IconButton ref={ref} {...rest}>
-        <CloseIcon />
+        <IconX />
       </IconButton>
     );
   }

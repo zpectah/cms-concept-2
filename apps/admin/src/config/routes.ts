@@ -1,60 +1,62 @@
+const detailIdSuffix = 'id/:id';
+
 export const routes = {
   base: {
     root: '/',
   },
   articles: {
     root: '/articles',
-    detail: 'id/:id', // TODO: test
+    detail: detailIdSuffix,
   },
   categories: {
     root: '/categories',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   customFields: {
     root: '/custom-fields',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   files: {
     root: '/files',
-    detail: ':id',
+    detail: detailIdSuffix,
+    upload: 'id/new',
   },
   members: {
     root: '/members',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   menu: {
     root: '/menu',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   messages: {
     root: '/messages',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   pages: {
     root: '/pages',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   settings: {
     root: '/settings',
-    panel: ':panel',
     panels: {
-      global: 'global',
-      client: 'client',
-      locales: 'locales',
-      blacklist: 'blacklist',
+      global: 'panel/global',
+      client: 'panel/client',
+      locales: 'panel/locales',
+      blacklist: 'panel/blacklist',
     },
   },
   tags: {
     root: '/tags',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   translations: {
     root: '/translations',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   users: {
     root: '/users',
-    detail: ':id',
+    detail: detailIdSuffix,
   },
   dashboard: {
     root: '/dashboard',
@@ -64,7 +66,7 @@ export const routes = {
   },
   passwordRecovery: {
     root: '/password-recovery',
-    token: ':token',
+    token: 'token/:token',
   },
   demo: {
     root: '/demo',

@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack, Card, CardContent } from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconChevronLeftPipe,
+  IconChevronRightPipe,
+} from '@tabler/icons-react';
 import { IconButtonPlus, IconButtonPlusProps } from '../ui';
 import { useDataListContext } from './DataList.context';
 
@@ -49,7 +51,7 @@ const DataListPagination = () => {
   }, [pages, page]);
 
   return (
-    <div id="DataListPagination">
+    <div id="data-list-pagination">
       <Card>
         <CardContent>
           <Stack
@@ -65,7 +67,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.first}
                 {...commonButtonProps}
               >
-                <FirstPageIcon />
+                <IconChevronLeftPipe />
               </IconButtonPlus>
               <IconButtonPlus
                 tooltip={t('button.prevPage')}
@@ -73,7 +75,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.prev}
                 {...commonButtonProps}
               >
-                <ChevronLeftIcon />
+                <IconChevronLeft />
               </IconButtonPlus>
             </Stack>
             <Stack direction="row" gap={2}>
@@ -86,7 +88,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.next}
                 {...commonButtonProps}
               >
-                <ChevronRightIcon />
+                <IconChevronRight />
               </IconButtonPlus>
               <IconButtonPlus
                 tooltip={t('button.lastPage')}
@@ -94,7 +96,7 @@ const DataListPagination = () => {
                 disabled={disabledButton.last}
                 {...commonButtonProps}
               >
-                <LastPageIcon />
+                <IconChevronRightPipe />
               </IconButtonPlus>
             </Stack>
           </Stack>

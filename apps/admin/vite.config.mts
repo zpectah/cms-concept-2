@@ -31,7 +31,8 @@ export default defineConfig(() => ({
         manualChunks: {
           emotion: ['@emotion/react', '@emotion/styled'],
           i18n: ['i18next', 'i18next-http-backend', 'react-i18next', 'i18next-browser-languagedetector'],
-          mui: ['@mui/icons-material', '@mui/material', '@mui/x-date-pickers'],
+          mui: ['@mui/material', '@mui/x-date-pickers'],
+          icons: ['@tabler/icons-react'],
           react: ['react', 'react-dom', 'react-router-dom'],
           form: ['react-hook-form', '@hookform/resolvers'],
           data: ['axios', 'zod', 'zustand'],

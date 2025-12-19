@@ -15,7 +15,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
       ref={ref}
       displayEmpty
       renderValue={(value: unknown) => {
-        if (!value) {
+        if (!value || (value as (number | string)[]).length === 0) {
           return (
             <Typography
               sx={({ palette }) => ({

@@ -4,7 +4,19 @@
     "firstPage": "First page",
     "prevPage": "Previous page",
     "nextPage": "Next page",
-    "lastPage": "Last page"
+    "lastPage": "Last page",
+    "new": {
+      "articles": "New articles",
+      "categories": "New category",
+      "customFields": "New custom field",
+      "files": "New file",
+      "members": "New member",
+      "menu": "New menu",
+      "pages": "New page",
+      "tags": "New tag",
+      "translations": "New translation",
+      "users": "New user"
+    }
   },
   "label": {
     "first": "First",

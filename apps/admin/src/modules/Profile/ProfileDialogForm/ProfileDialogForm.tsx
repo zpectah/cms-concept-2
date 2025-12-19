@@ -1,5 +1,3 @@
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { useAppStore } from '../../../store';
 import { PROFILE_DRAWER_WIDTH_DEFAULT } from '../../../constants';
 import { Button, Drawer } from '../../../components';
@@ -16,18 +14,6 @@ const ProfileDialogForm = () => {
       open={profileDialog}
       onClose={() => setProfileDialog(false)}
       title="Profile drawer title"
-      titleActions={[
-        {
-          children: <FullscreenIcon />,
-          onClick: () => console.log('test'),
-          disabled: true,
-        },
-        {
-          children: <FullscreenExitIcon />,
-          onClick: () => console.log('test'),
-          tooltip: 'Tooltip text',
-        },
-      ]}
       actions={
         <>
           <Button>Button</Button>

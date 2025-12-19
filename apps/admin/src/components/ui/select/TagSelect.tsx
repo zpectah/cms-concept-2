@@ -1,29 +1,31 @@
 import { forwardRef, ForwardedRef } from 'react';
-import { styled, Stack } from '@mui/material';
+import { styled, Stack, Chip } from '@mui/material';
 import { OptionItem, TagSelectProps } from './types';
-import { Button } from '../button';
+import { Label } from '../label';
 
 const SelectWrapper = styled(Stack)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
   flexDirection: 'row',
+  flexWrap: 'wrap',
   gap: theme.spacing(1),
 }));
 
 const TagSelect = forwardRef(
   <T = string | number,>(
     props: TagSelectProps<T>,
-    ref: ForwardedRef<HTMLButtonElement>
+    ref: ForwardedRef<HTMLDivElement>
   ) => {
     const {
       options = [],
-      buttonProps,
       value,
       defaultValue,
       onChange,
       disabled,
       multiple,
       renderSelectedValue,
+      renderSelectedIcon,
+      label,
     } = props;
 
     const singleValue = defaultValue ? (defaultValue as T) : (value as T);
@@ -51,31 +53,43 @@ const TagSelect = forwardRef(
     };
 
     return (
-      <SelectWrapper>
-        {options.map((option, index) => {
-          const itemIsSelected = multiple
-            ? isSelected(option.value, multipleValue as (string | number)[])
-            : option.value === singleValue;
-          const itemRef = index === 0 ? ref : undefined;
+      <Stack direction="column" gap={0.5} ref={ref}>
+        {label && <Label>{label}</Label>}
+        <SelectWrapper>
+          {options.map((option, index) => {
+            const itemIsSelected = multiple
+              ? isSelected(option.value, multipleValue as (string | number)[])
+              : option.value === singleValue;
 
-          if (option.hidden) return null;
+            const icon = () => {
+              if (renderSelectedIcon && itemIsSelected)
+                return (
+                  <span>{renderSelectedIcon(option as OptionItem<T>)}</span>
+                );
 
-          return (
-            <Button
-              key={index}
-              onClick={() => itemClickHandler(option.value as T)}
-              disabled={disabled || option.disabled}
-              variant={itemIsSelected ? 'contained' : 'outlined'}
-              ref={itemRef}
-              {...buttonProps}
-            >
-              {renderSelectedValue && itemIsSelected
-                ? renderSelectedValue(option as OptionItem<T>)
-                : option.label}
-            </Button>
-          );
-        })}
-      </SelectWrapper>
+              return undefined;
+            };
+
+            if (option.hidden) return null;
+
+            return (
+              <Chip
+                key={index}
+                onClick={() => itemClickHandler(option.value as T)}
+                disabled={disabled || option.disabled}
+                variant={itemIsSelected ? 'filled' : 'outlined'}
+                size="small"
+                icon={icon()}
+                label={
+                  renderSelectedValue && itemIsSelected
+                    ? renderSelectedValue(option as OptionItem<T>)
+                    : option.label
+                }
+              />
+            );
+          })}
+        </SelectWrapper>
+      </Stack>
     );
   }
 );

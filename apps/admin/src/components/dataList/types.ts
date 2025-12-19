@@ -59,6 +59,7 @@ export interface UseDataListProps<T extends CommonModelItem> {
   categories?: Categories;
   tags?: Tags;
   activeOnly: boolean;
+  onSelect?: (selected: number[]) => void;
 }
 
 export interface UseDataListPaginationProps<T extends CommonModelItem> {
@@ -105,6 +106,8 @@ export interface DataListProps<T extends CommonModelItem> {
   };
   /** Disable toggling between active and deleted items */
   activeOnly?: boolean;
+  /** Callback when selected field is changed */
+  onSelect?: (selected: number[]) => void;
 }
 
 interface ViewCommon<T extends CommonModelItem> {
@@ -127,6 +130,7 @@ export interface IDataListContext {
   setQuery: (query: string) => void;
   filter: DataListFilter;
   setFilter: (filter: DataListFilter) => void;
+  onFilterReset: () => void;
   onOrderBy: (key: string) => void;
   sortBy: string;
   orderBy: string;
@@ -142,7 +146,15 @@ export interface IDataListContext {
   };
   pagination: DataListPagination;
   rowsLength: number;
+  itemsLength: number;
   activeOnly: boolean;
   showDeleted: boolean;
   onToggleShowDeleted: () => void;
+  selected: number[];
+  setSelected: (selected: number[]) => void;
+  onSelectRow: (id: number) => void;
+  onSelectAll: () => void;
+  onDeselect: () => void;
+  controlsOpen: boolean;
+  setControlsOpen: (open: boolean) => void;
 }

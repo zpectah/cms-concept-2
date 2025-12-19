@@ -1,15 +1,8 @@
-import { lazy } from 'react';
+import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { modelKeys } from '@model';
 import { getConfig } from '../config';
-import { LinkButton, ViewLayout } from '../components';
-
-const ArticlesList = lazy(
-  () => import('../modules/Articles/ArticlesList/ArticlesList')
-);
-const ArticlesDetailForm = lazy(
-  () => import('../modules/Articles/ArticlesDetailForm/ArticlesDetailForm')
-);
+import { ViewLayout, NewItemButton } from '../components';
 
 const ArticlesView = () => {
   const { routes } = getConfig();
@@ -21,18 +14,9 @@ const ArticlesView = () => {
       model={modelKeys.articles}
       rootUrl={routes.articles.root}
       title={t('articles.title')}
-      titleSlot={
-        <LinkButton
-          variant="contained"
-          color="success"
-          to={`${routes.articles.root}/id/new`}
-        >
-          + {t('articles.new')}
-        </LinkButton>
-      }
+      titleSlot={<NewItemButton model={modelKeys.articles} />}
     >
-      <ArticlesList />
-      <ArticlesDetailForm />
+      <Outlet />
     </ViewLayout>
   );
 };

@@ -25,6 +25,7 @@ export interface ViewLayoutProps extends WithChildren {
   titleSlot?: ReactNode;
   rootUrl: string | null;
   model?: ModelNames;
+  navigationSlot?: ReactNode;
 }
 
 export interface HeaderProps {

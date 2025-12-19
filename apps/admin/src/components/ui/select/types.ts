@@ -42,8 +42,9 @@ export type SelectProps = Omit<MuiSelectProps, 'label' | 'helperText'> &
 export type TagSelectProps<T = string | number> = SelectOptionsProps &
   SelectBase<T> & {
     disabled?: boolean;
-    buttonProps?: Partial<ButtonProps>;
     renderSelectedValue?: (option: OptionItem<T>) => ReactNode;
+    renderSelectedIcon?: (option: OptionItem<T>) => ReactNode;
+    label?: string;
   };
 
 export interface ButtonSelectProps extends SelectOptionsProps {

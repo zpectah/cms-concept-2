@@ -4,12 +4,13 @@ import {
   UseDataListPaginationProps,
   UseDataListPaginationReturn,
 } from './types';
+import { dataListRowsPerPageDefault } from './constants';
 
 export const useDataListPagination = <T extends CommonModelItem>({
   rows,
 }: UseDataListPaginationProps<T>): UseDataListPaginationReturn<T> => {
   const [page, setPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(10);
+  const [perPage, setPerPage] = useState<number>(dataListRowsPerPageDefault);
 
   const pages = useMemo(
     () => Math.max(1, Math.ceil(rows.length / perPage)),
