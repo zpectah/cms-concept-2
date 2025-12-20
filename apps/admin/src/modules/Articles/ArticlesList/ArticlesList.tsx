@@ -204,7 +204,8 @@ const ArticlesList = () => {
         model={model}
         root={rootUrl}
         rowActions={{
-          onDetail: (id) => console.log('on detail', id),
+          // onDetail: (id) => console.log('on detail callback', id),
+          onDetail: true,
           onDelete: (id) => console.log('on delete', id),
           onToggle: (id) => console.log('on toggle', id),
           onDeletePermanent: (id) => console.log('on delete permanent', id),

@@ -14,7 +14,7 @@ export type DataListView = keyof typeof dataListViewKeys;
 export type DataListSortOrder = keyof typeof dataListSortOrderKeys;
 
 interface DataListRowAction {
-  onDetail?: (id: number) => void;
+  onDetail?: boolean | ((id: number) => void);
   onToggle?: (id: number) => void;
   onDelete?: (id: number) => void;
   onDeletePermanent?: (id: number) => void;
@@ -22,7 +22,7 @@ interface DataListRowAction {
   onClone?: (id: number) => void;
   onApprove?: (id: number) => void;
   // For Messages
-  onRead?: (id: string) => void;
+  onRead?: (id: number) => void;
 }
 
 interface DataListSelectedActions {

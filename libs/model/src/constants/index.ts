@@ -9,7 +9,7 @@ export * from './members';
 export * from './menu';
 export * from './menuItems';
 export * from './messages';
-// export * from './model';
+export * from './model';
 export * from './pages';
 export * from './requests';
 // export * from './settings';

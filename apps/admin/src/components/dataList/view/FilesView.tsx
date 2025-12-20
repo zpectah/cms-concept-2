@@ -1,15 +1,14 @@
-import { CommonModelItemProps, ContentModelNames } from '@model';
+import { CommonModelItemProps } from '@model';
 import { classNames } from '../../../utils';
-import { FavoriteStar } from '../../button';
 import { FilesViewProps } from '../types';
 import { useDataListContext } from '../DataList.context';
+import { useDataListView } from './useDataListView';
 
 const FilesView = <T extends CommonModelItemProps>({
   rows,
 }: FilesViewProps<T>) => {
   const { model } = useDataListContext();
-
-  if (!model) return null;
+  const { renderFavoriteStar, renderRowActions } = useDataListView();
 
   return (
     <div id="data-list-files-view" className={classNames(`model--${model}`)}>
@@ -17,11 +16,9 @@ const FilesView = <T extends CommonModelItemProps>({
       <div>
         {rows.map((row) => (
           <div key={row.id}>
-            <FavoriteStar
-              model={model as ContentModelNames}
-              id={Number(row.id)}
-            />
+            {renderFavoriteStar(row.id)}
             {row.name}
+            {renderRowActions(row.id)}
           </div>
         ))}
       </div>
