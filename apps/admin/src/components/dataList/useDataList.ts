@@ -185,8 +185,6 @@ export const useDataList = <T extends CommonModelItem>({
     onSelect?.(newSelected);
   }, [rows, selected, onSelect]);
 
-  const deselectHandler = () => setSelected([]);
-
   const showDeletedHandler = useCallback(() => {
     if (activeOnly) return;
 
@@ -215,7 +213,7 @@ export const useDataList = <T extends CommonModelItem>({
     setSelected,
     onSelectRow: selectRowHandler,
     onSelectAll: selectAllHandler,
-    onDeselect: deselectHandler,
+    onDeselect: () => setSelected([]),
     controlsOpen,
     setControlsOpen,
   };

@@ -1,5 +1,11 @@
 import { ReactNode } from 'react';
-import { Categories, CommonModelItem, ModelNames, Tags } from '@model';
+import {
+  Categories,
+  CommonModelItem,
+  CommonModelItemProps,
+  ModelNames,
+  Tags,
+} from '@model';
 import { ModelActions } from '../../types';
 import { dataListSortOrderKeys, dataListViewKeys } from './enums';
 
@@ -53,7 +59,7 @@ export interface DataListFilter {
   types: string[];
 }
 
-export interface UseDataListProps<T extends CommonModelItem> {
+export interface UseDataListProps<T extends CommonModelItemProps> {
   items: T[];
   searchKeys: (keyof T)[];
   categories?: Categories;
@@ -62,16 +68,16 @@ export interface UseDataListProps<T extends CommonModelItem> {
   onSelect?: (selected: number[]) => void;
 }
 
-export interface UseDataListPaginationProps<T extends CommonModelItem> {
+export interface UseDataListPaginationProps<T extends CommonModelItemProps> {
   rows: T[];
 }
 
-export type UseDataListPaginationReturn<T extends CommonModelItem> =
+export type UseDataListPaginationReturn<T extends CommonModelItemProps> =
   DataListPagination & {
     rows: T[];
   };
 
-export interface DataListColumnProps<T extends CommonModelItem> {
+export interface DataListColumnProps<T extends CommonModelItemProps> {
   name: keyof T;
   isTitle?: boolean;
   label?: string;
@@ -110,14 +116,14 @@ export interface DataListProps<T extends CommonModelItem> {
   onSelect?: (selected: number[]) => void;
 }
 
-interface ViewCommon<T extends CommonModelItem> {
+interface ViewCommon<T extends CommonModelItemProps> {
   rows: T[];
   columns: DataListColumnProps<T>[];
 }
 
-export type TableViewProps<T extends CommonModelItem> = ViewCommon<T>;
+export type TableViewProps<T extends CommonModelItemProps> = ViewCommon<T>;
 
-export type FilesViewProps<T extends CommonModelItem> = ViewCommon<T>;
+export type FilesViewProps<T extends CommonModelItemProps> = ViewCommon<T>;
 
 export interface IDataListContext {
   model: ModelNames | undefined;

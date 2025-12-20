@@ -1,2 +1,2 @@
 export const LOCALE_STORAGE_KEY = 'i18nextLng';
-export const THEME_MODE_KEY = 'mui-mode';
+export const MODEL_FAVORITES_KEY = 'cmsFavorites';

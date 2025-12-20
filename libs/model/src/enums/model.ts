@@ -1,18 +1,25 @@
-export const modelKeys = {
+export const contentModelKeys = {
   articles: 'articles',
-  blacklist: 'blacklist',
   categories: 'categories',
-  comments: 'comments',
   customFields: 'customFields',
   files: 'files',
-  members: 'members',
   menu: 'menu',
   menuItems: 'menuItems',
-  messages: 'messages',
   pages: 'pages',
-  requests: 'requests',
-  settings: 'settings',
   tags: 'tags',
   translations: 'translations',
+} as const;
+
+export const systemModelKeys = {
+  blacklist: 'blacklist',
+  comments: 'comments',
+  members: 'members',
+  messages: 'messages',
+  requests: 'requests',
   users: 'users',
+} as const;
+
+export const modelKeys = {
+  ...contentModelKeys,
+  ...systemModelKeys,
 } as const;
