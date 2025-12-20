@@ -7,6 +7,51 @@ const theme = createTheme({
   palette: {},
   typography: {
     fontFamily: '"Open Sans", sans-serif',
+    h1: {
+      fontSize: '2rem',
+      fontWeight: 800,
+      letterSpacing: '-.025em',
+    },
+    h2: {
+      fontSize: '1.8rem',
+      fontWeight: 700,
+    },
+    h3: {
+      fontSize: '1.6rem',
+      fontWeight: 700,
+    },
+    h4: {
+      fontSize: '1.45rem',
+      fontWeight: 700,
+    },
+    h5: {
+      fontSize: '1.3rem',
+      fontWeight: 600,
+    },
+    h6: {
+      fontSize: '1.15rem',
+      fontWeight: 600,
+    },
+    subtitle1: {
+      fontWeight: 300,
+    },
+    subtitle2: {
+      fontWeight: 300,
+      textTransform: 'uppercase',
+    },
+    body1: {
+      // fontSize: '1rem',
+      // fontWeight: 400,
+    },
+    body2: {
+      fontSize: '.925rem',
+    },
+    caption: {},
+    button: {
+      fontSize: '.9rem',
+      fontWeight: 700,
+      textTransform: 'none',
+    },
   },
   components: {
     MuiCssBaseline: {
@@ -68,6 +113,9 @@ const theme = createTheme({
       },
     },
     MuiFormLabel: {},
+    MuiTextField: {
+      defaultProps: {},
+    },
   },
 });
 

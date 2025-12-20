@@ -30,7 +30,7 @@ const ContainerContent = styled('div')(({ theme }) => ({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(SPACING.body),
+  gap: theme.spacing(SPACING.content),
 }));
 
 const ViewHeading = styled('div')(({ theme }) => ({
@@ -38,6 +38,7 @@ const ViewHeading = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(SPACING.heading),
   display: 'flex',
   flexDirection: 'column',
+  gap: theme.spacing(SPACING.heading),
 }));
 
 const NavigationSlot = styled('div')(({ theme }) => ({

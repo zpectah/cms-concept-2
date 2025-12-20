@@ -7,7 +7,7 @@ import {
   IconChevronLeftPipe,
   IconChevronRightPipe,
 } from '@tabler/icons-react';
-import { IconButtonPlus, IconButtonPlusProps } from '../ui';
+import { Button, IconButtonPlus, IconButtonPlusProps } from '../ui';
 import { useDataListContext } from './DataList.context';
 
 const DataListPagination = () => {
@@ -27,26 +27,44 @@ const DataListPagination = () => {
 
   const commonButtonProps: Partial<IconButtonPlusProps> = {
     size: 'small',
-    // variant: 'outlined',
-    // tooltipProps: { openDelay: 750 },
   };
 
   const renderPages = useMemo(() => {
-    return [...Array(pages)].map((_, i) => {
-      const p = i + 1;
+    const pageNumbers: (string | number)[] = [];
+    const range = 2;
+
+    for (let i = 1; i <= pages; i++) {
+      if (i === 1 || i === pages || (i >= page - range && i <= page + range)) {
+        pageNumbers.push(i);
+      } else if (i === page - range - 1 || i === page + range + 1) {
+        pageNumbers.push('...');
+      }
+    }
+
+    return pageNumbers.map((p, index) => {
+      if (p === '...') {
+        return (
+          <span key={`ellipsis-${index}`} style={{ padding: '0 8px' }}>
+            ...
+          </span>
+        );
+      }
 
       return (
-        <IconButtonPlus
-          key={`${p}`}
-          onClick={() => onPageChange(p)}
-          // variant={p === page ? 'outline' : 'ghost'}
+        <Button
+          key={p}
+          onClick={() => onPageChange(p as number)}
+          variant={p === page ? 'contained' : 'text'}
+          color="inherit"
           size="small"
           disabled={pages <= 1}
+          sx={{ minWidth: 'auto', pl: 1.75, pr: 1.75 }}
         >
           {p}
-        </IconButtonPlus>
+        </Button>
       );
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pages, page]);
 

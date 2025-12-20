@@ -7,7 +7,7 @@ interface LogoProps {
 }
 
 const Wrapper = styled('span')(({ theme }) => ({
-  ...theme.typography.h5,
+  ...theme.typography.h4,
   fontWeight: 900,
   padding: 0,
   lineHeight: 0,
@@ -18,7 +18,7 @@ const Wrapper = styled('span')(({ theme }) => ({
 }));
 
 const WrapperLink = styled(Link)(({ theme }) => ({
-  ...theme.typography.h5,
+  ...theme.typography.h4,
   fontWeight: 900,
   padding: 0,
   lineHeight: 0,

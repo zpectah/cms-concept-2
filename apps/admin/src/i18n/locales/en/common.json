@@ -42,5 +42,11 @@
     "tags": "Tags",
     "translations": "Translations",
     "users": "Users"
+  },
+  "panels": {
+    "global": "Global",
+    "client": "Client",
+    "languages": "Languages",
+    "blacklist": "Blacklist"
   }
 }

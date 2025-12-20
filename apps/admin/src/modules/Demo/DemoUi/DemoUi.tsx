@@ -39,7 +39,8 @@ const DemoUi = () => {
       </Stack>
 
       <Stack gap={2}>
-        <Typography>
+        <Typography variant="body1">
+          body1 <br />
           Libero pharetra justo id libero tellus mauris magna euismod elit
           viverra tincidunt tellus molestie libero. Purus pulvinar viverra
           sollicitudin ut tincidunt tortor sagittis massa integer a nec diam
@@ -48,7 +49,9 @@ const DemoUi = () => {
           neque placerat eleifend hendrerit orci ultrices purus neque diam fusce
           eleifend tortor. Hendrerit at risus sit neque suspendisse placerat
           viverra ex dapibus neque integer ultricies ultrices amet.
-          <br />
+        </Typography>
+        <Typography variant="body2">
+          body2 <br />
           Risus integer purus tortor pulvinar justo ut sem facilisis sagittis
           aliquam diam dignissim sagittis blandit. Pharetra tristique massa ex
           nec justo faucibus dignissim magna sagittis pulvinar hendrerit a
@@ -59,6 +62,7 @@ const DemoUi = () => {
           placerat sagittis commodo id a eget mauris ex purus aliquam.
         </Typography>
         <Typography variant="subtitle1">
+          subtitle1 <br />
           Euismod molestie sit ex amet ac nunc donec vehicula blandit eleifend
           diam metus tellus diam. Amet vestibulum integer tortor blandit dapibus
           placerat a congue blandit metus efficitur sapien non sapien. Dolor
@@ -71,6 +75,7 @@ const DemoUi = () => {
           praesent donec facilisis ultricies.
         </Typography>
         <Typography variant="subtitle2">
+          subtitle2 <br />
           Adipiscing blandit dignissim curabitur purus sed sapien pharetra risus
           malesuada tincidunt aliquam integer facilisis pellentesque. Malesuada
           bibendum pharetra justo nunc libero sagittis nunc molestie tristique
@@ -83,6 +88,7 @@ const DemoUi = () => {
           adipiscing ac cursus tortor mauris.
         </Typography>
         <Typography variant="caption">
+          caption <br />
           Sit sagittis efficitur hendrerit sem vestibulum quis tincidunt
           facilisis ultricies integer tortor a nec ac. Risus sed dapibus lorem
           pulvinar integer sed a pellentesque ac mauris molestie sapien nisi
