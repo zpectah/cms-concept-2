@@ -28,7 +28,7 @@
   "routes": {
     "articles": "Articles",
     "categories": "Categories",
-    "custom-fields": "Custom fields",
+    "customFields": "Custom fields",
     "dashboard": "Dashboard",
     "demo": "Demo",
     "files": "Files",
@@ -37,7 +37,7 @@
     "menu": "Menu",
     "messages": "Messages",
     "pages": "Pages",
-    "password-recovery": "Password recovery",
+    "passwordRecovery": "Password recovery",
     "settings": "Settings",
     "tags": "Tags",
     "translations": "Translations",

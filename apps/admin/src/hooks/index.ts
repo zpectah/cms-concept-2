@@ -1,3 +1,4 @@
+export * from './useBreadcrumbs';
 export * from './useLocale';
 export * from './useMenuItems';
 export * from './useModelFavorites';

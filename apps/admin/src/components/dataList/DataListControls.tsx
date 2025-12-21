@@ -6,14 +6,14 @@ import {
   IconSquareDashed,
   IconSquareDot,
   IconSquareCheck,
-  IconBook,
   IconEye,
-  IconShieldCheck,
+  IconRosette,
   IconTrash,
   IconTrashX,
   IconGhost3,
   IconGhostOff,
   IconAdjustments,
+  IconVocabulary,
 } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useUserActions } from '../../hooks';
@@ -54,6 +54,8 @@ const DataListControls = () => {
     controlsOpen,
     setControlsOpen,
   } = useDataListContext();
+
+  const iconSize = '1.25rem';
 
   const orderByActive = useMemo(
     () => keys?.order && keys?.order.length,
@@ -172,9 +174,11 @@ const DataListControls = () => {
 
   const renderActions = useMemo(() => {
     const selectCheckIcon = {
-      [dataListCheckboxStateKeys.none]: <IconSquareDashed />,
-      [dataListCheckboxStateKeys.checked]: <IconSquareCheck />,
-      [dataListCheckboxStateKeys.indeterminate]: <IconSquareDot />,
+      [dataListCheckboxStateKeys.none]: <IconSquareDashed size={iconSize} />,
+      [dataListCheckboxStateKeys.checked]: <IconSquareCheck size={iconSize} />,
+      [dataListCheckboxStateKeys.indeterminate]: (
+        <IconSquareDot size={iconSize} />
+      ),
     };
 
     const actions = [
@@ -189,7 +193,11 @@ const DataListControls = () => {
       {
         id: 'deleted',
         label: 'Show deleted',
-        icon: showDeleted ? <IconGhostOff /> : <IconGhost3 />,
+        icon: showDeleted ? (
+          <IconGhostOff size={iconSize} />
+        ) : (
+          <IconGhost3 size={iconSize} />
+        ),
         onClick: onToggleShowDeleted,
         disabled: false,
         hidden: !userActions.deletePermanent,
@@ -197,7 +205,7 @@ const DataListControls = () => {
       {
         id: 'toggle',
         label: `Toggle ${selected.length} selected items`,
-        icon: <IconEye />,
+        icon: <IconEye size={iconSize} />,
         onClick: () => selectedActions?.onToggleSelected?.(selected),
         disabled: selected.length === 0 || !userActions.modify,
         hidden: !selectedActions?.onToggleSelected,
@@ -207,7 +215,7 @@ const DataListControls = () => {
       {
         id: 'approve',
         label: `Approve ${selected.length} selected items`,
-        icon: <IconShieldCheck />,
+        icon: <IconRosette size={iconSize} />,
         onClick: () => selectedActions?.onApproveSelected?.(selected),
         disabled: selected.length === 0 || !userActions.approve,
         hidden: !selectedActions?.onApproveSelected,
@@ -217,7 +225,7 @@ const DataListControls = () => {
       {
         id: 'read',
         label: `Mark read ${selected.length} selected items`,
-        icon: <IconBook />,
+        icon: <IconVocabulary size={iconSize} />,
         onClick: () => selectedActions?.onReadSelected?.(selected),
         disabled: selected.length === 0 || !userActions.modify,
         hidden: !selectedActions?.onReadSelected,
@@ -227,23 +235,20 @@ const DataListControls = () => {
       {
         id: 'delete',
         label: `Delete ${selected.length} selected items`,
-        icon: <IconTrash />,
+        icon: <IconTrash size={iconSize} />,
         onClick: deleteConfirmHandler,
         disabled: selected.length === 0 || !userActions.delete,
         hidden: !selectedActions?.onDeleteSelected,
-        color: 'error',
+        color: 'warning',
         badge: true,
       },
       {
         id: 'delete-permanent',
         label: `Permanent delete ${selected.length} selected items`,
-        icon: <IconTrashX />,
+        icon: <IconTrashX size={iconSize} />,
         onClick: deletePermanentConfirmHandler,
-        disabled: selected.length === 0,
-        hidden:
-          !selectedActions?.onDeletePermanentSelected ||
-          !userActions.deletePermanent ||
-          !showDeleted,
+        disabled: selected.length === 0 || !userActions.deletePermanent,
+        hidden: !selectedActions?.onDeletePermanentSelected || !showDeleted,
         color: 'error',
         badge: true,
       },
@@ -342,7 +347,7 @@ const DataListControls = () => {
                     tooltip="Open controls"
                     onClick={() => setControlsOpen(true)}
                   >
-                    <IconAdjustments />
+                    <IconAdjustments size={iconSize} />
                   </IconButtonPlus>
                 </Stack>
               </Grid>

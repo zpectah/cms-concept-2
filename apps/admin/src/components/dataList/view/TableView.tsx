@@ -8,8 +8,8 @@ import { useDataListView } from './useDataListView';
 const TableView = <T extends CommonModelItemProps>({
   rows,
 }: TableViewProps<T>) => {
-  const { model, root } = useDataListContext();
-  const { renderFavoriteStar, renderRowActions } = useDataListView();
+  const { model, root, onSelectRow } = useDataListContext();
+  const { renderFavoriteStar, renderRowActions } = useDataListView<T>();
 
   return (
     <div id="data-list-table-view" className={classNames(`model--${model}`)}>
@@ -18,9 +18,12 @@ const TableView = <T extends CommonModelItemProps>({
         {rows.map((row) => (
           <div key={row.id}>
             {renderFavoriteStar(row.id)}
+            <button onClick={() => onSelectRow(row.id as number)}>
+              select
+            </button>
             {row.name}
             <Link to={`${root}/id/${row.id}`}>detail</Link>
-            {renderRowActions(row.id)}
+            {renderRowActions(row)}
           </div>
         ))}
       </div>

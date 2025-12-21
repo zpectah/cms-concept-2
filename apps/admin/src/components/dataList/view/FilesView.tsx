@@ -7,8 +7,8 @@ import { useDataListView } from './useDataListView';
 const FilesView = <T extends CommonModelItemProps>({
   rows,
 }: FilesViewProps<T>) => {
-  const { model } = useDataListContext();
-  const { renderFavoriteStar, renderRowActions } = useDataListView();
+  const { model, onSelectRow } = useDataListContext();
+  const { renderFavoriteStar, renderRowActions } = useDataListView<T>();
 
   return (
     <div id="data-list-files-view" className={classNames(`model--${model}`)}>
@@ -17,8 +17,11 @@ const FilesView = <T extends CommonModelItemProps>({
         {rows.map((row) => (
           <div key={row.id}>
             {renderFavoriteStar(row.id)}
+            <button onClick={() => onSelectRow(row.id as number)}>
+              select
+            </button>
             {row.name}
-            {renderRowActions(row.id)}
+            {renderRowActions(row)}
           </div>
         ))}
       </div>

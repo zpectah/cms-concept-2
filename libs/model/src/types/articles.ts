@@ -10,6 +10,8 @@ export interface ArticlesItem extends ItemBase {
 
   tags: number[];
   categories: number[];
+
+  approved: boolean;
 }
 
 export type Articles = ArticlesItem[];

@@ -1,13 +1,37 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Stack } from '@mui/material';
-import { contentModelKeysArray, ContentModelNames } from '@model';
+import {
+  IconEye,
+  IconEyeCancel,
+  IconTrash,
+  IconTrashX,
+  IconTrashOff,
+  IconCopy,
+  IconVocabulary,
+  IconVocabularyOff,
+  IconRosette,
+  IconRosetteDiscountCheckFilled,
+  IconPencil,
+} from '@tabler/icons-react';
+import {
+  contentModelKeysArray,
+  ContentModelNames,
+  CommonModelItemProps,
+} from '@model';
+import { useAppStore } from '../../../store';
+import { useUserActions } from '../../../hooks';
+import { IconButtonPlus, IconButtonPlusProps } from '../../ui';
 import { FavoriteStar } from '../../button';
 import { useDataListContext } from '../DataList.context';
 
-export const useDataListView = () => {
+export const useDataListView = <T extends CommonModelItemProps>() => {
   const navigate = useNavigate();
+  const { setConfirmDialog } = useAppStore();
+  const { actions: userActions } = useUserActions();
   const { model, root, rowActions } = useDataListContext();
+
+  const iconSize = '1.25rem';
 
   const renderFavoriteStar = useCallback(
     (id: string | number | undefined) => {
@@ -39,108 +63,146 @@ export const useDataListView = () => {
 
   const deleteConfirmHandler = useCallback(
     (id: number) => {
-      console.log('confirm', id);
-
-      rowActions?.onDelete?.(id);
+      setConfirmDialog({
+        title: 'Confirm delete',
+        content: `Are you sure you want delete this item?`,
+        context: 'delete',
+        onConfirm: () => rowActions?.onDelete?.(id),
+      });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [rowActions]
   );
 
   const deletePermanentConfirmHandler = useCallback(
     (id: number) => {
-      console.log('confirm', id);
-
-      rowActions?.onDeletePermanent?.(id);
+      setConfirmDialog({
+        title: 'Confirm permanent delete',
+        content: `Are you sure you want permanent delete this item?`,
+        context: 'delete',
+        onConfirm: () => rowActions?.onDeletePermanent?.(id),
+      });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [rowActions]
   );
 
   const renderRowActions = useCallback(
-    (id: string | number | undefined) => {
-      if (!id) return null;
+    (row: T) => {
+      if (!row) return null;
 
       const actions = [
         {
           id: 'detail',
           label: 'Detail',
-          icon: <>ico</>,
+          icon: <IconPencil size={iconSize} />,
           onClick: (id: number) => detailHandler(id),
-          disabled: false,
+          disabled: !userActions.view,
           hidden: !rowActions?.onDetail,
+        },
+        {
+          id: 'clone',
+          label: 'Clone',
+          icon: <IconCopy size={iconSize} />,
+          onClick: (id: number) => rowActions?.onClone?.(id),
+          disabled: !userActions.create,
+          hidden: !rowActions?.onClone,
         },
         {
           id: 'toggle',
           label: 'Toggle',
-          icon: <>ico</>,
+          icon: row.active ? (
+            <IconEye size={iconSize} />
+          ) : (
+            <IconEyeCancel size={iconSize} />
+          ),
           onClick: (id: number) => rowActions?.onToggle?.(id),
-          disabled: false,
+          disabled: !userActions.modify,
           hidden: !rowActions?.onToggle,
-        },
-
-        {
-          id: 'clone',
-          label: 'Clone',
-          icon: <>ico</>,
-          onClick: (id: number) => rowActions?.onClone?.(id),
-          disabled: false,
-          hidden: !rowActions?.onClone,
+          color: 'primary',
         },
         {
           id: 'approve',
           label: 'Approve',
-          icon: <>ico</>,
+          icon: row?.approved ? (
+            <IconRosetteDiscountCheckFilled size={iconSize} />
+          ) : (
+            <IconRosette size={iconSize} />
+          ),
           onClick: (id: number) => rowActions?.onApprove?.(id),
-          disabled: false,
+          disabled: !userActions.approve,
           hidden: !rowActions?.onApprove,
+          color: 'primary',
         },
         {
           id: 'read',
           label: 'Read',
-          icon: <>ico</>,
+          icon: row?.read ? (
+            <IconVocabulary size={iconSize} />
+          ) : (
+            <IconVocabularyOff size={iconSize} />
+          ),
           onClick: (id: number) => rowActions?.onRead?.(id),
-          disabled: false,
-          hidden: !rowActions?.onRead,
+          disabled: !userActions.modify,
+          hidden: !rowActions?.onRead || !row?.read,
+          color: 'primary',
         },
-
         {
           id: 'delete',
-          label: 'Delete',
-          icon: <>ico</>,
+          label: row.deleted ? 'Undelete' : 'Delete',
+          icon: row.deleted ? (
+            <IconTrashOff size={iconSize} />
+          ) : (
+            <IconTrash size={iconSize} />
+          ),
           onClick: deleteConfirmHandler,
-          disabled: false,
+          disabled: !userActions.delete,
           hidden: !rowActions?.onDelete,
+          color: 'warning',
         },
         {
           id: 'delete-permanent',
           label: 'Delete permanent',
-          icon: <>ico</>,
+          icon: <IconTrashX size={iconSize} />,
           onClick: deletePermanentConfirmHandler,
-          disabled: false,
-          hidden: !rowActions?.onDeletePermanent,
+          disabled: !userActions.deletePermanent,
+          hidden: !row.deleted || !rowActions?.onDeletePermanent,
+          color: 'error',
         },
       ];
 
       return (
-        <Stack direction="row" gap={1}>
+        <Stack direction="row" gap={1} alignItems="center">
           {actions.map(
-            ({ label, icon, onClick, disabled, hidden, ...item }) => {
+            ({ label, icon, onClick, disabled, hidden, color, ...item }) => {
               if (hidden) return null;
 
               return (
-                <button
+                <IconButtonPlus
                   key={item.id}
-                  onClick={() => onClick(Number(id))}
+                  tooltip={label}
+                  size="small"
+                  onClick={() => onClick(Number(row.id))}
                   disabled={disabled}
+                  color={
+                    color ? (color as IconButtonPlusProps['color']) : 'default'
+                  }
                 >
-                  {label}
-                </button>
+                  {icon}
+                </IconButtonPlus>
               );
             }
           )}
         </Stack>
       );
     },
-    [rowActions, deleteConfirmHandler, deletePermanentConfirmHandler]
+    [
+      userActions,
+      rowActions,
+      deleteConfirmHandler,
+      deletePermanentConfirmHandler,
+      detailHandler,
+    ]
   );
 
   return {

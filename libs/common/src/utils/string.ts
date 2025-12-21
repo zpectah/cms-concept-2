@@ -3,6 +3,7 @@ const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz' as const;
 const UPPERCASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' as const;
 const SPECIAL = '!#$%&()*+,-./:;<=>?@[]^_`{|}~' as const;
 
+/** Returns random string by defined length */
 export const getRandomString = (length = 12) => {
   let result = '';
   const characters = `${UPPERCASE}${LOWERCASE}${NUMBER}`;
@@ -16,6 +17,7 @@ export const getRandomString = (length = 12) => {
   return result;
 };
 
+/** Returns random password string */
 export const getRandomPassword = ({
   length,
   number,
@@ -49,10 +51,26 @@ export const getRandomPassword = ({
   }
 
   const requiredChars: string[] = [];
-  if (number) requiredChars.push(characters.number[Math.floor(Math.random() * characters.number.length)]);
-  if (lowercase) requiredChars.push(characters.lowercase[Math.floor(Math.random() * characters.lowercase.length)]);
-  if (uppercase) requiredChars.push(characters.uppercase[Math.floor(Math.random() * characters.uppercase.length)]);
-  if (special) requiredChars.push(characters.special[Math.floor(Math.random() * characters.special.length)]);
+  if (number)
+    requiredChars.push(
+      characters.number[Math.floor(Math.random() * characters.number.length)]
+    );
+  if (lowercase)
+    requiredChars.push(
+      characters.lowercase[
+        Math.floor(Math.random() * characters.lowercase.length)
+      ]
+    );
+  if (uppercase)
+    requiredChars.push(
+      characters.uppercase[
+        Math.floor(Math.random() * characters.uppercase.length)
+      ]
+    );
+  if (special)
+    requiredChars.push(
+      characters.special[Math.floor(Math.random() * characters.special.length)]
+    );
 
   for (let i = requiredChars.length; i < length; i++) {
     result += pool[Math.floor(Math.random() * pool.length)];
@@ -68,14 +86,18 @@ export const getRandomPassword = ({
   return result;
 };
 
-export const getCapitalizedString = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
+/** Capitalize string */
+export const getCapitalizedString = (string: string) =>
+  string.charAt(0).toUpperCase() + string.slice(1);
 
+/** Get array from string */
 export const getSafeArrayFromString = (value: string) => {
   if (value === '') return [];
 
   return value.split(',');
 };
 
+/** Returns complex string */
 export const getRandomStringFromArraySet = (
   words: string[],
   options: { paragraphs: number; sentences: number; words: number }
@@ -89,17 +111,33 @@ export const getRandomStringFromArraySet = (
     return getCapitalizedString(words.join(' ')) + '.';
   }
 
-  function generateParagraph(sentencesCount: number, wordsPerSentence: number): string {
-    return Array.from({ length: sentencesCount }, () => generateSentence(wordsPerSentence)).join(' ');
+  function generateParagraph(
+    sentencesCount: number,
+    wordsPerSentence: number
+  ): string {
+    return Array.from({ length: sentencesCount }, () =>
+      generateSentence(wordsPerSentence)
+    ).join(' ');
   }
 
-  function generateLoremIpsum(paragraphs: number, sentences: number, words: number): string {
-    return Array.from({ length: paragraphs }, () => generateParagraph(sentences, words)).join('\n\n');
+  function generateLoremIpsum(
+    paragraphs: number,
+    sentences: number,
+    words: number
+  ): string {
+    return Array.from({ length: paragraphs }, () =>
+      generateParagraph(sentences, words)
+    ).join('\n\n');
   }
 
-  return generateLoremIpsum(options.paragraphs, options.sentences, options.words);
+  return generateLoremIpsum(
+    options.paragraphs,
+    options.sentences,
+    options.words
+  );
 };
 
+/** Returns random ID */
 export const getRandomId = (length = 16) =>
   getRandomPassword({
     length,
@@ -109,6 +147,7 @@ export const getRandomId = (length = 16) =>
     special: false,
   });
 
+/** Returns formatted string from variable arguments */
 export const getFormattedString = (...args: string[]): string => {
   const combinedString = args.join('-');
 
@@ -120,7 +159,12 @@ export const getFormattedString = (...args: string[]): string => {
   return dashedString.toLowerCase();
 };
 
-export const getShortenedFilename = (filename: string, maxLength: number, placeholder = '...'): string => {
+/** Returns shortened file name with extension */
+export const getShortenedFilename = (
+  filename: string,
+  maxLength: number,
+  placeholder = '...'
+): string => {
   if (filename.length <= maxLength) {
     return filename;
   }
@@ -150,3 +194,7 @@ export const getShortenedFilename = (filename: string, maxLength: number, placeh
 
   return prefix + placeholder + suffix + extension;
 };
+
+/** Returns string in camelCase format */
+export const toCamelCase = (str: string): string =>
+  str.replace(/-([a-z0-9])/g, (match, letter) => letter.toUpperCase());
