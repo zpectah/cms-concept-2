@@ -5,6 +5,19 @@
     "prevPage": "Previous page",
     "nextPage": "Next page",
     "lastPage": "Last page",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "showDeleted": "Show deleted",
+    "hideDeleted": "Hide deleted",
+    "resetFilter": "Reset filter",
+    "detail": "Detail",
+    "clone": "Clone",
+    "toggle": "Toggle",
+    "approve": "Approve",
+    "read": "Read",
+    "delete": "Delete",
+    "deletePermanent": "Permanent delete",
+    "undelete": "Undelete",
     "new": {
       "articles": "New articles",
       "categories": "New category",
@@ -16,6 +29,25 @@
       "tags": "New tag",
       "translations": "New translation",
       "users": "New user"
+    },
+    "items": {
+      "toggle": "Toggle {{subject}}",
+      "approve": "Approve {{subject}}",
+      "read": "Read {{subject}}",
+      "delete": "Delete {{subject}}",
+      "deletePermanent": "Permanent delete {{subject}}"
+    }
+  },
+  "plurals": {
+    "items": {
+      "item_one": "item",
+      "item_two": "{{count}} items",
+      "item_other": "{{count}} items"
+    },
+    "selected": {
+      "item_one": "selected item",
+      "item_two": "{{count}} selected items",
+      "item_other": "{{count}} selected items"
     }
   },
   "label": {
@@ -24,7 +56,22 @@
     "next": "Next",
     "last": "Last"
   },
-  "message": {},
+  "message": {
+    "confirm": {
+      "logout": {
+        "title": "...todo...",
+        "content": "...todo..."
+      },
+      "delete": {
+        "title": "Confirm delete",
+        "content": "Are you sure you want delete {{subject}}?"
+      },
+      "deletePermanent": {
+        "title": "Confirm permanent delete",
+        "content": "Are you sure you want permanent delete {{subject}}?"
+      }
+    }
+  },
   "routes": {
     "articles": "Articles",
     "categories": "Categories",

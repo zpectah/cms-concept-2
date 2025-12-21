@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Stack } from '@mui/material';
 import {
   IconEye,
@@ -25,13 +26,14 @@ import { IconButtonPlus, IconButtonPlusProps } from '../../ui';
 import { FavoriteStar } from '../../button';
 import { useDataListContext } from '../DataList.context';
 
+const iconSize = '1.25rem';
+
 export const useDataListView = <T extends CommonModelItemProps>() => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { setConfirmDialog } = useAppStore();
   const { actions: userActions } = useUserActions();
   const { model, root, rowActions } = useDataListContext();
-
-  const iconSize = '1.25rem';
 
   const renderFavoriteStar = useCallback(
     (id: string | number | undefined) => {
@@ -64,8 +66,10 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
   const deleteConfirmHandler = useCallback(
     (id: number) => {
       setConfirmDialog({
-        title: 'Confirm delete',
-        content: `Are you sure you want delete this item?`,
+        title: t('message.confirm.delete.title'),
+        content: t('message.confirm.delete.content', {
+          subject: t('plurals.items.item', { count: 1 }),
+        }),
         context: 'delete',
         onConfirm: () => rowActions?.onDelete?.(id),
       });
@@ -77,8 +81,10 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
   const deletePermanentConfirmHandler = useCallback(
     (id: number) => {
       setConfirmDialog({
-        title: 'Confirm permanent delete',
-        content: `Are you sure you want permanent delete this item?`,
+        title: t('message.confirm.deletePermanent.title'),
+        content: t('message.confirm.deletePermanent.content', {
+          subject: t('plurals.items.item', { count: 1 }),
+        }),
         context: 'delete',
         onConfirm: () => rowActions?.onDeletePermanent?.(id),
       });
@@ -94,7 +100,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
       const actions = [
         {
           id: 'detail',
-          label: 'Detail',
+          label: t('button.detail'),
           icon: <IconPencil size={iconSize} />,
           onClick: (id: number) => detailHandler(id),
           disabled: !userActions.view,
@@ -102,7 +108,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         },
         {
           id: 'clone',
-          label: 'Clone',
+          label: t('button.clone'),
           icon: <IconCopy size={iconSize} />,
           onClick: (id: number) => rowActions?.onClone?.(id),
           disabled: !userActions.create,
@@ -110,7 +116,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         },
         {
           id: 'toggle',
-          label: 'Toggle',
+          label: t('button.toggle'),
           icon: row.active ? (
             <IconEye size={iconSize} />
           ) : (
@@ -123,7 +129,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         },
         {
           id: 'approve',
-          label: 'Approve',
+          label: t('button.approve'),
           icon: row?.approved ? (
             <IconRosetteDiscountCheckFilled size={iconSize} />
           ) : (
@@ -136,7 +142,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         },
         {
           id: 'read',
-          label: 'Read',
+          label: t('button.read'),
           icon: row?.read ? (
             <IconVocabulary size={iconSize} />
           ) : (
@@ -149,7 +155,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         },
         {
           id: 'delete',
-          label: row.deleted ? 'Undelete' : 'Delete',
+          label: row.deleted ? t('button.undelete') : t('button.delete'),
           icon: row.deleted ? (
             <IconTrashOff size={iconSize} />
           ) : (
@@ -162,7 +168,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         },
         {
           id: 'delete-permanent',
-          label: 'Delete permanent',
+          label: t('button.deletePermanent'),
           icon: <IconTrashX size={iconSize} />,
           onClick: deletePermanentConfirmHandler,
           disabled: !userActions.deletePermanent,
@@ -196,6 +202,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         </Stack>
       );
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       userActions,
       rowActions,

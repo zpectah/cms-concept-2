@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Grid, Stack, Card, CardContent, Badge } from '@mui/material';
 import {
   IconSortAscending,
@@ -30,7 +31,10 @@ import {
 import { useDataListContext } from './DataList.context';
 import { dataListCheckboxStateKeys, dataListSortOrderKeys } from './enums';
 
+const iconSize = '1.25rem';
+
 const DataListControls = () => {
+  const { t } = useTranslation(['common', 'form', 'model', 'components']);
   const { setConfirmDialog } = useAppStore();
   const { actions: userActions } = useUserActions();
   const {
@@ -54,8 +58,6 @@ const DataListControls = () => {
     controlsOpen,
     setControlsOpen,
   } = useDataListContext();
-
-  const iconSize = '1.25rem';
 
   const orderByActive = useMemo(
     () => keys?.order && keys?.order.length,
@@ -95,11 +97,12 @@ const DataListControls = () => {
       optionsList.push({
         id: item,
         value: item,
-        label: item, // TODO: i18n
+        label: t(`form:label.${item}`),
       });
     });
 
     return optionsList;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys.order]);
 
   const typesOptionsList = useMemo(() => {
@@ -109,11 +112,12 @@ const DataListControls = () => {
       optionsList.push({
         id: item,
         value: item,
-        label: item, // TODO: i18n
+        label: t(`model:type.${item}`),
       });
     });
 
     return optionsList;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options.types]);
 
   const categoriesOptionsList = useMemo(() => {
@@ -154,8 +158,10 @@ const DataListControls = () => {
 
   const deleteConfirmHandler = useCallback(() => {
     setConfirmDialog({
-      title: 'Confirm delete',
-      content: `Are you sure you want delete ${selected.length} selected items?`,
+      title: t('message.confirm.delete.title'),
+      content: t('message.confirm.delete.content', {
+        subject: t('plurals.selected.item', { count: selected.length }),
+      }),
       context: 'delete',
       onConfirm: () => selectedActions?.onDeleteSelected?.(selected),
     });
@@ -164,8 +170,10 @@ const DataListControls = () => {
 
   const deletePermanentConfirmHandler = useCallback(() => {
     setConfirmDialog({
-      title: 'Confirm permanent delete',
-      content: `Are you sure you want permanent delete ${selected.length} selected items?`,
+      title: t('message.confirm.deletePermanent.title'),
+      content: t('message.confirm.deletePermanent.content', {
+        subject: t('plurals.selected.item', { count: selected.length }),
+      }),
       context: 'delete',
       onConfirm: () => selectedActions?.onDeletePermanentSelected?.(selected),
     });
@@ -184,7 +192,7 @@ const DataListControls = () => {
     const actions = [
       {
         id: 'select',
-        label: 'Select all',
+        label: t('button.selectAll'),
         icon: selectCheckIcon[checkboxState],
         onClick: onSelectAll,
         disabled: false,
@@ -192,7 +200,7 @@ const DataListControls = () => {
       },
       {
         id: 'deleted',
-        label: 'Show deleted',
+        label: showDeleted ? t('button.hideDeleted') : t('button.showDeleted'),
         icon: showDeleted ? (
           <IconGhostOff size={iconSize} />
         ) : (
@@ -204,7 +212,9 @@ const DataListControls = () => {
       },
       {
         id: 'toggle',
-        label: `Toggle ${selected.length} selected items`,
+        label: t('button.items.toggle', {
+          subject: t('plurals.items.item', { count: selected.length }),
+        }),
         icon: <IconEye size={iconSize} />,
         onClick: () => selectedActions?.onToggleSelected?.(selected),
         disabled: selected.length === 0 || !userActions.modify,
@@ -214,7 +224,9 @@ const DataListControls = () => {
       },
       {
         id: 'approve',
-        label: `Approve ${selected.length} selected items`,
+        label: t('button.items.approve', {
+          subject: t('plurals.items.item', { count: selected.length }),
+        }),
         icon: <IconRosette size={iconSize} />,
         onClick: () => selectedActions?.onApproveSelected?.(selected),
         disabled: selected.length === 0 || !userActions.approve,
@@ -224,7 +236,9 @@ const DataListControls = () => {
       },
       {
         id: 'read',
-        label: `Mark read ${selected.length} selected items`,
+        label: t('button.items.read', {
+          subject: t('plurals.items.item', { count: selected.length }),
+        }),
         icon: <IconVocabulary size={iconSize} />,
         onClick: () => selectedActions?.onReadSelected?.(selected),
         disabled: selected.length === 0 || !userActions.modify,
@@ -234,7 +248,9 @@ const DataListControls = () => {
       },
       {
         id: 'delete',
-        label: `Delete ${selected.length} selected items`,
+        label: t('button.items.delete', {
+          subject: t('plurals.items.item', { count: selected.length }),
+        }),
         icon: <IconTrash size={iconSize} />,
         onClick: deleteConfirmHandler,
         disabled: selected.length === 0 || !userActions.delete,
@@ -244,7 +260,9 @@ const DataListControls = () => {
       },
       {
         id: 'delete-permanent',
-        label: `Permanent delete ${selected.length} selected items`,
+        label: t('button.items.deletePermanent', {
+          subject: t('plurals.items.item', { count: selected.length }),
+        }),
         icon: <IconTrashX size={iconSize} />,
         onClick: deletePermanentConfirmHandler,
         disabled: selected.length === 0 || !userActions.deletePermanent,
@@ -306,7 +324,7 @@ const DataListControls = () => {
                 <SearchInput
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Type to search in list"
+                  placeholder={t('components:dataList.label.search')}
                   fullWidth
                 />
               </Grid>
@@ -344,7 +362,7 @@ const DataListControls = () => {
                   />
 
                   <IconButtonPlus
-                    tooltip="Open controls"
+                    tooltip={t('components:dataList.button.openControls')}
                     onClick={() => setControlsOpen(true)}
                   >
                     <IconAdjustments size={iconSize} />
@@ -362,12 +380,12 @@ const DataListControls = () => {
           xs: '100%',
           sm: '350px',
         }}
-        title="Table controls"
+        title={t('components:dataList.label.controls')}
         open={controlsOpen}
         onClose={() => setControlsOpen(!controlsOpen)}
         actions={
           <Button variant="outlined" onClick={onFilterReset}>
-            Reset filter
+            {t('button.resetFilter')}
           </Button>
         }
       >
@@ -375,7 +393,7 @@ const DataListControls = () => {
           <Grid size={12}>
             {orderByActive && (
               <TagSelect
-                label="Sort and order"
+                label={t('components:dataList.label.sortOrder')}
                 value={sortBy}
                 onChange={(value) => onOrderBy(value as string)}
                 options={orderByOptionsList}
@@ -393,7 +411,7 @@ const DataListControls = () => {
           <Grid size={12}>
             {filterByTypeActive && (
               <TagSelect
-                label="Filter by type"
+                label={t('components:dataList.label.filterType')}
                 value={filter.types}
                 onChange={(value) => {
                   setFilter({
@@ -410,7 +428,7 @@ const DataListControls = () => {
           <Grid size={12}>
             {filterByCategoriesActive && (
               <TagSelect
-                label="Filter by categories"
+                label={t('components:dataList.label.filterCategories')}
                 value={filter.categories}
                 onChange={(value) => {
                   setFilter({
@@ -427,7 +445,7 @@ const DataListControls = () => {
           <Grid size={12}>
             {filterByTagsActive && (
               <TagSelect
-                label="Filter by tags"
+                label={t('components:dataList.label.filterTags')}
                 value={filter.tags}
                 onChange={(value) => {
                   setFilter({

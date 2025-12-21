@@ -1,0 +1,19 @@
+{
+  "button": {
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites"
+  },
+  "dataList": {
+    "button": {
+      "openControls": "Open controls"
+    },
+    "label": {
+      "search": "Type to search in list",
+      "controls": "Table controls",
+      "sortOrder": "Sort and order",
+      "filterType": "Filter by type",
+      "filterCategories": "Filter by categories",
+      "filterTags": "Filter by tags"
+    }
+  }
+}

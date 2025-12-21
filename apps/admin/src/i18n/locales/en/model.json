@@ -1,0 +1,6 @@
+{
+  "type": {
+    "default": "Default",
+    "event": "Event"
+  }
+}
