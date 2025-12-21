@@ -2,5 +2,67 @@
   "type": {
     "default": "Default",
     "event": "Event"
+  },
+  "plurals": {
+    "articles": {
+      "item_one": "Article",
+      "item_two": "Articles",
+      "item_other": "Articles"
+    },
+    "categories": {
+      "item_one": "Category",
+      "item_two": "Categories",
+      "item_other": "Categories"
+    },
+    "customFields": {
+      "item_one": "Custom field",
+      "item_two": "Custom fields",
+      "item_other": "Custom fields"
+    },
+    "files": {
+      "item_one": "File",
+      "item_two": "Files",
+      "item_other": "Files"
+    },
+    "members": {
+      "item_one": "Member",
+      "item_two": "Members",
+      "item_other": "Members"
+    },
+    "menu": {
+      "item_one": "Menu",
+      "item_two": "Menu",
+      "item_other": "Menu"
+    },
+    "menuItems": {
+      "item_one": "Menu item",
+      "item_two": "Menu items",
+      "item_other": "Menu items"
+    },
+    "messages": {
+      "item_one": "Message",
+      "item_two": "Messages",
+      "item_other": "Messages"
+    },
+    "pages": {
+      "item_one": "Page",
+      "item_two": "Pages",
+      "item_other": "Pages"
+    },
+    "tags": {
+      "item_one": "Tag",
+      "item_two": "Tags",
+      "item_other": "Tags"
+    },
+    "translations": {
+      "item_one": "Translation",
+      "item_two": "Translations",
+      "item_other": "Translations"
+    },
+    "users": {
+      "item_one": "User",
+      "item_two": "Users",
+      "item_other": "Users"
+    }
   }
 }

@@ -15,3 +15,5 @@ export const TOASTS_WIDTH_DEFAULT = '480px';
 export const CONFIRM_DIALOG_WIDTH_DEFAULT = 'xs';
 
 export const PROFILE_DRAWER_WIDTH_DEFAULT = '480px';
+
+export const DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT = '720px';

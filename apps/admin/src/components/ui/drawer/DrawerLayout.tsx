@@ -21,7 +21,7 @@ const DrawerContentWrapper = styled('article')(() => ({
   overflowY: 'auto',
   overscrollBehavior: 'contain',
 }));
-const DrawerContent = styled('article')(({ theme }) => ({
+const DrawerContent = styled('div')(({ theme }) => ({
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
 }));

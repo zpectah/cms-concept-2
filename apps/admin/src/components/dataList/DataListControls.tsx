@@ -8,7 +8,7 @@ import {
   IconSquareDot,
   IconSquareCheck,
   IconEye,
-  IconRosette,
+  IconRosetteDiscountCheckFilled,
   IconTrash,
   IconTrashX,
   IconGhost3,
@@ -30,14 +30,14 @@ import {
 } from '../ui';
 import { useDataListContext } from './DataList.context';
 import { dataListCheckboxStateKeys, dataListSortOrderKeys } from './enums';
-
-const iconSize = '1.25rem';
+import { dataListIconSizeDefault } from './constants';
 
 const DataListControls = () => {
   const { t } = useTranslation(['common', 'form', 'model', 'components']);
   const { setConfirmDialog } = useAppStore();
   const { actions: userActions } = useUserActions();
   const {
+    model,
     query,
     setQuery,
     options,
@@ -160,7 +160,12 @@ const DataListControls = () => {
     setConfirmDialog({
       title: t('message.confirm.delete.title'),
       content: t('message.confirm.delete.content', {
-        subject: t('plurals.selected.item', { count: selected.length }),
+        subject:
+          selected.length +
+          ' ' +
+          t(`model:plurals.${model}.item`, {
+            count: selected.length,
+          }).toLowerCase(),
       }),
       context: 'delete',
       onConfirm: () => selectedActions?.onDeleteSelected?.(selected),
@@ -172,7 +177,12 @@ const DataListControls = () => {
     setConfirmDialog({
       title: t('message.confirm.deletePermanent.title'),
       content: t('message.confirm.deletePermanent.content', {
-        subject: t('plurals.selected.item', { count: selected.length }),
+        subject:
+          selected.length +
+          ' ' +
+          t(`model:plurals.${model}.item`, {
+            count: selected.length,
+          }).toLowerCase(),
       }),
       context: 'delete',
       onConfirm: () => selectedActions?.onDeletePermanentSelected?.(selected),
@@ -182,10 +192,14 @@ const DataListControls = () => {
 
   const renderActions = useMemo(() => {
     const selectCheckIcon = {
-      [dataListCheckboxStateKeys.none]: <IconSquareDashed size={iconSize} />,
-      [dataListCheckboxStateKeys.checked]: <IconSquareCheck size={iconSize} />,
+      [dataListCheckboxStateKeys.none]: (
+        <IconSquareDashed size={dataListIconSizeDefault} />
+      ),
+      [dataListCheckboxStateKeys.checked]: (
+        <IconSquareCheck size={dataListIconSizeDefault} />
+      ),
       [dataListCheckboxStateKeys.indeterminate]: (
-        <IconSquareDot size={iconSize} />
+        <IconSquareDot size={dataListIconSizeDefault} />
       ),
     };
 
@@ -202,9 +216,9 @@ const DataListControls = () => {
         id: 'deleted',
         label: showDeleted ? t('button.hideDeleted') : t('button.showDeleted'),
         icon: showDeleted ? (
-          <IconGhostOff size={iconSize} />
+          <IconGhostOff size={dataListIconSizeDefault} />
         ) : (
-          <IconGhost3 size={iconSize} />
+          <IconGhost3 size={dataListIconSizeDefault} />
         ),
         onClick: onToggleShowDeleted,
         disabled: false,
@@ -215,11 +229,10 @@ const DataListControls = () => {
         label: t('button.items.toggle', {
           subject: t('plurals.items.item', { count: selected.length }),
         }),
-        icon: <IconEye size={iconSize} />,
+        icon: <IconEye size={dataListIconSizeDefault} />,
         onClick: () => selectedActions?.onToggleSelected?.(selected),
         disabled: selected.length === 0 || !userActions.modify,
         hidden: !selectedActions?.onToggleSelected,
-        color: 'primary',
         badge: true,
       },
       {
@@ -227,11 +240,10 @@ const DataListControls = () => {
         label: t('button.items.approve', {
           subject: t('plurals.items.item', { count: selected.length }),
         }),
-        icon: <IconRosette size={iconSize} />,
+        icon: <IconRosetteDiscountCheckFilled size={dataListIconSizeDefault} />,
         onClick: () => selectedActions?.onApproveSelected?.(selected),
         disabled: selected.length === 0 || !userActions.approve,
         hidden: !selectedActions?.onApproveSelected,
-        color: 'primary',
         badge: true,
       },
       {
@@ -239,11 +251,10 @@ const DataListControls = () => {
         label: t('button.items.read', {
           subject: t('plurals.items.item', { count: selected.length }),
         }),
-        icon: <IconVocabulary size={iconSize} />,
+        icon: <IconVocabulary size={dataListIconSizeDefault} />,
         onClick: () => selectedActions?.onReadSelected?.(selected),
         disabled: selected.length === 0 || !userActions.modify,
         hidden: !selectedActions?.onReadSelected,
-        color: 'primary',
         badge: true,
       },
       {
@@ -251,7 +262,7 @@ const DataListControls = () => {
         label: t('button.items.delete', {
           subject: t('plurals.items.item', { count: selected.length }),
         }),
-        icon: <IconTrash size={iconSize} />,
+        icon: <IconTrash size={dataListIconSizeDefault} />,
         onClick: deleteConfirmHandler,
         disabled: selected.length === 0 || !userActions.delete,
         hidden: !selectedActions?.onDeleteSelected,
@@ -263,7 +274,7 @@ const DataListControls = () => {
         label: t('button.items.deletePermanent', {
           subject: t('plurals.items.item', { count: selected.length }),
         }),
-        icon: <IconTrashX size={iconSize} />,
+        icon: <IconTrashX size={dataListIconSizeDefault} />,
         onClick: deletePermanentConfirmHandler,
         disabled: selected.length === 0 || !userActions.deletePermanent,
         hidden: !selectedActions?.onDeletePermanentSelected || !showDeleted,
@@ -365,7 +376,7 @@ const DataListControls = () => {
                     tooltip={t('components:dataList.button.openControls')}
                     onClick={() => setControlsOpen(true)}
                   >
-                    <IconAdjustments size={iconSize} />
+                    <IconAdjustments size={dataListIconSizeDefault} />
                   </IconButtonPlus>
                 </Stack>
               </Grid>

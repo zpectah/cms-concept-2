@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Stack } from '@mui/material';
 import {
   IconEye,
-  IconEyeCancel,
+  IconEyeOff,
   IconTrash,
   IconTrashX,
   IconTrashOff,
@@ -25,12 +25,11 @@ import { useUserActions } from '../../../hooks';
 import { IconButtonPlus, IconButtonPlusProps } from '../../ui';
 import { FavoriteStar } from '../../button';
 import { useDataListContext } from '../DataList.context';
-
-const iconSize = '1.25rem';
+import { dataListIconSizeDefault } from '../constants';
 
 export const useDataListView = <T extends CommonModelItemProps>() => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
   const { actions: userActions } = useUserActions();
   const { model, root, rowActions } = useDataListContext();
@@ -68,7 +67,9 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
       setConfirmDialog({
         title: t('message.confirm.delete.title'),
         content: t('message.confirm.delete.content', {
-          subject: t('plurals.items.item', { count: 1 }),
+          subject: t(`model:plurals.${model}.item`, {
+            count: 1,
+          }).toLowerCase(),
         }),
         context: 'delete',
         onConfirm: () => rowActions?.onDelete?.(id),
@@ -83,7 +84,9 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
       setConfirmDialog({
         title: t('message.confirm.deletePermanent.title'),
         content: t('message.confirm.deletePermanent.content', {
-          subject: t('plurals.items.item', { count: 1 }),
+          subject: t(`model:plurals.${model}.item`, {
+            count: 1,
+          }).toLowerCase(),
         }),
         context: 'delete',
         onConfirm: () => rowActions?.onDeletePermanent?.(id),
@@ -101,7 +104,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         {
           id: 'detail',
           label: t('button.detail'),
-          icon: <IconPencil size={iconSize} />,
+          icon: <IconPencil size={dataListIconSizeDefault} />,
           onClick: (id: number) => detailHandler(id),
           disabled: !userActions.view,
           hidden: !rowActions?.onDetail,
@@ -109,7 +112,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         {
           id: 'clone',
           label: t('button.clone'),
-          icon: <IconCopy size={iconSize} />,
+          icon: <IconCopy size={dataListIconSizeDefault} />,
           onClick: (id: number) => rowActions?.onClone?.(id),
           disabled: !userActions.create,
           hidden: !rowActions?.onClone,
@@ -118,48 +121,45 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
           id: 'toggle',
           label: t('button.toggle'),
           icon: row.active ? (
-            <IconEye size={iconSize} />
+            <IconEye size={dataListIconSizeDefault} />
           ) : (
-            <IconEyeCancel size={iconSize} />
+            <IconEyeOff size={dataListIconSizeDefault} />
           ),
           onClick: (id: number) => rowActions?.onToggle?.(id),
           disabled: !userActions.modify,
           hidden: !rowActions?.onToggle,
-          color: 'primary',
         },
         {
           id: 'approve',
           label: t('button.approve'),
           icon: row?.approved ? (
-            <IconRosetteDiscountCheckFilled size={iconSize} />
+            <IconRosetteDiscountCheckFilled size={dataListIconSizeDefault} />
           ) : (
-            <IconRosette size={iconSize} />
+            <IconRosette size={dataListIconSizeDefault} />
           ),
           onClick: (id: number) => rowActions?.onApprove?.(id),
           disabled: !userActions.approve,
           hidden: !rowActions?.onApprove,
-          color: 'primary',
         },
         {
           id: 'read',
           label: t('button.read'),
           icon: row?.read ? (
-            <IconVocabulary size={iconSize} />
+            <IconVocabulary size={dataListIconSizeDefault} />
           ) : (
-            <IconVocabularyOff size={iconSize} />
+            <IconVocabularyOff size={dataListIconSizeDefault} />
           ),
           onClick: (id: number) => rowActions?.onRead?.(id),
           disabled: !userActions.modify,
           hidden: !rowActions?.onRead || !row?.read,
-          color: 'primary',
         },
         {
           id: 'delete',
           label: row.deleted ? t('button.undelete') : t('button.delete'),
           icon: row.deleted ? (
-            <IconTrashOff size={iconSize} />
+            <IconTrashOff size={dataListIconSizeDefault} />
           ) : (
-            <IconTrash size={iconSize} />
+            <IconTrash size={dataListIconSizeDefault} />
           ),
           onClick: deleteConfirmHandler,
           disabled: !userActions.delete,
@@ -169,7 +169,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
         {
           id: 'delete-permanent',
           label: t('button.deletePermanent'),
-          icon: <IconTrashX size={iconSize} />,
+          icon: <IconTrashX size={dataListIconSizeDefault} />,
           onClick: deletePermanentConfirmHandler,
           disabled: !userActions.deletePermanent,
           hidden: !row.deleted || !rowActions?.onDeletePermanent,

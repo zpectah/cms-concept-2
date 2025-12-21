@@ -26,6 +26,14 @@ export const useArticlesDetailForm = () => {
     console.log('data', data);
   };
 
+  const resetHandler = () => {
+    // TODO
+
+    form.reset({});
+
+    console.log('data', form);
+  };
+
   return {
     id,
     rootUrl,
@@ -33,5 +41,6 @@ export const useArticlesDetailForm = () => {
     form,
     onSubmit: submitHandler,
     onClose: closeHandler,
+    onReset: resetHandler,
   };
 };
