@@ -1,8 +1,11 @@
+import { PropsFromItem, UnionToIntersection } from '@common';
 import {
   contentModelKeys,
   entitiesModelKeys,
   feedbackModelKeys,
   modelKeys,
+  organizationModelKeys,
+  redactionModelKeys,
   systemModelKeys,
 } from '../enums';
 import { ArticlesDetail, ArticlesItem } from './articles';
@@ -20,7 +23,12 @@ import { RequestsDetail, RequestsItem } from './requests';
 import { TagsDetail, TagsItem } from './tags';
 import { TranslationsDetail, TranslationsItem } from './translations';
 import { UsersDetail, UsersItem } from './users';
-import { PropsFromItem, UnionToIntersection } from '@common';
+
+/** Redaction content type only model names */
+export type RedactionModelNames = keyof typeof redactionModelKeys;
+
+/** Organization content type only model names */
+export type OrganizationModelNames = keyof typeof organizationModelKeys;
 
 /** Content type only model names */
 export type ContentModelNames = keyof typeof contentModelKeys;
@@ -37,17 +45,21 @@ export type SystemModelNames = keyof typeof systemModelKeys;
 /** All model names */
 export type ModelNames = keyof typeof modelKeys;
 
-/** Union type of content item model */
-export type ContentModelItem =
+/** Union type of redaction content item model */
+export type RedactionModelItem = ArticlesItem | FilesItem | TagsItem;
+
+/** Union type of organization content item model */
+export type OrganizationModelItem =
   | ArticlesItem
   | CategoriesItem
   | CustomFieldsItem
-  | FilesItem
   | MenuItem
   | MenuItemsItem
   | PagesItem
-  | TagsItem
   | TranslationsItem;
+
+/** Union type of content item model */
+export type ContentModelItem = RedactionModelItem | OrganizationModelItem;
 
 /** Union type of entities item model */
 export type EntitiesModelItem = MembersItem | UsersItem;
@@ -65,17 +77,20 @@ export type UnionModelItem =
   | FeedbackModelItem
   | SystemModelItem;
 
-/** Union type of content detail model */
-export type ContentModelDetail =
-  | ArticlesDetail
+/** Union type of redaction content detail model */
+export type RedactionModelDetail = ArticlesDetail | FilesDetail | TagsDetail;
+
+/** Union type of organization content detail model */
+export type OrganizationModelDetail =
   | CategoriesDetail
   | CustomFieldsDetail
-  | FilesDetail
   | MenuDetail
   | MenuItemsDetail
   | PagesDetail
-  | TagsDetail
   | TranslationsDetail;
+
+/** Union type of content detail model */
+export type ContentModelDetail = RedactionModelDetail | OrganizationModelDetail;
 
 /** Union type of entities detail model */
 export type EntitiesModelDetail = MembersDetail | UsersDetail;

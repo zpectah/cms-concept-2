@@ -1,13 +1,21 @@
-export const contentModelKeys = {
+export const redactionModelKeys = {
   articles: 'articles',
+  files: 'files',
+  tags: 'tags',
+} as const;
+
+export const organizationModelKeys = {
   categories: 'categories',
   customFields: 'customFields',
-  files: 'files',
   menu: 'menu',
   menuItems: 'menuItems',
   pages: 'pages',
-  tags: 'tags',
   translations: 'translations',
+} as const;
+
+export const contentModelKeys = {
+  ...redactionModelKeys,
+  ...organizationModelKeys,
 } as const;
 
 export const entitiesModelKeys = {
@@ -23,6 +31,7 @@ export const feedbackModelKeys = {
 export const systemModelKeys = {
   blacklist: 'blacklist',
   requests: 'requests',
+  settings: 'settings',
 } as const;
 
 export const modelKeys = {
