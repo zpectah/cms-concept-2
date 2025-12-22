@@ -19,7 +19,8 @@ import {
 import {
   contentModelKeysArray,
   ContentModelNames,
-  CommonModelItemProps,
+  ListModelItem,
+  ListModelItemProps,
 } from '@model';
 import { useAppStore } from '../../../store';
 import { useUserActions } from '../../../hooks';
@@ -28,7 +29,7 @@ import { FavoriteStar } from '../../button';
 import { useDataListContext } from '../DataList.context';
 import { dataListIconSizeDefault } from '../constants';
 
-export const useDataListView = <T extends CommonModelItemProps>() => {
+export const useDataListView = <T extends ListModelItem>() => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
@@ -95,7 +96,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
   );
 
   const renderRowActions = useCallback(
-    (row: T) => {
+    (row: ListModelItemProps) => {
       if (!row.id) return null;
 
       const actions = [

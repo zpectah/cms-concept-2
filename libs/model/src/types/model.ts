@@ -14,6 +14,7 @@ import { RequestsDetail, RequestsItem } from './requests';
 import { TagsDetail, TagsItem } from './tags';
 import { TranslationsDetail, TranslationsItem } from './translations';
 import { UsersDetail, UsersItem } from './users';
+import { PropsFromItem, UnionToIntersection } from '@common';
 
 /** CMS Content only model names */
 export type ContentModelNames = keyof typeof contentModelKeys;
@@ -48,39 +49,6 @@ export type SystemModelItem =
 /** Basic union type of mixed item model */
 export type CommonModelItem = ContentModelItem | SystemModelItem;
 
-/** Model item props with all keys and all value types */
-export type CommonModelItemProps = Partial<{
-  [K in CommonModelItem as keyof K]: K[keyof K];
-}>;
-
-/** Partial content model item */
-export type ContentPartialModelItem = Partial<
-  ArticlesItem &
-    CategoriesItem &
-    CustomFieldsItem &
-    FilesItem &
-    MenuItem &
-    MenuItemsItem &
-    PagesItem &
-    TagsItem &
-    TranslationsItem
->;
-
-/** Partial system model item */
-export type SystemPartialModelItem = Partial<
-  BlacklistItem &
-    CommentsItem &
-    MembersItem &
-    MessagesItem &
-    RequestsItem &
-    UsersItem
->;
-
-/** Partial mixed model item */
-export type CommonPartialModelItem = Partial<
-  ContentPartialModelItem & SystemPartialModelItem
->;
-
 /** Basic union type of content detail model */
 export type ContentModelDetail =
   | ArticlesDetail
@@ -105,35 +73,29 @@ export type SystemModelDetail =
 /** Basic union type of mixed detail model */
 export type CommonModelDetail = ContentModelDetail | SystemModelDetail;
 
-/** Model detail props with all keys and all value types */
-export type CommonModelDetailProps = Partial<{
-  [K in CommonModelDetail as keyof K]: K[keyof K];
-}>;
+/* */
 
-/** Partial content model detail */
-export type ContentPartialModelDetail = Partial<
-  ArticlesDetail &
-    CategoriesDetail &
-    CustomFieldsDetail &
-    FilesDetail &
-    PagesDetail &
-    TagsDetail &
-    TranslationsDetail
+/** List item union type */
+export type ListModelItem = Partial<
+  | ArticlesItem
+  | CategoriesItem
+  | CustomFieldsItem
+  | FilesItem
+  | MenuItem
+  | MenuItemsItem
+  | PagesItem
+  | TagsItem
+  | TranslationsItem
+  | MembersItem
+  | MessagesItem
+  | UsersItem
 >;
 
-/** Partial system model detail */
-export type SystemPartialModelDetail = Partial<
-  BlacklistDetail &
-    CommentsDetail &
-    MenuDetail &
-    MenuItemsDetail &
-    MembersDetail &
-    MessagesDetail &
-    RequestsDetail &
-    UsersDetail
->;
-
-/** Partial mixed model detail */
-export type CommonPartialModelDetail = Partial<
-  ContentPartialModelDetail & SystemPartialModelDetail
+/** Model item props with all keys and all value types */
+export type ListModelItemProps = UnionToIntersection<
+  ListModelItem extends infer U
+    ? U extends unknown
+      ? PropsFromItem<U>
+      : never
+    : never
 >;

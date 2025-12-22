@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Categories, Tags, CommonModelItemProps } from '@model';
+import { Categories, Tags, ListModelItem } from '@model';
 import { DataListFilter, DataListSortOrder, UseDataListProps } from './types';
 import { searchItems, sortItems } from './helpers';
 import { dataListSortOrderKeys } from './enums';
@@ -10,7 +10,7 @@ import {
   filterDefaults,
 } from './constants';
 
-export const useDataList = <T extends CommonModelItemProps>({
+export const useDataList = <T extends ListModelItem>({
   items = [],
   categories = [],
   tags = [],
@@ -37,7 +37,7 @@ export const useDataList = <T extends CommonModelItemProps>({
       .filter((item) => {
         if (showDeleted) return true;
 
-        return item.deleted === false;
+        return item?.deleted === false;
       })
       .filter((item) => {
         if (filter.types?.length === 0) return true;

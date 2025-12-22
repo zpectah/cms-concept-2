@@ -5,6 +5,7 @@ import { ItemBase } from './item';
 export type FilesType = EnumKeyValues<typeof filesTypeKeys>;
 
 export interface FilesItem extends ItemBase {
+  name: string;
   type: FilesType;
 }
 

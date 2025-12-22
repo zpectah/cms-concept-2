@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { CommonModelItem } from '@model';
+import { ListModelItem, ListModelItemProps } from '@model';
 import { classNames } from '../../utils';
 import { useUserActions } from '../../hooks';
 import { dataListViewKeys } from './enums';
@@ -11,7 +11,7 @@ import DataListControls from './DataListControls';
 import DataListPagination from './DataListPagination';
 import { TableView, FilesView } from './view';
 
-const DataList = <T extends CommonModelItem>({
+const DataList = <T extends ListModelItem>({
   model,
   view = dataListViewKeys.table,
   root,
@@ -66,10 +66,20 @@ const DataList = <T extends CommonModelItem>({
   const renderView = useMemo(() => {
     switch (view) {
       case dataListViewKeys.files:
-        return <FilesView<T> rows={paginatedRows} columns={columns} />;
+        return (
+          <FilesView<T>
+            rows={paginatedRows as ListModelItemProps[]}
+            columns={columns}
+          />
+        );
 
       case dataListViewKeys.table:
-        return <TableView<T> rows={paginatedRows} columns={columns} />;
+        return (
+          <TableView<T>
+            rows={paginatedRows as ListModelItemProps[]}
+            columns={columns}
+          />
+        );
     }
   }, [view, paginatedRows, columns]);
 

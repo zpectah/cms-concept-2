@@ -1,12 +1,10 @@
-import { CommonModelItemProps } from '@model';
+import { ListModelItem } from '@model';
 import { classNames } from '../../../utils';
 import { FilesViewProps } from '../types';
 import { useDataListContext } from '../DataList.context';
 import { useDataListView } from './useDataListView';
 
-const FilesView = <T extends CommonModelItemProps>({
-  rows,
-}: FilesViewProps<T>) => {
+const FilesView = <T extends ListModelItem>({ rows }: FilesViewProps<T>) => {
   const { model, onSelectRow } = useDataListContext();
   const { renderFavoriteStar, renderRowActions } = useDataListView<T>();
 

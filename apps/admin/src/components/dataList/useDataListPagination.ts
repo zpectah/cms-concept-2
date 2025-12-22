@@ -1,12 +1,12 @@
 import { useState, useMemo, useCallback } from 'react';
-import { CommonModelItem } from '@model';
+import { ListModelItem } from '@model';
 import {
   UseDataListPaginationProps,
   UseDataListPaginationReturn,
 } from './types';
 import { dataListRowsPerPageDefault } from './constants';
 
-export const useDataListPagination = <T extends CommonModelItem>({
+export const useDataListPagination = <T extends ListModelItem>({
   rows,
 }: UseDataListPaginationProps<T>): UseDataListPaginationReturn<T> => {
   const [page, setPage] = useState<number>(1);
@@ -62,6 +62,6 @@ export const useDataListPagination = <T extends CommonModelItem>({
       next: isLastDisabled,
       last: isLastDisabled,
     },
-    rows: paginatedRows,
+    rows: paginatedRows as T[],
   };
 };

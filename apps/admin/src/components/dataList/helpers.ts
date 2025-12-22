@@ -1,8 +1,8 @@
-import { CommonModelItemProps } from '@model';
+import { ListModelItem } from '@model';
 import { dataListSortOrderKeys } from './enums';
 import { DataListSortOrder } from './types';
 
-export function searchItems<T extends CommonModelItemProps>(
+export function searchItems<T extends ListModelItem>(
   items: T[],
   query: string,
   keys: (keyof T)[],
@@ -23,7 +23,7 @@ export function searchItems<T extends CommonModelItemProps>(
   );
 }
 
-export function sortItems<T extends CommonModelItemProps>(
+export function sortItems<T extends ListModelItem>(
   key: keyof T,
   order: DataListSortOrder = dataListSortOrderKeys.desc
 ) {

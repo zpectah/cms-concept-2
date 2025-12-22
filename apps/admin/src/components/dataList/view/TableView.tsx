@@ -1,13 +1,11 @@
 import { Link } from 'react-router-dom';
-import { CommonModelItemProps } from '@model';
+import { ListModelItem } from '@model';
 import { classNames } from '../../../utils';
 import { TableViewProps } from '../types';
 import { useDataListContext } from '../DataList.context';
 import { useDataListView } from './useDataListView';
 
-const TableView = <T extends CommonModelItemProps>({
-  rows,
-}: TableViewProps<T>) => {
+const TableView = <T extends ListModelItem>({ rows }: TableViewProps<T>) => {
   const { model, root, onSelectRow } = useDataListContext();
   const { renderFavoriteStar, renderRowActions } = useDataListView<T>();
 
@@ -21,7 +19,7 @@ const TableView = <T extends CommonModelItemProps>({
             <button onClick={() => onSelectRow(row.id as number)}>
               select
             </button>
-            {row.name}
+            {row.name}|{row.created}
             <Link to={`${root}/id/${row.id}`}>detail</Link>
             {renderRowActions(row)}
           </div>

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import {
   Categories,
-  CommonModelItem,
-  CommonModelItemProps,
+  ListModelItem,
+  ListModelItemProps,
   ModelNames,
   Tags,
 } from '@model';
@@ -63,7 +63,7 @@ export interface DataListFilter {
   types: string[];
 }
 
-export interface UseDataListProps<T extends CommonModelItemProps> {
+export interface UseDataListProps<T extends ListModelItem> {
   items: T[];
   searchKeys: (keyof T)[];
   categories?: Categories;
@@ -72,23 +72,23 @@ export interface UseDataListProps<T extends CommonModelItemProps> {
   onSelect?: (selected: number[]) => void;
 }
 
-export interface UseDataListPaginationProps<T extends CommonModelItemProps> {
+export interface UseDataListPaginationProps<T extends ListModelItem> {
   rows: T[];
 }
 
-export type UseDataListPaginationReturn<T extends CommonModelItemProps> =
+export type UseDataListPaginationReturn<T extends ListModelItem> =
   DataListPagination & {
     rows: T[];
   };
 
-export interface DataListColumnProps<T extends CommonModelItemProps> {
+export interface DataListColumnProps<T extends ListModelItem> {
   name: keyof T;
   isTitle?: boolean;
   label?: string;
   renderValue?: (row: T) => ReactNode;
 }
 
-export interface DataListProps<T extends CommonModelItem> {
+export interface DataListProps<T extends ListModelItem> {
   /** Model name */
   model: ModelNames | undefined;
   /** View type */
@@ -120,14 +120,14 @@ export interface DataListProps<T extends CommonModelItem> {
   onSelect?: (selected: number[]) => void;
 }
 
-interface ViewCommon<T extends CommonModelItemProps> {
-  rows: T[];
+interface ViewCommon<T extends ListModelItem> {
+  rows: ListModelItemProps[];
   columns: DataListColumnProps<T>[];
 }
 
-export type TableViewProps<T extends CommonModelItemProps> = ViewCommon<T>;
+export type TableViewProps<T extends ListModelItem> = ViewCommon<T>;
 
-export type FilesViewProps<T extends CommonModelItemProps> = ViewCommon<T>;
+export type FilesViewProps<T extends ListModelItem> = ViewCommon<T>;
 
 export interface IDataListContext {
   /** Model name, undefined on init */
