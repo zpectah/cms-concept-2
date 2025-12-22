@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { ITranslationsDetailForm } from './types';
 import { useTranslationsDetailForm } from './useTranslationsDetailForm';
 
 const TranslationsDetailForm = () => {
-  const { form } = useTranslationsDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useTranslationsDetailForm();
 
   return (
-    <ControlledForm<ITranslationsDetailForm>
+    <DetailDrawer<ITranslationsDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...TranslationsDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default TranslationsDetailForm;

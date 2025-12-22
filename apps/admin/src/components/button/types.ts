@@ -1,8 +1,8 @@
-import { ContentModelNames } from '@model';
+import { ContentModelNames, EntitiesModelNames } from '@model';
 import { IconButtonPlusProps } from '../ui';
 
 export interface NewItemButtonProps {
-  model?: ContentModelNames;
+  model?: ContentModelNames | EntitiesModelNames;
 }
 
 export interface FavoriteStarProps {

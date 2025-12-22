@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { modelKeys } from '@model';
 import { getConfig } from '../config';
-import { ViewLayout } from '../components';
+import { NewItemButton, ViewLayout } from '../components';
 
 const TagsView = () => {
   const { routes } = getConfig();
@@ -14,6 +14,7 @@ const TagsView = () => {
       model={modelKeys.tags}
       rootUrl={routes.tags.root}
       title={t('tags.title')}
+      titleSlot={<NewItemButton model={modelKeys.tags} />}
     >
       <Outlet />
     </ViewLayout>

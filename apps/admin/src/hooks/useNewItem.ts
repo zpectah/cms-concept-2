@@ -16,51 +16,61 @@ export const useNewItem = ({ current }: UseNewItemProps) => {
       id: modelKeys.articles,
       label: t('button.new.articles'),
       path: `${routes.articles.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.categories,
       label: t('button.new.categories'),
       path: `${routes.categories.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.customFields,
       label: t('button.new.customFields'),
       path: `${routes.customFields.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.files,
       label: t('button.new.files'),
       path: `${routes.files.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.members,
       label: t('button.new.members'),
       path: `${routes.members.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.menu,
       label: t('button.new.menu'),
       path: `${routes.menu.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.pages,
       label: t('button.new.pages'),
       path: `${routes.pages.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.tags,
       label: t('button.new.tags'),
       path: `${routes.tags.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.translations,
       label: t('button.new.translations'),
       path: `${routes.translations.root}/id/new`,
+      disabled: false,
     },
     {
       id: modelKeys.users,
       label: t('button.new.users'),
       path: `${routes.users.root}/id/new`,
+      disabled: false,
     },
   ];
 

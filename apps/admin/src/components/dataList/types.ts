@@ -101,11 +101,14 @@ export interface DataListProps<T extends ListModelItem> {
   selectedActions: DataListSelectedActions;
   /** Items by model type */
   items: T[];
-  /** Raw categories items for filtering */
-  categories?: Categories;
-  /** Raw tags items for filtering */
-  tags?: Tags;
-  /** Columns */
+  /** Items filtering */
+  filter?: {
+    /** Raw categories items for filtering */
+    categories?: Categories;
+    /** Raw tags items for filtering */
+    tags?: Tags;
+  };
+  /** Table columns */
   columns: DataListColumnProps<T>[];
   /** Keys for ordering, sorting and filtering */
   keys: {

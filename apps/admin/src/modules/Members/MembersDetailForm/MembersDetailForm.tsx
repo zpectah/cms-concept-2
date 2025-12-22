@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { IMembersDetailForm } from './types';
 import { useMembersDetailForm } from './useMembersDetailForm';
 
 const MembersDetailForm = () => {
-  const { form } = useMembersDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useMembersDetailForm();
 
   return (
-    <ControlledForm<IMembersDetailForm>
+    <DetailDrawer<IMembersDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...MembersDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default MembersDetailForm;

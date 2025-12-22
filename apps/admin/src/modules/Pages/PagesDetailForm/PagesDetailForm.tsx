@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { IPagesDetailForm } from './types';
 import { usePagesDetailForm } from './usePagesDetailForm';
 
 const PagesDetailForm = () => {
-  const { form } = usePagesDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    usePagesDetailForm();
 
   return (
-    <ControlledForm<IPagesDetailForm>
+    <DetailDrawer<IPagesDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...PagesDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default PagesDetailForm;

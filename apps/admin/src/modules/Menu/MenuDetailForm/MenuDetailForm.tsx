@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { IMenuDetailForm } from './types';
 import { useMenuDetailForm } from './useMenuDetailForm';
 
 const MenuDetailForm = () => {
-  const { form } = useMenuDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useMenuDetailForm();
 
   return (
-    <ControlledForm<IMenuDetailForm>
+    <DetailDrawer<IMenuDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...MenuDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default MenuDetailForm;

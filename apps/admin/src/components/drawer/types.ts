@@ -15,7 +15,7 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   /** React Hook Form controlled form object */
   form: UseFormReturn<T>;
   /** Submit callback */
-  onSubmit: SubmitHandler<T>;
+  onSubmit?: SubmitHandler<T>;
   /** Custom drawer footer actions */
   actions?: ButtonProps[];
   /** Custom drawer properties */

@@ -241,5 +241,9 @@ export const useArticlesList = () => {
       onDeletePermanentSelected: deletePermanentHandler,
       onApproveSelected: approveHandler,
     },
+    loading: {
+      items: false,
+      submitting: false,
+    },
   };
 };

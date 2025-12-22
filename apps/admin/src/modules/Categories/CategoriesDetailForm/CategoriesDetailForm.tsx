@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { ICategoriesDetailForm } from './types';
 import { useCategoriesDetailForm } from './useCategoriesDetailForm';
 
 const CategoriesDetailForm = () => {
-  const { form } = useCategoriesDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useCategoriesDetailForm();
 
   return (
-    <ControlledForm<ICategoriesDetailForm>
+    <DetailDrawer<ICategoriesDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...CategoriesDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default CategoriesDetailForm;

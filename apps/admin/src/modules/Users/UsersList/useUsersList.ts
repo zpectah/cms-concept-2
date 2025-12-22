@@ -1,4 +1,4 @@
-export const useCategoriesList = () => {
+export const useUsersList = () => {
   const toggleHandler = (ids: number[]) => {
     console.log('on toggle', ids);
   };

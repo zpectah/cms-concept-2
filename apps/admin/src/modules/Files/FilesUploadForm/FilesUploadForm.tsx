@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { IFilesUploadForm } from './types';
 import { useFilesUploadForm } from './useFilesUploadForm';
 
 const FilesUploadForm = () => {
-  const { form } = useFilesUploadForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useFilesUploadForm();
 
   return (
-    <ControlledForm<IFilesUploadForm>
+    <DetailDrawer<IFilesUploadForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...FilesUploadForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default FilesUploadForm;

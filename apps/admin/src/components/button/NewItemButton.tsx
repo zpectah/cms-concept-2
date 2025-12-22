@@ -52,7 +52,11 @@ const NewItemButton = ({ model }: NewItemButtonProps) => {
             anchorPosition={{ top: 0, left: 0 }}
           >
             {options.map((item) => (
-              <MenuItem key={item.id} onClick={() => linkHandler(item.path)}>
+              <MenuItem
+                key={item.id}
+                onClick={() => linkHandler(item.path)}
+                disabled={item?.disabled}
+              >
                 {item.label}
               </MenuItem>
             ))}

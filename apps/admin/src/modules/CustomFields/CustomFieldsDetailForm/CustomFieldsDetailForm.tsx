@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { ICustomFieldsDetailForm } from './types';
 import { useCustomFieldsDetailForm } from './useCustomFieldsDetailForm';
 
 const CustomFieldsDetailForm = () => {
-  const { form } = useCustomFieldsDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useCustomFieldsDetailForm();
 
   return (
-    <ControlledForm<ICustomFieldsDetailForm>
+    <DetailDrawer<ICustomFieldsDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...CustomFieldsDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default CustomFieldsDetailForm;

@@ -1,4 +1,4 @@
-export const useCategoriesList = () => {
+export const useFilesList = () => {
   const toggleHandler = (ids: number[]) => {
     console.log('on toggle', ids);
   };
@@ -11,6 +11,10 @@ export const useCategoriesList = () => {
     console.log('on delete permanent', ids);
   };
 
+  const downloadHandler = (id: number) => {
+    console.log('on download', id);
+  };
+
   return {
     items: [],
     filter: {},
@@ -19,6 +23,7 @@ export const useCategoriesList = () => {
       onDelete: (id: number) => deleteHandler([id]),
       onToggle: (id: number) => toggleHandler([id]),
       onDeletePermanent: (id: number) => deletePermanentHandler([id]),
+      onDownload: downloadHandler,
     },
     selectedActions: {
       onToggleSelected: toggleHandler,

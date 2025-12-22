@@ -7,9 +7,9 @@ import { DataListProps } from './types';
 import { DataListContextProvider } from './DataList.context';
 import { useDataList } from './useDataList';
 import { useDataListPagination } from './useDataListPagination';
+import { TableView, FilesView } from './view';
 import DataListControls from './DataListControls';
 import DataListPagination from './DataListPagination';
-import { TableView, FilesView } from './view';
 
 const DataList = <T extends ListModelItem>({
   model,
@@ -18,8 +18,7 @@ const DataList = <T extends ListModelItem>({
   rowActions,
   selectedActions,
   items = [],
-  categories = [],
-  tags = [],
+  filter,
   columns,
   keys,
   activeOnly = false,
@@ -33,10 +32,9 @@ const DataList = <T extends ListModelItem>({
   } = useDataList({
     items,
     searchKeys: keys.search,
-    categories,
-    tags,
     activeOnly,
     onSelect,
+    ...filter,
   });
   const { rows: paginatedRows, ...pagination } = useDataListPagination({
     rows,

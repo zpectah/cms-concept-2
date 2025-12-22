@@ -128,7 +128,7 @@ const DetailDrawer = <T extends FieldValues>({
       >
         <ControlledForm<T>
           form={form}
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={onSubmit && form.handleSubmit(onSubmit)}
           {...formProps}
           sx={{ width: '100%', height: '100%', ...formProps?.sx }}
         >

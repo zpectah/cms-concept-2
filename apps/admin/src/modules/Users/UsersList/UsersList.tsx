@@ -1,9 +1,36 @@
+import { UsersItem } from '@model';
+import { DataList } from '../../../components';
+import { useViewContext } from '../../../contexts';
 import { UsersDetailForm } from '../UsersDetailForm';
+import { useUsersList } from './useUsersList';
 
 const UsersList = () => {
+  const { model, rootUrl } = useViewContext();
+  const { items, rowActions, selectedActions } = useUsersList();
+
   return (
     <>
-      ...UsersList...
+      <DataList<UsersItem>
+        model={model}
+        root={rootUrl}
+        rowActions={rowActions}
+        selectedActions={selectedActions}
+        items={items}
+        columns={[
+          {
+            name: 'email',
+            isTitle: true,
+          },
+          {
+            name: 'type',
+            renderValue: (row) => row.type,
+          },
+        ]}
+        keys={{
+          order: ['id', 'email', 'type'],
+          search: ['email', 'type'],
+        }}
+      />
       <UsersDetailForm />
     </>
   );

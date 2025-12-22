@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { modelKeys } from '@model';
 import { getConfig } from '../config';
-import { ViewLayout } from '../components';
+import { NewItemButton, ViewLayout } from '../components';
 
 const TranslationsView = () => {
   const { routes } = getConfig();
@@ -14,6 +14,7 @@ const TranslationsView = () => {
       model={modelKeys.translations}
       rootUrl={routes.translations.root}
       title={t('translations.title')}
+      titleSlot={<NewItemButton model={modelKeys.translations} />}
     >
       <Outlet />
     </ViewLayout>

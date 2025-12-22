@@ -1,17 +1,25 @@
-import { ControlledForm } from '../../../components';
+import { DetailDrawer } from '../../../components';
 import { IMessagesDetailForm } from './types';
 import { useMessagesDetailForm } from './useMessagesDetailForm';
 
 const MessagesDetailForm = () => {
-  const { form } = useMessagesDetailForm();
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+    useMessagesDetailForm();
 
   return (
-    <ControlledForm<IMessagesDetailForm>
+    <DetailDrawer<IMessagesDetailForm>
+      id={id}
+      open={!!id}
+      defaultTitle={title}
       form={form}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      onReset={onReset}
+      onDelete={onDelete}
     >
       <>...MessagesDetailForm...</>
-    </ControlledForm>
+    </DetailDrawer>
   );
-}
+};
 
 export default MessagesDetailForm;

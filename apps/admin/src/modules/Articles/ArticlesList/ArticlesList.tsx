@@ -15,9 +15,8 @@ const ArticlesList = () => {
         root={rootUrl}
         rowActions={rowActions}
         selectedActions={selectedActions}
-        items={[...items]}
-        tags={[...filter.tags]}
-        categories={[...filter.categories]}
+        items={items}
+        filter={filter}
         columns={[
           {
             name: 'name',
