@@ -9,6 +9,7 @@ const Breadcrumbs = () => {
 
   const {
     root,
+    routeName,
     subRouteType,
     subRouteName,
     localeLabel,
@@ -34,7 +35,7 @@ const Breadcrumbs = () => {
             {subRouteName === 'new' ? subRouteName : `#${subRouteName}`}
           </Typography>
         )}
-        {subRouteType === 'panel' && (
+        {routeName === 'settings' && (
           <Typography variant="body2" sx={{ color: 'text.primary' }}>
             {panelName}
           </Typography>

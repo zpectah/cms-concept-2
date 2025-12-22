@@ -169,7 +169,7 @@ const AppRouter = () => {
                   element: <SettingsClientForm />,
                 },
                 {
-                  path: routes.settings.panels.locales,
+                  path: routes.settings.panels.languages,
                   element: <SettingsLanguages />,
                 },
                 {
@@ -234,10 +234,6 @@ const AppRouter = () => {
               children: [
                 {
                   index: true,
-                  element: <FilesList />,
-                },
-                {
-                  path: routes.files.upload,
                   element: <FilesList />,
                 },
                 {

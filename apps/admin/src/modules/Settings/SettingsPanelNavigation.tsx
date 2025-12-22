@@ -26,7 +26,7 @@ const SettingsPanelNavigation = () => {
     },
     {
       name: 'languages',
-      path: `${routes.settings.root}/${routes.settings.panels.locales}`,
+      path: `${routes.settings.root}/${routes.settings.panels.languages}`,
       label: 'languages', // TODO
       visible: true, // TODO
     },

@@ -9,7 +9,7 @@ const FilesUploadForm = () => {
   return (
     <DetailDrawer<IFilesUploadForm>
       id={id}
-      open={!!id}
+      open={!!id && id === 'new'}
       defaultTitle={title}
       form={form}
       onClose={onClose}

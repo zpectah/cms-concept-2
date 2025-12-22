@@ -19,7 +19,6 @@ export const routes = {
   files: {
     root: '/files',
     detail: detailIdSuffix,
-    upload: 'id/new',
   },
   members: {
     root: '/members',
@@ -40,10 +39,10 @@ export const routes = {
   settings: {
     root: '/settings',
     panels: {
-      global: 'panel/global',
-      client: 'panel/client',
-      locales: 'panel/locales',
-      blacklist: 'panel/blacklist',
+      global: 'global',
+      client: 'client',
+      languages: 'languages',
+      blacklist: 'blacklist',
     },
   },
   tags: {
