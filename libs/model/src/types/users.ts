@@ -6,6 +6,8 @@ export type UsersType = EnumKeyValues<typeof usersTypeKeys>;
 
 export interface UsersItem extends ItemBase {
   type: UsersType;
+
+  email: string;
 }
 
 export type Users = UsersItem[];

@@ -10,16 +10,24 @@ export const contentModelKeys = {
   translations: 'translations',
 } as const;
 
+export const entitiesModelKeys = {
+  members: 'members',
+  users: 'users',
+} as const;
+
+export const feedbackModelKeys = {
+  comments: 'comments',
+  messages: 'messages',
+} as const;
+
 export const systemModelKeys = {
   blacklist: 'blacklist',
-  comments: 'comments',
-  members: 'members',
-  messages: 'messages',
   requests: 'requests',
-  users: 'users',
 } as const;
 
 export const modelKeys = {
   ...contentModelKeys,
+  ...entitiesModelKeys,
+  ...feedbackModelKeys,
   ...systemModelKeys,
 } as const;

@@ -1,4 +1,10 @@
-import { contentModelKeys, modelKeys, systemModelKeys } from '../enums';
+import {
+  contentModelKeys,
+  entitiesModelKeys,
+  feedbackModelKeys,
+  modelKeys,
+  systemModelKeys,
+} from '../enums';
 import { ArticlesDetail, ArticlesItem } from './articles';
 import { BlacklistDetail, BlacklistItem } from './blacklist';
 import { CategoriesDetail, CategoriesItem } from './categories';
@@ -16,16 +22,22 @@ import { TranslationsDetail, TranslationsItem } from './translations';
 import { UsersDetail, UsersItem } from './users';
 import { PropsFromItem, UnionToIntersection } from '@common';
 
-/** CMS Content only model names */
+/** Content type only model names */
 export type ContentModelNames = keyof typeof contentModelKeys;
 
-/** CMS System only model names */
+/** Entities type only model names */
+export type EntitiesModelNames = keyof typeof entitiesModelKeys;
+
+/** Feedback type only model names */
+export type FeedbackModelNames = keyof typeof feedbackModelKeys;
+
+/** System type only model names */
 export type SystemModelNames = keyof typeof systemModelKeys;
 
-/** CMS All model names */
+/** All model names */
 export type ModelNames = keyof typeof modelKeys;
 
-/** Basic union type of content item model */
+/** Union type of content item model */
 export type ContentModelItem =
   | ArticlesItem
   | CategoriesItem
@@ -37,45 +49,53 @@ export type ContentModelItem =
   | TagsItem
   | TranslationsItem;
 
-/** Basic union type of system item model */
-export type SystemModelItem =
-  | BlacklistItem
-  | CommentsItem
-  | MembersItem
-  | MessagesItem
-  | RequestsItem
-  | UsersItem;
+/** Union type of entities item model */
+export type EntitiesModelItem = MembersItem | UsersItem;
 
-/** Basic union type of mixed item model */
-export type CommonModelItem = ContentModelItem | SystemModelItem;
+/** Union type of feedback item model */
+export type FeedbackModelItem = CommentsItem | MessagesItem;
 
-/** Basic union type of content detail model */
+/** Union type of system item model */
+export type SystemModelItem = BlacklistItem | RequestsItem;
+
+/** Union type of mixed item model */
+export type UnionModelItem =
+  | ContentModelItem
+  | EntitiesModelItem
+  | FeedbackModelItem
+  | SystemModelItem;
+
+/** Union type of content detail model */
 export type ContentModelDetail =
   | ArticlesDetail
   | CategoriesDetail
   | CustomFieldsDetail
   | FilesDetail
+  | MenuDetail
+  | MenuItemsDetail
   | PagesDetail
   | TagsDetail
   | TranslationsDetail;
 
-/** Basic union type of system detail model */
-export type SystemModelDetail =
-  | BlacklistDetail
-  | CommentsDetail
-  | MenuDetail
-  | MenuItemsDetail
-  | MembersDetail
-  | MessagesDetail
-  | RequestsDetail
-  | UsersDetail;
+/** Union type of entities detail model */
+export type EntitiesModelDetail = MembersDetail | UsersDetail;
 
-/** Basic union type of mixed detail model */
-export type CommonModelDetail = ContentModelDetail | SystemModelDetail;
+/** Union type of feedback detail model */
+export type FeedbackModelDetail = CommentsDetail | MessagesDetail;
+
+/** Union type of system detail model */
+export type SystemModelDetail = BlacklistDetail | RequestsDetail;
+
+/** Union type of mixed detail model */
+export type UnionModelDetail =
+  | ContentModelDetail
+  | EntitiesModelDetail
+  | FeedbackModelDetail
+  | SystemModelDetail;
 
 /* */
 
-/** List item union type */
+/** List item partial union type */
 export type ListModelItem = Partial<
   | ArticlesItem
   | CategoriesItem

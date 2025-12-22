@@ -6,6 +6,8 @@ export type PagesType = EnumKeyValues<typeof pagesTypeKeys>;
 
 export interface PagesItem extends ItemBase {
   type: PagesType;
+
+  name: string;
 }
 
 export type Pages = PagesItem[];

@@ -6,7 +6,9 @@ export type MessagesType = EnumKeyValues<typeof messagesTypeKeys>;
 
 export interface MessagesItem extends ItemBase {
   type: MessagesType;
-
+  sender: string;
+  subject: string;
+  content: string;
   read: boolean;
 }
 
