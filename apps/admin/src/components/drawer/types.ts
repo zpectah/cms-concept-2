@@ -22,11 +22,13 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   drawerProps?: Partial<DrawerBaseProps>;
   /** Form reset callback */
   onReset?: () => void;
+  /** Delete item callback */
+  onDelete?: (id: number) => void;
   /** Detail ID */
   id: string | 'new' | undefined;
   /** Rest of controlled form props */
   formProps?: Partial<Omit<ControlledFormProps<T>, 'form'>>;
-  /** Dynamic slot ID for externally render node and put it in form */
+  /** Dynamic portal slot ID for externally render node and put it in form */
   dynamicSlotId?: string;
 }
 

@@ -14,6 +14,7 @@ import {
   IconRosette,
   IconRosetteDiscountCheckFilled,
   IconPencil,
+  IconDownload,
 } from '@tabler/icons-react';
 import {
   contentModelKeysArray,
@@ -31,16 +32,13 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
-  const { actions: userActions } = useUserActions();
   const { model, root, rowActions } = useDataListContext();
+  const { actions: userActions } = useUserActions(model);
 
   const renderFavoriteStar = useCallback(
     (id: string | number | undefined) => {
       if (!model || !id) return null;
-
-      const isModelValid = contentModelKeysArray.includes(model);
-
-      if (!isModelValid) return null;
+      if (!contentModelKeysArray.includes(model)) return null;
 
       return (
         <FavoriteStar model={model as ContentModelNames} id={Number(id)} />
@@ -98,7 +96,7 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
 
   const renderRowActions = useCallback(
     (row: T) => {
-      if (!row) return null;
+      if (!row.id) return null;
 
       const actions = [
         {
@@ -152,6 +150,13 @@ export const useDataListView = <T extends CommonModelItemProps>() => {
           onClick: (id: number) => rowActions?.onRead?.(id),
           disabled: !userActions.modify,
           hidden: !rowActions?.onRead || !row?.read,
+        },
+        {
+          id: 'download',
+          label: 'Download',
+          icon: <IconDownload size={dataListIconSizeDefault} />,
+          onClick: (id: number) => rowActions?.onDownload?.(id),
+          hidden: !rowActions?.onDownload,
         },
         {
           id: 'delete',

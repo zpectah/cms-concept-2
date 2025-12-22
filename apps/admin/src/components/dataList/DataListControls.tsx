@@ -35,7 +35,6 @@ import { dataListIconSizeDefault } from './constants';
 const DataListControls = () => {
   const { t } = useTranslation(['common', 'form', 'model', 'components']);
   const { setConfirmDialog } = useAppStore();
-  const { actions: userActions } = useUserActions();
   const {
     model,
     query,
@@ -58,6 +57,7 @@ const DataListControls = () => {
     controlsOpen,
     setControlsOpen,
   } = useDataListContext();
+  const { actions: userActions } = useUserActions(model);
 
   const orderByActive = useMemo(
     () => keys?.order && keys?.order.length,

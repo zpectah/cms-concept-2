@@ -1,6 +1,10 @@
+import { useCallback } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-react';
+import { useAppStore } from '../../store';
+import { useViewContext } from '../../contexts';
+import { useUserActions } from '../../hooks';
 import { DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT } from '../../constants';
 import { Button, DrawerBase, DrawerLayout, ButtonProps } from '../ui';
 import { ControlledForm } from '../form';
@@ -19,11 +23,15 @@ const DetailDrawer = <T extends FieldValues>({
   id,
   initWidth,
   onClose,
+  onDelete,
   onReset,
   onSubmit,
   open,
 }: DetailDrawerProps<T>) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['common', 'model']);
+  const { setConfirmDialog } = useAppStore();
+  const { model } = useViewContext();
+  const { actions: userActions } = useUserActions(model);
   const { context, setFullscreen } = useDetailDrawer({ defaultTitle });
 
   const {
@@ -37,6 +45,21 @@ const DetailDrawer = <T extends FieldValues>({
     setFullscreen(false);
     onClose();
   };
+
+  const deleteConfirmHandler = useCallback(() => {
+    setConfirmDialog({
+      title: t('message.confirm.delete.title'),
+      content: t('message.confirm.delete.content', {
+        subject:
+          t(`model:plurals.${model}.item`, {
+            count: 1,
+          }).toLowerCase() + ` #${id}`,
+      }),
+      context: 'delete',
+      onConfirm: () => onDelete?.(Number(id)),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, model, onDelete]);
 
   const headingActions = [
     {
@@ -55,6 +78,15 @@ const DetailDrawer = <T extends FieldValues>({
       variant: 'outlined',
     },
     {
+      id: 'delete',
+      children: t('button.delete'),
+      onClick: deleteConfirmHandler,
+      variant: 'outlined',
+      color: 'error',
+      disabled: !userActions.delete,
+      hidden: !onDelete || id === 'new',
+    },
+    {
       id: 'reset',
       children: t('button.reset'),
       onClick: () => onReset?.(),
@@ -67,58 +99,55 @@ const DetailDrawer = <T extends FieldValues>({
       type: 'submit',
       children: id === 'new' ? t('button.create') : t('button.update'),
       variant: 'contained',
+      disabled: id === 'new' ? !userActions.create : !userActions.modify,
     },
   ];
 
   return (
-    <>
-      <DetailDrawerContextProvider value={context}>
-        <DrawerBase
-          anchor="right"
-          labelId={`detail-drawer-${id}`}
-          open={open}
-          onClose={closeHandler}
-          width={
-            fullscreen
-              ? '100%'
-              : {
-                  xs: '100%',
-                  md: initWidth
-                    ? initWidth
-                    : DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT,
-                }
-          }
-          disableEscapeKeyDown={disableEscapeKeyDown}
-          disableBackdropClose={disableBackdropClose}
-          {...drawerProps}
-          ModalProps={{
-            keepMounted: true,
-            ...drawerProps?.ModalProps,
-          }}
+    <DetailDrawerContextProvider value={context}>
+      <DrawerBase
+        anchor="right"
+        labelId={`detail-drawer-${id}`}
+        open={open}
+        onClose={closeHandler}
+        width={
+          fullscreen
+            ? '100%'
+            : {
+                xs: '100%',
+                md: initWidth ? initWidth : DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT,
+              }
+        }
+        disableEscapeKeyDown={disableEscapeKeyDown}
+        disableBackdropClose={disableBackdropClose}
+        {...drawerProps}
+        ModalProps={{
+          keepMounted: true,
+          ...drawerProps?.ModalProps,
+        }}
+      >
+        <ControlledForm<T>
+          form={form}
+          onSubmit={form.handleSubmit(onSubmit)}
+          {...formProps}
+          sx={{ width: '100%', height: '100%', ...formProps?.sx }}
         >
-          <ControlledForm<T>
-            form={form}
-            onSubmit={form.handleSubmit(onSubmit)}
-            {...formProps}
-            sx={{ width: '100%', height: '100%', ...formProps?.sx }}
-          >
-            <DrawerLayout
-              title={context.title}
-              titleActions={headingActions}
-              actions={footerActions?.map((button, index) => {
-                if (button.hidden) return null;
+          <DrawerLayout
+            title={context.title}
+            titleActions={headingActions}
+            actions={footerActions?.map((button, index) => {
+              if (button.hidden) return null;
 
-                return <Button key={button.id || index} {...button} />;
-              })}
-              onClose={closeHandler}
-            >
-              {children}
-              {dynamicSlotId && <div id={dynamicSlotId} />}
-            </DrawerLayout>
-          </ControlledForm>
-        </DrawerBase>
-      </DetailDrawerContextProvider>
-    </>
+              return <Button key={button.id || index} {...button} />;
+            })}
+            onClose={closeHandler}
+          >
+            {children}
+            {dynamicSlotId && <div id={dynamicSlotId} />}
+          </DrawerLayout>
+        </ControlledForm>
+      </DrawerBase>
+    </DetailDrawerContextProvider>
   );
 };
 

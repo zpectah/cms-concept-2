@@ -29,7 +29,7 @@ const DataList = <T extends CommonModelItem>({
     onOrderBy: originalOnOrderBy,
     sortBy: originalSortBy,
     rows,
-    ...dataListRest
+    ...restOfDataList
   } = useDataList({
     items,
     searchKeys: keys.search,
@@ -41,7 +41,7 @@ const DataList = <T extends CommonModelItem>({
   const { rows: paginatedRows, ...pagination } = useDataListPagination({
     rows,
   });
-  const { actions } = useUserActions();
+  const { actions } = useUserActions(model);
 
   const contextValue = {
     model,
@@ -60,7 +60,7 @@ const DataList = <T extends CommonModelItem>({
       search: keys.search as string[],
       order: keys.order as string[],
     },
-    ...dataListRest,
+    ...restOfDataList,
   };
 
   const renderView = useMemo(() => {

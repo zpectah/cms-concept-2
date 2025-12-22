@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { CommonModelItem, Categories, Tags } from '@model';
+import { Categories, Tags, CommonModelItemProps } from '@model';
 import { DataListFilter, DataListSortOrder, UseDataListProps } from './types';
 import { searchItems, sortItems } from './helpers';
 import { dataListSortOrderKeys } from './enums';
@@ -10,7 +10,7 @@ import {
   filterDefaults,
 } from './constants';
 
-export const useDataList = <T extends CommonModelItem>({
+export const useDataList = <T extends CommonModelItemProps>({
   items = [],
   categories = [],
   tags = [],
@@ -33,37 +33,33 @@ export const useDataList = <T extends CommonModelItem>({
   const rawRows = searchItems(items, query, searchKeys);
 
   const rows = useMemo(() => {
-    return (
-      [...rawRows]
-        // .filter((item) => {
-        //   if (showDeleted) return true;
-        //
-        //   // TODO
-        //
-        //   return item.deleted === false;
-        // })
-        .filter((item) => {
-          if (filter.types?.length === 0) return true;
+    return [...rawRows]
+      .filter((item) => {
+        if (showDeleted) return true;
 
-          return item.type && filter.types?.includes(item.type);
-        })
-        .filter((item) => {
-          if (filter.categories?.length === 0) return true;
+        return item.deleted === false;
+      })
+      .filter((item) => {
+        if (filter.types?.length === 0) return true;
 
-          const categories =
-            (item as T & { categories?: number[] }).categories ?? [];
+        return item.type && filter.types?.includes(item.type as string);
+      })
+      .filter((item) => {
+        if (filter.categories?.length === 0) return true;
 
-          return categories.some((c) => filter.categories?.includes(c));
-        })
-        .filter((item) => {
-          if (filter.tags?.length === 0) return true;
+        const categories =
+          (item as T & { categories?: number[] }).categories ?? [];
 
-          const tags = (item as T & { tags?: number[] }).tags ?? [];
+        return categories.some((c) => filter.categories?.includes(c));
+      })
+      .filter((item) => {
+        if (filter.tags?.length === 0) return true;
 
-          return tags.some((t) => filter.tags?.includes(t));
-        })
-        .sort(sortItems(sortBy, orderBy))
-    );
+        const tags = (item as T & { tags?: number[] }).tags ?? [];
+
+        return tags.some((t) => filter.tags?.includes(t));
+      })
+      .sort(sortItems(sortBy, orderBy));
   }, [rawRows, showDeleted, sortBy, orderBy, filter]);
 
   const typeOptions = useMemo(() => {
@@ -75,7 +71,7 @@ export const useDataList = <T extends CommonModelItem>({
 
       if (!type) return;
 
-      if (types.indexOf(type) < 0) types.push(type);
+      if (types.indexOf(type as string) < 0) types.push(type as string);
     });
 
     return types;
@@ -175,7 +171,7 @@ export const useDataList = <T extends CommonModelItem>({
     if (selected.length >= 0) {
       newSelected = [];
       rows.forEach((item) => {
-        newSelected.push(item.id);
+        newSelected.push(item.id as number);
       });
     }
 

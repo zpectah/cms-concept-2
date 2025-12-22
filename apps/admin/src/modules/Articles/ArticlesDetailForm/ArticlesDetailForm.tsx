@@ -3,7 +3,7 @@ import { IArticlesDetailForm } from './types';
 import { useArticlesDetailForm } from './useArticlesDetailForm';
 
 const ArticlesDetailForm = () => {
-  const { id, detailTitle, form, onSubmit, onClose, onReset } =
+  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
     useArticlesDetailForm();
 
   const dynamicSlotId = 'articles-portal-target';
@@ -13,11 +13,12 @@ const ArticlesDetailForm = () => {
       <DetailDrawer<IArticlesDetailForm>
         id={id}
         open={!!id}
-        defaultTitle={detailTitle}
+        defaultTitle={title}
         form={form}
         onClose={onClose}
         onSubmit={onSubmit}
         onReset={onReset}
+        onDelete={onDelete}
         dynamicSlotId={dynamicSlotId}
       >
         <>...ArticlesDetailForm...id: {id}</>

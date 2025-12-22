@@ -2,45 +2,58 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useViewContext } from '../../../contexts';
+import { useAppStore } from '../../../store';
 import { IArticlesDetailForm } from './types';
 import { articlesDetailFormSchema } from './schema';
+import { defaultDataToForm } from './helpers';
 
 export const useArticlesDetailForm = () => {
   const navigate = useNavigate();
+  const { addToast } = useAppStore();
   const { id } = useParams();
   const { rootUrl } = useViewContext();
   const form = useForm<IArticlesDetailForm>({
     resolver: zodResolver(articlesDetailFormSchema),
-    defaultValues: {},
+    defaultValues: defaultDataToForm(/* TODO: locales */),
   });
 
-  const detailTitle = 'Article detail'; // TODO
+  const closeHandler = () => navigate(rootUrl);
 
-  const closeHandler = () => {
-    navigate(rootUrl);
-  };
+  const resetHandler = () => form.reset(defaultDataToForm(/* TODO: locales */));
 
   const submitHandler = (data: IArticlesDetailForm) => {
     // TODO
 
     console.log('data', data);
+
+    // TODO: callback
+    closeHandler();
+    addToast({
+      title: `Item was successfully created/updated`,
+      severity: 'success',
+      autoclose: true,
+    });
   };
 
-  const resetHandler = () => {
-    // TODO
+  const deleteHandler = (id: number) => {
+    console.log('delete', id);
 
-    form.reset({});
-
-    console.log('data', form);
+    // TODO: callback
+    closeHandler();
+    addToast({
+      title: `Item #${id} was successfully deleted`,
+      severity: 'success',
+      autoclose: true,
+    });
   };
 
   return {
     id,
-    rootUrl,
-    detailTitle,
     form,
+    title: 'Article detail',
     onSubmit: submitHandler,
     onClose: closeHandler,
     onReset: resetHandler,
+    onDelete: deleteHandler,
   };
 };
