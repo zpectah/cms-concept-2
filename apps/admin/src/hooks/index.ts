@@ -1,5 +1,6 @@
 export * from './useBreadcrumbs';
 export * from './useLocale';
+export * from './useMediaQuery';
 export * from './useMenuItems';
 export * from './useModelFavorites';
 export * from './useNewItem';

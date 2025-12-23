@@ -11,10 +11,10 @@ import {
   IconRosetteDiscountCheckFilled,
   IconTrash,
   IconTrashX,
-  IconGhost3,
-  IconGhostOff,
   IconAdjustments,
   IconVocabulary,
+  IconRestore,
+  IconArchive,
 } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useUserActions } from '../../hooks';
@@ -216,9 +216,9 @@ const DataListControls = () => {
         id: 'deleted',
         label: showDeleted ? t('button.hideDeleted') : t('button.showDeleted'),
         icon: showDeleted ? (
-          <IconGhostOff size={dataListIconSizeDefault} />
+          <IconArchive size={dataListIconSizeDefault} />
         ) : (
-          <IconGhost3 size={dataListIconSizeDefault} />
+          <IconRestore size={dataListIconSizeDefault} />
         ),
         onClick: onToggleShowDeleted,
         disabled: false,
