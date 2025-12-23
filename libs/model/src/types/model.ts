@@ -8,6 +8,7 @@ import {
   redactionModelKeys,
   systemModelKeys,
 } from '../enums';
+import { modelGroups } from '../constants';
 import { ArticlesDetail, ArticlesItem } from './articles';
 import { BlacklistDetail, BlacklistItem } from './blacklist';
 import { CategoriesDetail, CategoriesItem } from './categories';
@@ -44,6 +45,9 @@ export type SystemModelNames = keyof typeof systemModelKeys;
 
 /** All model names */
 export type ModelNames = keyof typeof modelKeys;
+
+/** Permission model groups */
+export type ModelGroups = keyof typeof modelGroups;
 
 /** Union type of redaction content item model */
 export type RedactionModelItem = ArticlesItem | FilesItem | TagsItem;
@@ -108,22 +112,14 @@ export type UnionModelDetail =
   | FeedbackModelDetail
   | SystemModelDetail;
 
-/* */
+/* --- --- --- --- */
 
 /** List item partial union type */
 export type ListModelItem = Partial<
-  | ArticlesItem
-  | CategoriesItem
-  | CustomFieldsItem
-  | FilesItem
-  | MenuItem
-  | MenuItemsItem
-  | PagesItem
-  | TagsItem
-  | TranslationsItem
-  | MembersItem
-  | MessagesItem
-  | UsersItem
+  | RedactionModelItem
+  | OrganizationModelItem
+  | EntitiesModelItem
+  | FeedbackModelItem
 >;
 
 /** Model item props with all keys and all value types */

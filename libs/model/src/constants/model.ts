@@ -1,11 +1,11 @@
 import {
   contentModelKeys,
-  systemModelKeys,
-  modelKeys,
-  redactionModelKeys,
-  organizationModelKeys,
-  feedbackModelKeys,
   entitiesModelKeys,
+  feedbackModelKeys,
+  modelKeys,
+  organizationModelKeys,
+  redactionModelKeys,
+  systemModelKeys,
 } from '../enums';
 
 export const redactionModelKeysArray = [...Object.keys(redactionModelKeys)] as [
@@ -41,3 +41,11 @@ export const modelKeysArray = [...Object.keys(modelKeys)] as [
   string,
   ...string[]
 ];
+
+export const modelGroups = {
+  redaction: redactionModelKeysArray,
+  organization: organizationModelKeysArray,
+  feedback: feedbackModelKeysArray,
+  entities: entitiesModelKeysArray,
+  system: systemModelKeysArray,
+};
