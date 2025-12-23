@@ -39,7 +39,7 @@ const DataList = <T extends ListModelItem>({
   const { rows: paginatedRows, ...pagination } = useDataListPagination({
     rows,
   });
-  const { actions } = useUserActions(model);
+  const { model: modelActions } = useUserActions(model);
 
   const contextValue = {
     model,
@@ -47,7 +47,7 @@ const DataList = <T extends ListModelItem>({
     root,
     rowActions,
     selectedActions,
-    modelActions: actions,
+    modelActions,
     onOrderBy: (key: string) => originalOnOrderBy(key as keyof T),
     sortBy: originalSortBy as string,
     pagination,

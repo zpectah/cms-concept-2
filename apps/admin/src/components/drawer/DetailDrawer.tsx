@@ -31,7 +31,7 @@ const DetailDrawer = <T extends FieldValues>({
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
   const { model } = useViewContext();
-  const { actions: userActions } = useUserActions(model);
+  const { model: modelActions } = useUserActions(model);
   const { context, setFullscreen } = useDetailDrawer({ defaultTitle });
 
   const {
@@ -83,7 +83,7 @@ const DetailDrawer = <T extends FieldValues>({
       onClick: deleteConfirmHandler,
       variant: 'outlined',
       color: 'error',
-      disabled: !userActions.delete,
+      disabled: !modelActions.delete,
       hidden: !onDelete || id === 'new',
     },
     {
@@ -99,7 +99,7 @@ const DetailDrawer = <T extends FieldValues>({
       type: 'submit',
       children: id === 'new' ? t('button.create') : t('button.update'),
       variant: 'contained',
-      disabled: id === 'new' ? !userActions.create : !userActions.modify,
+      disabled: id === 'new' ? !modelActions.create : !modelActions.modify,
     },
   ];
 
@@ -108,7 +108,7 @@ const DetailDrawer = <T extends FieldValues>({
       <DrawerBase
         anchor="right"
         labelId={`detail-drawer-${id}`}
-        open={open}
+        open={open && modelActions.view}
         onClose={closeHandler}
         width={
           fullscreen

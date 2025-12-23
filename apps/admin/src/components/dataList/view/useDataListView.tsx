@@ -34,7 +34,7 @@ export const useDataListView = <T extends ListModelItem>() => {
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
   const { model, root, rowActions } = useDataListContext();
-  const { actions: userActions } = useUserActions(model);
+  const { model: modelActions } = useUserActions(model);
 
   const renderFavoriteStar = useCallback(
     (id: string | number | undefined) => {
@@ -105,7 +105,7 @@ export const useDataListView = <T extends ListModelItem>() => {
           label: t('button.detail'),
           icon: <IconPencil size={dataListIconSizeDefault} />,
           onClick: (id: number) => detailHandler(id),
-          disabled: !userActions.view,
+          disabled: !modelActions.view,
           hidden: !rowActions?.onDetail,
         },
         {
@@ -113,7 +113,7 @@ export const useDataListView = <T extends ListModelItem>() => {
           label: t('button.clone'),
           icon: <IconCopy size={dataListIconSizeDefault} />,
           onClick: (id: number) => rowActions?.onClone?.(id),
-          disabled: !userActions.create,
+          disabled: !modelActions.create,
           hidden: !rowActions?.onClone,
         },
         {
@@ -125,7 +125,7 @@ export const useDataListView = <T extends ListModelItem>() => {
             <IconEyeOff size={dataListIconSizeDefault} />
           ),
           onClick: (id: number) => rowActions?.onToggle?.(id),
-          disabled: !userActions.modify,
+          disabled: !modelActions.modify,
           hidden: !rowActions?.onToggle,
         },
         {
@@ -137,7 +137,7 @@ export const useDataListView = <T extends ListModelItem>() => {
             <IconRosette size={dataListIconSizeDefault} />
           ),
           onClick: (id: number) => rowActions?.onApprove?.(id),
-          disabled: !userActions.approve,
+          disabled: !modelActions.approve,
           hidden: !rowActions?.onApprove,
         },
         {
@@ -149,7 +149,7 @@ export const useDataListView = <T extends ListModelItem>() => {
             <IconVocabularyOff size={dataListIconSizeDefault} />
           ),
           onClick: (id: number) => rowActions?.onRead?.(id),
-          disabled: !userActions.modify,
+          disabled: !modelActions.modify,
           hidden: !rowActions?.onRead || !row?.read,
         },
         {
@@ -168,7 +168,7 @@ export const useDataListView = <T extends ListModelItem>() => {
             <IconTrash size={dataListIconSizeDefault} />
           ),
           onClick: deleteConfirmHandler,
-          disabled: !userActions.delete,
+          disabled: !modelActions.delete,
           hidden: !rowActions?.onDelete,
           color: 'warning',
         },
@@ -177,7 +177,7 @@ export const useDataListView = <T extends ListModelItem>() => {
           label: t('button.deletePermanent'),
           icon: <IconTrashX size={dataListIconSizeDefault} />,
           onClick: deletePermanentConfirmHandler,
-          disabled: !userActions.deletePermanent,
+          disabled: !modelActions.deletePermanent,
           hidden: !row.deleted || !rowActions?.onDeletePermanent,
           color: 'error',
         },
@@ -210,7 +210,7 @@ export const useDataListView = <T extends ListModelItem>() => {
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      userActions,
+      modelActions,
       rowActions,
       deleteConfirmHandler,
       deletePermanentConfirmHandler,

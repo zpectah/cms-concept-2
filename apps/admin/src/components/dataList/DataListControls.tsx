@@ -57,7 +57,7 @@ const DataListControls = () => {
     controlsOpen,
     setControlsOpen,
   } = useDataListContext();
-  const { actions: userActions } = useUserActions(model);
+  const { model: modelActions } = useUserActions(model);
 
   const orderByActive = useMemo(
     () => keys?.order && keys?.order.length,
@@ -222,7 +222,7 @@ const DataListControls = () => {
         ),
         onClick: onToggleShowDeleted,
         disabled: false,
-        hidden: !userActions.deletePermanent,
+        hidden: !modelActions.deletePermanent,
       },
       {
         id: 'toggle',
@@ -231,7 +231,7 @@ const DataListControls = () => {
         }),
         icon: <IconEye size={dataListIconSizeDefault} />,
         onClick: () => selectedActions?.onToggleSelected?.(selected),
-        disabled: selected.length === 0 || !userActions.modify,
+        disabled: selected.length === 0 || !modelActions.modify,
         hidden: !selectedActions?.onToggleSelected,
         badge: true,
       },
@@ -242,7 +242,7 @@ const DataListControls = () => {
         }),
         icon: <IconRosetteDiscountCheckFilled size={dataListIconSizeDefault} />,
         onClick: () => selectedActions?.onApproveSelected?.(selected),
-        disabled: selected.length === 0 || !userActions.approve,
+        disabled: selected.length === 0 || !modelActions.approve,
         hidden: !selectedActions?.onApproveSelected,
         badge: true,
       },
@@ -253,7 +253,7 @@ const DataListControls = () => {
         }),
         icon: <IconVocabulary size={dataListIconSizeDefault} />,
         onClick: () => selectedActions?.onReadSelected?.(selected),
-        disabled: selected.length === 0 || !userActions.modify,
+        disabled: selected.length === 0 || !modelActions.modify,
         hidden: !selectedActions?.onReadSelected,
         badge: true,
       },
@@ -264,7 +264,7 @@ const DataListControls = () => {
         }),
         icon: <IconTrash size={dataListIconSizeDefault} />,
         onClick: deleteConfirmHandler,
-        disabled: selected.length === 0 || !userActions.delete,
+        disabled: selected.length === 0 || !modelActions.delete,
         hidden: !selectedActions?.onDeleteSelected,
         color: 'warning',
         badge: true,
@@ -276,7 +276,7 @@ const DataListControls = () => {
         }),
         icon: <IconTrashX size={dataListIconSizeDefault} />,
         onClick: deletePermanentConfirmHandler,
-        disabled: selected.length === 0 || !userActions.deletePermanent,
+        disabled: selected.length === 0 || !modelActions.deletePermanent,
         hidden: !selectedActions?.onDeletePermanentSelected || !showDeleted,
         color: 'error',
         badge: true,
@@ -316,7 +316,7 @@ const DataListControls = () => {
   }, [
     checkboxState,
     showDeleted,
-    userActions,
+    modelActions,
     selected,
     selectedActions,
     deleteConfirmHandler,

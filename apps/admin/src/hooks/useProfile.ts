@@ -9,7 +9,8 @@ export const useProfile = () => {
       firstName: 'John',
       lastName: 'Doe',
 
-      accessRight: 9,
+      // TODO
+      accessRights: 9,
     },
     active: true,
   };

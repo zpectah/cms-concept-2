@@ -14,7 +14,7 @@ export const useBreadcrumbs = () => {
   const subRouteType = attrs[1];
   const subRouteName =
     routeName === 'settings'
-      ? toCamelCase(attrs[1])
+      ? attrs[1] && toCamelCase(attrs[1])
       : attrs[2] && toCamelCase(attrs[2]);
   const root = (routes as Record<string, { root: string }>)[routeName].root;
 
