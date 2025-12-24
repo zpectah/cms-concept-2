@@ -113,7 +113,26 @@ const theme = createTheme({
       },
     },
     MuiFormLabel: {},
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          fontFamily: '"JetBrains Mono Variable", monospace',
+        },
+      },
+    },
     MuiTextField: {
+      styleOverrides: {
+        root: {
+          input: {},
+          textarea: {},
+        },
+      },
+      defaultProps: {},
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {},
+      },
       defaultProps: {},
     },
   },

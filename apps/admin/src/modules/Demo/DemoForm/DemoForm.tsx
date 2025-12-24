@@ -54,7 +54,7 @@ const DemoForm = () => {
             disableToggle
           />
           <PhoneInput placeholder="Phone input" />
-          <Textarea placeholder="Textarea" />
+          <Textarea placeholder="Textarea i" />
           <Wysiwyg placeholder="Wysiwyg editor" />
         </Stack>
         <Stack>
@@ -96,7 +96,11 @@ const DemoForm = () => {
           >
             <EmailInput id="input-id" placeholder="Email input" fullWidth />
           </Field>
-          <Field label="Field label always horizontal" layout="horizontal">
+          <Field
+            label="Field label always horizontal"
+            labelCaption="Label caption text"
+            layout="horizontal"
+          >
             <EmailInput placeholder="Email input" fullWidth />
           </Field>
           <Field label="Field label vertical" layout="vertical" size={12}>

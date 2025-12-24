@@ -14,7 +14,20 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
 
     const { date } = getFormatByLocale(language);
 
-    return <MuiDatePicker format={date} inputRef={ref} {...rest} />;
+    return (
+      <MuiDatePicker
+        format={date}
+        inputRef={ref}
+        {...rest}
+        slotProps={{
+          textField: {
+            sx: {
+              fontFamily: '"JetBrains Mono Variable", monospace',
+            },
+          },
+        }}
+      />
+    );
   }
 );
 

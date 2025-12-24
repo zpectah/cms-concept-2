@@ -1,4 +1,4 @@
-import { Box, Stack, Grid, FormHelperText } from '@mui/material';
+import { Box, Stack, Grid, FormHelperText, Typography } from '@mui/material';
 import { Label } from '../label';
 import { fieldLayoutKeys } from './enums';
 import { FieldProps } from './types';
@@ -10,6 +10,7 @@ import {
 const Field = ({
   children,
   label,
+  labelCaption,
   id,
   isRequired,
   helpers = [],
@@ -66,6 +67,11 @@ const Field = ({
           <Label required={isRequired} htmlFor={id} {...labelProps}>
             {label}
           </Label>
+          {labelCaption && (
+            <Typography variant="caption" color="textDisabled">
+              {labelCaption}
+            </Typography>
+          )}
         </Stack>
       </Grid>
       <Grid size={sizes[layout].input}>

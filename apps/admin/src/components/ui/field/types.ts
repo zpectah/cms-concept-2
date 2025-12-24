@@ -9,6 +9,8 @@ export type FieldLayout = keyof typeof fieldLayoutKeys;
 export interface FieldProps extends WithChildren {
   /** Field label */
   label: ReactNode;
+  /** Small caption under label, recommended for horizontal layout */
+  labelCaption?: string;
   /** Field ID */
   id?: string;
   /** Is value required */
