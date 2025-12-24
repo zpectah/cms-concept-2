@@ -1,6 +1,4 @@
-import { useMemo } from 'react';
 import { Box, Stack, Grid, FormHelperText } from '@mui/material';
-import { useMediaQuery } from '../../../hooks';
 import { Label } from '../label';
 import { fieldLayoutKeys } from './enums';
 import { FieldProps } from './types';
@@ -18,12 +16,11 @@ const Field = ({
   errors = [],
   layout = fieldLayoutKeys.responsive,
   spacing = 1,
+  size = 12,
   gridProps,
   labelProps,
   inputBoxProps,
 }: FieldProps) => {
-  const { up } = useMediaQuery();
-
   const sizes = {
     responsive: {
       label: {
@@ -45,42 +42,51 @@ const Field = ({
     },
   };
 
+  const offset = {
+    responsive: {
+      xs: 0,
+      md: fieldGridLabelSizeDefault,
+    },
+    horizontal: fieldGridLabelSizeDefault,
+    vertical: 0,
+  };
+
   const isMessages = helpers?.length > 0 || errors?.length > 0;
 
-  const isLabelHorizontal = useMemo(() => {
-    let horizontal = false;
-    if (layout === fieldLayoutKeys.horizontal) horizontal = true;
-    if (layout === fieldLayoutKeys.responsive && up.md) horizontal = true;
-
-    return horizontal;
-  }, [layout, up]);
-
   return (
-    <Grid container spacing={spacing} {...gridProps}>
+    <Grid container spacing={spacing} size={size} {...gridProps}>
       <Grid size={sizes[layout].label}>
-        <Box sx={{ pt: isLabelHorizontal ? 2 : 0 }}>
+        <Stack
+          direction="column"
+          alignItems="flex-start"
+          justifyContent="center"
+          flexWrap="wrap"
+          sx={{ height: '100%' }}
+        >
           <Label required={isRequired} htmlFor={id} {...labelProps}>
             {label}
           </Label>
-        </Box>
+        </Stack>
       </Grid>
       <Grid size={sizes[layout].input}>
         <Stack direction="column" spacing={spacing}>
           <Box {...inputBoxProps}>{children}</Box>
-          {isMessages && (
-            <Stack direction="column" spacing={spacing}>
-              {helpers?.map((text, index) => (
-                <FormHelperText key={`h_${index}`}>{text}</FormHelperText>
-              ))}
-              {errors?.map((text, index) => (
-                <FormHelperText key={`h_${index}`} error>
-                  {text}
-                </FormHelperText>
-              ))}
-            </Stack>
-          )}
         </Stack>
       </Grid>
+      {isMessages && (
+        <Grid size={sizes[layout].input} offset={offset[layout]}>
+          <Stack direction="column" spacing={spacing}>
+            {helpers?.map((text, index) => (
+              <FormHelperText key={`h_${index}`}>{text}</FormHelperText>
+            ))}
+            {errors?.map((text, index) => (
+              <FormHelperText key={`h_${index}`} error>
+                {text}
+              </FormHelperText>
+            ))}
+          </Stack>
+        </Grid>
+      )}
     </Grid>
   );
 };

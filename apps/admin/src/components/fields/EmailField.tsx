@@ -7,7 +7,14 @@ const EmailField = ({ name, label, inputProps, ...rest }: EmailFieldProps) => {
     <ControlledField
       name={name}
       label={label}
-      render={(id, field) => <EmailInput id={id} {...inputProps} {...field} />}
+      render={(id, field, fieldState) => (
+        <EmailInput
+          id={id}
+          error={!!fieldState.error}
+          {...inputProps}
+          {...field}
+        />
+      )}
       {...rest}
     />
   );

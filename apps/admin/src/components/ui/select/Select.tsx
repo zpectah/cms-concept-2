@@ -4,6 +4,7 @@ import { SelectProps } from './types';
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
   const {
+    id,
     options = [],
     children,
     placeholder = 'Pick item(s)',
@@ -12,6 +13,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
 
   return (
     <MuiSelect
+      id={id}
       ref={ref}
       displayEmpty
       renderValue={(value: unknown) => {

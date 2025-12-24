@@ -7,7 +7,9 @@ const InputField = ({ name, label, inputProps, ...rest }: InputFieldProps) => {
     <ControlledField
       name={name}
       label={label}
-      render={(id, field) => <Input id={id} {...inputProps} {...field} />}
+      render={(id, field, fieldState) => (
+        <Input id={id} error={!!fieldState.error} {...inputProps} {...field} />
+      )}
       {...rest}
     />
   );

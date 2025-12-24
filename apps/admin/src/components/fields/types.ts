@@ -1,4 +1,4 @@
-import { InputProps, EmailInputProps } from '../ui';
+import { InputProps, EmailInputProps, SelectProps } from '../ui';
 import { ControlledFieldProps } from '../field';
 
 interface FieldBase extends Omit<ControlledFieldProps, 'name' | 'render'> {
@@ -13,4 +13,9 @@ export interface InputFieldProps extends FieldBase {
 
 export interface EmailFieldProps extends FieldBase {
   inputProps?: Partial<EmailInputProps>;
+}
+
+export interface SelectFieldProps extends FieldBase {
+  selectProps?: Partial<Omit<SelectProps, 'options'>>;
+  options: SelectProps['options'];
 }

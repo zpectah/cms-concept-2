@@ -1,6 +1,4 @@
-import { Stack } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Stack, Grid } from '@mui/material';
 import {
   Input,
   SearchInput,
@@ -25,74 +23,17 @@ import {
   Button,
   InputField,
   EmailField,
+  SelectField,
 } from '../../../components';
-import { IDemoForm } from './types';
-import { demoFormSchema } from './schema';
-
-const optionsString = [
-  {
-    id: 'one',
-    value: 'one',
-    label: 'One',
-  },
-  {
-    id: 'two',
-    value: 'two',
-    label: 'Two',
-  },
-  {
-    id: 'three',
-    value: 'three',
-    label: 'Three',
-  },
-  {
-    id: 'four',
-    value: 'four',
-    label: 'Four',
-    hidden: true,
-  },
-  {
-    id: 'five',
-    value: 'five',
-    label: 'Five',
-    disabled: true,
-  },
-];
-const optionsNumeric = [
-  {
-    id: '1',
-    value: 1,
-    label: '1',
-  },
-  {
-    id: '2',
-    value: 2,
-    label: '2',
-  },
-  {
-    id: '3',
-    value: 3,
-    label: '3',
-  },
-  {
-    id: '4',
-    value: 4,
-    label: '4',
-    hidden: true,
-  },
-  {
-    id: '5',
-    value: 5,
-    label: '5',
-    disabled: true,
-  },
-];
+import { useDemoForm } from './useDemoForm';
 
 const DemoForm = () => {
-  const form = useForm<IDemoForm>({
-    defaultValues: {},
-    resolver: zodResolver(demoFormSchema),
-  });
+  const {
+    form,
+    onSubmit,
+    onReset,
+    options: { string: optionsString, numeric: optionsNumeric },
+  } = useDemoForm();
 
   return (
     <>
@@ -145,7 +86,7 @@ const DemoForm = () => {
           <TagSelect defaultValue={['two']} options={optionsString} multiple />
           <ButtonSelect defaultValue={'two'} options={optionsString} />
         </Stack>
-        <Stack>
+        <Grid container spacing={2}>
           <Field
             label="Field label responsive"
             isRequired
@@ -155,17 +96,17 @@ const DemoForm = () => {
           >
             <EmailInput id="input-id" placeholder="Email input" fullWidth />
           </Field>
-          <Field label="Field label horizontal" layout="horizontal">
+          <Field label="Field label always horizontal" layout="horizontal">
             <EmailInput placeholder="Email input" fullWidth />
           </Field>
-          <Field label="Field label vertical" layout="vertical">
+          <Field label="Field label vertical" layout="vertical" size={12}>
             <EmailInput placeholder="Email input" fullWidth />
           </Field>
-        </Stack>
+        </Grid>
       </Stack>
-      <ControlledForm form={form}>
+      <ControlledForm form={form} onSubmit={onSubmit}>
         <Stack>
-          <Stack>
+          <Grid container spacing={2}>
             <InputField
               name="inputText"
               label="Input field label"
@@ -178,9 +119,29 @@ const DemoForm = () => {
               inputProps={{ fullWidth: true, placeholder: 'Field placeholder' }}
               isRequired
             />
-          </Stack>
+            <SelectField
+              name="selectString"
+              label="Select field label"
+              options={optionsString}
+              selectProps={{
+                fullWidth: true,
+                placeholder: 'Field placeholder',
+              }}
+            />
+            <SelectField
+              name="selectNumber"
+              label="Select field label"
+              options={optionsNumeric}
+              selectProps={{
+                fullWidth: true,
+                placeholder: 'Field placeholder',
+              }}
+              isRequired
+            />
+          </Grid>
           <Stack>
             <Button type="submit">Submit</Button>
+            <Button onClick={onReset}>Reset</Button>
           </Stack>
         </Stack>
       </ControlledForm>

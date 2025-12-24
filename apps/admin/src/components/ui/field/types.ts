@@ -21,8 +21,10 @@ export interface FieldProps extends WithChildren {
   layout?: FieldLayout;
   /** Spacing of grid and inner stacks */
   spacing?: number;
+  /** Grid container size in wrapped container */
+  size?: GridProps['size'];
   /** Grid container props */
-  gridProps?: Partial<Omit<GridProps, 'container' | 'spacing'>>;
+  gridProps?: Partial<Omit<GridProps, 'container' | 'spacing' | 'size'>>;
   /** Label props */
   labelProps?: Partial<Omit<LabelProps, 'required' | 'htmlFor'>>;
   /** Box wrapping input */

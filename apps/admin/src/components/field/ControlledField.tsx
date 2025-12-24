@@ -9,6 +9,8 @@ const ControlledField = ({
   id,
   render,
   isRequired,
+  defaultValue,
+  ignoreId,
   ...restOfField
 }: ControlledFieldProps) => {
   const { control } = useFormContext();
@@ -16,12 +18,18 @@ const ControlledField = ({
     name,
     control,
     rules: { required: isRequired },
+    defaultValue: defaultValue ?? '',
   });
 
   const fieldId = id ? id : getRandomId(8);
 
   return (
-    <Field label={label} id={fieldId} isRequired={isRequired} {...restOfField}>
+    <Field
+      label={label}
+      id={!ignoreId ? fieldId : undefined}
+      isRequired={isRequired}
+      {...restOfField}
+    >
       {render(fieldId, field, fieldState, formState)}
     </Field>
   );
