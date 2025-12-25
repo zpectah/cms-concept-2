@@ -22,4 +22,6 @@ export interface ControlledFieldProps extends Omit<FieldProps, 'children'> {
   ) => ReactNode;
   /** In some cases we haven't proper HTML input element to join label with */
   ignoreId?: boolean;
+  /** If we want to hide whole component */
+  isHidden?: boolean;
 }

@@ -1,24 +1,24 @@
-import { EmailInput } from '../ui';
+import { NumberAltInput } from '../ui';
 import { ControlledField } from '../field';
-import { EmailFieldProps } from './types';
+import { NumberAltFieldProps } from './types';
 
-const EmailField = ({
+const NumberAltField = ({
   name,
   label,
-  inputProps,
+  numberInputAltProps,
   isRequired,
   isDisabled,
   isReadOnly,
   isFullWidth,
   placeholder,
   ...rest
-}: EmailFieldProps) => {
+}: NumberAltFieldProps) => {
   return (
     <ControlledField
       name={name}
       label={label}
       render={(id, field, fieldState) => (
-        <EmailInput
+        <NumberAltInput
           id={id}
           error={!!fieldState.error}
           required={isRequired}
@@ -26,7 +26,7 @@ const EmailField = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...inputProps}
+          {...numberInputAltProps}
           {...field}
         />
       )}
@@ -36,4 +36,4 @@ const EmailField = ({
   );
 };
 
-export default EmailField;
+export default NumberAltField;

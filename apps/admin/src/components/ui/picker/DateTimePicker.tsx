@@ -6,7 +6,7 @@ import { DateTimePickerProps } from './types';
 
 const DateTimePicker = forwardRef<HTMLInputElement, DateTimePickerProps>(
   (props, ref) => {
-    const { ...rest } = props;
+    const { id, isError, isRequired, isDisabled, isReadOnly, ...rest } = props;
 
     const {
       i18n: { language },
@@ -20,6 +20,18 @@ const DateTimePicker = forwardRef<HTMLInputElement, DateTimePickerProps>(
         ampm={false}
         inputRef={ref}
         {...rest}
+        enableAccessibleFieldDOMStructure={false}
+        slotProps={{
+          textField: {
+            id,
+            error: isError,
+            required: isRequired,
+            disabled: isDisabled,
+            readOnly: isReadOnly,
+            ...rest?.slotProps?.textField,
+          },
+          ...rest?.slotProps,
+        }}
       />
     );
   }

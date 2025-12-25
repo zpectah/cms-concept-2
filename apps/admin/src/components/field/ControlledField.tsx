@@ -6,11 +6,13 @@ import { ControlledFieldProps } from './types';
 const ControlledField = ({
   name,
   label,
-  id,
+  htmlFor,
   render,
   isRequired,
+  isHidden,
   defaultValue,
   ignoreId,
+  errors,
   ...restOfField
 }: ControlledFieldProps) => {
   const { control } = useFormContext();
@@ -21,13 +23,20 @@ const ControlledField = ({
     defaultValue: defaultValue ?? '',
   });
 
-  const fieldId = id ? id : getRandomId(8);
+  const fieldId = htmlFor ? htmlFor : getRandomId(8);
+  const fieldErrorMessage = fieldState.error?.message;
+  const fieldErrorMessages: string[] = errors ? [...errors] : [];
+
+  if (fieldErrorMessage) fieldErrorMessages.push(fieldErrorMessage);
+
+  if (isHidden) return;
 
   return (
     <Field
       label={label}
-      id={!ignoreId ? fieldId : undefined}
+      htmlFor={!ignoreId ? fieldId : undefined}
       isRequired={isRequired}
+      errors={fieldErrorMessages}
       {...restOfField}
     >
       {render(fieldId, field, fieldState, formState)}

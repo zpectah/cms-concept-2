@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { GridProps, BoxProps } from '@mui/material';
+import { GridProps, BoxProps, StackProps } from '@mui/material';
 import { WithChildren } from '@common';
 import { LabelProps } from '../label';
 import { fieldLayoutKeys } from './enums';
@@ -7,12 +7,14 @@ import { fieldLayoutKeys } from './enums';
 export type FieldLayout = keyof typeof fieldLayoutKeys;
 
 export interface FieldProps extends WithChildren {
+  /** Root element ID */
+  id?: string;
   /** Field label */
   label: ReactNode;
   /** Small caption under label, recommended for horizontal layout */
   labelCaption?: string;
   /** Field ID */
-  id?: string;
+  htmlFor?: string;
   /** Is value required */
   isRequired?: boolean;
   /** Helpers messages */
@@ -29,6 +31,8 @@ export interface FieldProps extends WithChildren {
   gridProps?: Partial<Omit<GridProps, 'container' | 'spacing' | 'size'>>;
   /** Label props */
   labelProps?: Partial<Omit<LabelProps, 'required' | 'htmlFor'>>;
+  /** Label wrapper stack props */
+  labelWrapperProps?: Partial<StackProps>;
   /** Box wrapping input */
   inputBoxProps?: Partial<BoxProps>;
 }

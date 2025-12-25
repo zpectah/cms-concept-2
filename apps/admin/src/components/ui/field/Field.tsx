@@ -9,9 +9,10 @@ import {
 
 const Field = ({
   children,
+  id,
   label,
   labelCaption,
-  id,
+  htmlFor,
   isRequired,
   helpers = [],
   errors = [],
@@ -20,6 +21,7 @@ const Field = ({
   size = 12,
   gridProps,
   labelProps,
+  labelWrapperProps,
   inputBoxProps,
 }: FieldProps) => {
   const sizes = {
@@ -55,16 +57,20 @@ const Field = ({
   const isMessages = helpers?.length > 0 || errors?.length > 0;
 
   return (
-    <Grid container spacing={spacing} size={size} {...gridProps}>
+    <Grid id={id} container spacing={spacing} size={size} {...gridProps}>
       <Grid size={sizes[layout].label}>
         <Stack
           direction="column"
           alignItems="flex-start"
           justifyContent="center"
           flexWrap="wrap"
-          sx={{ height: '100%' }}
+          {...labelWrapperProps}
+          sx={{
+            height: '100%',
+            ...labelWrapperProps?.sx,
+          }}
         >
-          <Label required={isRequired} htmlFor={id} {...labelProps}>
+          <Label required={isRequired} htmlFor={htmlFor} {...labelProps}>
             {label}
           </Label>
           {labelCaption && (

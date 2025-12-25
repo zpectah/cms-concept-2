@@ -75,6 +75,7 @@ const FieldWrapper = styled(Stack, {
 
 const Wysiwyg = forwardRef<HTMLInputElement, WysiwygProps>((props, ref) => {
   const {
+    id,
     value,
     onChange,
     name,
@@ -112,6 +113,7 @@ const Wysiwyg = forwardRef<HTMLInputElement, WysiwygProps>((props, ref) => {
   if (readOnly) {
     return (
       <Textarea
+        id={id}
         name={name}
         value={html}
         ref={ref}
@@ -127,6 +129,7 @@ const Wysiwyg = forwardRef<HTMLInputElement, WysiwygProps>((props, ref) => {
     <EditorProvider>
       <FieldWrapper className={wrapperClassName} isError={isError}>
         <Editor
+          id={id}
           name={name}
           value={html}
           onChange={changeHandler}

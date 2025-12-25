@@ -118,6 +118,9 @@ const theme = createTheme({
         root: {
           fontFamily: '"JetBrains Mono Variable", monospace',
         },
+        input: {
+          fontFamily: '"JetBrains Mono Variable", monospace',
+        },
       },
     },
     MuiTextField: {

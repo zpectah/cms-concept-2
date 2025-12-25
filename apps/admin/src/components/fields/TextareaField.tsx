@@ -1,24 +1,24 @@
-import { EmailInput } from '../ui';
+import { Textarea } from '../ui';
 import { ControlledField } from '../field';
-import { EmailFieldProps } from './types';
+import { TextareaFieldProps } from './types';
 
-const EmailField = ({
+const TextareaField = ({
   name,
   label,
-  inputProps,
+  textareaProps,
   isRequired,
   isDisabled,
   isReadOnly,
   isFullWidth,
   placeholder,
   ...rest
-}: EmailFieldProps) => {
+}: TextareaFieldProps) => {
   return (
     <ControlledField
       name={name}
       label={label}
       render={(id, field, fieldState) => (
-        <EmailInput
+        <Textarea
           id={id}
           error={!!fieldState.error}
           required={isRequired}
@@ -26,7 +26,7 @@ const EmailField = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...inputProps}
+          {...textareaProps}
           {...field}
         />
       )}
@@ -36,4 +36,4 @@ const EmailField = ({
   );
 };
 
-export default EmailField;
+export default TextareaField;

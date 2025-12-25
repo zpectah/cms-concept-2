@@ -7,6 +7,11 @@ const SelectField = ({
   label,
   options = [],
   selectProps,
+  isRequired,
+  isDisabled,
+  isReadOnly,
+  isFullWidth,
+  placeholder,
   ...rest
 }: SelectFieldProps) => {
   return (
@@ -18,10 +23,16 @@ const SelectField = ({
           id={id}
           error={!!fieldState.error}
           options={options}
+          required={isRequired}
+          disabled={isDisabled}
+          readOnly={isReadOnly}
+          fullWidth={isFullWidth}
+          placeholder={placeholder}
           {...selectProps}
           {...field}
         />
       )}
+      isRequired={isRequired}
       ignoreId
       {...rest}
     />

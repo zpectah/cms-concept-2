@@ -2,7 +2,7 @@
   "en": {
     "label": "English",
     "format": {
-      "date": "YYYY.MM.DD.",
+      "date": "YYYY.MM.DD",
       "time": "HH:mm"
     }
   },
@@ -30,7 +30,7 @@
   "hu": {
     "label": "Magyar",
     "format": {
-      "date": "YYYY.MM.DD.",
+      "date": "YYYY.MM.DD",
       "time": "HH:mm"
     }
   },

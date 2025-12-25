@@ -1,12 +1,15 @@
 import { ReactNode } from 'react';
 import { TextFieldProps } from '@mui/material';
 
-export type InputProps = Omit<TextFieldProps, 'label' | 'helperText'>;
+export type InputProps = Omit<TextFieldProps, 'label' | 'helperText'> & {
+  isReadOnly?: boolean;
+};
 
 export interface InputPlusProps
   extends Omit<TextFieldProps, 'label' | 'helperText'> {
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
+  isReadOnly?: boolean;
 }
 
 export type SearchInputProps = Omit<InputPlusProps, 'type' | 'inputMode'>;

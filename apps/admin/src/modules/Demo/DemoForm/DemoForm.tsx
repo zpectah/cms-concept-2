@@ -21,9 +21,16 @@ import {
   Field,
   ControlledForm,
   Button,
+  //
   InputField,
   EmailField,
   SelectField,
+  DatePickerField,
+  DateTimePickerField,
+  NumberField,
+  NumberAltField,
+  TextareaField,
+  WysiwygField,
 } from '../../../components';
 import { useDemoForm } from './useDemoForm';
 
@@ -90,7 +97,7 @@ const DemoForm = () => {
           <Field
             label="Field label responsive"
             isRequired
-            id={'input-id'}
+            htmlFor={'input-id'}
             helpers={['Helper text 1', 'Helper text 2']}
             errors={['Error text 1', 'Error text 2']}
           >
@@ -100,10 +107,11 @@ const DemoForm = () => {
             label="Field label always horizontal"
             labelCaption="Label caption text"
             layout="horizontal"
+            htmlFor={'input-id-2'}
           >
-            <EmailInput placeholder="Email input" fullWidth />
+            <EmailInput id="input-id-2" placeholder="Email input" fullWidth />
           </Field>
-          <Field label="Field label vertical" layout="vertical" size={12}>
+          <Field label="Field label vertical" layout="vertical">
             <EmailInput placeholder="Email input" fullWidth />
           </Field>
         </Grid>
@@ -114,33 +122,75 @@ const DemoForm = () => {
             <InputField
               name="inputText"
               label="Input field label"
-              inputProps={{ fullWidth: true, placeholder: 'Field placeholder' }}
+              placeholder={'Field placeholder'}
+              isFullWidth
               isRequired
             />
             <EmailField
               name="inputEmail"
               label="Email field label"
-              inputProps={{ fullWidth: true, placeholder: 'Field placeholder' }}
+              placeholder={'Field placeholder'}
+              isFullWidth
               isRequired
             />
             <SelectField
               name="selectString"
               label="Select field label"
+              placeholder={'Field placeholder'}
               options={optionsString}
-              selectProps={{
-                fullWidth: true,
-                placeholder: 'Field placeholder',
-              }}
+              isFullWidth
             />
             <SelectField
               name="selectNumber"
               label="Select field label"
+              placeholder={'Field placeholder'}
               options={optionsNumeric}
-              selectProps={{
-                fullWidth: true,
-                placeholder: 'Field placeholder',
-              }}
+              isFullWidth
               isRequired
+            />
+            <DatePickerField
+              name="date"
+              label="Date picker field"
+              placeholder={'Pick your date'}
+              isFullWidth
+            />
+            <DateTimePickerField
+              name="dateTime"
+              label="Date time picker field"
+              placeholder={'Pick your date and time'}
+              isFullWidth
+            />
+            <NumberField
+              name="inputNumberA"
+              label="inputNumberA"
+              placeholder={'Field placeholder'}
+              isFullWidth
+            />
+            <NumberAltField
+              name="inputNumberB"
+              label="inputNumberB"
+              placeholder={'Field placeholder'}
+              isFullWidth
+            />
+            <TextareaField
+              name="textarea"
+              label="textarea field label"
+              placeholder={'Field placeholder'}
+              isFullWidth
+              labelWrapperProps={{
+                justifyContent: 'flex-start',
+                sx: {
+                  pt: {
+                    xs: 0,
+                    md: 2,
+                  },
+                },
+              }}
+            />
+            <WysiwygField
+              name="wysiwyg"
+              label="wysiwyg field label"
+              placeholder={'Field placeholder'}
             />
           </Grid>
           <Stack>

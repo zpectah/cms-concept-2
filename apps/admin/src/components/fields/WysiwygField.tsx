@@ -1,32 +1,30 @@
-import { EmailInput } from '../ui';
+import { Wysiwyg } from '../ui';
 import { ControlledField } from '../field';
-import { EmailFieldProps } from './types';
+import { WysiwygFieldProps } from './types';
 
-const EmailField = ({
+const WysiwygField = ({
   name,
   label,
-  inputProps,
+  wysiwygProps,
   isRequired,
   isDisabled,
   isReadOnly,
-  isFullWidth,
   placeholder,
   ...rest
-}: EmailFieldProps) => {
+}: WysiwygFieldProps) => {
   return (
     <ControlledField
       name={name}
       label={label}
       render={(id, field, fieldState) => (
-        <EmailInput
+        <Wysiwyg
           id={id}
-          error={!!fieldState.error}
+          isError={!!fieldState.error}
           required={isRequired}
           disabled={isDisabled}
-          isReadOnly={isReadOnly}
-          fullWidth={isFullWidth}
+          readOnly={isReadOnly}
           placeholder={placeholder}
-          {...inputProps}
+          {...wysiwygProps}
           {...field}
         />
       )}
@@ -36,4 +34,4 @@ const EmailField = ({
   );
 };
 
-export default EmailField;
+export default WysiwygField;

@@ -6,7 +6,7 @@ import { DatePickerProps } from './types';
 
 const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
   (props, ref) => {
-    const { ...rest } = props;
+    const { id, isError, isRequired, isDisabled, isReadOnly, ...rest } = props;
 
     const {
       i18n: { language },
@@ -19,12 +19,17 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         format={date}
         inputRef={ref}
         {...rest}
+        enableAccessibleFieldDOMStructure={false}
         slotProps={{
           textField: {
-            sx: {
-              fontFamily: '"JetBrains Mono Variable", monospace',
-            },
+            id,
+            error: isError,
+            required: isRequired,
+            disabled: isDisabled,
+            readOnly: isReadOnly,
+            ...rest?.slotProps?.textField,
           },
+          ...rest?.slotProps,
         }}
       />
     );
