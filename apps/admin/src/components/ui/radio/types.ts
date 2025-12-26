@@ -16,5 +16,6 @@ export type RadioGroupItem = Omit<RadioProps, 'ref'>;
 export type RadioGroupProps = MuiRadioGroupProps & {
   items: RadioGroupItem[];
   label?: ReactNode;
-  controlProps?: Partial<FormControlProps>;
+  controlProps?: Partial<Omit<FormControlProps, 'disabled'>>;
+  disabled?: boolean;
 };

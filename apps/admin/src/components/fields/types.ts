@@ -7,6 +7,11 @@ import {
   NumberInputProps,
   NumberInputAltProps,
   NumberInputAlt2Props,
+  PasswordInputProps,
+  PhoneInputProps,
+  CheckboxProps,
+  SwitchProps,
+  RadioGroupProps,
   TextareaProps,
   WysiwygProps,
 } from '../ui';
@@ -38,21 +43,41 @@ export interface SelectFieldProps extends FieldBase {
 }
 
 export interface NumberFieldProps extends FieldBase {
-  numberInputProps?: Partial<
-    Omit<NumberInputProps, 'fullWidth' | 'placeholder'>
-  >;
+  inputProps?: Partial<Omit<NumberInputProps, 'fullWidth' | 'placeholder'>>;
 }
 
 export interface NumberAltFieldProps extends FieldBase {
-  numberInputAltProps?: Partial<
-    Omit<NumberInputAltProps, 'fullWidth' | 'placeholder'>
-  >;
+  inputProps?: Partial<Omit<NumberInputAltProps, 'fullWidth' | 'placeholder'>>;
 }
 
 export interface NumberAlt2FieldProps extends FieldBase {
-  numberInputAltProps?: Partial<
-    Omit<NumberInputAlt2Props, 'fullWidth' | 'placeholder'>
-  >;
+  inputProps?: Partial<Omit<NumberInputAlt2Props, 'fullWidth' | 'placeholder'>>;
+}
+
+export interface PasswordFieldProps extends FieldBase {
+  inputProps?: Partial<Omit<PasswordInputProps, 'fullWidth' | 'placeholder'>>;
+}
+
+export interface PhoneFieldProps extends FieldBase {
+  inputProps?: Partial<Omit<PhoneInputProps, 'fullWidth' | 'placeholder'>>;
+}
+
+export interface CheckboxFieldProps
+  extends Omit<FieldBase, 'isReadOnly' | 'isFullWidth' | 'placeholder'> {
+  checkboxProps?: Partial<Omit<CheckboxProps, 'label'>>;
+  fieldLabel?: string;
+}
+
+export interface SwitchFieldProps
+  extends Omit<FieldBase, 'isReadOnly' | 'isFullWidth' | 'placeholder'> {
+  switchProps?: Partial<Omit<SwitchProps, 'label'>>;
+  fieldLabel?: string;
+}
+
+export interface RadioGroupFieldProps
+  extends Omit<FieldBase, 'isReadOnly' | 'isFullWidth' | 'placeholder'> {
+  radioGroupProps?: Partial<Omit<RadioGroupProps, 'items'>>;
+  items: RadioGroupProps['items'];
 }
 
 export interface TextareaFieldProps extends FieldBase {

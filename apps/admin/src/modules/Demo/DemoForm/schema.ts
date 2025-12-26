@@ -12,5 +12,11 @@ export const demoFormSchema = z.object({
   inputNumberB: commonFieldSchema.number,
   textarea: commonFieldSchema.string,
   wysiwyg: commonFieldSchema.string,
+
+  phone: commonFieldSchema.string,
+  password: commonFieldSchema.string,
+  checkbox: commonFieldSchema.boolean,
+  switch: commonFieldSchema.boolean,
+  radioGroup: commonFieldSchema.string,
   /* TODO */
 });

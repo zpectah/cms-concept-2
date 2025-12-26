@@ -9,10 +9,10 @@ import Radio from './Radio';
 
 const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
   (props, ref) => {
-    const { items = [], name, label, controlProps, ...rest } = props;
+    const { items = [], name, label, controlProps, disabled, ...rest } = props;
 
     return (
-      <FormControl ref={ref} {...controlProps}>
+      <FormControl ref={ref} disabled={disabled} {...controlProps}>
         {label && <FormLabel>{label}</FormLabel>}
         <MuiRadioGroup name={name} {...rest}>
           {items.map((item, index) => (

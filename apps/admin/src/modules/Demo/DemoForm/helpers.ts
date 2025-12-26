@@ -12,6 +12,12 @@ export const getFormDefaultValues = (): IDemoForm => {
     inputNumberB: 0,
     textarea: '',
     wysiwyg: '',
+
+    phone: '',
+    password: '',
+    checkbox: true,
+    switch: true,
+    radioGroup: 'two',
     /* TODO */
   });
 };

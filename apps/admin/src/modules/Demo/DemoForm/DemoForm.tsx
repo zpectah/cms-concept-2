@@ -33,6 +33,11 @@ import {
   NumberAlt2Field,
   TextareaField,
   WysiwygField,
+  PhoneField,
+  PasswordField,
+  CheckboxField,
+  SwitchField,
+  RadioGroupField,
 } from '../../../components';
 import { useDemoForm } from './useDemoForm';
 
@@ -173,7 +178,7 @@ const DemoForm = () => {
               name="inputNumberB"
               label="inputNumberB"
               placeholder={'Field placeholder'}
-              numberInputAltProps={{ step: 10, min: 10, max: 2500 }}
+              inputProps={{ step: 10, min: 10, max: 2500 }}
             />
             <NumberAlt2Field
               name="inputNumberB"
@@ -200,6 +205,31 @@ const DemoForm = () => {
               name="wysiwyg"
               label="wysiwyg field label"
               placeholder={'Field placeholder'}
+            />
+
+            <PhoneField
+              name="phone"
+              label="Phone field"
+              placeholder="Type phone"
+              isFullWidth
+            />
+            <PasswordField
+              name="password"
+              label="Password field"
+              placeholder="Password"
+              isFullWidth
+            />
+            <CheckboxField name="checkbox" label="Field label" />
+            <CheckboxField
+              name="checkbox"
+              label=""
+              fieldLabel="Checkbox label"
+            />
+            <SwitchField name="switch" label="Switch field label" />
+            <RadioGroupField
+              name="radioGroup"
+              label="Radio group field"
+              items={optionsString}
             />
           </Grid>
           <Stack>
