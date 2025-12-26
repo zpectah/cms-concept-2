@@ -6,6 +6,7 @@ import {
   DateTimePickerProps,
   NumberInputProps,
   NumberInputAltProps,
+  NumberInputAlt2Props,
   TextareaProps,
   WysiwygProps,
 } from '../ui';
@@ -45,6 +46,12 @@ export interface NumberFieldProps extends FieldBase {
 export interface NumberAltFieldProps extends FieldBase {
   numberInputAltProps?: Partial<
     Omit<NumberInputAltProps, 'fullWidth' | 'placeholder'>
+  >;
+}
+
+export interface NumberAlt2FieldProps extends FieldBase {
+  numberInputAltProps?: Partial<
+    Omit<NumberInputAlt2Props, 'fullWidth' | 'placeholder'>
   >;
 }
 

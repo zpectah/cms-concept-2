@@ -10,6 +10,7 @@ import {
   PhoneInput,
   NumberInput,
   NumberAltInput,
+  NumberAlt2Input,
   Textarea,
   Wysiwyg,
   Checkbox,
@@ -29,6 +30,7 @@ import {
   DateTimePickerField,
   NumberField,
   NumberAltField,
+  NumberAlt2Field,
   TextareaField,
   WysiwygField,
 } from '../../../components';
@@ -49,6 +51,7 @@ const DemoForm = () => {
           <Input placeholder="Default input" />
           <NumberInput placeholder="Number input" />
           <NumberAltInput placeholder="Also number input" />
+          <NumberAlt2Input placeholder="Also number input" />
           <SearchInput placeholder="Search input" />
           <EmailInput placeholder="Email input" />
           <PasswordInput placeholder="Password input" />
@@ -167,6 +170,12 @@ const DemoForm = () => {
               isFullWidth
             />
             <NumberAltField
+              name="inputNumberB"
+              label="inputNumberB"
+              placeholder={'Field placeholder'}
+              numberInputAltProps={{ step: 10, min: 10, max: 2500 }}
+            />
+            <NumberAlt2Field
               name="inputNumberB"
               label="inputNumberB"
               placeholder={'Field placeholder'}

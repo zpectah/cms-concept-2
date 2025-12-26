@@ -6,7 +6,7 @@ export const SPACING = {
   form: 2,
 };
 
-export const CONTAINER_WIDTH_DEFAULT = 'xl';
+export const CONTAINER_WIDTH_DEFAULT = 'lg';
 
 export const CONTAINER_WIDTH_CENTERED = 'md';
 

@@ -41,4 +41,16 @@ export type NumberInputAltProps = Omit<
   centered?: boolean;
 };
 
+export type NumberInputAlt2Props = Omit<
+  NumberInputProps,
+  'onChange' | 'endAdornment' | 'multiline'
+> & {
+  pattern?: string;
+  onChange?: (value: number) => void;
+  value?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+};
+
 export type TextareaProps = Omit<InputPlusProps, 'type' | 'inputMode'>;
