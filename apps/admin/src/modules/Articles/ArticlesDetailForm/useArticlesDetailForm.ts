@@ -39,6 +39,7 @@ export const useArticlesDetailForm = () => {
   const cloneId = searchParams.get('clone');
 
   const {
+    articlesQuery,
     articlesDetailQuery,
     articlesCloneDetailQuery,
     articlesCreateMutation,
@@ -49,6 +50,7 @@ export const useArticlesDetailForm = () => {
     cloneId,
   });
 
+  const { refetch } = articlesQuery;
   const { data: detail } = articlesDetailQuery;
   const { data: cloneDetail } = articlesCloneDetailQuery;
   const { mutate: onCreate } = articlesCreateMutation;
@@ -74,16 +76,14 @@ export const useArticlesDetailForm = () => {
 
   const createHandler = (master: ArticlesDetail) => {
     onCreate(master, {
-      onSuccess: (res) => {
-        // TODO: response
-        console.log('on create', master, res);
-
+      onSuccess: ({ id }) => {
         closeHandler();
         addToast({
-          title: t('message.success.create', { count: 1 }),
+          title: t('message.success.create', { count: id ? 1 : 0 }),
           severity: 'success',
           autoclose: true,
         });
+        refetch();
       },
       onError,
     });
@@ -91,16 +91,14 @@ export const useArticlesDetailForm = () => {
 
   const patchHandler = (master: ArticlesDetail) => {
     onPatch(master, {
-      onSuccess: (res) => {
-        // TODO: response
-        console.log('on patch', master, res);
-
+      onSuccess: ({ rows }) => {
         closeHandler();
         addToast({
-          title: t('message.success.update', { count: 1 }),
+          title: t('message.success.update', { count: rows }),
           severity: 'success',
           autoclose: true,
         });
+        refetch();
       },
       onError,
     });
@@ -128,16 +126,14 @@ export const useArticlesDetailForm = () => {
     const master = [Number(id)];
 
     onDelete(master, {
-      onSuccess: (res) => {
-        // TODO: response
-        console.log('on create', master, res);
-
+      onSuccess: ({ rows }) => {
         closeHandler();
         addToast({
-          title: t('message.success.delete', { count: 1 }),
+          title: t('message.success.delete', { count: rows }),
           severity: 'success',
           autoclose: true,
         });
+        refetch();
       },
       onError,
     });

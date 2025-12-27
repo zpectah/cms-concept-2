@@ -9,25 +9,31 @@ class ArticlesController {
   private function get($url): array {
     $articles = new Articles;
 
+    $locales = ['en']; // TODO
+
     $id = $url['a1'] === 'id' ? $url['a2'] : null;
 
     if ($id) {
-      return $articles -> getDetail($id);
+      return $articles -> get_detail($id, $locales);
     } else {
-      return $articles -> getList();
+      return $articles -> get_list();
     }
   }
 
   private function create($url, $data): array {
     $articles = new Articles;
 
-    return $articles -> create($data);
+    $locales = ['en']; // TODO
+
+    return $articles -> create($data, $locales);
   }
 
   private function patch($url, $data): array {
     $articles = new Articles;
 
-    return $articles -> patch($data);
+    $locales = ['en']; // TODO
+
+    return $articles -> patch($data, $locales);
   }
 
   private function approve($url, $data): array {
@@ -51,7 +57,9 @@ class ArticlesController {
   private function deletePermanent($url, $data): array {
     $articles = new Articles;
 
-    return $articles -> deletePermanent($data);
+    $locales = ['en']; // TODO
+
+    return $articles -> delete_permanent($data, $locales);
   }
 
   public function resolve($url, $data): array {

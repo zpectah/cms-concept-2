@@ -113,7 +113,7 @@ const ArticlesDetailForm = () => {
 
           <Grid size={12}>
             <pre>
-              <code>{JSON.stringify(form.formState.errors, null, 2)}</code>
+              <code>{JSON.stringify(form.watch(), null, 2)}</code>
             </pre>
           </Grid>
         </Grid>

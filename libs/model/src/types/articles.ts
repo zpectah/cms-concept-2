@@ -1,4 +1,4 @@
-import { EnumKeyValues } from '@common';
+import { Address, EnumKeyValues, GpsLocation } from '@common';
 import { articlesTypeKeys } from '../enums';
 import { ItemBase, ItemLocaleBase } from './item';
 
@@ -14,8 +14,11 @@ export interface ArticlesItem extends ItemBase {
   explicit: boolean;
   author: number;
   editor: number[];
-
-  // Event
+  // Event specific
+  event_address?: Address;
+  event_location?: GpsLocation;
+  event_start?: string;
+  event_end?: string;
 }
 
 export type Articles = ArticlesItem[];

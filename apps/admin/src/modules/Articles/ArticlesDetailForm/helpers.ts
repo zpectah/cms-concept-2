@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { getFormattedString } from '@common';
 import {
   articlesTypeDefault,
@@ -5,6 +6,7 @@ import {
   ArticlesDetailLocale,
 } from '@model';
 import { getModelLocales } from '../../../helpers';
+import { addressFormDefaults } from '../../../constants';
 import { IArticlesDetailForm } from './types';
 
 /** Gets default form values */
@@ -16,7 +18,6 @@ export const defaultDataToForm = (
     id: 0,
     active: true,
     deleted: false,
-
     name: '',
     type: articlesTypeDefault,
     categories: [],
@@ -26,12 +27,16 @@ export const defaultDataToForm = (
     explicit: false,
     author: author,
     editor: [author],
-
     locale: getModelLocales<ArticlesDetailLocale>(locales, {
       title: '',
       description: '',
       content: '',
     }),
+    // Event specific
+    event_location: [0, 0],
+    event_address: addressFormDefaults,
+    event_start: null,
+    event_end: null,
   });
 };
 
@@ -39,6 +44,13 @@ export const defaultDataToForm = (
 export const detailDataToForm = (data: ArticlesDetail): IArticlesDetailForm => {
   return Object.assign({
     ...data,
+
+    event_start: data.event_start ? dayjs(data.event_start) : null,
+    event_end: data.event_end ? dayjs(data.event_end) : null,
+    event_address: {
+      ...data.event_address,
+      zip: String(data.event_address?.zip ?? ''),
+    },
   });
 };
 
@@ -47,8 +59,10 @@ export const cloneDetailDataToForm = (
   data: ArticlesDetail,
   author: number
 ): IArticlesDetailForm => {
+  const clone = detailDataToForm(data);
+
   return Object.assign({
-    ...data,
+    ...clone,
     id: 0,
     name: `clone-${data.name}`,
     approved: false,
