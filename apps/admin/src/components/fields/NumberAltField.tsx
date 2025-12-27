@@ -5,7 +5,7 @@ import { NumberAltFieldProps } from './types';
 const NumberAltField = ({
   name,
   label,
-  numberInputAltProps,
+  inputProps,
   isRequired,
   isDisabled,
   isReadOnly,
@@ -26,7 +26,7 @@ const NumberAltField = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...numberInputAltProps}
+          {...inputProps}
           {...field}
         />
       )}

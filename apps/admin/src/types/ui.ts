@@ -1,4 +1,4 @@
-import { checkboxStateKeys } from '../enums';
+import { checkboxStateKeys, modalCloseReasonKeys } from '../enums';
 
 export type CheckboxState = keyof typeof checkboxStateKeys;
 
@@ -11,3 +11,5 @@ export type SxCommonValue =
       xl?: string;
     }
   | string;
+
+export type ModalCloseReason = keyof typeof modalCloseReasonKeys;

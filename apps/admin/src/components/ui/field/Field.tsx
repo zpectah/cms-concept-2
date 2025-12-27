@@ -59,26 +59,28 @@ const Field = ({
   return (
     <Grid id={id} container spacing={spacing} size={size} {...gridProps}>
       <Grid size={sizes[layout].label}>
-        <Stack
-          direction="column"
-          alignItems="flex-start"
-          justifyContent="center"
-          flexWrap="wrap"
-          {...labelWrapperProps}
-          sx={{
-            height: '100%',
-            ...labelWrapperProps?.sx,
-          }}
-        >
-          <Label required={isRequired} htmlFor={htmlFor} {...labelProps}>
-            {label}
-          </Label>
-          {labelCaption && (
-            <Typography variant="caption" color="textDisabled">
-              {labelCaption}
-            </Typography>
-          )}
-        </Stack>
+        {label !== '' && (
+          <Stack
+            direction="column"
+            alignItems="flex-start"
+            justifyContent="center"
+            flexWrap="wrap"
+            {...labelWrapperProps}
+            sx={{
+              height: '100%',
+              ...labelWrapperProps?.sx,
+            }}
+          >
+            <Label required={isRequired} htmlFor={htmlFor} {...labelProps}>
+              {label}
+            </Label>
+            {labelCaption && (
+              <Typography variant="caption" color="textDisabled">
+                {labelCaption}
+              </Typography>
+            )}
+          </Stack>
+        )}
       </Grid>
       <Grid size={sizes[layout].input}>
         <Stack direction="column" spacing={spacing}>

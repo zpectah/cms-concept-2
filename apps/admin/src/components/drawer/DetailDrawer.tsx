@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useViewContext } from '../../contexts';
+import { modalCloseReasonKeys } from '../../enums';
+import { ModalCloseReason } from '../../types';
 import { useUserActions } from '../../hooks';
 import { DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT } from '../../constants';
 import { Button, DrawerBase, DrawerLayout, ButtonProps } from '../ui';
@@ -17,7 +19,6 @@ const DetailDrawer = <T extends FieldValues>({
   children,
   defaultTitle,
   drawerProps,
-  dynamicSlotId,
   form,
   formProps,
   id,
@@ -27,6 +28,7 @@ const DetailDrawer = <T extends FieldValues>({
   onReset,
   onSubmit,
   open,
+  disableCloseConfirm,
 }: DetailDrawerProps<T>) => {
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
@@ -41,9 +43,28 @@ const DetailDrawer = <T extends FieldValues>({
     disableBackdropClose,
   } = context;
 
-  const closeHandler = () => {
+  const closeHandler = (event: object, reason: ModalCloseReason) => {
+    if (
+      !disableCloseConfirm &&
+      form.formState.isDirty &&
+      (reason === modalCloseReasonKeys.backdropClick ||
+        reason === modalCloseReasonKeys.escapeKeyDown)
+    ) {
+      setConfirmDialog({
+        title: t('message.confirm.closeForm.title'),
+        content: t('message.confirm.closeForm.content'),
+        context: 'close',
+        onConfirm: () => {
+          setFullscreen(false);
+          onClose?.(event, reason);
+        },
+      });
+
+      return;
+    }
+
     setFullscreen(false);
-    onClose();
+    onClose?.(event, reason);
   };
 
   const deleteConfirmHandler = useCallback(() => {
@@ -74,7 +95,7 @@ const DetailDrawer = <T extends FieldValues>({
     {
       id: 'cancel',
       children: t('button.cancel'),
-      onClick: closeHandler,
+      onClick: () => closeHandler({}, 'default'),
       variant: 'outlined',
     },
     {
@@ -140,11 +161,9 @@ const DetailDrawer = <T extends FieldValues>({
 
               return <Button key={button.id || index} {...button} />;
             })}
-            onClose={closeHandler}
-          >
-            {children}
-            {dynamicSlotId && <div id={dynamicSlotId} />}
-          </DrawerLayout>
+            onClose={() => closeHandler({}, 'default')}
+            children={children}
+          />
         </ControlledForm>
       </DrawerBase>
     </DetailDrawerContextProvider>

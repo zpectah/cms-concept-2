@@ -1,4 +1,4 @@
-import { Stack, styled, Typography, Box } from '@mui/material';
+import { Stack, styled, Typography, Box, Container } from '@mui/material';
 import { CloseButton, IconButtonPlus } from '../button';
 import { DrawerLayoutProps } from './types';
 
@@ -64,10 +64,12 @@ const DrawerLayout = ({
       </DrawerHeading>
       <DrawerContentWrapper>
         <DrawerContent>
-          {text && (
-            <Typography id={`${labelId}-description`}>{text}</Typography>
-          )}
-          {children}
+          <Container disableGutters>
+            {text && (
+              <Typography id={`${labelId}-description`}>{text}</Typography>
+            )}
+            {children}
+          </Container>
         </DrawerContent>
       </DrawerContentWrapper>
       {actions && <DrawerActions>{actions}</DrawerActions>}

@@ -7,11 +7,15 @@ export type ArticlesType = EnumKeyValues<typeof articlesTypeKeys>;
 export interface ArticlesItem extends ItemBase {
   name: string;
   type: ArticlesType;
-
   tags: number[];
   categories: number[];
-
+  files: number[];
   approved: boolean;
+  explicit: boolean;
+  author: number;
+  editor: number[];
+
+  // Event
 }
 
 export type Articles = ArticlesItem[];

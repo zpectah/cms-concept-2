@@ -5,7 +5,7 @@ import { NumberFieldProps } from './types';
 const NumberField = ({
   name,
   label,
-  numberInputProps,
+  inputProps,
   isRequired,
   isDisabled,
   isReadOnly,
@@ -26,7 +26,7 @@ const NumberField = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...numberInputProps}
+          {...inputProps}
           {...field}
         />
       )}

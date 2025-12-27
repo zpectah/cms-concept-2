@@ -5,7 +5,7 @@ import { NumberAlt2FieldProps } from './types';
 const NumberAlt2Field = ({
   name,
   label,
-  numberInputAltProps,
+  inputProps,
   isRequired,
   isDisabled,
   isReadOnly,
@@ -26,7 +26,7 @@ const NumberAlt2Field = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...numberInputAltProps}
+          {...inputProps}
           {...field}
         />
       )}

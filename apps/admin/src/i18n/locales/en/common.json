@@ -76,6 +76,10 @@
       "deletePermanent": {
         "title": "Confirm permanent delete",
         "content": "Are you sure you want permanent delete {{subject}}?"
+      },
+      "closeForm": {
+        "title": "Confirm closing the form",
+        "content": "Are you sure you want to discard the changes you made to the form?"
       }
     }
   },

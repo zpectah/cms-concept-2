@@ -7,6 +7,7 @@ export * from './field';
 export * from './fields';
 export * from './form';
 export * from './layout';
+export * from './localesTabs';
 export * from './menu';
 export * from './portal';
 export * from './ui';

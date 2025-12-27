@@ -1,4 +1,5 @@
 export * from './useBreadcrumbs';
+export * from './useDetailFormLocales';
 export * from './useLocale';
 export * from './useMediaQuery';
 export * from './useMenuItems';

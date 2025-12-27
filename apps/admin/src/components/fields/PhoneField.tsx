@@ -5,7 +5,7 @@ import { PhoneFieldProps } from './types';
 const PhoneField = ({
   name,
   label,
-  phoneInputProps,
+  inputProps,
   isRequired,
   isDisabled,
   isReadOnly,
@@ -26,7 +26,7 @@ const PhoneField = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...phoneInputProps}
+          {...inputProps}
           {...field}
         />
       )}

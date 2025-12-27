@@ -5,7 +5,7 @@ import { PasswordFieldProps } from './types';
 const PasswordField = ({
   name,
   label,
-  passwordInputProps,
+  inputProps,
   isRequired,
   isDisabled,
   isReadOnly,
@@ -26,7 +26,7 @@ const PasswordField = ({
           isReadOnly={isReadOnly}
           fullWidth={isFullWidth}
           placeholder={placeholder}
-          {...passwordInputProps}
+          {...inputProps}
           {...field}
         />
       )}

@@ -1,5 +1,6 @@
 import { FieldValues, UseFormReturn, SubmitHandler } from 'react-hook-form';
 import { WithChildren } from '@common';
+import { ModalCloseReason } from '../../types';
 import { ButtonProps, DrawerBaseProps } from '../ui';
 import { ControlledFormProps } from '../form';
 
@@ -7,7 +8,7 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   /** When drawer is open */
   open: boolean;
   /** Close callback */
-  onClose: () => void;
+  onClose: (event: object, reason: ModalCloseReason) => void;
   /** Drawer width on initialize */
   initWidth?: string;
   /** Default drawer title */
@@ -28,8 +29,8 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   id: string | 'new' | undefined;
   /** Rest of controlled form props */
   formProps?: Partial<Omit<ControlledFormProps<T>, 'form'>>;
-  /** Dynamic portal slot ID for externally render node and put it in form */
-  dynamicSlotId?: string;
+  /** In case we need to disable confirm dialog when closing form with changes */
+  disableCloseConfirm?: boolean;
 }
 
 export interface UseDetailDrawerProps {
