@@ -1,74 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { getConfig } from '../../../config';
 import { CLONE_PATH_ATTRIBUTE_NAME } from '../../../constants';
+import { useArticlesQuery } from '../../../query';
+import { useResponseMessage } from '../../../hooks';
+import { useAppStore } from '../../../store';
 
-const mock_articles = [
-  {
-    id: 2,
-    name: 'sdf-df-fds-f-sddfsd-fufu',
-    type: 'event',
-    categories: [5],
-    tags: [5, 4],
-    attachments: [],
-    approved: true,
-    active: true,
-    deleted: false,
-    created: '2025-10-25 18:08:42',
-    updated: '2025-11-17 11:04:27',
-  },
-  {
-    id: 3,
-    name: 'dfgdfhdfghdf',
-    type: 'default',
-    categories: [2],
-    tags: [5],
-    attachments: [],
-    approved: true,
-    active: true,
-    deleted: true,
-    created: '2025-10-26 09:17:30',
-    updated: '2025-11-24 09:15:13',
-  },
-  {
-    id: 5,
-    name: 'hmmm-oj',
-    type: 'default',
-    categories: [1],
-    tags: [6, 7],
-    attachments: [14],
-    approved: false,
-    active: true,
-    deleted: false,
-    created: '2025-10-26 10:23:00',
-    updated: '2025-11-29 14:44:00',
-  },
-  {
-    id: 8,
-    name: 'clone:sdf-df-fds-f-sddfsd-fufu',
-    type: 'event',
-    categories: [5],
-    tags: [5, 4],
-    attachments: [],
-    approved: true,
-    active: false,
-    deleted: false,
-    created: '2025-11-09 09:28:18',
-    updated: '2025-11-24 09:13:37',
-  },
-  {
-    id: 10,
-    name: 'clone-hmmm-oj',
-    type: 'default',
-    categories: [2, 3],
-    tags: [6, 5, 3, 1],
-    attachments: [16, 14],
-    approved: true,
-    active: true,
-    deleted: false,
-    created: '2025-11-17 10:47:25',
-    updated: '2025-11-24 09:14:49',
-  },
-];
 const mock_categories = [
   {
     id: 1,
@@ -198,21 +135,77 @@ export const useArticlesList = () => {
   const { routes } = getConfig();
 
   const navigate = useNavigate();
+  const { t } = useTranslation(['common']);
+  const { addToast } = useAppStore();
+  const { onError } = useResponseMessage();
+  const {
+    articlesQuery,
+    articlesToggleMutation,
+    articlesDeleteMutation,
+    articlesDeletePermanentMutation,
+    articlesApproveMutation,
+  } = useArticlesQuery({});
+
+  const { data: items, refetch } = articlesQuery;
+  const { mutate: onToggle } = articlesToggleMutation;
+  const { mutate: onDelete } = articlesDeleteMutation;
+  const { mutate: onDeletePermanent } = articlesDeletePermanentMutation;
+  const { mutate: onApprove } = articlesApproveMutation;
 
   const toggleHandler = (ids: number[]) => {
-    console.log('on toggle', ids);
+    onToggle([...ids], {
+      onSuccess: ({ rows }) => {
+        addToast({
+          title: t('message.success.update', { count: rows }),
+          severity: 'success',
+          autoclose: true,
+        });
+        refetch();
+      },
+      onError,
+    });
   };
 
   const deleteHandler = (ids: number[]) => {
-    console.log('on delete', ids);
+    onDelete([...ids], {
+      onSuccess: ({ rows }) => {
+        addToast({
+          title: t('message.success.delete', { count: rows }),
+          severity: 'success',
+          autoclose: true,
+        });
+        refetch();
+      },
+      onError,
+    });
   };
 
   const deletePermanentHandler = (ids: number[]) => {
-    console.log('on delete permanent', ids);
+    onDeletePermanent([...ids], {
+      onSuccess: ({ rows }) => {
+        addToast({
+          title: t('message.success.deletePermanent', { count: rows }),
+          severity: 'success',
+          autoclose: true,
+        });
+        refetch();
+      },
+      onError,
+    });
   };
 
   const approveHandler = (ids: number[]) => {
-    console.log('on approve', ids);
+    onApprove([...ids], {
+      onSuccess: ({ rows }) => {
+        addToast({
+          title: t('message.success.approve', { count: rows }),
+          severity: 'success',
+          autoclose: true,
+        });
+        refetch();
+      },
+      onError,
+    });
   };
 
   const cloneHandler = (id: number) => {
@@ -222,7 +215,7 @@ export const useArticlesList = () => {
   };
 
   return {
-    items: [...mock_articles],
+    items: items ? [...items] : [],
     filter: {
       categories: [...mock_categories],
       tags: [...mock_tags],

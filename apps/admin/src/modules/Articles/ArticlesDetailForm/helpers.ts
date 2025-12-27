@@ -1,3 +1,4 @@
+import { getFormattedString } from '@common';
 import {
   articlesTypeDefault,
   ArticlesDetail,
@@ -7,7 +8,10 @@ import { getModelLocales } from '../../../helpers';
 import { IArticlesDetailForm } from './types';
 
 /** Gets default form values */
-export const defaultDataToForm = (locales: string[]): IArticlesDetailForm => {
+export const defaultDataToForm = (
+  locales: string[],
+  author: number
+): IArticlesDetailForm => {
   return Object.assign({
     id: 0,
     active: true,
@@ -20,8 +24,8 @@ export const defaultDataToForm = (locales: string[]): IArticlesDetailForm => {
     files: [],
     approved: false,
     explicit: false,
-    author: 0,
-    editor: [],
+    author: author,
+    editor: [author],
 
     locale: getModelLocales<ArticlesDetailLocale>(locales, {
       title: '',
@@ -38,13 +42,28 @@ export const detailDataToForm = (data: ArticlesDetail): IArticlesDetailForm => {
   });
 };
 
+/** Gets formatted detail data of clone to form */
+export const cloneDetailDataToForm = (
+  data: ArticlesDetail,
+  author: number
+): IArticlesDetailForm => {
+  return Object.assign({
+    ...data,
+    id: 0,
+    name: `clone-${data.name}`,
+    approved: false,
+    explicit: false,
+    author: author,
+    editor: [author],
+  });
+};
+
 /** Gets formatted form data to master before submit */
 export const formDataToMaster = (data: IArticlesDetailForm): ArticlesDetail => {
   const master = Object.assign({
     ...data,
+    name: getFormattedString(data.name),
   });
-
-  // TODO: modify master
 
   return { ...master };
 };

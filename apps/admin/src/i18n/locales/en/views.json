@@ -1,15 +1,18 @@
 {
   "articles": {
     "title": "Articles",
-    "new": "New article"
+    "new": "New article",
+    "detail": "Article detail"
   },
   "categories": {
     "title": "Categories",
-    "new": "New category"
+    "new": "New category",
+    "detail": "Category detail"
   },
   "customFields": {
     "title": "Custom fields",
-    "new": "New custom field"
+    "new": "New custom field",
+    "detail": "Custom field detail"
   },
   "dashboard": {
     "title": "Dashboard"
@@ -22,7 +25,8 @@
   },
   "files": {
     "title": "Files",
-    "new": "New file"
+    "new": "New file",
+    "detail": "File detail"
   },
   "login": {
     "title": "Login",
@@ -30,18 +34,22 @@
   },
   "members": {
     "title": "Members",
-    "new": "New member"
+    "new": "New member",
+    "detail": "Member detail"
   },
   "menu": {
     "title": "Menu",
-    "new": "New menu"
+    "new": "New menu",
+    "detail": "Menu detail"
   },
   "messages": {
-    "title": "Messages"
+    "title": "Messages",
+    "detail": "Message detail"
   },
   "pages": {
     "title": "Pages",
-    "new": "New page"
+    "new": "New page",
+    "detail": "Page detail"
   },
   "passwordRecovery": {
     "title": "Password recovery"
@@ -56,14 +64,17 @@
   },
   "tags": {
     "title": "Tags",
-    "new": "New tag"
+    "new": "New tag",
+    "detail": "Tag detail"
   },
   "translations": {
     "title": "Translations",
-    "new": "New translation"
+    "new": "New translation",
+    "detail": "Translation detail"
   },
   "users": {
     "title": "Users",
-    "new": "New user"
+    "new": "New user",
+    "detail": "User detail"
   }
 }

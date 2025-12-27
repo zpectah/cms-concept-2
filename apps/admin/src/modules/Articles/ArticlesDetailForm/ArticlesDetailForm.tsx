@@ -97,10 +97,24 @@ const ArticlesDetailForm = () => {
               fieldLabel="Deleted"
               layout="vertical"
             />
+
+            {/* TODO */}
+            <input
+              type="hidden"
+              {...form.register('categories', { value: [] })}
+            />
+            <input type="hidden" {...form.register('tags', { value: [] })} />
+            <input type="hidden" {...form.register('files', { value: [] })} />
           </Grid>
 
-          <Grid container>
+          <Grid container size={12}>
             <div id={dynamicSlotId} />
+          </Grid>
+
+          <Grid size={12}>
+            <pre>
+              <code>{JSON.stringify(form.formState.errors, null, 2)}</code>
+            </pre>
           </Grid>
         </Grid>
       </DetailDrawer>

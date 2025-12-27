@@ -81,7 +81,24 @@
         "title": "Confirm closing the form",
         "content": "Are you sure you want to discard the changes you made to the form?"
       }
-    }
+    },
+    "success": {
+      "create_one": "Item was successfully created",
+      "create_other": "{{count}} items was successfully created",
+      "update_one": "Item was successfully updated",
+      "update_other": "{{count}} items was successfully updated",
+      "delete_one": "Item was successfully deleted",
+      "delete_other": "{{count}} items was successfully deleted",
+      "deletePermanent_one": "Item was successfully and permanently deleted",
+      "deletePermanent_other": "{{count}} items was successfully and permanently deleted",
+      "approve_one": "Item was successfully approved",
+      "approve_other": "{{count}} items was successfully approved",
+      "read_one": "Item was successfully set as read",
+      "read_other": "{{count}} items was successfully set as read"
+    },
+    "info": {},
+    "warning": {},
+    "error": {}
   },
   "routes": {
     "articles": "Articles",

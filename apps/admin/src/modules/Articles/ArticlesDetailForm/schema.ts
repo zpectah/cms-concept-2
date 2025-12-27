@@ -15,8 +15,8 @@ export const articlesDetailFormSchema = z.object({
   id: commonFieldSchema.number,
   active: commonFieldSchema.boolean,
   deleted: commonFieldSchema.boolean,
-  created: commonFieldSchema.string,
-  updated: commonFieldSchema.string,
+  created: commonFieldSchema.string.optional(),
+  updated: commonFieldSchema.string.optional(),
   //
   name: commonFieldSchema.string_required,
   type: z.enum(articlesTypeKeysArray),

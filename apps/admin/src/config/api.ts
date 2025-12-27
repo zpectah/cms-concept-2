@@ -1,0 +1,17 @@
+export const endpoints = {
+  articles: `private/articles`,
+  categories: `private/categories`,
+  customFields: `private/custom-fields`,
+  files: `private/files`,
+  members: `private/members`,
+  menu: `private/menu`,
+  menuItems: `private/menu-items`,
+  messages: `private/messages`,
+  pages: `private/pages`,
+  settings: `private/settings`,
+  tags: `private/tags`,
+  translations: `private/translations`,
+  users: `private/users`,
+  blacklist: `private/blacklist`,
+  requests: `private/requests`,
+};
