@@ -7,6 +7,7 @@ export type CategoriesType = EnumKeyValues<typeof categoriesTypeKeys>;
 export interface CategoriesItem extends ItemBase {
   name: string;
   type: CategoriesType;
+  parent_id: number;
 }
 
 export type Categories = CategoriesItem[];

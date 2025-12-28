@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UseDetailDrawerProps } from './types';
 
 export const useDetailDrawer = ({ defaultTitle }: UseDetailDrawerProps) => {
@@ -12,6 +12,10 @@ export const useDetailDrawer = ({ defaultTitle }: UseDetailDrawerProps) => {
   const fullSizeToggleHandler = () => {
     setFullscreen(!fullscreen);
   };
+
+  useEffect(() => {
+    if (defaultTitle) setTitle(defaultTitle);
+  }, [defaultTitle]);
 
   return {
     setFullscreen,

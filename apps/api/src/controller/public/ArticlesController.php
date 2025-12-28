@@ -9,12 +9,14 @@ class ArticlesController {
   private function get($url): array {
     $articles = new Articles;
 
+    $locales = ['en']; // TODO
+
     $id = $url['a1'] === 'id' ? $url['a2'] : null;
 
     if ($id) {
-      return $articles -> getDetail($id);
+      return $articles -> get_detail($id, $locales);
     } else {
-      return $articles -> getList();
+      return $articles -> get_list();
     }
   }
 

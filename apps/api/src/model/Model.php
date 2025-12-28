@@ -38,6 +38,10 @@ class Model {
     return implode(', ', array_fill(0, count($data), '?'));
   }
 
+  static function delete_placeholders($data): string {
+    return str_repeat('?,', count($data) - 1) . '?';
+  }
+
 
   protected function connection(): PDO {
     // TODO

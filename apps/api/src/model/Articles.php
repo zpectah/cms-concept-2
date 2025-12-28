@@ -174,16 +174,14 @@ class Articles extends Model {
     $insertId = $conn -> lastInsertId();
 
     if (isset($data['locale']) && is_array($data['locale'])) {
-
       $localeParams = self::get_columns_and_values_for_query([ 'title', 'description', 'content', 'id' ]);
       $localeColumns = $localeParams['columns'];
       $localeValues = $localeParams['values'];
 
       foreach ($locales as $locale) {
         if (isset($data['locale'][$locale])) {
-          $tableName = 'articles_' . $locale;
-
           $localeData = self::parse_locale_row($data['locale'][$locale]);
+          $tableName = 'articles_' . $locale;
 
           $localeSql = "INSERT INTO `{$tableName}` ({$localeColumns}) VALUES ({$localeValues})";
           $localeStmt = $conn -> prepare($localeSql);
@@ -204,7 +202,6 @@ class Articles extends Model {
 
   public function patch($data, $locales): array {
     $conn = self::connection();
-
     $data = self::parse_json_to_db($data);
     $setParts = self::query_parts($data, [
       'type', 'name', 'categories', 'tags', 'files',
@@ -242,13 +239,11 @@ class Articles extends Model {
     $id = $data['id'];
 
     if (isset($data['locale']) && is_array($data['locale'])) {
-
       foreach ($locales as $locale) {
         if (isset($data['locale'][$locale])) {
-          $tableName = 'articles_' . $locale;
-
           $localeData = self::parse_locale_row($data['locale'][$locale]);
           $localeSetParts = self::query_parts($localeData, [ 'title', 'description', 'content', 'id' ]);
+          $tableName = 'articles_' . $locale;
 
           $localeSql = "UPDATE `{$tableName}` SET " . implode(', ', $localeSetParts) . " WHERE `id` = :id";
           $localeStmt = $conn -> prepare($localeSql);
@@ -263,7 +258,6 @@ class Articles extends Model {
       }
     }
 
-
     return [
       'rows' => $rows,
       'locales' => $locales,
@@ -272,7 +266,6 @@ class Articles extends Model {
 
   public function toggle($data): array {
     $conn = self::connection();
-
     $placeholders = self::update_placeholders($data);
 
     $sql = "UPDATE `articles` SET `active` = NOT `active` WHERE `id` IN ({$placeholders})";
@@ -286,7 +279,6 @@ class Articles extends Model {
 
   public function approve($data): array {
     $conn = self::connection();
-
     $placeholders = self::update_placeholders($data);
 
     $sql = "UPDATE `articles` SET `approved` = NOT `approved` WHERE `id` IN ({$placeholders})";
@@ -300,7 +292,6 @@ class Articles extends Model {
 
   public function delete($data): array {
     $conn = self::connection();
-
     $placeholders = self::update_placeholders($data);
 
     $sql = "UPDATE `articles` SET `deleted` = NOT `deleted` WHERE `id` IN ({$placeholders})";
@@ -314,8 +305,7 @@ class Articles extends Model {
 
   public function delete_permanent($data, $locales): array {
     $conn = self::connection();
-
-    $placeholders = str_repeat('?,', count($data) - 1) . '?';
+    $placeholders = self::delete_placeholders($data);
 
     $sql = "DELETE FROM `articles` WHERE id IN ($placeholders)";
     $stmt = $conn -> prepare($sql);
