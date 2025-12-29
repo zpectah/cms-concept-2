@@ -1,27 +1,39 @@
+import { useState, useEffect } from 'react';
 import { useAppStore } from '../../store';
 import { CONFIRM_DIALOG_WIDTH_DEFAULT } from '../../constants';
 import { Dialog, PrimaryButton, SecondaryButton } from '../../components';
 
 const ConfirmDialog = () => {
+  const [open, setOpen] = useState(false);
+
   const { confirmDialog, setConfirmDialog } = useAppStore();
 
+  const exitHandler = () => setConfirmDialog(null);
+
   const closeHandler = () => {
+    setOpen(false);
     confirmDialog?.onCancel?.();
-    setConfirmDialog(null);
   };
 
   const confirmHandler = () => {
     confirmDialog?.onConfirm();
-    setConfirmDialog(null);
+    closeHandler();
   };
+
+  useEffect(() => setOpen(!!confirmDialog), [confirmDialog]);
 
   return (
     <Dialog
       labelId="confirm-dialog"
-      open={!!confirmDialog}
+      open={open}
       onClose={closeHandler}
       title={confirmDialog?.title}
       text={confirmDialog?.content}
+      slotProps={{
+        transition: {
+          onExited: exitHandler,
+        },
+      }}
       actions={
         <>
           <SecondaryButton onClick={closeHandler}>Cancel</SecondaryButton>

@@ -16,6 +16,10 @@ class Categories extends Model {
       'deleted' => $data['deleted'] === 1,
     ];
 
+    if ($localeData) {
+      $item['locale'] = $localeData;
+    }
+
     return $item;
   }
 

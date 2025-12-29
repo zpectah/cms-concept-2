@@ -29,6 +29,8 @@ const DetailDrawer = <T extends FieldValues>({
   onSubmit,
   open,
   disableCloseConfirm,
+  keepMounted,
+  onExited,
 }: DetailDrawerProps<T>) => {
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
@@ -143,8 +145,13 @@ const DetailDrawer = <T extends FieldValues>({
         disableBackdropClose={disableBackdropClose}
         {...drawerProps}
         ModalProps={{
-          keepMounted: true,
+          keepMounted,
           ...drawerProps?.ModalProps,
+        }}
+        slotProps={{
+          transition: {
+            onExited,
+          },
         }}
       >
         <ControlledForm<T>

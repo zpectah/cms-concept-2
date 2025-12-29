@@ -29,6 +29,7 @@ const ArticlesDetailForm = () => {
         onSubmit={onSubmit}
         onReset={onReset}
         onDelete={onDelete}
+        keepMounted
       >
         <Grid container spacing={SPACING.form}>
           <InputField

@@ -31,6 +31,10 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   formProps?: Partial<Omit<ControlledFormProps<T>, 'form'>>;
   /** In case we need to disable confirm dialog when closing form with changes */
   disableCloseConfirm?: boolean;
+  /** When we need to keep content even if its closed */
+  keepMounted?: boolean;
+  /** When drawer finally exited */
+  onExited?: () => void;
 }
 
 export interface UseDetailDrawerProps {
