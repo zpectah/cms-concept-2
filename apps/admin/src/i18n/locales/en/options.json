@@ -1,0 +1,45 @@
+{
+  "model": {
+    "default": "Default",
+    "event": "Event",
+    "unknown": "Unknown",
+    "unsupported": "Unsupported",
+    "image": "Image",
+    "audio": "Audio",
+    "video": "Video",
+    "document": "Document",
+    "archive": "Archive",
+    "external": "External",
+    "section": "Section"
+  },
+  "accessRights": {
+    "none": "None",
+    "redactor": "Redactor",
+    "manager": "Manager",
+    "admin": "Admin"
+  },
+  "robots": {
+    "all": "All",
+    "index": "Index",
+    "follow": "Follow",
+    "none": "None",
+    "noindex": "No index",
+    "nofollow": "No follow",
+    "nosnippet": "No snippet",
+    "noarchive": "No archive",
+    "nocache": "No cache"
+  },
+  "color": {
+    "none": "None",
+    "red": "Red",
+    "orange": "Orange",
+    "yellow": "Yellow",
+    "green": "Green",
+    "blue": "Blue",
+    "pink": "Pink",
+    "purple": "Purple",
+    "brown": "Brown",
+    "black": "Black",
+    "white": "White"
+  }
+}

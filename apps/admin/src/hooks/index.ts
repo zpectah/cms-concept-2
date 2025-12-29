@@ -7,5 +7,6 @@ export * from './useModelFavorites';
 export * from './useNewItem';
 export * from './useProfile';
 export * from './useResponseMessage';
+export * from './useSelectOptions';
 export * from './useThemeMode';
 export * from './useUserActions';

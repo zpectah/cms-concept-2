@@ -6,13 +6,23 @@ import {
   InputField,
   CheckboxField,
   TextareaField,
+  SelectField,
 } from '../../../components';
 import { ICategoriesDetailForm } from './types';
 import { useCategoriesDetailForm } from './useCategoriesDetailForm';
 
 const CategoriesDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, localesTabs } =
-    useCategoriesDetailForm();
+  const {
+    id,
+    title,
+    form,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    localesTabs,
+    options,
+  } = useCategoriesDetailForm();
 
   return (
     <DetailDrawer<ICategoriesDetailForm>
@@ -33,7 +43,14 @@ const CategoriesDetailForm = () => {
           placeholder="Category name"
           isFullWidth
         />
-        <InputField name="type" label="Type" layout="vertical" isFullWidth />
+        <SelectField
+          name="type"
+          label="Type"
+          placeholder="Select item type"
+          options={options.type}
+          layout="vertical"
+          selectProps={{ sx: { width: '50%' } }}
+        />
 
         <Grid size={12}>
           <LocalesTabs
@@ -65,12 +82,6 @@ const CategoriesDetailForm = () => {
             name="active"
             label=""
             fieldLabel="Active"
-            layout="vertical"
-          />
-          <CheckboxField
-            name="deleted"
-            label=""
-            fieldLabel="Deleted"
             layout="vertical"
           />
 

@@ -1,5 +1,9 @@
 import { ReactNode } from 'react';
-import { BoxProps, DrawerProps as MUiDrawerProps } from '@mui/material';
+import {
+  BoxProps,
+  DrawerProps as MUiDrawerProps,
+  AlertProps,
+} from '@mui/material';
 import { WithChildren } from '@common';
 import { SxCommonValue } from '../../../types';
 import { IconButtonPlusProps } from '../button';
@@ -14,6 +18,7 @@ export interface DrawerLayoutProps extends WithChildren {
   disableCloseButton?: boolean;
   onClose: () => void;
   wrapperProps?: Partial<BoxProps>;
+  actionsMessages?: AlertProps[];
 }
 
 export interface DrawerBaseProps extends Omit<MUiDrawerProps, 'title'> {

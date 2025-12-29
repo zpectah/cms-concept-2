@@ -1,11 +1,16 @@
 import { Grid } from '@mui/material';
 import { SPACING } from '../../../constants';
-import { DetailDrawer, InputField, CheckboxField } from '../../../components';
+import {
+  DetailDrawer,
+  InputField,
+  CheckboxField,
+  SelectField,
+} from '../../../components';
 import { ITagsDetailForm } from './types';
 import { useTagsDetailForm } from './useTagsDetailForm';
 
 const TagsDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
+  const { id, title, form, onSubmit, onClose, onReset, onDelete, options } =
     useTagsDetailForm();
 
   return (
@@ -27,20 +32,28 @@ const TagsDetailForm = () => {
           placeholder="Tag name"
           isFullWidth
         />
-        <InputField name="type" label="Type" layout="vertical" isFullWidth />
-        <InputField name="color" label="Color" layout="vertical" isFullWidth />
+        <SelectField
+          name="type"
+          label="Type"
+          placeholder="Select item type"
+          options={options.type}
+          layout="vertical"
+          selectProps={{ sx: { width: '50%' } }}
+        />
+        <SelectField
+          name="color"
+          label="Color"
+          placeholder="Select item color"
+          options={options.color}
+          layout="vertical"
+          selectProps={{ sx: { width: '50%' } }}
+        />
 
         <Grid container size={12} spacing={0}>
           <CheckboxField
             name="active"
             label=""
             fieldLabel="Active"
-            layout="vertical"
-          />
-          <CheckboxField
-            name="deleted"
-            label=""
-            fieldLabel="Deleted"
             layout="vertical"
           />
         </Grid>

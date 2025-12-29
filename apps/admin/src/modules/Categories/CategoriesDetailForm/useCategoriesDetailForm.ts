@@ -1,12 +1,16 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { CategoriesDetail } from '@model';
+import { CategoriesDetail, modelKeys } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
-import { useDetailFormLocales, useResponseMessage } from '../../../hooks';
+import {
+  useDetailFormLocales,
+  useResponseMessage,
+  useSelectOptions,
+} from '../../../hooks';
 import { useCategoriesQuery } from '../../../query';
 import { ICategoriesDetailForm } from './types';
 import { categoriesDetailFormSchema } from './schema';
@@ -23,6 +27,7 @@ export const useCategoriesDetailForm = () => {
   const { rootUrl } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
+  const { getTypeFieldOptions } = useSelectOptions();
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
   const form = useForm<ICategoriesDetailForm>({
     resolver: zodResolver(categoriesDetailFormSchema),
@@ -44,14 +49,6 @@ export const useCategoriesDetailForm = () => {
   const { mutate: onCreate } = categoriesCreateMutation;
   const { mutate: onPatch } = categoriesPatchMutation;
   const { mutate: onDelete } = categoriesDeleteMutation;
-
-  const resetHandler = useCallback(() => {
-    if (id === 'new') {
-      form.reset(defaultDataToForm(locales));
-    } else if (detail) {
-      form.reset(detailDataToForm(detail));
-    }
-  }, [id, detail, form, locales]);
 
   const closeHandler = () => {
     navigate(rootUrl);
@@ -123,6 +120,19 @@ export const useCategoriesDetailForm = () => {
     });
   };
 
+  const drawerTitle = useMemo(() => {
+    return id === 'new' ? t('views:categories.new') : detail?.name;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, detail]);
+
+  const resetHandler = useCallback(() => {
+    if (id === 'new') {
+      form.reset(defaultDataToForm(locales));
+    } else if (detail) {
+      form.reset(detailDataToForm(detail));
+    }
+  }, [id, detail, form, locales]);
+
   useEffect(() => {
     if (id || detail) resetHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,7 +141,7 @@ export const useCategoriesDetailForm = () => {
   return {
     id,
     form,
-    title: t('views:categories.detail'),
+    title: drawerTitle,
     // Actions
     onSubmit: submitHandler,
     onClose: closeHandler,
@@ -142,6 +152,10 @@ export const useCategoriesDetailForm = () => {
       locales,
       locale,
       onLocaleChange,
+    },
+    // Options
+    options: {
+      type: getTypeFieldOptions(modelKeys.categories),
     },
   };
 };

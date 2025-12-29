@@ -11,10 +11,10 @@ import {
   IconRosetteDiscountCheckFilled,
   IconTrash,
   IconTrashX,
-  IconAdjustments,
   IconVocabulary,
   IconRestore,
   IconArchive,
+  IconFilter,
 } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useUserActions } from '../../hooks';
@@ -376,7 +376,7 @@ const DataListControls = () => {
                     tooltip={t('components:dataList.button.openControls')}
                     onClick={() => setControlsOpen(true)}
                   >
-                    <IconAdjustments size={dataListIconSizeDefault} />
+                    <IconFilter size={dataListIconSizeDefault} />
                   </IconButtonPlus>
                 </Stack>
               </Grid>

@@ -1,4 +1,11 @@
-import { Stack, styled, Typography, Box, Container } from '@mui/material';
+import {
+  Stack,
+  styled,
+  Typography,
+  Box,
+  Container,
+  Alert,
+} from '@mui/material';
 import { CloseButton, IconButtonPlus } from '../button';
 import { DrawerLayoutProps } from './types';
 
@@ -25,7 +32,18 @@ const DrawerContent = styled('div')(({ theme }) => ({
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
 }));
-const DrawerActions = styled('footer')(({ theme }) => ({
+const DrawerActionsWrapper = styled('footer')(({ theme }) => ({
+  padding: theme.spacing(1),
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  flex: 0,
+}));
+const ActionsMessages = styled('div')(({ theme }) => ({
+  padding: theme.spacing(1),
+}));
+const DrawerActions = styled('div')(({ theme }) => ({
+  width: '100%',
   padding: theme.spacing(1),
   display: 'flex',
   alignItems: 'center',
@@ -45,6 +63,7 @@ const DrawerLayout = ({
   disableCloseButton,
   onClose,
   wrapperProps,
+  actionsMessages = [],
 }: DrawerLayoutProps) => {
   return (
     <DrawerContainer {...wrapperProps}>
@@ -72,7 +91,18 @@ const DrawerLayout = ({
           </Container>
         </DrawerContent>
       </DrawerContentWrapper>
-      {actions && <DrawerActions>{actions}</DrawerActions>}
+      <DrawerActionsWrapper>
+        {actionsMessages?.length > 0 && (
+          <Container disableGutters>
+            <ActionsMessages>
+              {actionsMessages.map((item, index) => (
+                <Alert key={index} variant="filled" {...item} />
+              ))}
+            </ActionsMessages>
+          </Container>
+        )}
+        {actions && <DrawerActions>{actions}</DrawerActions>}
+      </DrawerActionsWrapper>
     </DrawerContainer>
   );
 };

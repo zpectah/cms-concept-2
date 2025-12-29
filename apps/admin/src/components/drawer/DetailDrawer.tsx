@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { AlertProps } from '@mui/material';
 import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useViewContext } from '../../contexts';
@@ -126,6 +127,25 @@ const DetailDrawer = <T extends FieldValues>({
     },
   ];
 
+  const formErrors = useMemo((): AlertProps[] => {
+    let counter = 0;
+
+    if (form.formState.errors) {
+      Object.keys(form.formState.errors).forEach((key) => {
+        counter++;
+      });
+    }
+
+    return counter > 0
+      ? [
+          {
+            children: `There is ${counter} error(s)`,
+            severity: 'error',
+          },
+        ]
+      : [];
+  }, [form.formState.errors]);
+
   return (
     <DetailDrawerContextProvider value={context}>
       <DrawerBase
@@ -168,6 +188,7 @@ const DetailDrawer = <T extends FieldValues>({
 
               return <Button key={button.id || index} {...button} />;
             })}
+            actionsMessages={formErrors}
             onClose={() => closeHandler({}, 'default')}
             children={children}
           />

@@ -1,5 +1,7 @@
 import { Grid } from '@mui/material';
 import { SPACING } from '../../../constants';
+import { TagsPicker } from '../../Tags';
+import { CategoriesPicker } from '../../Categories';
 import {
   DetailDrawer,
   DynamicPortal,
@@ -8,15 +10,25 @@ import {
   CheckboxField,
   TextareaField,
   WysiwygField,
+  SelectField,
 } from '../../../components';
 import { IArticlesDetailForm } from './types';
 import { useArticlesDetailForm } from './useArticlesDetailForm';
 
 const ArticlesDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, localesTabs } =
-    useArticlesDetailForm();
+  const {
+    id,
+    title,
+    form,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    localesTabs,
+    options,
+  } = useArticlesDetailForm();
 
-  const dynamicSlotId = 'articles-portal-target';
+  const dynamicSlotId = 'articles-comments-portal-target';
 
   return (
     <>
@@ -39,7 +51,14 @@ const ArticlesDetailForm = () => {
             placeholder="Article name"
             isFullWidth
           />
-          <InputField name="type" label="Type" layout="vertical" isFullWidth />
+          <SelectField
+            name="type"
+            label="Type"
+            placeholder="Select item type"
+            options={options.type}
+            layout="vertical"
+            selectProps={{ sx: { width: '50%' } }}
+          />
 
           <Grid size={12}>
             <LocalesTabs
@@ -92,12 +111,11 @@ const ArticlesDetailForm = () => {
               fieldLabel="Active"
               layout="vertical"
             />
-            <CheckboxField
-              name="deleted"
-              label=""
-              fieldLabel="Deleted"
-              layout="vertical"
-            />
+
+            <div>
+              <TagsPicker />
+              <CategoriesPicker />
+            </div>
 
             {/* TODO */}
             <input

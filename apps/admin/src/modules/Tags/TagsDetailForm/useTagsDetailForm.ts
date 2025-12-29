@@ -1,13 +1,13 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TagsDetail } from '@model';
+import { modelKeys, tagsColorKeysArray, TagsDetail } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
 import { useTagsQuery } from '../../../query';
-import { useResponseMessage } from '../../../hooks';
+import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { ITagsDetailForm } from './types';
 import { tagsDetailFormSchema } from './schema';
 import {
@@ -23,6 +23,8 @@ export const useTagsDetailForm = () => {
   const { rootUrl } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
+  const { getTypeFieldOptions, getTranslatedOptionsFromList } =
+    useSelectOptions();
   const form = useForm<ITagsDetailForm>({
     resolver: zodResolver(tagsDetailFormSchema),
     defaultValues: defaultDataToForm(),
@@ -41,14 +43,6 @@ export const useTagsDetailForm = () => {
   const { mutate: onCreate } = tagsCreateMutation;
   const { mutate: onPatch } = tagsPatchMutation;
   const { mutate: onDelete } = tagsDeleteMutation;
-
-  const resetHandler = useCallback(() => {
-    if (id === 'new') {
-      form.reset(defaultDataToForm());
-    } else if (detail) {
-      form.reset(detailDataToForm(detail));
-    }
-  }, [id, detail, form]);
 
   const closeHandler = () => {
     navigate(rootUrl);
@@ -118,6 +112,19 @@ export const useTagsDetailForm = () => {
     });
   };
 
+  const drawerTitle = useMemo(() => {
+    return id === 'new' ? t('views:tags.new') : detail?.name;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, detail]);
+
+  const resetHandler = useCallback(() => {
+    if (id === 'new') {
+      form.reset(defaultDataToForm());
+    } else if (detail) {
+      form.reset(detailDataToForm(detail));
+    }
+  }, [id, detail, form]);
+
   useEffect(() => {
     if (id || detail) resetHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,11 +133,16 @@ export const useTagsDetailForm = () => {
   return {
     id,
     form,
-    title: t('views:tags.detail'),
+    title: drawerTitle,
     // Actions
     onSubmit: submitHandler,
     onClose: closeHandler,
     onReset: resetHandler,
     onDelete: deleteHandler,
+    // Options
+    options: {
+      type: getTypeFieldOptions(modelKeys.tags),
+      color: getTranslatedOptionsFromList(tagsColorKeysArray, 'color'),
+    },
   };
 };
