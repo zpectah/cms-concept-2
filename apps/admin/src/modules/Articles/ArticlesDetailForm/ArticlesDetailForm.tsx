@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { SPACING } from '../../../constants';
-import { TagsPicker } from '../../Tags';
-import { CategoriesPicker } from '../../Categories';
+import { TagsPickerField } from '../../Tags';
+import { CategoriesPickerField } from '../../Categories';
 import {
   DetailDrawer,
   DynamicPortal,
@@ -92,6 +92,23 @@ const ArticlesDetailForm = () => {
             />
           </Grid>
 
+          <TagsPickerField
+            name="tags"
+            label="Tags"
+            layout="vertical"
+            isMultiple
+            isFullWidth
+          />
+          <CategoriesPickerField
+            name="categories"
+            label="Categories"
+            layout="vertical"
+            isMultiple
+            isFullWidth
+          />
+          {/* TODO */}
+          <input type="hidden" {...form.register('files', { value: [] })} />
+
           <Grid container size={12} spacing={0}>
             <CheckboxField
               name="approved"
@@ -111,29 +128,10 @@ const ArticlesDetailForm = () => {
               fieldLabel="Active"
               layout="vertical"
             />
-
-            <div>
-              <TagsPicker />
-              <CategoriesPicker />
-            </div>
-
-            {/* TODO */}
-            <input
-              type="hidden"
-              {...form.register('categories', { value: [] })}
-            />
-            <input type="hidden" {...form.register('tags', { value: [] })} />
-            <input type="hidden" {...form.register('files', { value: [] })} />
           </Grid>
 
           <Grid container size={12}>
             <div id={dynamicSlotId} />
-          </Grid>
-
-          <Grid size={12}>
-            <pre>
-              <code>{JSON.stringify(form.watch(), null, 2)}</code>
-            </pre>
           </Grid>
         </Grid>
       </DetailDrawer>

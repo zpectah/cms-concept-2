@@ -17,7 +17,8 @@ import {
 } from '../ui';
 import { ControlledFieldProps } from '../field';
 
-interface FieldBase extends Omit<ControlledFieldProps, 'name' | 'render'> {
+export interface FieldBase
+  extends Omit<ControlledFieldProps, 'name' | 'render'> {
   name: string;
   label: string;
   id?: string;

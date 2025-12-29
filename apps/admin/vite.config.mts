@@ -40,6 +40,8 @@ export default defineConfig(() => ({
         },
       },
     },
+    /* MUI package is more than 500kb */
+    chunkSizeWarningLimit: 750,
   },
   test: {
     name: '@cms-concept-2/admin',

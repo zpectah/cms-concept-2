@@ -8,12 +8,14 @@ import {
   TextareaField,
   SelectField,
 } from '../../../components';
+import { CategoriesPickerField } from '../components';
 import { ICategoriesDetailForm } from './types';
 import { useCategoriesDetailForm } from './useCategoriesDetailForm';
 
 const CategoriesDetailForm = () => {
   const {
     id,
+    detailId,
     title,
     form,
     onSubmit,
@@ -76,6 +78,16 @@ const CategoriesDetailForm = () => {
             )}
           />
         </Grid>
+
+        <CategoriesPickerField
+          name="parent_id"
+          label="Parent"
+          layout="vertical"
+          isFullWidth
+          categoriesPickerProps={{
+            ignored: [detailId],
+          }}
+        />
 
         <Grid container size={12} spacing={0}>
           <CheckboxField

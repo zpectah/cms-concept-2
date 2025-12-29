@@ -157,5 +157,7 @@ export const useCategoriesDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.categories),
     },
+    // Current detail ID as number
+    detailId: form.watch('id'),
   };
 };
