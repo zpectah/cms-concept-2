@@ -1,5 +1,5 @@
 <?php
-
+// Controllers
 require_once PATH_ROOT . 'controller/public/ArticlesController.php';
 require_once PATH_ROOT . 'controller/public/BlacklistController.php';
 require_once PATH_ROOT . 'controller/public/CategoriesController.php';

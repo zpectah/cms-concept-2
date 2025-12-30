@@ -41,6 +41,8 @@ const MainMenu = () => {
         }}
       >
         {main.map((item) => {
+          if (item.hidden) return null;
+
           const isActive = pathname.includes(item.path);
 
           return (

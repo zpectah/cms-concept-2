@@ -1,40 +1,44 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Box, Tabs, Tab } from '@mui/material';
 import { getConfig } from '../../config';
+import { useUserActions } from '../../hooks';
 
 const SettingsPanelNavigation = () => {
   const { routes } = getConfig();
 
   const [panelIndex, setPanelIndex] = useState(0);
 
+  const { t } = useTranslation(['views']);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { groups } = useUserActions(undefined);
 
   const tabItems = [
     {
       name: 'global',
       path: `${routes.settings.root}/${routes.settings.panels.global}`,
-      label: 'global', // TODO
-      visible: true, // TODO
+      label: t('views:settings.panels.global'),
+      visible: groups.organization.view,
     },
     {
       name: 'client',
       path: `${routes.settings.root}/${routes.settings.panels.client}`,
-      label: 'client', // TODO
-      visible: true, // TODO
+      label: t('views:settings.panels.client'),
+      visible: groups.system.view,
     },
     {
       name: 'languages',
       path: `${routes.settings.root}/${routes.settings.panels.languages}`,
-      label: 'languages', // TODO
-      visible: true, // TODO
+      label: t('views:settings.panels.languages'),
+      visible: groups.system.view,
     },
     {
       name: 'blacklist',
       path: `${routes.settings.root}/${routes.settings.panels.blacklist}`,
-      label: 'blacklist', // TODO
-      visible: true, // TODO
+      label: t('views:settings.panels.blacklist'),
+      visible: groups.system.view,
     },
   ];
 

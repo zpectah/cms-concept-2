@@ -59,6 +59,7 @@
     "panels": {
       "global": "Global",
       "client": "Client",
+      "languages": "Languages",
       "blacklist": "Blacklist"
     }
   },

@@ -7,8 +7,9 @@ use model\Settings;
 class SettingsController {
 
   private function get($url): array {
+    $settings = new Settings;
 
-    return [];
+    return $settings -> get_table();
   }
 
   public function resolve($url, $data): array {

@@ -1,4 +1,4 @@
-import { usersTypeKeys } from '../enums';
+import { usersAccessKeys, usersTypeKeys } from '../enums';
 
 export const usersTypeKeysArray = [...Object.keys(usersTypeKeys)] as [
   string,
@@ -6,3 +6,8 @@ export const usersTypeKeysArray = [...Object.keys(usersTypeKeys)] as [
 ];
 
 export const usersTypeDefault = usersTypeKeys.default;
+
+export const usersAccessKeysArray = [...Object.keys(usersAccessKeys)] as [
+  string,
+  ...string[]
+];

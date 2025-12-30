@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getConfig } from '../config';
+import { useSettingsQuery } from '../query';
 
 export const useDetailFormLocales = () => {
   const {
@@ -9,21 +10,16 @@ export const useDetailFormLocales = () => {
   const [locales, setLocales] = useState<string[]>([]);
   const [locale, setLocale] = useState<string>(admin.locale.default);
 
-  // TODO
-  const settingsData = {
-    locales: {
-      default: 'en',
-      active: ['en', 'cs'],
-    },
-  };
+  const { settingsQuery } = useSettingsQuery();
+
+  const { data: settingsData } = settingsQuery;
 
   useEffect(() => {
     if (settingsData) {
       setLocales(settingsData.locales.active);
       setLocale(settingsData.locales.default);
     }
-    // TODO: dependency
-  }, []);
+  }, [settingsData]);
 
   return {
     locales,

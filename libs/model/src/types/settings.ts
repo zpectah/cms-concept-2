@@ -1,3 +1,72 @@
-export interface Settings {
-  /* TODO */
+import { Address, GpsLocation } from '@common';
+
+export interface SettingsProject {
+  name: string;
+  description?: string;
 }
+
+export interface SettingsLocales {
+  active: string[];
+  default: string;
+  installed: string[];
+}
+
+export interface SettingsCompany {
+  name: string;
+  description?: string;
+  id?: string;
+  email: string[];
+  phone: (string | number)[];
+  address: Address;
+  location: GpsLocation;
+  bank?: string;
+}
+
+export interface SettingsMeta {
+  title: string;
+  description: string;
+  keywords: string[];
+  robots: string;
+}
+
+export interface SettingsState {
+  debug: boolean;
+  maintenance: boolean;
+}
+
+export interface SettingsMessages {
+  active: boolean;
+  recipients: string[];
+}
+
+export interface SettingsComments {
+  active: boolean;
+  anonymous: boolean;
+}
+
+export interface SettingsEmailSmtp {
+  port: number;
+  host: string;
+  username: string;
+  password?: string;
+}
+
+export interface SettingsEmail {
+  smtp: SettingsEmailSmtp;
+}
+
+export type SettingsGlobal = {
+  project: SettingsProject;
+  company: SettingsCompany;
+};
+
+export type SettingsClient = {
+  meta: SettingsMeta;
+  locales: SettingsLocales;
+  state: SettingsState;
+  messages: SettingsMessages;
+  comments: SettingsComments;
+  email: SettingsEmail;
+};
+
+export interface Settings extends SettingsGlobal, SettingsClient {}

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { modelGroups, ModelNames, ModelGroups } from '@model';
+import { modelGroups, usersAccessKeys, ModelNames, ModelGroups } from '@model';
 import { ModelActions } from '../types';
 import { useProfile } from './useProfile';
 
@@ -14,35 +14,18 @@ interface UseUserActionsReturn {
   };
 }
 
-const accessBase = Object.assign({
+const emptyActions: ModelActions = {
   view: false,
   create: false,
   modify: false,
   delete: false,
   deletePermanent: false,
   approve: false,
-});
+};
 
-export const useUserActions = (
-  model: ModelNames | undefined
-): UseUserActionsReturn => {
-  const { user } = useProfile();
-
-  const userAccess: number = user.accessRights;
-
-  const permissions = useMemo(() => {
-    const base = accessBase;
-    const redactor = { ...base, view: true, create: true, modify: true };
-    const manager = {
-      ...base,
-      view: true,
-      create: true,
-      modify: true,
-      delete: true,
-      approve: true,
-    };
-    const admin = {
-      ...base,
+const buildActions = (access: number): ModelActions => {
+  if (access >= usersAccessKeys.admin) {
+    return {
       view: true,
       create: true,
       modify: true,
@@ -50,50 +33,74 @@ export const useUserActions = (
       deletePermanent: true,
       approve: true,
     };
+  }
 
+  if (access >= usersAccessKeys.manager) {
     return {
-      redaction:
-        userAccess >= 7
-          ? admin
-          : userAccess >= 5
-          ? manager
-          : userAccess >= 1
-          ? redactor
-          : base,
-      organization:
-        userAccess >= 7
-          ? admin
-          : userAccess >= 5
-          ? manager
-          : userAccess >= 1
-          ? redactor
-          : base,
-      feedback: userAccess >= 7 ? admin : userAccess >= 5 ? manager : base,
-      entities: userAccess >= 7 ? admin : base,
-      system: userAccess >= 9 ? admin : base,
+      view: true,
+      create: true,
+      modify: true,
+      delete: true,
+      deletePermanent: false,
+      approve: true,
     };
+  }
+
+  if (access >= usersAccessKeys.redactor) {
+    return {
+      view: true,
+      create: true,
+      modify: true,
+      delete: false,
+      deletePermanent: false,
+      approve: false,
+    };
+  }
+
+  return emptyActions;
+};
+
+const groupAccessLevel: Record<ModelGroups, number> = {
+  redaction: usersAccessKeys.redactor,
+  organization: usersAccessKeys.manager,
+  feedback: usersAccessKeys.manager,
+  entities: usersAccessKeys.admin,
+  system: usersAccessKeys.admin,
+};
+
+export const useUserActions = (model?: ModelNames): UseUserActionsReturn => {
+  const { user } = useProfile();
+  const userAccess = user.accessRights;
+
+  const permissions = useMemo(() => {
+    const result = {} as UseUserActionsReturn['groups'];
+
+    (Object.keys(groupAccessLevel) as ModelGroups[]).forEach((group) => {
+      const requiredAccess = groupAccessLevel[group];
+
+      result[group] =
+        userAccess >= requiredAccess ? buildActions(userAccess) : emptyActions;
+    });
+
+    return result;
   }, [userAccess]);
 
-  const getGroupNameByModel = (
-    name: ModelNames | undefined
-  ): ModelGroups | null => {
+  const getGroupNameByModel = (name?: ModelNames): ModelGroups | null => {
     if (!name) return null;
 
     for (const [group, models] of Object.entries(modelGroups)) {
-      if ((models as readonly string[]).includes(name))
+      if ((models as readonly string[]).includes(name)) {
         return group as ModelGroups;
+      }
     }
 
     return null;
   };
 
   const activeGroup = getGroupNameByModel(model);
-  const currentModelPermissions = activeGroup
-    ? permissions[activeGroup]
-    : accessBase;
 
   return {
-    model: currentModelPermissions,
+    model: activeGroup ? permissions[activeGroup] : emptyActions,
     groups: permissions,
   };
 };

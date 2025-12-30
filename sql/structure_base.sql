@@ -129,3 +129,28 @@ ALTER TABLE `files`
 
 
 
+
+
+
+
+
+
+
+CREATE TABLE `settings` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `format` varchar(32) NOT NULL,
+  `value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+
+
+
+
+

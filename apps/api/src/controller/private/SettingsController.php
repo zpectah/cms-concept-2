@@ -7,13 +7,33 @@ use model\Settings;
 class SettingsController {
 
   private function get($url): array {
+    $settings = new Settings;
 
-    return [];
+    return $settings -> get_table();
   }
 
   private function patch($url, $data): array {
+    $settings = new Settings;
 
-    return [];
+    return $settings -> patch($data);
+  }
+
+  private function localeInstall($url, $data): array {
+    $settings = new Settings;
+
+    return $settings -> locale_install($data);
+  }
+
+  private function localeToggle($url, $data): array {
+    $settings = new Settings;
+
+    return $settings -> locale_toggle($data);
+  }
+
+  private function localeDefault($url, $data): array {
+    $settings = new Settings;
+
+    return $settings -> locale_default($data);
   }
 
   public function resolve($url, $data): array {
@@ -28,6 +48,9 @@ class SettingsController {
       case 'PATCH':
         return match ($type) {
           'patch' => self::patch($url, $data),
+          'locale-install' => self::localeInstall($url, $data),
+          'locale-toggle' => self::localeToggle($url, $data),
+          'locale-default' => self::localeDefault($url, $data),
         };
 
       default:
