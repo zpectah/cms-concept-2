@@ -1,3 +1,4 @@
+import { GridProps } from '@mui/material';
 import {
   InputProps,
   EmailInputProps,
@@ -14,6 +15,7 @@ import {
   RadioGroupProps,
   TextareaProps,
   WysiwygProps,
+  ValuePickerProps,
 } from '../ui';
 import { ControlledFieldProps } from '../field';
 
@@ -95,4 +97,22 @@ export interface DatePickerFieldProps extends FieldBase {
 
 export interface DateTimePickerFieldProps extends FieldBase {
   dateTimePickerProps?: Partial<DateTimePickerProps>;
+}
+
+export interface AddressFieldProps {
+  fieldPrefix: string;
+  fieldCommonProps?: Partial<FieldBase>;
+  slotProps?: {
+    street?: Partial<InputFieldProps>;
+    streetNo?: Partial<InputFieldProps>;
+    district?: Partial<InputFieldProps>;
+    city?: Partial<InputFieldProps>;
+    country?: Partial<InputFieldProps>;
+    zip?: Partial<InputFieldProps>;
+  };
+  containerProps?: Partial<GridProps>;
+}
+
+export interface ValuePickerFieldProps extends FieldBase {
+  valuePickerProps?: Partial<ValuePickerProps>;
 }

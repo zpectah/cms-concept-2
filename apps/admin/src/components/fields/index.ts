@@ -1,3 +1,4 @@
+export { default as AddressField } from './AddressField';
 export { default as CheckboxField } from './CheckboxField';
 export { default as DatePickerField } from './DatePickerField';
 export { default as DateTimePickerField } from './DateTimePickerField';
@@ -12,6 +13,7 @@ export { default as EmailField } from './EmailField';
 export { default as SelectField } from './SelectField';
 export { default as SwitchField } from './SwitchField';
 export { default as TextareaField } from './TextareaField';
+export { default as ValuePickerField } from './ValuePickerField';
 export { default as WysiwygField } from './WysiwygField';
 
 export * from './types';
