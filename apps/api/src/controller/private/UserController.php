@@ -2,13 +2,14 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Requests;
 use model\Settings;
 use model\Users;
 use service\EmailService;
 use service\SessionService;
 
-class UserController {
+class UserController extends Controller {
 
   private function get(): array {
     $users = new Users;

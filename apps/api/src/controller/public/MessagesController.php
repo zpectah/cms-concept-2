@@ -2,14 +2,15 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Messages;
 
-class MessagesController {
+class MessagesController extends Controller {
 
   private function get($url): array {
     $message = new Messages;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $message -> get_detail($id);

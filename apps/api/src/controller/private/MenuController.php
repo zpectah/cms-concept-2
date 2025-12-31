@@ -2,15 +2,16 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Menu;
 use model\MenuItems;
 
-class MenuController {
+class MenuController extends Controller {
 
   private function get($url): array {
     $menu = new Menu;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $menu -> get_detail($id);

@@ -2,9 +2,10 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Members;
 
-class MemberController {
+class MemberController extends Controller {
 
   // TODO
 

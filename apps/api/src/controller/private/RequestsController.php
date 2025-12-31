@@ -2,15 +2,16 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Requests;
 
-class RequestsController {
+class RequestsController extends Controller {
 
   private function get($url): array {
     $requests = new Requests;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
-    $token = $url['a1'] === 'token' ? $url['a2'] : null;
+    $id = self::url_id($url);
+    $token = self::url_token($url);
 
     if ($id) {
       return $requests -> get_detail($id, false);

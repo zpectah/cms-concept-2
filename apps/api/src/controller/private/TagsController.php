@@ -2,14 +2,15 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Tags;
 
-class TagsController {
+class TagsController extends Controller {
 
   private function get($url): array {
     $tags = new Tags;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $tags -> get_detail($id);

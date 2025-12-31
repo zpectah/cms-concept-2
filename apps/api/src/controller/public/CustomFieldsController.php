@@ -2,10 +2,11 @@
 
 namespace public;
 
+use controller\Controller;
 use model\CustomFields;
 use model\CustomFieldsItems;
 
-class CustomFieldsController {
+class CustomFieldsController extends Controller {
 
   private function get($url): array {
 

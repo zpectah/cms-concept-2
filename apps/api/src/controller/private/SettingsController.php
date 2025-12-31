@@ -2,9 +2,10 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Settings;
 
-class SettingsController {
+class SettingsController extends Controller {
 
   private function get($url): array {
     $settings = new Settings;

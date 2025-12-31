@@ -2,14 +2,15 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Blacklist;
 
-class BlacklistController {
+class BlacklistController extends Controller {
 
   private function get($url): array {
     $blacklist = new Blacklist;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $blacklist -> get_detail($id);

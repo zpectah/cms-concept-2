@@ -16,6 +16,8 @@ require_once PATH_ROOT . 'router/PublicRouter.php';
 // Services
 require_once PATH_ROOT . 'service/EmailService.php';
 require_once PATH_ROOT . 'service/SessionService.php';
+// Controller
+require_once PATH_ROOT . 'controller/Controller.php';
 // Model
 require_once PATH_ROOT . 'model/Model.php';
 require_once PATH_ROOT . 'model/Articles.php';

@@ -2,10 +2,11 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Categories;
 use model\Settings;
 
-class CategoriesController {
+class CategoriesController extends Controller {
 
   private function getActiveLocales(): array {
     $settings = new Settings;
@@ -17,8 +18,7 @@ class CategoriesController {
     $categories = new Categories;
 
     $locales = self::getActiveLocales();
-
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $categories -> get_detail($id, $locales);

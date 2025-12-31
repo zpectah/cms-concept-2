@@ -2,22 +2,22 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Comments;
 
-class CommentsController {
+class CommentsController extends Controller {
 
   private function get($url): array {
     $comments = new Comments;
 
-    $a1 = $url['a1'] ?? null;
-    $a2 = $url['a2'] ?? null;
+    $attrs = self::url_comments($url);
 
-    if ($a1 === 'id' && is_numeric($a2)) {
-      return $comments -> get_detail($a2);
+    if ($attrs['type'] === 'id' && $attrs['id']) {
+      return $comments -> get_detail($attrs['id']);
     }
 
-    if ($a1 && is_numeric($a2)) {
-      return $comments -> get_list($a1, $a2);
+    if ($attrs['type'] && $attrs['id']) {
+      return $comments -> get_list($attrs['type'], $attrs['id']);
     }
 
     return $comments -> get_list(false, false);

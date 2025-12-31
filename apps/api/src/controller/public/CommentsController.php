@@ -2,9 +2,10 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Comments;
 
-class CommentsController {
+class CommentsController extends Controller {
 
   private function get($url): array {
     $comments = new Comments;

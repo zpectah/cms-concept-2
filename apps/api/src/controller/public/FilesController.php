@@ -2,14 +2,15 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Files;
 
-class FilesController {
+class FilesController extends Controller {
 
   private function get($url): array {
     $files = new Files;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $files -> get_detail($id);

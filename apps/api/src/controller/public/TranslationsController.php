@@ -2,10 +2,11 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Translations;
 use model\Settings;
 
-class TranslationsController {
+class TranslationsController extends Controller {
 
   private function getActiveLocales(): array {
     $settings = new Settings;
@@ -17,8 +18,7 @@ class TranslationsController {
     $translations = new Translations;
 
     $locales = self::getActiveLocales();
-
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $translations -> get_detail($id, $locales);

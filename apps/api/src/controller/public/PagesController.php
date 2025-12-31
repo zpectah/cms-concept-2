@@ -2,10 +2,11 @@
 
 namespace public;
 
+use controller\Controller;
 use model\Pages;
 use model\Settings;
 
-class PagesController {
+class PagesController extends Controller {
 
   private function getActiveLocales(): array {
     $settings = new Settings;
@@ -17,8 +18,7 @@ class PagesController {
     $pages = new Pages;
 
     $locales = self::getActiveLocales();
-
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $pages -> get_detail($id, $locales);

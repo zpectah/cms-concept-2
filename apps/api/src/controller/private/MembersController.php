@@ -2,15 +2,16 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Members;
 
-class MembersController {
+class MembersController extends Controller {
 
   private function get($url): array {
     $members = new Members;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
-    $email = $url['a1'] === 'email' ? $url['a2'] : null;
+    $id = self::url_id($url);
+    $email = self::url_email($url);
 
     if ($id) {
       return $members -> get_detail($id, false);

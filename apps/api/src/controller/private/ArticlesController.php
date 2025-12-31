@@ -2,10 +2,11 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Articles;
 use model\Settings;
 
-class ArticlesController {
+class ArticlesController extends Controller {
 
   private function getActiveLocales(): array {
     $settings = new Settings;
@@ -17,8 +18,7 @@ class ArticlesController {
     $articles = new Articles;
 
     $locales = self::getActiveLocales();
-
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $id = self::url_id($url);
 
     if ($id) {
       return $articles -> get_detail($id, $locales);

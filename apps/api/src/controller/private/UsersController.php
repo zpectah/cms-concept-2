@@ -2,15 +2,16 @@
 
 namespace private;
 
+use controller\Controller;
 use model\Users;
 
-class UsersController {
+class UsersController extends Controller {
 
   private function get($url): array {
     $users = new Users;
 
-    $id = $url['a1'] === 'id' ? $url['a2'] : null;
-    $email = $url['a1'] === 'email' ? $url['a2'] : null;
+    $id = self::url_id($url);
+    $email = self::url_email($url);
 
     if ($id) {
       return $users -> get_detail($id, false);
