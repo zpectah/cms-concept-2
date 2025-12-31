@@ -10,6 +10,7 @@ class Settings extends Model {
   private const model_locale_tables = [
     'articles',
     'categories',
+    'customfieldsitems',
     'menuitems',
     'pages',
     'translations'

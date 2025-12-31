@@ -3,13 +3,20 @@
 namespace public;
 
 use model\Articles;
+use model\Settings;
 
 class ArticlesController {
+
+  private function getActiveLocales(): array {
+    $settings = new Settings;
+
+    return $settings -> get_table()['locales']['active'];
+  }
 
   private function get($url): array {
     $articles = new Articles;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     $id = $url['a1'] === 'id' ? $url['a2'] : null;
 

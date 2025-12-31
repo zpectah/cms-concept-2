@@ -17,6 +17,7 @@ use private\RequestsController;
 use private\SettingsController;
 use private\TagsController;
 use private\TranslationsController;
+use private\UserController;
 use private\UsersController;
 
 class PrivateRouter extends Router {
@@ -84,6 +85,10 @@ class PrivateRouter extends Router {
       case 'translations':
         $translations = new TranslationsController;
         return $translations -> resolve($url, $data);
+
+      case 'user':
+        $user = new UserController;
+        return $user -> resolve($url, $data);
 
       case 'users':
         $users = new UsersController;

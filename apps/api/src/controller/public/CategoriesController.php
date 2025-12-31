@@ -3,13 +3,20 @@
 namespace public;
 
 use model\Categories;
+use model\Settings;
 
 class CategoriesController {
+
+  private function getActiveLocales(): array {
+    $settings = new Settings;
+
+    return $settings -> get_table()['locales']['active'];
+  }
 
   private function get($url): array {
     $categories = new Categories;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     $id = $url['a1'] === 'id' ? $url['a2'] : null;
 

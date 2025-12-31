@@ -7,33 +7,45 @@ use model\Blacklist;
 class BlacklistController {
 
   private function get($url): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $blacklist -> get_detail($id);
+    } else {
+      return $blacklist -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    return $blacklist -> create($data);
   }
 
   private function patch($url, $data): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    return $blacklist -> patch($data);
   }
 
   private function toggle($url, $data): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    return $blacklist -> toggle($data);
   }
 
   private function delete($url, $data): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    return $blacklist -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    return $blacklist -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

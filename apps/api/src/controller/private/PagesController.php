@@ -3,37 +3,64 @@
 namespace private;
 
 use model\Pages;
+use model\Settings;
 
 class PagesController {
 
-  private function get($url): array {
+  private function getActiveLocales(): array {
+    $settings = new Settings;
 
-    return [];
+    return $settings -> get_table()['locales']['active'];
+  }
+
+  private function get($url): array {
+    $pages = new Pages;
+
+    $locales = self::getActiveLocales();
+
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $pages -> get_detail($id, $locales);
+    } else {
+      return $pages -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $pages = new Pages;
 
-    return [];
+    $locales = self::getActiveLocales();
+
+    return $pages -> create($data, $locales);
   }
 
   private function patch($url, $data): array {
+    $pages = new Pages;
 
-    return [];
+    $locales = self::getActiveLocales();
+
+    return $pages -> patch($data, $locales);
   }
 
   private function toggle($url, $data): array {
+    $pages = new Pages;
 
-    return [];
+    return $pages -> toggle($data);
   }
 
   private function delete($url, $data): array {
+    $pages = new Pages;
 
-    return [];
+    return $pages -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $pages = new Pages;
 
-    return [];
+    $locales = self::getActiveLocales();
+
+    return $pages -> delete_permanent($data, $locales);
   }
 
   public function resolve($url, $data): array {

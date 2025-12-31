@@ -137,13 +137,13 @@ class Articles extends Model {
 
   public function create($data, $locales): array {
     $conn = self::connection();
-
     $data = self::parse_json_to_db($data);
     $params = self::get_columns_and_values_for_query([
       'type', 'name', 'categories', 'tags', 'files',
       'event_address_street', 'event_address_street_no', 'event_address_district', 'event_address_city', 'event_address_country', 'event_address_zip', 'event_location', 'event_start', 'event_end',
       'author', 'editor', 'explicit', 'approved', 'active', 'deleted'
     ]);
+
     $columns = $params['columns'];
     $values = $params['values'];
 
@@ -174,7 +174,7 @@ class Articles extends Model {
     $insertId = $conn -> lastInsertId();
 
     if (isset($data['locale']) && is_array($data['locale'])) {
-      $localeParams = self::get_columns_and_values_for_query([ 'title', 'description', 'content', 'id' ]);
+      $localeParams = self::get_columns_and_values_for_query(['title', 'description', 'content', 'id']);
       $localeColumns = $localeParams['columns'];
       $localeValues = $localeParams['values'];
 

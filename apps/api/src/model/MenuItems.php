@@ -16,6 +16,10 @@ class MenuItems extends Model {
       'deleted' => $data['deleted'] === 1,
     ];
 
+    if ($localeData) {
+      $item['locale'] = $localeData;
+    }
+
     return $item;
   }
 
@@ -34,63 +38,207 @@ class MenuItems extends Model {
   /** Parsed locale object data */
   private function parse_locale_row($row): array {
     return [
-      'title' => $row['title'] ?? '',
-      'description' => $row['description'] ?? '',
+      'label' => $row['label'] ?? '',
     ];
   }
 
 
-  public function get_list(): array {
+  public function get_list($menuId): array {
     $conn = self::connection();
 
-    return [];
+    if ($menuId) {
+      $sql = "SELECT * FROM `menuitems` WHERE `deleted` = :status AND `menu_id` = :menu_id";
+    } else {
+      $sql = "SELECT * FROM `menuitems` WHERE `deleted` = :status";
+    }
+
+    $stmt = $conn -> prepare($sql);
+    if ($menuId) $stmt -> bindParam(':menu_id', $menuId, PDO::PARAM_INT);
+    $stmt -> bindParam(':status', $deleted, PDO::PARAM_INT);
+    $stmt -> execute();
+
+    $result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    $items = [];
+
+    foreach ($result as $item) {
+      $items[] = self::parse_row_to_json($item);
+    }
+
+    return $items;
   }
 
   public function get_detail($id, $locales): array {
     $conn = self::connection();
 
-    return [];
+    $sql = "SELECT * FROM `menuitems` WHERE `id` = :id LIMIT 1";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt -> execute();
+
+    $detail = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    $localeData = [];
+
+    foreach ($locales as $locale) {
+      $tableName = 'menuitems_' . $locale;
+
+      $localeSql = "SELECT `label` FROM `{$tableName}` WHERE `id` = :id LIMIT 1";
+      $localeStmt = $conn -> prepare($localeSql);
+      $localeStmt -> bindParam(':id', $id, PDO::PARAM_INT);
+      $localeStmt -> execute();
+
+      $localeRow = $localeStmt -> fetch(PDO::FETCH_ASSOC);
+
+      $localeData[$locale] = self::parse_locale_row($localeRow);
+    }
+
+    return self::parse_row_to_json($detail, $localeData);
   }
 
   public function create($data, $locales): array {
     $conn = self::connection();
 
+    $data = self::parse_json_to_db($data);
+    $params = self::get_columns_and_values_for_query(['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'item_order', 'active', 'deleted']);
+    $columns = $params['columns'];
+    $values = $params['values'];
+
+    $sql = "INSERT INTO `menuitems` ($columns) VALUES ($values)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':type', $data['type']);
+    $stmt -> bindParam(':name', $data['name']);
+    $stmt -> bindParam(':parent_id', $data['parent_id'], PDO::PARAM_INT);
+    $stmt -> bindParam(':menu_id', $data['menu_id'], PDO::PARAM_INT);
+    $stmt -> bindParam(':link_page', $data['link_page'], PDO::PARAM_INT);
+    $stmt -> bindParam(':link_url', $data['link_url']);
+    $stmt -> bindParam(':item_order', $data['item_order'], PDO::PARAM_INT);
+    $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
+    $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
+    $stmt -> execute();
+
+    $insertId = $conn -> lastInsertId();
+
+    if (isset($data['locale']) && is_array($data['locale'])) {
+      $localeParams = self::get_columns_and_values_for_query(['label', 'id']);
+      $localeColumns = $localeParams['columns'];
+      $localeValues = $localeParams['values'];
+
+      foreach ($locales as $locale) {
+        if (isset($data['locale'][$locale])) {
+          $localeData = self::parse_locale_row($data['locale'][$locale]);
+          $tableName = 'menuitems_' . $locale;
+
+          $localeSql = "INSERT INTO `{$tableName}` ({$localeColumns}) VALUES ({$localeValues})";
+          $localeStmt = $conn -> prepare($localeSql);
+          $localeStmt -> bindParam(':label', $localeData['label']);
+          $localeStmt -> bindParam(':id', $insertId, PDO::PARAM_INT);
+          $localeStmt -> execute();
+        }
+      }
+    }
+
     return [
-      'id' => 0,
+      'id' => $insertId,
       'locales' => $locales,
     ];
   }
 
   public function patch($data, $locales): array {
     $conn = self::connection();
+    $data = self::parse_json_to_db($data);
+    $setParts = self::query_parts($data, ['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'item_order', 'active', 'deleted']);
+
+    $sql = "UPDATE `menuitems` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':type', $data['type']);
+    $stmt -> bindParam(':name', $data['name']);
+    $stmt -> bindParam(':parent_id', $data['parent_id'], PDO::PARAM_INT);
+    $stmt -> bindParam(':menu_id', $data['menu_id'], PDO::PARAM_INT);
+    $stmt -> bindParam(':link_page', $data['link_page'], PDO::PARAM_INT);
+    $stmt -> bindParam(':link_url', $data['link_url']);
+    $stmt -> bindParam(':item_order', $data['item_order'], PDO::PARAM_INT);
+    $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
+    $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
+    $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);
+    $stmt -> execute();
+
+    $rows = $stmt -> rowCount();
+
+    $id = $data['id'];
+
+    if (isset($data['locale']) && is_array($data['locale'])) {
+      foreach ($locales as $locale) {
+        if (isset($data['locale'][$locale])) {
+          $localeData = self::parse_locale_row($data['locale'][$locale]);
+          $localeSetParts = self::query_parts($localeData, ['label']);
+          $tableName = 'menuitems_' . $locale;
+
+          $localeSql = "UPDATE `{$tableName}` SET " . implode(', ', $localeSetParts) . " WHERE `id` = :id";
+          $localeStmt = $conn -> prepare($localeSql);
+          $localeStmt -> bindParam(':label', $localeData['label']);
+          $localeStmt -> bindParam(':id', $id, PDO::PARAM_INT);
+          $localeStmt -> execute();
+
+          $rows = $rows + $localeStmt -> rowCount();
+        }
+      }
+    }
 
     return [
-      'rows' => 0,
+      'rows' => $rows,
       'locales' => $locales,
     ];
   }
 
   public function toggle($data): array {
     $conn = self::connection();
+    $placeholders = self::update_placeholders($data);
+
+    $sql = "UPDATE `menuitems` SET `active` = NOT `active` WHERE `id` IN ({$placeholders})";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 
   public function delete($data): array {
     $conn = self::connection();
+    $placeholders = self::update_placeholders($data);
+
+    $sql = "UPDATE `menuitems` SET `deleted` = 1 WHERE `id` IN ({$placeholders})";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 
   public function delete_permanent($data, $locales): array {
     $conn = self::connection();
+    $placeholders = self::delete_placeholders($data);
+
+    $sql = "DELETE FROM `menuitems` WHERE id IN ($placeholders)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
+
+    $rows = $stmt -> rowCount();
+
+    foreach ($locales as $locale) {
+      $tableName = 'menuitems_' . $locale;
+
+      $localeSql = "DELETE FROM `{$tableName}` WHERE id IN ($placeholders)";
+      $localeStmt = $conn -> prepare($localeSql);
+      $localeStmt -> execute($data);
+
+      $rows =  $rows + $localeStmt -> rowCount();
+    }
 
     return [
-      'rows' => 0,
+      'rows' => $rows,
     ];
   }
 

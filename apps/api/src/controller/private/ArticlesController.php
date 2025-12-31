@@ -3,13 +3,20 @@
 namespace private;
 
 use model\Articles;
+use model\Settings;
 
 class ArticlesController {
+
+  private function getActiveLocales(): array {
+    $settings = new Settings;
+
+    return $settings -> get_table()['locales']['active'];
+  }
 
   private function get($url): array {
     $articles = new Articles;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     $id = $url['a1'] === 'id' ? $url['a2'] : null;
 
@@ -23,7 +30,7 @@ class ArticlesController {
   private function create($url, $data): array {
     $articles = new Articles;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     return $articles -> create($data, $locales);
   }
@@ -31,7 +38,7 @@ class ArticlesController {
   private function patch($url, $data): array {
     $articles = new Articles;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     return $articles -> patch($data, $locales);
   }
@@ -57,7 +64,7 @@ class ArticlesController {
   private function deletePermanent($url, $data): array {
     $articles = new Articles;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     return $articles -> delete_permanent($data, $locales);
   }

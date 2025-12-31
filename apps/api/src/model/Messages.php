@@ -11,7 +11,7 @@ class Messages extends Model {
   private function parse_row_to_json($data): array {
     $item = [
       ...$data,
-
+      'read' => $data['read'] === 1,
       'active' => $data['active'] === 1,
       'deleted' => $data['deleted'] === 1,
     ];
@@ -23,7 +23,7 @@ class Messages extends Model {
   private function parse_json_to_db($data): array {
     $item = [
       ...$data,
-
+      'read' => $data['read'] ? 1 : 0,
       'active' => $data['active'] ? 1 : 0,
       'deleted' => $data['deleted'] ? 1 : 0,
     ];
@@ -35,60 +35,126 @@ class Messages extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    return [];
+    $sql = "SELECT * FROM `messages`";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute();
+
+    $result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+    $items = [];
+
+    foreach ($result as $item) {
+      $items[] = self::parse_row_to_json($item);
+    }
+
+    return $items;
   }
 
   public function get_detail($id): array {
     $conn = self::connection();
 
-    return [];
+    $sql = "SELECT * FROM `messages` WHERE `id` = :id LIMIT 1";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt -> execute();
+
+    $detail = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    return self::parse_row_to_json($detail);
   }
 
   public function create($data): array {
     $conn = self::connection();
+    $data = self::parse_json_to_db($data);
+    $params = self::get_columns_and_values_for_query(['type', 'name', 'sender', 'subject', 'content', 'read', 'active', 'deleted']);
+
+    $columns = $params['columns'];
+    $values = $params['values'];
+
+    $sql = "INSERT INTO `messages` ($columns) VALUES ($values)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':type', $data['type']);
+    $stmt -> bindParam(':name', $data['name']);
+    $stmt -> bindParam(':sender', $data['sender']);
+    $stmt -> bindParam(':subject', $data['subject']);
+    $stmt -> bindParam(':content', $data['content']);
+    $stmt -> bindParam(':read', $data['read'], PDO::PARAM_INT);
+    $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
+    $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
+    $stmt -> execute();
 
     return [
-      'id' => 0,
+      'id' => $conn -> lastInsertId(),
     ];
   }
 
   public function patch($data): array {
     $conn = self::connection();
+    $data = self::parse_json_to_db($data);
+    $setParts = self::query_parts($data, ['read', 'active', 'deleted']);
+
+    $sql = "UPDATE `messages` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':read', $data['read'], PDO::PARAM_INT);
+    $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
+    $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
+    $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);
+    $stmt -> execute();
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 
   public function toggle($data): array {
     $conn = self::connection();
+    $placeholders = self::update_placeholders($data);
+
+    $sql = "UPDATE `messages` SET `active` = NOT `active` WHERE `id` IN ({$placeholders})";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 
   public function read($data): array {
     $conn = self::connection();
+    $placeholders = self::update_placeholders($data);
+
+    $sql = "UPDATE `messages` SET `read` = NOT `read` WHERE `id` IN ({$placeholders})";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 
   public function delete($data): array {
     $conn = self::connection();
+    $placeholders = self::update_placeholders($data);
+
+    $sql = "UPDATE `messages` SET `deleted` = 1 WHERE `id` IN ({$placeholders})";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 
   public function delete_permanent($data): array {
     $conn = self::connection();
+    $placeholders = self::delete_placeholders($data);
+
+    $sql = "DELETE FROM `messages` WHERE id IN ($placeholders)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> execute($data);
 
     return [
-      'rows' => 0,
+      'rows' => $stmt -> rowCount(),
     ];
   }
 

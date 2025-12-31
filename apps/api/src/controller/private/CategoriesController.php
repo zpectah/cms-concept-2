@@ -3,13 +3,20 @@
 namespace private;
 
 use model\Categories;
+use model\Settings;
 
 class CategoriesController {
+
+  private function getActiveLocales(): array {
+    $settings = new Settings;
+
+    return $settings -> get_table()['locales']['active'];
+  }
 
   private function get($url): array {
     $categories = new Categories;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     $id = $url['a1'] === 'id' ? $url['a2'] : null;
 
@@ -23,7 +30,7 @@ class CategoriesController {
   private function create($url, $data): array {
     $categories = new Categories;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     return $categories -> create($data, $locales);
   }
@@ -31,7 +38,7 @@ class CategoriesController {
   private function patch($url, $data): array {
     $categories = new Categories;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     return $categories -> patch($data, $locales);
   }
@@ -51,7 +58,7 @@ class CategoriesController {
   private function deletePermanent($url, $data): array {
     $categories = new Categories;
 
-    $locales = ['en']; // TODO
+    $locales = self::getActiveLocales();
 
     return $categories -> delete_permanent($data, $locales);
   }

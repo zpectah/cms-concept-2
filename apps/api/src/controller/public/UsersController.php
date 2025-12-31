@@ -7,8 +7,15 @@ use model\Users;
 class UsersController {
 
   private function get($url): array {
+    $users = new Users;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $users -> get_detail($id, false);
+    } else {
+      return $users -> get_list();
+    }
   }
 
   public function resolve($url, $data): array {

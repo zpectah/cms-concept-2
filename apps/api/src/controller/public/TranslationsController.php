@@ -3,12 +3,28 @@
 namespace public;
 
 use model\Translations;
+use model\Settings;
 
 class TranslationsController {
 
-  private function get($url): array {
+  private function getActiveLocales(): array {
+    $settings = new Settings;
 
-    return [];
+    return $settings -> get_table()['locales']['active'];
+  }
+
+  private function get($url): array {
+    $translations = new Translations;
+
+    $locales = self::getActiveLocales();
+
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $translations -> get_detail($id, $locales);
+    } else {
+      return $translations -> get_list();
+    }
   }
 
   public function resolve($url, $data): array {

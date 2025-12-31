@@ -8,8 +8,15 @@ use model\MenuItems;
 class MenuController {
 
   private function get($url): array {
+    $menu = new Menu;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $menu -> get_detail($id);
+    } else {
+      return $menu -> get_list();
+    }
   }
 
   public function resolve($url, $data): array {

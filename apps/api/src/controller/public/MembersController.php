@@ -7,18 +7,30 @@ use model\Members;
 class MembersController {
 
   private function get($url): array {
+    $members = new Members;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $email = $url['a1'] === 'email' ? $url['a2'] : null;
+
+    if ($id) {
+      return $members -> get_detail($id, false);
+    } else if ($email) {
+      return $members -> get_detail(false, $email);
+    } else {
+      return $members -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $members = new Members;
 
-    return [];
+    return $members -> create($data);
   }
 
   private function patch($url, $data): array {
+    $members = new Members;
 
-    return [];
+    return $members -> patch($data);
   }
 
   public function resolve($url, $data): array {

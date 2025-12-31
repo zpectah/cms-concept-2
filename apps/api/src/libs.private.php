@@ -14,4 +14,5 @@ require_once PATH_ROOT . 'controller/private/RequestsController.php';
 require_once PATH_ROOT . 'controller/private/SettingsController.php';
 require_once PATH_ROOT . 'controller/private/TagsController.php';
 require_once PATH_ROOT . 'controller/private/TranslationsController.php';
+require_once PATH_ROOT . 'controller/private/UserController.php';
 require_once PATH_ROOT . 'controller/private/UsersController.php';

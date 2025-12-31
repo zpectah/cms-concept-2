@@ -51,7 +51,10 @@ class FilesController {
   private function deletePermanent($url, $data): array {
     $files = new Files;
 
-    return $files -> delete_permanent($data);
+    $ids = $data['ids'];
+    $path = $data['path'];
+
+    return $files -> delete_permanent($ids, $path);
   }
 
   public function resolve($url, $data): array {

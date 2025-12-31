@@ -7,8 +7,15 @@ use model\Blacklist;
 class BlacklistController {
 
   private function get($url): array {
+    $blacklist = new Blacklist;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $blacklist -> get_detail($id);
+    } else {
+      return $blacklist -> get_list();
+    }
   }
 
   public function resolve($url, $data): array {

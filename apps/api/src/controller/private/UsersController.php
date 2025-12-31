@@ -7,33 +7,48 @@ use model\Users;
 class UsersController {
 
   private function get($url): array {
+    $users = new Users;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $email = $url['a1'] === 'email' ? $url['a2'] : null;
+
+    if ($id) {
+      return $users -> get_detail($id, false);
+    } else if ($email) {
+      return $users -> get_detail(false, $email);
+    } else {
+      return $users -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $users = new Users;
 
-    return [];
+    return $users -> create($data);
   }
 
   private function patch($url, $data): array {
+    $users = new Users;
 
-    return [];
+    return $users -> patch($data);
   }
 
   private function toggle($url, $data): array {
+    $users = new Users;
 
-    return [];
+    return $users -> toggle($data);
   }
 
   private function delete($url, $data): array {
+    $users = new Users;
 
-    return [];
+    return $users -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $users = new Users;
 
-    return [];
+    return $users -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

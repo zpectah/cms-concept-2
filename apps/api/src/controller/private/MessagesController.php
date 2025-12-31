@@ -7,38 +7,51 @@ use model\Messages;
 class MessagesController {
 
   private function get($url): array {
+    $message = new Messages;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $message -> get_detail($id);
+    } else {
+      return $message -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $message = new Messages;
 
-    return [];
+    return $message -> create($data);
   }
 
   private function patch($url, $data): array {
+    $message = new Messages;
 
-    return [];
+    return $message -> patch($data);
   }
 
   private function toggle($url, $data): array {
+    $message = new Messages;
 
-    return [];
+    return $message -> toggle($data);
   }
 
   private function read($url, $data): array {
+    $message = new Messages;
 
-    return [];
+    return $message -> read($data);
   }
 
   private function delete($url, $data): array {
+    $message = new Messages;
 
-    return [];
+    return $message -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $message = new Messages;
 
-    return [];
+    return $message -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

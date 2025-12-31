@@ -8,33 +8,45 @@ use model\MenuItems;
 class MenuController {
 
   private function get($url): array {
+    $menu = new Menu;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+
+    if ($id) {
+      return $menu -> get_detail($id);
+    } else {
+      return $menu -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $menu = new Menu;
 
-    return [];
+    return $menu -> create($data);
   }
 
   private function patch($url, $data): array {
+    $menu = new Menu;
 
-    return [];
+    return $menu -> patch($data);
   }
 
   private function toggle($url, $data): array {
+    $menu = new Menu;
 
-    return [];
+    return $menu -> toggle($data);
   }
 
   private function delete($url, $data): array {
+    $menu = new Menu;
 
-    return [];
+    return $menu -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $menu = new Menu;
 
-    return [];
+    return $menu -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

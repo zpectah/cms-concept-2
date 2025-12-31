@@ -7,33 +7,48 @@ use model\Requests;
 class RequestsController {
 
   private function get($url): array {
+    $requests = new Requests;
 
-    return [];
+    $id = $url['a1'] === 'id' ? $url['a2'] : null;
+    $token = $url['a1'] === 'token' ? $url['a2'] : null;
+
+    if ($id) {
+      return $requests -> get_detail($id, false);
+    } else if ($token) {
+      return $requests -> get_detail(false, $token);
+    } else {
+      return $requests -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $requests = new Requests;
 
-    return [];
+    return $requests -> create($data);
   }
 
   private function patch($url, $data): array {
+    $requests = new Requests;
 
-    return [];
+    return $requests -> patch($data);
   }
 
   private function toggle($url, $data): array {
+    $requests = new Requests;
 
-    return [];
+    return $requests -> toggle($data);
   }
 
   private function delete($url, $data): array {
+    $requests = new Requests;
 
-    return [];
+    return $requests -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $requests = new Requests;
 
-    return [];
+    return $requests -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

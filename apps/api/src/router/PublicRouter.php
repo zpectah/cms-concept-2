@@ -9,6 +9,7 @@ use public\CategoriesController;
 use public\CommentsController;
 use public\CustomFieldsController;
 use public\FilesController;
+use public\MemberController;
 use public\MembersController;
 use public\MenuController;
 use public\MessagesController;
@@ -52,6 +53,10 @@ class PublicRouter extends Router {
       case 'files':
         $files = new FilesController;
         return $files -> resolve($url, $data);
+
+      case 'member':
+        $member = new MemberController;
+        return $member -> resolve($url, $data);
 
       case 'members':
         $members = new MembersController;
