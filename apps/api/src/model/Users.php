@@ -7,7 +7,7 @@ use model\Model;
 
 class Users extends Model {
 
-  static array $tableFields = ['type', 'name', 'email', 'first_name', 'last_name', 'access_rights', 'avatar_image', 'avatar_hash', 'active', 'deleted'];
+  static array $tableFields = ['type', 'email', 'first_name', 'last_name', 'access_rights', 'avatar_image', 'avatar_hash', 'active', 'deleted'];
 
   /** Parsed data from DB to JSON response */
   private function parse_row_to_json($data): array {
@@ -37,7 +37,7 @@ class Users extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    $sql = "SELECT id, type, name, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users`";
+    $sql = "SELECT id, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -57,15 +57,15 @@ class Users extends Model {
 
     if ($id) {
       if ($withPassword) {
-        $sql = "SELECT id, type, name, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
+        $sql = "SELECT id, type, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
       } else {
-        $sql = "SELECT id, type, name, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
+        $sql = "SELECT id, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
       }
     } else if ($email) {
       if ($withPassword) {
-        $sql = "SELECT id, type, name, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT id, type, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
       } else {
-        $sql = "SELECT id, type, name, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT id, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
       }
     }
     $stmt = $conn -> prepare($sql);
@@ -86,8 +86,7 @@ class Users extends Model {
     $data = self::parse_json_to_db($data);
     $params = self::get_columns_and_values_for_query([ ...self::$tableFields, 'password' ]);
 
-    $trimmedPassword = trim($data['password']);
-    $password = password_hash($trimmedPassword, PASSWORD_ARGON2ID);
+    $password = secure_password($data['password']);
 
     $columns = $params['columns'];
     $values = $params['values'];
@@ -95,7 +94,6 @@ class Users extends Model {
     $sql = "INSERT INTO `users` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':first_name', $data['first_name']);
@@ -125,15 +123,13 @@ class Users extends Model {
     $setParts = self::query_parts($data, $fields);
 
     if (isset($data['password'])) {
-      $trimmedPassword = trim($data['password']);
-      $password = password_hash($trimmedPassword, PASSWORD_ARGON2ID);
+      $password = secure_password($data['password']);
     }
 
     $sql = "UPDATE `users` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
     if (isset($data['password'])) $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':first_name', $data['first_name']);
     $stmt -> bindParam(':last_name', $data['last_name']);
@@ -154,8 +150,7 @@ class Users extends Model {
     $conn = self::connection();
 
     $email = $data['email'];
-    $trimmedPassword = trim($data['password']); // TODO: why trim??
-    $password = password_hash($trimmedPassword, PASSWORD_ARGON2ID);
+    $password = secure_password($data['password']);
 
     $sql = "UPDATE `users` SET `password` = :password WHERE `email` = :email";
     $stmt = $conn -> prepare($sql);

@@ -66,7 +66,7 @@ class Messages extends Model {
   public function create($data): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'sender', 'subject', 'content', 'read', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['type', 'sender', 'subject', 'content', 'read', 'active', 'deleted']);
 
     $columns = $params['columns'];
     $values = $params['values'];
@@ -74,7 +74,6 @@ class Messages extends Model {
     $sql = "INSERT INTO `messages` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':sender', $data['sender']);
     $stmt -> bindParam(':subject', $data['subject']);
     $stmt -> bindParam(':content', $data['content']);

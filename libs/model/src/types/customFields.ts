@@ -1,6 +1,6 @@
 import { EnumKeyValues } from '@common';
 import { customFieldsTypeKeys } from '../enums';
-import { ItemBase } from './item';
+import { ItemBase, ItemLocaleBase } from './item';
 
 export type CustomFieldsType = EnumKeyValues<typeof customFieldsTypeKeys>;
 
@@ -11,4 +11,12 @@ export interface CustomFieldsItem extends ItemBase {
 
 export type CustomFields = CustomFieldsItem[];
 
-export type CustomFieldsDetail = CustomFieldsItem & {};
+export interface CustomFieldsDetailLocale {
+  title: string;
+  description?: string;
+  content?: string;
+}
+
+export interface CustomFieldsDetail
+  extends CustomFieldsItem,
+    ItemLocaleBase<CustomFieldsDetailLocale> {}

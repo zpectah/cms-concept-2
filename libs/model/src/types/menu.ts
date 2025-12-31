@@ -6,7 +6,6 @@ export type MenuType = EnumKeyValues<typeof menuTypeKeys>;
 
 export interface MenuItem extends ItemBase {
   type: MenuType;
-
   name: string;
 }
 

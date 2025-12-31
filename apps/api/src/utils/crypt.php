@@ -18,3 +18,17 @@ function decrypt_string($encrypted_data, $key): bool|string {
 
   return openssl_decrypt($encrypted, $cipher, $key, 0, $iv);
 }
+
+function secure_password($password): string {
+  $trimmedPassword = trim($password);
+
+  return password_hash($trimmedPassword, PASSWORD_ARGON2ID);
+}
+
+function match_password($password, $hash): bool {
+  // TODO
+  // $trimmedPassword = trim($password);
+  // $trimmedHash = trim($hash);
+
+  return password_verify($password, $hash);
+}

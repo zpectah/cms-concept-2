@@ -7,6 +7,7 @@ export const redactionModelKeys = {
 export const organizationModelKeys = {
   categories: 'categories',
   customFields: 'customFields',
+  customFieldsItems: 'customFieldsItems',
   menu: 'menu',
   menuItems: 'menuItems',
   pages: 'pages',

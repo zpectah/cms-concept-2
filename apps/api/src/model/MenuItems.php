@@ -47,14 +47,13 @@ class MenuItems extends Model {
     $conn = self::connection();
 
     if ($menuId) {
-      $sql = "SELECT * FROM `menuitems` WHERE `deleted` = :status AND `menu_id` = :menu_id";
+      $sql = "SELECT * FROM `menuitems` WHERE `menu_id` = :menu_id";
     } else {
-      $sql = "SELECT * FROM `menuitems` WHERE `deleted` = :status";
+      $sql = "SELECT * FROM `menuitems`";
     }
 
     $stmt = $conn -> prepare($sql);
     if ($menuId) $stmt -> bindParam(':menu_id', $menuId, PDO::PARAM_INT);
-    $stmt -> bindParam(':status', $deleted, PDO::PARAM_INT);
     $stmt -> execute();
 
     $result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -100,7 +99,7 @@ class MenuItems extends Model {
     $conn = self::connection();
 
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'item_order', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'link_order', 'active', 'deleted']);
     $columns = $params['columns'];
     $values = $params['values'];
 
@@ -112,7 +111,7 @@ class MenuItems extends Model {
     $stmt -> bindParam(':menu_id', $data['menu_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_page', $data['link_page'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_url', $data['link_url']);
-    $stmt -> bindParam(':item_order', $data['item_order'], PDO::PARAM_INT);
+    $stmt -> bindParam(':link_order', $data['link_order'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> execute();
@@ -147,7 +146,7 @@ class MenuItems extends Model {
   public function patch($data, $locales): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $setParts = self::query_parts($data, ['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'item_order', 'active', 'deleted']);
+    $setParts = self::query_parts($data, ['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'link_order', 'active', 'deleted']);
 
     $sql = "UPDATE `menuitems` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
@@ -157,7 +156,7 @@ class MenuItems extends Model {
     $stmt -> bindParam(':menu_id', $data['menu_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_page', $data['link_page'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_url', $data['link_url']);
-    $stmt -> bindParam(':item_order', $data['item_order'], PDO::PARAM_INT);
+    $stmt -> bindParam(':link_order', $data['link_order'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);

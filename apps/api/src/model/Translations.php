@@ -154,7 +154,7 @@ class Translations extends Model {
       foreach ($locales as $locale) {
         if (isset($data['locale'][$locale])) {
           $localeData = self::parse_locale_row($data['locale'][$locale]);
-          $localeSetParts = self::query_parts($localeData, self::$tableLocaleFields);
+          $localeSetParts = self::query_parts($localeData, ['value']);
           $tableName = 'translations_' . $locale;
 
           $localeSql = "UPDATE `{$tableName}` SET " . implode(', ', $localeSetParts) . " WHERE `id` = :id";

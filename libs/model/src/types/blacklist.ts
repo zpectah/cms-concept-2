@@ -7,7 +7,7 @@ export type BlacklistType = EnumKeyValues<typeof blacklistTypeKeys>;
 export interface BlacklistItem extends ItemBase {
   type: BlacklistType;
   email?: string;
-  ipAddress?: string;
+  ipaddress?: string;
 }
 
 export type Blacklist = BlacklistItem[];

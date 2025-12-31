@@ -6,7 +6,6 @@ export type TranslationsType = EnumKeyValues<typeof translationsTypeKeys>;
 
 export interface TranslationsItem extends ItemBase {
   type: TranslationsType;
-
   name: string;
 }
 

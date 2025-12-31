@@ -59,7 +59,7 @@ class UserController extends Controller {
     $id = $user['id'] ?? 0;
 
     return [
-      'match' => password_verify($password, $hash),
+      'match' => match_password($password, $hash),
       'id' => $id,
     ];
   }

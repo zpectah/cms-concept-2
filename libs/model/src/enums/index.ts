@@ -3,6 +3,7 @@ export * from './blacklist';
 export * from './categories';
 export * from './comments';
 export * from './customFields';
+export * from './customFieldsItems';
 export * from './files';
 export * from './members';
 export * from './menu';

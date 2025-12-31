@@ -7,9 +7,9 @@ use model\Model;
 
 class Members extends Model {
 
-  static array $tableFields = ['type', 'name', 'email', 'first_name', 'last_name',
-    'address_street', 'address_street_no', 'address_district', 'address_city', 'address_country', 'address_zip',
-    'flat_no', 'description', 'active', 'deleted'];
+  static array $tableFields = ['type', 'email', 'first_name', 'last_name',
+    'address_street', 'address_street_no', 'address_district', 'address_city', 'address_country', 'address_zip', 'flat_no',
+    'sex', 'birthdate', 'description', 'active', 'deleted'];
 
   /** Parsed data from DB to JSON response */
   private function parse_row_to_json($data): array {
@@ -63,7 +63,7 @@ class Members extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    $sql = "SELECT id, type, name, email, first_name, last_name, active, deleted, created, updated FROM `members`";
+    $sql = "SELECT id, type, email, first_name, last_name, sex, birthdate, active, deleted, created, updated FROM `members`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -82,9 +82,9 @@ class Members extends Model {
     $conn = self::connection();
 
     if ($id) {
-      $sql = "SELECT id, type, name, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, description, active, deleted, created, updated FROM `members` WHERE `id` = :id LIMIT 1";
+      $sql = "SELECT id, type, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, sex, birthdate, description, active, deleted, created, updated FROM `members` WHERE `id` = :id LIMIT 1";
     } else if ($email) {
-      $sql = "SELECT id, type, name, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, description, active, deleted, created, updated FROM `members` WHERE `email` = :email LIMIT 1";
+      $sql = "SELECT id, type, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, sex, birthdate, description, active, deleted, created, updated FROM `members` WHERE `email` = :email LIMIT 1";
     }
     $stmt = $conn -> prepare($sql);
     if ($id) {
@@ -103,9 +103,8 @@ class Members extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
 
-    if (isset($data['password'])) $password = password_hash($data['password'], PASSWORD_ARGON2ID);
-
     if (isset($data['password'])) {
+      $password = secure_password($data['password']);
       $fields = [ ...self::$tableFields, 'password' ];
     } else {
       $fields = self::$tableFields;
@@ -120,7 +119,6 @@ class Members extends Model {
     $stmt = $conn -> prepare($sql);
     if (isset($data['password'])) $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':first_name', $data['first_name']);
     $stmt -> bindParam(':last_name', $data['last_name']);
@@ -131,6 +129,8 @@ class Members extends Model {
     $stmt -> bindParam(':address_country', $data['address_country']);
     $stmt -> bindParam(':address_zip', $data['address_zip']);
     $stmt -> bindParam(':flat_no', $data['flat_no']);
+    $stmt -> bindParam(':sex', $data['sex']);
+    $stmt -> bindParam(':birthdate', $data['birthdate']);
     $stmt -> bindParam(':description', $data['description']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
@@ -145,7 +145,7 @@ class Members extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
 
-    if (isset($data['password'])) $password = password_hash($data['password'], PASSWORD_ARGON2ID);
+    if (isset($data['password'])) $password = secure_password($data['password']);
     if (isset($data['password'])) {
       $fields = [ ...self::$tableFields, 'password' ];
     } else {
@@ -158,7 +158,6 @@ class Members extends Model {
     $stmt = $conn -> prepare($sql);
     if (isset($data['password'])) $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':first_name', $data['first_name']);
     $stmt -> bindParam(':last_name', $data['last_name']);
@@ -169,6 +168,8 @@ class Members extends Model {
     $stmt -> bindParam(':address_country', $data['address_country']);
     $stmt -> bindParam(':address_zip', $data['address_zip']);
     $stmt -> bindParam(':flat_no', $data['flat_no']);
+    $stmt -> bindParam(':sex', $data['sex']);
+    $stmt -> bindParam(':birthdate', $data['birthdate']);
     $stmt -> bindParam(':description', $data['description']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);

@@ -12,6 +12,7 @@ import { blacklistTypeKeysArray } from './blacklist';
 import { categoriesTypeKeysArray } from './categories';
 import { commentsTypeKeysArray } from './comments';
 import { customFieldsTypeKeysArray } from './customFields';
+import { customFieldsItemsTypeKeysArray } from './customFieldsItems';
 import { filesTypeKeysArray } from './files';
 import { membersTypeKeysArray } from './members';
 import { menuItemsTypeKeysArray } from './menuItems';
@@ -71,6 +72,7 @@ export const modelTypes = {
   categories: categoriesTypeKeysArray,
   comments: commentsTypeKeysArray,
   customFields: customFieldsTypeKeysArray,
+  customFieldsItems: customFieldsItemsTypeKeysArray,
   files: filesTypeKeysArray,
   members: membersTypeKeysArray,
   menu: menuTypeKeysArray,
