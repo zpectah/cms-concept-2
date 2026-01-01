@@ -47,11 +47,13 @@
   },
   "plurals": {
     "items": {
+      "item_zero": "none",
       "item_one": "item",
       "item_two": "{{count}} items",
       "item_other": "{{count}} items"
     },
     "selected": {
+      "item_zero": "nothing selected",
       "item_one": "selected item",
       "item_two": "{{count}} selected items",
       "item_other": "{{count}} selected items"
@@ -85,14 +87,18 @@
     "success": {
       "create_one": "Item was successfully created",
       "create_other": "{{count}} items was successfully created",
+      "update_zero": "Nothing was updated",
       "update_one": "Item was successfully updated",
       "update_other": "{{count}} items was successfully updated",
+      "delete_zero": "Nothing was deleted",
       "delete_one": "Item was successfully deleted",
       "delete_other": "{{count}} items was successfully deleted",
       "deletePermanent_one": "Item was successfully and permanently deleted",
       "deletePermanent_other": "{{count}} items was successfully and permanently deleted",
+      "approve_zero": "Nothing was approved",
       "approve_one": "Item was successfully approved",
       "approve_other": "{{count}} items was successfully approved",
+      "read_zero": "Nothing was set as read",
       "read_one": "Item was successfully set as read",
       "read_other": "{{count}} items was successfully set as read"
     },

@@ -122,7 +122,7 @@ class Blacklist extends Model {
     $conn = self::connection();
     $placeholders = self::update_placeholders($data);
 
-    $sql = "UPDATE `blacklist` SET `deleted` = 1 WHERE `id` IN ({$placeholders})";
+    $sql = "UPDATE `blacklist` SET `deleted` = NOT `deleted` WHERE `id` IN ({$placeholders})";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute($data);
 

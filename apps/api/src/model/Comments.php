@@ -140,7 +140,7 @@ class Comments extends Model {
     $conn = self::connection();
     $placeholders = self::update_placeholders($data);
 
-    $sql = "UPDATE `comments` SET `deleted` = 1 WHERE `id` IN ({$placeholders})";
+    $sql = "UPDATE `comments` SET `deleted` = NOT `deleted` WHERE `id` IN ({$placeholders})";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute($data);
 
