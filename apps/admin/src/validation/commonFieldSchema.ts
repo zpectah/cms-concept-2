@@ -52,13 +52,13 @@ export const commonFieldSchema = {
     .custom<dayjs.Dayjs>((val) => dayjs.isDayjs(val), {
       error: () => i18next.t('form:message.error.invalidDate'),
     })
-    .nullable(),
+    .nullish(),
   /** Common date and time */
   dateTime: z
     .custom<dayjs.Dayjs>((val) => dayjs.isDayjs(val), {
       error: () => i18next.t('form:message.error.invalidDateTime'),
     })
-    .nullable(),
+    .nullish(),
   /** Common string or number */
   stringOrNumber: z.union([
     z.string({ error: () => i18next.t('form:message.error.invalidString') }),

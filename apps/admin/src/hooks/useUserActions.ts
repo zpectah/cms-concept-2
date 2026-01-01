@@ -70,7 +70,7 @@ const groupAccessLevel: Record<ModelGroups, number> = {
 
 export const useUserActions = (model?: ModelNames): UseUserActionsReturn => {
   const { user } = useProfile();
-  const userAccess = user.accessRights;
+  const userAccess = user.access_rights;
 
   const permissions = useMemo(() => {
     const result = {} as UseUserActionsReturn['groups'];

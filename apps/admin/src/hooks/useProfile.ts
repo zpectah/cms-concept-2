@@ -10,7 +10,7 @@ export const useProfile = () => {
       lastName: 'Doe',
 
       // TODO
-      accessRights: 7,
+      access_rights: 7,
     },
     active: true,
   };

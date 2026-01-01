@@ -52,6 +52,7 @@ class Members extends Model {
       'address_city' => isset($data['address']['city']) ? $data['address']['city'] : '',
       'address_country' => isset($data['address']['country']) ? $data['address']['country'] : '',
       'address_zip' => isset($data['address']['zip']) ? $data['address']['zip'] : '',
+      'birthdate' => $data['birthdate'] ?? '',
       'active' => $data['active'] ? 1 : 0,
       'deleted' => $data['deleted'] ? 1 : 0,
     ];
@@ -103,12 +104,9 @@ class Members extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
 
-    if (isset($data['password'])) {
-      $password = secure_password($data['password']);
-      $fields = [ ...self::$tableFields, 'password' ];
-    } else {
-      $fields = self::$tableFields;
-    }
+    $fields = [ ...self::$tableFields, 'password' ];
+    $isPassword = isset($data['password']) && $data['password'] !== '';
+    $password = $isPassword ? secure_password($data['password']) : '';
 
     $params = self::get_columns_and_values_for_query($fields);
 
@@ -117,7 +115,7 @@ class Members extends Model {
 
     $sql = "INSERT INTO `members` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
-    if (isset($data['password'])) $stmt -> bindParam(':password', $password);
+    $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':first_name', $data['first_name']);
@@ -145,18 +143,15 @@ class Members extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
 
-    if (isset($data['password'])) $password = secure_password($data['password']);
-    if (isset($data['password'])) {
-      $fields = [ ...self::$tableFields, 'password' ];
-    } else {
-      $fields = self::$tableFields;
-    }
+    $fields = [ ...self::$tableFields, 'password' ];
+    $isPassword = isset($data['password']) && $data['password'] !== '';
+    $password = $isPassword ? secure_password($data['password']) : '';
 
     $setParts = self::query_parts($data, $fields);
 
     $sql = "UPDATE `members` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
-    if (isset($data['password'])) $stmt -> bindParam(':password', $password);
+    $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':first_name', $data['first_name']);

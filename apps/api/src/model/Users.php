@@ -113,8 +113,11 @@ class Users extends Model {
   public function patch($data): array {
     $conn = self::connection();
 
-    if (isset($data['password'])) {
+    $isPassword = isset($data['password']) && $data['password'] !== '';
+
+    if ($isPassword) {
       $fields = [ ...self::$tableFields, 'password' ];
+      $password = secure_password($data['password']);
     } else {
       $fields = self::$tableFields;
     }
@@ -122,13 +125,9 @@ class Users extends Model {
     $data = self::parse_json_to_db($data);
     $setParts = self::query_parts($data, $fields);
 
-    if (isset($data['password'])) {
-      $password = secure_password($data['password']);
-    }
-
     $sql = "UPDATE `users` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
-    if (isset($data['password'])) $stmt -> bindParam(':password', $password);
+    if ($isPassword) $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':first_name', $data['first_name']);

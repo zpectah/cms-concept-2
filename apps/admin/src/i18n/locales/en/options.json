@@ -41,5 +41,10 @@
     "brown": "Brown",
     "black": "Black",
     "white": "White"
+  },
+  "sex": {
+    "unset": "Unset",
+    "male": "Male",
+    "female": "Female"
   }
 }

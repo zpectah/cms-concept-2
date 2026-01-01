@@ -33,7 +33,7 @@ export const articlesDetailFormSchema = z
     locale: detailLocalesSchema,
     // Event specific
     event_start: commonFieldSchema.dateTime.optional(),
-    event_end: commonFieldSchema.dateTime.nullable().optional(),
+    event_end: commonFieldSchema.dateTime.optional(),
     event_address: AddressSchema.optional(),
     event_location: GpsLocationSchema.optional(),
   })
