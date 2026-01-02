@@ -27,7 +27,8 @@
     "nofollow": "No follow",
     "nosnippet": "No snippet",
     "noarchive": "No archive",
-    "nocache": "No cache"
+    "nocache": "No cache",
+    "inherit": "Inherit"
   },
   "color": {
     "none": "None",

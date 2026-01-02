@@ -48,7 +48,7 @@ class Pages extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    $sql = "SELECT id, name, type, meta_robots, active, deleted, created, updated FROM `pages`";
+    $sql = "SELECT id, name, type, meta_robots, category_id, active, deleted, created, updated FROM `pages`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -94,7 +94,7 @@ class Pages extends Model {
   public function create($data, $locales): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'meta_robots', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['type', 'name', 'meta_robots', 'category_id', 'active', 'deleted']);
 
     $columns = $params['columns'];
     $values = $params['values'];
@@ -104,6 +104,7 @@ class Pages extends Model {
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':meta_robots', $data['meta_robots']);
+    $stmt -> bindParam(':category_id', $data['category_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> execute();
@@ -140,13 +141,14 @@ class Pages extends Model {
   public function patch($data, $locales): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $setParts = self::query_parts($data, ['type', 'name', 'meta_robots', 'active', 'deleted']);
+    $setParts = self::query_parts($data, ['type', 'name', 'meta_robots', 'category_id', 'active', 'deleted']);
 
     $sql = "UPDATE `pages` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':meta_robots', $data['meta_robots']);
+    $stmt -> bindParam(':category_id', $data['category_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);

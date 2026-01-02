@@ -1,18 +1,20 @@
 import { EnumKeyValues } from '@common';
-import { pagesTypeKeys } from '../enums';
+import { pagesMetaRobotsKeys, pagesTypeKeys } from '../enums';
 import { ItemBase, ItemLocaleBase } from './item';
 
 export type PagesType = EnumKeyValues<typeof pagesTypeKeys>;
+export type PagesMetaRobots = EnumKeyValues<typeof pagesMetaRobotsKeys>;
 
 export interface PagesItem extends ItemBase {
   type: PagesType;
   name: string;
-  meta_robots?: string; // TODO #enum
+  meta_robots?: PagesMetaRobots;
+  category_id: number;
 }
 
 export type Pages = PagesItem[];
 
-export interface PageDetailLocale {
+export interface PagesDetailLocale {
   title: string;
   description?: string;
   content: string;
@@ -20,4 +22,4 @@ export interface PageDetailLocale {
 
 export interface PagesDetail
   extends PagesItem,
-    ItemLocaleBase<PageDetailLocale> {}
+    ItemLocaleBase<PagesDetailLocale> {}

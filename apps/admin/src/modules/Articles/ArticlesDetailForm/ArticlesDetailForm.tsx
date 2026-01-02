@@ -1,7 +1,5 @@
 import { Grid } from '@mui/material';
 import { SPACING } from '../../../constants';
-import { TagsPickerField } from '../../Tags';
-import { CategoriesPickerField } from '../../Categories';
 import {
   DetailDrawer,
   DynamicPortal,
@@ -12,6 +10,8 @@ import {
   WysiwygField,
   SelectField,
 } from '../../../components';
+import { TagsPickerField } from '../../Tags';
+import { CategoriesPickerField } from '../../Categories';
 import { IArticlesDetailForm } from './types';
 import { useArticlesDetailForm } from './useArticlesDetailForm';
 
