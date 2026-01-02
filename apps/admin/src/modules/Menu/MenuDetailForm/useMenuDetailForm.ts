@@ -69,7 +69,7 @@ export const useMenuDetailForm = () => {
         closeHandler();
         addToast({
           title: t('message.success.update', { count: rows }),
-          severity: 'success',
+          severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
         refetch();
@@ -102,7 +102,7 @@ export const useMenuDetailForm = () => {
         closeHandler();
         addToast({
           title: t('message.success.delete', { count: rows }),
-          severity: 'success',
+          severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
         refetch();

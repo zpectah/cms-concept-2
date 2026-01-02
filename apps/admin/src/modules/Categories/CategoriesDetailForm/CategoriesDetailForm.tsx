@@ -96,9 +96,6 @@ const CategoriesDetailForm = () => {
             fieldLabel="Active"
             layout="vertical"
           />
-
-          {/* TODO */}
-          <input type="hidden" {...form.register('parent_id', { value: 0 })} />
         </Grid>
       </Grid>
     </DetailDrawer>

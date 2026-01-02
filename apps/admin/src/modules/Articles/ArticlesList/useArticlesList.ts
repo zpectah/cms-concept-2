@@ -40,7 +40,7 @@ export const useArticlesList = () => {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.update', { count: rows }),
-          severity: 'success',
+          severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
         refetch();
@@ -54,7 +54,7 @@ export const useArticlesList = () => {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.delete', { count: rows }),
-          severity: 'success',
+          severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
         refetch();
@@ -68,7 +68,7 @@ export const useArticlesList = () => {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.deletePermanent', { count: rows }),
-          severity: 'success',
+          severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
         refetch();
@@ -82,7 +82,7 @@ export const useArticlesList = () => {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.approve', { count: rows }),
-          severity: 'success',
+          severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
         refetch();
