@@ -1,6 +1,7 @@
 export const endpoints = {
   articles: `private/articles`,
   categories: `private/categories`,
+  comments: 'private/comments',
   customFields: `private/custom-fields`,
   files: `private/files`,
   members: `private/members`,

@@ -1,3 +1,3 @@
 export interface MenuItemsManagerProps {
-  menuId: string | undefined;
+  menuId?: number;
 }

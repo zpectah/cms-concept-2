@@ -59,7 +59,7 @@ const TranslationsDetailForm = () => {
               <Grid container size={12} spacing={SPACING.form}>
                 <TextareaField
                   name={`locale.${loc}.value`}
-                  label="Description"
+                  label="Value"
                   layout="vertical"
                   placeholder={`Translation ${loc} value`}
                   isFullWidth

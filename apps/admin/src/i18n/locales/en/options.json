@@ -9,8 +9,17 @@
     "video": "Video",
     "document": "Document",
     "archive": "Archive",
+    "page": "Page",
     "external": "External",
-    "section": "Section"
+    "section": "Section",
+    "text": "Text",
+    "translated-text": "Translated text",
+    "files-gallery": "Files gallery",
+    "readonly": "Read only",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "category": "Category",
+    "system": "System"
   },
   "accessRights": {
     "none": "None",

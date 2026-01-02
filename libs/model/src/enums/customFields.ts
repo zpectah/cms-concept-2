@@ -1,5 +1,6 @@
 export const customFieldsTypeKeys = {
   text: 'text',
-  gallery: 'gallery',
+  'translated-text': 'translated-text',
+  'files-gallery': 'files-gallery',
   // TODO ...
 } as const;

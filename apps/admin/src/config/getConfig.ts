@@ -18,6 +18,7 @@ const getConfig = () => {
   const apiEndpoints = {
     articles: `${apiUrl}${endpoints.articles}`,
     categories: `${apiUrl}${endpoints.categories}`,
+    comments: `${apiUrl}${endpoints.comments}`,
     customFields: `${apiUrl}${endpoints.customFields}`,
     files: `${apiUrl}${endpoints.files}`,
     members: `${apiUrl}${endpoints.members}`,

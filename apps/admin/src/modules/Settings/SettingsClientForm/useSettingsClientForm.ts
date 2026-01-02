@@ -4,7 +4,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { metaRobotsKeysArray } from '@common';
 import { modelKeys } from '@model';
-import { useSelectOptions, useUserActions } from '../../../hooks';
+import {
+  useResponseMessage,
+  useSelectOptions,
+  useUserActions,
+} from '../../../hooks';
 import { useAppStore } from '../../../store';
 import { useSettingsQuery } from '../../../query';
 import { ISettingsClientForm } from './types';
@@ -15,6 +19,7 @@ export const useSettingsClientForm = () => {
   const { t } = useTranslation(['common']);
   const { groups } = useUserActions(modelKeys.settings);
   const { addToast } = useAppStore();
+  const { onError } = useResponseMessage();
   const { settingsQuery, settingsPatchMutation } = useSettingsQuery();
   const { getTranslatedOptionsFromList } = useSelectOptions();
   const form = useForm<ISettingsClientForm>({
@@ -39,10 +44,7 @@ export const useSettingsClientForm = () => {
           autoclose: true,
         });
       },
-      onError: (err) => {
-        // TODO
-        console.warn(err);
-      },
+      onError,
     });
   };
 

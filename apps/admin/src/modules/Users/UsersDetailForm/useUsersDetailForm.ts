@@ -164,7 +164,7 @@ export const useUsersDetailForm = () => {
     onDelete: deleteHandler,
     // Options
     options: {
-      type: getTypeFieldOptions(modelKeys.tags),
+      type: getTypeFieldOptions(modelKeys.users),
       accessRights: getAccessRightsFieldOptions(),
     },
   };

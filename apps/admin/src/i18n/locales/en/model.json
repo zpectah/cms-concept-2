@@ -1,8 +1,4 @@
 {
-  "type": {
-    "default": "Default",
-    "event": "Event"
-  },
   "plurals": {
     "articles": {
       "item_one": "Article",

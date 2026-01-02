@@ -142,7 +142,7 @@ export const useMembersDetailForm = () => {
     onDelete: deleteHandler,
     // Options
     options: {
-      type: getTypeFieldOptions(modelKeys.tags),
+      type: getTypeFieldOptions(modelKeys.members),
       sex: getTranslatedOptionsFromList(personSexKeysArray, 'sex'),
     },
   };

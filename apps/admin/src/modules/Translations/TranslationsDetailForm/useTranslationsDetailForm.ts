@@ -155,7 +155,7 @@ export const useTranslationsDetailForm = () => {
     },
     // Options
     options: {
-      type: getTypeFieldOptions(modelKeys.categories),
+      type: getTypeFieldOptions(modelKeys.translations),
     },
     // Current detail ID as number
     detailId: form.watch('id'),

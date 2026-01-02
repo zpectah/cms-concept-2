@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { modelKeys } from '@model';
-import { useUserActions } from '../../../hooks';
+import { useResponseMessage, useUserActions } from '../../../hooks';
 import { useAppStore } from '../../../store';
 import { useSettingsQuery } from '../../../query';
 import { ISettingsGlobalForm } from './types';
@@ -14,6 +14,7 @@ export const useSettingsGlobalForm = () => {
   const { t } = useTranslation(['common']);
   const { groups } = useUserActions(modelKeys.settings);
   const { addToast } = useAppStore();
+  const { onError } = useResponseMessage();
   const { settingsQuery, settingsPatchMutation } = useSettingsQuery();
   const form = useForm<ISettingsGlobalForm>({
     defaultValues: detailDataToForm(),
@@ -37,10 +38,7 @@ export const useSettingsGlobalForm = () => {
           autoclose: true,
         });
       },
-      onError: (err) => {
-        // TODO
-        console.warn(err);
-      },
+      onError,
     });
   };
 

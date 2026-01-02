@@ -112,7 +112,7 @@ const DataListControls = () => {
       optionsList.push({
         id: item,
         value: item,
-        label: t(`model:type.${item}`),
+        label: t(`options:model.${item}`),
       });
     });
 
@@ -402,7 +402,7 @@ const DataListControls = () => {
       >
         <Grid container spacing={2}>
           <Grid size={12}>
-            {orderByActive && (
+            {!!orderByActive && (
               <TagSelect
                 label={t('components:dataList.label.sortOrder')}
                 value={sortBy}
@@ -420,7 +420,7 @@ const DataListControls = () => {
           </Grid>
 
           <Grid size={12}>
-            {filterByTypeActive && (
+            {!!filterByTypeActive && (
               <TagSelect
                 label={t('components:dataList.label.filterType')}
                 value={filter.types}
@@ -437,7 +437,7 @@ const DataListControls = () => {
           </Grid>
 
           <Grid size={12}>
-            {filterByCategoriesActive && (
+            {!!filterByCategoriesActive && (
               <TagSelect
                 label={t('components:dataList.label.filterCategories')}
                 value={filter.categories}
@@ -454,7 +454,7 @@ const DataListControls = () => {
           </Grid>
 
           <Grid size={12}>
-            {filterByTagsActive && (
+            {!!filterByTagsActive && (
               <TagSelect
                 label={t('components:dataList.label.filterTags')}
                 value={filter.tags}

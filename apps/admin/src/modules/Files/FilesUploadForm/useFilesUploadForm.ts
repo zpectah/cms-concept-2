@@ -119,7 +119,7 @@ export const useFilesUploadForm = () => {
     onReset: resetHandler,
     // Options
     options: {
-      type: getTypeFieldOptions(modelKeys.tags),
+      type: getTypeFieldOptions(modelKeys.files),
     },
   };
 };

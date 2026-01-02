@@ -170,5 +170,7 @@ export const useArticlesDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.articles),
     },
+    // Current detail ID as number
+    detailId: form.watch('id'),
   };
 };

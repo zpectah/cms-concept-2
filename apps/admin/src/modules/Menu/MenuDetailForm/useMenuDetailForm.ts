@@ -140,7 +140,9 @@ export const useMenuDetailForm = () => {
     onDelete: deleteHandler,
     // Options
     options: {
-      type: getTypeFieldOptions(modelKeys.tags),
+      type: getTypeFieldOptions(modelKeys.menu),
     },
+    // Current detail ID as number
+    detailId: form.watch('id'),
   };
 };
