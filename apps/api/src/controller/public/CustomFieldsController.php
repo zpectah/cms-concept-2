@@ -9,8 +9,15 @@ use model\CustomFieldsItems;
 class CustomFieldsController extends Controller {
 
   private function get($url): array {
+    $customFields = new CustomFields;
 
-    return [];
+    $id = self::url_id($url);
+
+    if ($id) {
+      return $customFields -> get_detail($id);
+    } else {
+      return $customFields -> get_list();
+    }
   }
 
   public function resolve($url, $data): array {

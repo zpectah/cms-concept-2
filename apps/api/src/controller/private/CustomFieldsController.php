@@ -9,33 +9,45 @@ use model\CustomFieldsItems;
 class CustomFieldsController extends Controller {
 
   private function get($url): array {
+    $customFields = new CustomFields;
 
-    return [];
+    $id = self::url_id($url);
+
+    if ($id) {
+      return $customFields -> get_detail($id);
+    } else {
+      return $customFields -> get_list();
+    }
   }
 
   private function create($url, $data): array {
+    $customFields = new CustomFields;
 
-    return [];
+    return $customFields -> create($data);
   }
 
   private function patch($url, $data): array {
+    $customFields = new CustomFields;
 
-    return [];
+    return $customFields -> patch($data);
   }
 
   private function toggle($url, $data): array {
+    $customFields = new CustomFields;
 
-    return [];
+    return $customFields -> toggle($data);
   }
 
   private function delete($url, $data): array {
+    $customFields = new CustomFields;
 
-    return [];
+    return $customFields -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
+    $customFields = new CustomFields;
 
-    return [];
+    return $customFields -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

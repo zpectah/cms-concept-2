@@ -37,7 +37,7 @@ class Tags extends Model {
 
     $items = [];
 
-    $sql = "SELECT id, name, type, active, deleted, created, updated FROM `tags`";
+    $sql = "SELECT id, name, type, color, active, deleted, created, updated FROM `tags`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
