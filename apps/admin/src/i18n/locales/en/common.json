@@ -25,6 +25,7 @@
     "submit": "Submit",
     "create": "Create",
     "update": "Update",
+    "markAsRead": "Mark as read",
     "new": {
       "articles": "New article",
       "categories": "New category",

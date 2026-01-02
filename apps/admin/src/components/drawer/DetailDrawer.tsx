@@ -94,7 +94,6 @@ const DetailDrawer = <T extends FieldValues>({
   ];
 
   const footerActions: ButtonProps[] = [
-    ...actions,
     {
       id: 'cancel',
       children: t('button.cancel'),
@@ -118,12 +117,14 @@ const DetailDrawer = <T extends FieldValues>({
       color: 'warning',
       hidden: !onReset,
     },
+    ...actions,
     {
       id: 'submit',
       type: 'submit',
       children: id === 'new' ? t('button.create') : t('button.update'),
       variant: 'contained',
       disabled: id === 'new' ? !modelActions.create : !modelActions.modify,
+      hidden: !onSubmit,
     },
   ];
 

@@ -150,7 +150,7 @@ export const useDataListView = <T extends ListModelItem>() => {
           ),
           onClick: (id: number) => rowActions?.onRead?.(id),
           disabled: !modelActions.modify,
-          hidden: !rowActions?.onRead || !row?.read,
+          hidden: !rowActions?.onRead,
         },
         {
           id: 'download',
