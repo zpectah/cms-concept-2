@@ -1,7 +1,7 @@
 export * from './announcements';
 export * from './api';
 export * from './confirmDialog';
-export * from './files';
+// export * from './files';
 export * from './layout';
 export * from './model';
 export * from './theme';

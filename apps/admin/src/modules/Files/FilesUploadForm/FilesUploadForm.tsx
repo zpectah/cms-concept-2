@@ -3,8 +3,7 @@ import { IFilesUploadForm } from './types';
 import { useFilesUploadForm } from './useFilesUploadForm';
 
 const FilesUploadForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete } =
-    useFilesUploadForm();
+  const { id, title, form, onSubmit, onClose, onReset } = useFilesUploadForm();
 
   return (
     <DetailDrawer<IFilesUploadForm>
@@ -15,7 +14,6 @@ const FilesUploadForm = () => {
       onClose={onClose}
       onSubmit={onSubmit}
       onReset={onReset}
-      onDelete={onDelete}
     >
       <>...FilesUploadForm...</>
     </DetailDrawer>

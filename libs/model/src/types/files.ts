@@ -1,5 +1,5 @@
 import { EnumKeyValues } from '@common';
-import { filesTypeKeys } from '../enums';
+import { filesTypeKeys, filesUploadContextKeys } from '../enums';
 import { ItemBase } from './item';
 
 export type FilesType = EnumKeyValues<typeof filesTypeKeys>;
@@ -17,3 +17,16 @@ export interface FilesItem extends ItemBase {
 export type Files = FilesItem[];
 
 export type FilesDetail = FilesItem & {};
+
+export type FilesUploadContext = EnumKeyValues<typeof filesUploadContextKeys>;
+
+export interface FilesUploadRequest {
+  /** Files queue to upload */
+  queue: Files;
+  options: {
+    /** Uploading context */
+    context: FilesUploadContext;
+    /** Target for uploads */
+    target: string;
+  };
+}

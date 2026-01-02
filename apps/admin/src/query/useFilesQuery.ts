@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { Files, FilesDetail } from '@model';
+import { Files, FilesDetail, FilesUploadRequest } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest, FilesCreateTransportRequest } from '../types';
+import { ApiCommonRequest } from '../types';
 
 interface UseFilesQueryProps {
   id?: string | 'new';
@@ -43,11 +43,7 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const uploadMutation = useMutation<
-    number[],
-    unknown,
-    FilesCreateTransportRequest
-  >({
+  const uploadMutation = useMutation<number[], unknown, FilesUploadRequest>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-upload`],
     mutationFn: (data) =>
       axios

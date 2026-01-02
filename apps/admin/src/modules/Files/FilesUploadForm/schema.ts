@@ -1,5 +1,19 @@
 import z from 'zod';
+import { filesTypeKeysArray } from '@model';
+import { commonFieldSchema } from '../../../validation';
+
+// TODO - bude celé jako pole (queue plus options ...)
 
 export const filesUploadFormSchema = z.object({
-  /* TODO */
+  id: commonFieldSchema.number,
+  type: z.enum(filesTypeKeysArray),
+  name: commonFieldSchema.string_required,
+  file_name: commonFieldSchema.string_required,
+  file_type: commonFieldSchema.string_required,
+  file_ext: commonFieldSchema.string_required,
+  file_size: commonFieldSchema.number,
+  active: commonFieldSchema.boolean.optional(),
+  deleted: commonFieldSchema.boolean.optional(),
+  created: commonFieldSchema.string.optional(),
+  updated: commonFieldSchema.string.optional(),
 });
