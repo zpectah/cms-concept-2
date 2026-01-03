@@ -31,7 +31,7 @@ export const detailDataToForm = (data: UsersDetail): IUsersDetailForm => {
 export const formDataToMaster = (data: IUsersDetailForm): UsersDetail => {
   const master = Object.assign({
     ...data,
-    avatar_hash: getRandomString(8),
+    avatar_hash: getRandomString(6),
   });
 
   return { ...master };

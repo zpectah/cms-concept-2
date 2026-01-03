@@ -9,7 +9,7 @@ class Members extends Model {
 
   static array $tableFields = ['type', 'email', 'first_name', 'last_name',
     'address_street', 'address_street_no', 'address_district', 'address_city', 'address_country', 'address_zip', 'flat_no',
-    'sex', 'birthdate', 'description', 'active', 'deleted'];
+    'sex', 'birthdate', 'description', 'avatar_image', 'avatar_hash', 'active', 'deleted'];
 
   /** Parsed data from DB to JSON response */
   private function parse_row_to_json($data): array {
@@ -64,7 +64,7 @@ class Members extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    $sql = "SELECT id, type, email, first_name, last_name, sex, birthdate, active, deleted, created, updated FROM `members`";
+    $sql = "SELECT id, uid, type, email, first_name, last_name, sex, birthdate, active, deleted, created, updated FROM `members`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -79,13 +79,13 @@ class Members extends Model {
     return $items;
   }
 
-  public function get_detail($id, $email): array {
+  public function get_detail($id, $email, $withPassword = false): array {
     $conn = self::connection();
 
     if ($id) {
-      $sql = "SELECT id, type, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, sex, birthdate, description, active, deleted, created, updated FROM `members` WHERE `id` = :id LIMIT 1";
+      $sql = "SELECT id, uid, type, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, sex, birthdate, description, avatar_image, avatar_hash, active, deleted, created, updated FROM `members` WHERE `id` = :id LIMIT 1";
     } else if ($email) {
-      $sql = "SELECT id, type, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, sex, birthdate, description, active, deleted, created, updated FROM `members` WHERE `email` = :email LIMIT 1";
+      $sql = "SELECT id, uid, type, email, first_name, last_name, address_street, address_street_no, address_district, address_city, address_country, address_zip, flat_no, sex, birthdate, description, avatar_image, avatar_hash, active, deleted, created, updated FROM `members` WHERE `email` = :email LIMIT 1";
     }
     $stmt = $conn -> prepare($sql);
     if ($id) {
@@ -104,7 +104,7 @@ class Members extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
 
-    $fields = [ ...self::$tableFields, 'password' ];
+    $fields = [ ...self::$tableFields, 'uid', 'password' ];
     $isPassword = isset($data['password']) && $data['password'] !== '';
     $password = $isPassword ? secure_password($data['password']) : '';
 
@@ -115,6 +115,7 @@ class Members extends Model {
 
     $sql = "INSERT INTO `members` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':uid', $data['uid']);
     $stmt -> bindParam(':password', $password);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':email', $data['email']);
@@ -130,6 +131,8 @@ class Members extends Model {
     $stmt -> bindParam(':sex', $data['sex']);
     $stmt -> bindParam(':birthdate', $data['birthdate']);
     $stmt -> bindParam(':description', $data['description']);
+    $stmt -> bindParam(':avatar_image', $data['avatar_image']);
+    $stmt -> bindParam(':avatar_hash', $data['avatar_hash']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> execute();
@@ -166,6 +169,8 @@ class Members extends Model {
     $stmt -> bindParam(':sex', $data['sex']);
     $stmt -> bindParam(':birthdate', $data['birthdate']);
     $stmt -> bindParam(':description', $data['description']);
+    $stmt -> bindParam(':avatar_image', $data['avatar_image']);
+    $stmt -> bindParam(':avatar_hash', $data['avatar_hash']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);
@@ -209,6 +214,8 @@ class Members extends Model {
     $sql = "DELETE FROM `members` WHERE id IN ($placeholders)";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute($data);
+
+    // TODO: delete avatar if exist
 
     return [
       'rows' => $stmt -> rowCount(),

@@ -1,33 +1,14 @@
 # TODO
 
 ## Admin
-- [] Articles model
-  - [] query hooks
-  - [] list
-  - [] detail
-- [] Categories model
-  - [] query hooks
-  - [] list
-  - [] detail
-  - [] picker
-- [] Tags model
-  - [] query hooks
-  - [] detail
-  - [] list
-  - [] picker
-- [] Files model
-  - [] query hooks
-  - [] detail
-  - [] list
-  - [] picker
+- [] Udělat member avatr jako 'feature trigger'
+- [] Asi nakonec přidat ten "Maintenance" - a tam dát možnost promazat user/members avatary (smaže záznam a obrázek)(proč? - zatím nevím)
+- [] 'ImageCropper' - přidat nějakou volbu možností pro poměr stran 'ratio'
 
 ## API
 - [] endpoints initialization
 - [] models
-  - [] Articles
-  - [] Categories
-  - [] Tags
-  - [] Files
+  - [] ...
 
 
 ## Client

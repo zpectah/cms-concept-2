@@ -29,6 +29,12 @@
     "cropImage": "Crop image",
     "confirm": "Confirm",
     "removeFromQueue": "Remove from queue",
+    "select": "Select",
+    "select_file_one": "Select file",
+    "select_file_other": "Select files",
+    "crop_file": "Crop file",
+    "upload": "Upload",
+    "clear": "Clear",
     "new": {
       "articles": "New article",
       "categories": "New category",
@@ -106,7 +112,9 @@
       "read_one": "Item was successfully set as read",
       "read_other": "{{count}} items was successfully set as read"
     },
-    "info": {},
+    "info": {
+      "avatar_updated": "Avatar was updated, we recommends you to save data"
+    },
     "warning": {
       "file_max_size": "File '{{file}}' exceeded max file size",
       "file_unsupported": "Unsupported file '{{file}}'",

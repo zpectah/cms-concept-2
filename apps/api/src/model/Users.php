@@ -184,6 +184,8 @@ class Users extends Model {
     $stmt = $conn -> prepare($sql);
     $stmt -> execute($data);
 
+    // TODO: delete avatar if exist
+
     return [
       'rows' => $stmt -> rowCount(),
     ];

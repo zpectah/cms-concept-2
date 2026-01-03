@@ -53,6 +53,7 @@ const UsersDetailForm = () => {
               filename={avatarImage}
               userUid={uid}
               onComplete={onAvatarUpdate}
+              onClear={() => onAvatarUpdate('')}
               size={'175px'}
             />
           </Grid>

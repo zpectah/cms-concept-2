@@ -10,13 +10,25 @@ import {
   AddressField,
   TextareaField,
   DatePickerField,
+  AvatarUploader,
 } from '../../../components';
 import { IMembersDetailForm } from './types';
 import { useMembersDetailForm } from './useMembersDetailForm';
 
 const MembersDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, options } =
-    useMembersDetailForm();
+  const {
+    id,
+    title,
+    form,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    onAvatarUpdate,
+    options,
+    avatarImage,
+    uid,
+  } = useMembersDetailForm();
 
   return (
     <DetailDrawer<IMembersDetailForm>
@@ -30,6 +42,26 @@ const MembersDetailForm = () => {
       onDelete={onDelete}
     >
       <Grid container spacing={SPACING.form}>
+        <Grid size={12} container spacing={SPACING.form}>
+          <Grid
+            size={{ xs: 12, md: 6 }}
+            offset={{ xs: 0, md: 3 }}
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
+            }}
+          >
+            <AvatarUploader
+              filename={avatarImage}
+              memberUid={uid}
+              onComplete={onAvatarUpdate}
+              onClear={() => onAvatarUpdate('')}
+              size={'175px'}
+            />
+          </Grid>
+        </Grid>
+
         <EmailField
           name="email"
           label="Email"

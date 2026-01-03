@@ -3,18 +3,21 @@ import { ImageCropper } from '../imageCropper';
 import { AvatarUploaderProps } from './types';
 import { useAvatarUploader } from './useAvatarUploader';
 import { Button } from '../ui';
+import { useTranslation } from 'react-i18next';
 
 const AvatarUploader = ({
   filename,
   size = '150px',
   ...rest
 }: AvatarUploaderProps) => {
+  const { t } = useTranslation();
   const {
     inputRef,
     onChange,
     current,
-    onCurrentChange,
     onSubmit,
+    onReset,
+    onClear,
     imageSrc,
     onCropConfirm,
   } = useAvatarUploader({
@@ -62,15 +65,27 @@ const AvatarUploader = ({
     >
       {imageSrc && <img src={imageSrc} alt="avatar-image" loading="lazy" />}
       {!current?.content && (
-        <Button
-          component="label"
-          variant="contained"
-          size="small"
-          sx={{ opacity: 0, '.avatar-container:hover &': { opacity: 1 } }}
-        >
-          <span>Vybrat soubor</span>
-          {inputElement}
-        </Button>
+        <>
+          <Button
+            component="label"
+            variant="contained"
+            size="small"
+            sx={{ opacity: 0, '.avatar-container:hover &': { opacity: 1 } }}
+          >
+            <span>{t('button.select_file', { count: 1 })}</span>
+            {inputElement}
+          </Button>
+          {!!filename && (
+            <Button
+              variant="contained"
+              size="small"
+              onClick={onClear}
+              sx={{ opacity: 0, '.avatar-container:hover &': { opacity: 1 } }}
+            >
+              {t('button.clear')}
+            </Button>
+          )}
+        </>
       )}
       {!!current?.content && (
         <ImageCropper
@@ -78,9 +93,15 @@ const AvatarUploader = ({
           onConfirm={onCropConfirm}
           renderButton={(props) => (
             <Button {...props} variant="contained" size="small">
-              Crop
+              {t('button.crop_file')}
             </Button>
           )}
+          cropperProps={{
+            aspectRatio: {
+              minimum: 1,
+              maximum: 1,
+            },
+          }}
         />
       )}
       {!!current && (
@@ -91,17 +112,15 @@ const AvatarUploader = ({
             variant="contained"
             size="small"
           >
-            Nahrát
+            {t('button.upload')}
           </Button>
           <Button
-            onClick={() => {
-              onCurrentChange(undefined);
-            }}
+            onClick={onReset}
             disabled={!current}
             variant="contained"
             size="small"
           >
-            Zrušit
+            {t('button.cancel')}
           </Button>
         </>
       )}

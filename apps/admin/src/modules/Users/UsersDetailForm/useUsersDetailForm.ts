@@ -139,7 +139,7 @@ export const useUsersDetailForm = () => {
     form.setValue('avatar_image', filename);
 
     addToast({
-      title: 'Avatar was updated, we recommends you to save data',
+      title: t('message.info.avatar_updated'),
       severity: 'info',
       autoclose: true,
     });
@@ -178,7 +178,7 @@ export const useUsersDetailForm = () => {
       type: getTypeFieldOptions(modelKeys.users),
       accessRights: getAccessRightsFieldOptions(),
     },
-
+    // Live values
     uid: form.watch('uid'),
     avatarImage: form.getValues('avatar_image'),
   };

@@ -13,6 +13,7 @@ import { UseAvatarUploaderProps } from './types';
 export const useAvatarUploader = ({
   filename,
   onComplete,
+  onClear,
   userUid,
   memberUid,
 }: UseAvatarUploaderProps) => {
@@ -83,6 +84,18 @@ export const useAvatarUploader = ({
     } as FilesQueueItem);
   };
 
+  const resetHandler = () => {
+    setCurrent(undefined);
+    setImageSrc(undefined);
+    if (filename) setImageSrc(`${source}${requestContext}/${filename}`);
+  };
+
+  const clearHandler = () => {
+    setCurrent(undefined);
+    setImageSrc(undefined);
+    onClear?.();
+  };
+
   useEffect(() => {
     if (requestContext === filesUploadContextKeys.default) return;
     if (filename) setImageSrc(`${source}${requestContext}/${filename}`);
@@ -92,14 +105,15 @@ export const useAvatarUploader = ({
 
   return {
     inputRef,
-    onChange,
     requestContext,
     current,
-    onCurrentChange: setCurrent,
+    imageSrc,
     isSubmitting: submitting,
     isSubmitted: submitted,
+    onChange,
     onSubmit: submitHandler,
-    imageSrc,
+    onReset: resetHandler,
+    onClear: clearHandler,
     onCropConfirm: cropConfirmHandler,
   };
 };

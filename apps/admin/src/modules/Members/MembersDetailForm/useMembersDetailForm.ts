@@ -113,6 +113,16 @@ export const useMembersDetailForm = () => {
     });
   };
 
+  const avatarUpdateHandler = (filename: string) => {
+    form.setValue('avatar_image', filename);
+
+    addToast({
+      title: t('message.info.avatar_updated'),
+      severity: 'info',
+      autoclose: true,
+    });
+  };
+
   const drawerTitle = useMemo(() => {
     return id === 'new' ? t('views:members.new') : detail?.email;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -140,10 +150,14 @@ export const useMembersDetailForm = () => {
     onClose: closeHandler,
     onReset: resetHandler,
     onDelete: deleteHandler,
+    onAvatarUpdate: avatarUpdateHandler,
     // Options
     options: {
       type: getTypeFieldOptions(modelKeys.members),
       sex: getTranslatedOptionsFromList(personSexKeysArray, 'sex'),
     },
+    // Live values
+    uid: form.watch('uid'),
+    avatarImage: form.getValues('avatar_image'),
   };
 };

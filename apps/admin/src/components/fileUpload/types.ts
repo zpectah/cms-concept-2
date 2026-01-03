@@ -18,6 +18,8 @@ interface AvatarUploaderBase {
   filename?: string;
   /** Callback after file is submitted */
   onComplete?: (filename: string) => void;
+  /** Callback for clearing file from model */
+  onClear?: () => void;
 }
 
 export interface AvatarUploaderProps extends AvatarUploaderBase {
