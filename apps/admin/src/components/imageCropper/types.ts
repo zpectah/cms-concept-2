@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { CropperProps } from 'react-advanced-cropper';
 import { ButtonProps } from '../ui';
 
@@ -8,4 +9,5 @@ export interface ImageCropperProps {
   cropperProps?: Partial<CropperProps>;
   buttonProps?: Partial<ButtonProps>;
   hidden?: boolean;
+  renderButton?: (props: Partial<ButtonProps>) => ReactNode;
 }

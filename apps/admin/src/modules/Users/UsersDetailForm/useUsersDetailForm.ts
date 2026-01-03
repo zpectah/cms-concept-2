@@ -135,6 +135,16 @@ export const useUsersDetailForm = () => {
     });
   };
 
+  const avatarUpdateHandler = (filename: string) => {
+    form.setValue('avatar_image', filename);
+
+    addToast({
+      title: 'Avatar was updated, we recommends you to save data',
+      severity: 'info',
+      autoclose: true,
+    });
+  };
+
   const drawerTitle = useMemo(() => {
     return id === 'new' ? t('views:users.new') : detail?.email;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,10 +172,14 @@ export const useUsersDetailForm = () => {
     onClose: closeHandler,
     onReset: resetHandler,
     onDelete: deleteHandler,
+    onAvatarUpdate: avatarUpdateHandler,
     // Options
     options: {
       type: getTypeFieldOptions(modelKeys.users),
       accessRights: getAccessRightsFieldOptions(),
     },
+
+    uid: form.watch('uid'),
+    avatarImage: form.getValues('avatar_image'),
   };
 };

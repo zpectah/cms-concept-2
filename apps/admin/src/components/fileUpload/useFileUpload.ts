@@ -10,6 +10,7 @@ export const useFileUpload = ({
   onLoadEnd,
   onLoad,
   onError,
+  context = filesUploadContextDefault,
 }: UseFileUploadProps) => {
   const inputElement = useRef<HTMLInputElement | null>(null);
 
@@ -36,7 +37,7 @@ export const useFileUpload = ({
               extension,
               type: getFileTypeFromExtension(extension),
               uid: getRandomId(),
-              context: filesUploadContextDefault,
+              context,
               explicit: false,
             });
 

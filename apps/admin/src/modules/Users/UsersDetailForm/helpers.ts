@@ -6,6 +6,7 @@ import { IUsersDetailForm } from './types';
 export const defaultDataToForm = (): IUsersDetailForm => {
   return Object.assign({
     id: 0,
+    uid: getRandomString(),
     type: usersTypeDefault,
     email: '',
     password: '',

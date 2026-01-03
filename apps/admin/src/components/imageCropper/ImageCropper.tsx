@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Cropper, CropperRef } from 'react-advanced-cropper';
 import { Box } from '@mui/material';
 import { cropBase64Image } from '@common';
-import { Button, Dialog } from '../ui';
+import { Button, Dialog, ButtonProps } from '../ui';
 import { ImageCropperProps } from './types';
 
 import 'react-advanced-cropper/dist/style.css';
@@ -15,6 +15,7 @@ const ImageCropper = ({
   cropperProps,
   buttonProps,
   hidden,
+  renderButton,
 }: ImageCropperProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [temporary, setTemporary] = useState<string | undefined>(undefined);
@@ -56,13 +57,22 @@ const ImageCropper = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source]);
 
+  const commonButtonProps: Partial<ButtonProps> = {
+    onClick: openHandler,
+    disabled: !input?.source,
+    ...buttonProps,
+  };
+
   if (hidden) return;
 
   return (
     <>
-      <Button onClick={openHandler} {...buttonProps}>
-        {t('button.cropImage')}
-      </Button>
+      {renderButton ? (
+        renderButton({ ...commonButtonProps })
+      ) : (
+        <Button {...commonButtonProps}>{t('button.cropImage')}</Button>
+      )}
+
       <Dialog
         open={open}
         onClose={closeHandler}

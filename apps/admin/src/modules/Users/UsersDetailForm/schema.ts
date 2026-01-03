@@ -4,6 +4,7 @@ import { commonFieldSchema } from '../../../validation';
 
 export const usersDetailFormSchema = z.object({
   id: commonFieldSchema.number,
+  uid: commonFieldSchema.string_required,
   type: z.enum(usersTypeKeysArray),
   email: commonFieldSchema.email_required,
   password: commonFieldSchema.string.optional(),

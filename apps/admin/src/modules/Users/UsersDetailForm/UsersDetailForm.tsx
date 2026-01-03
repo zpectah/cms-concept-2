@@ -7,13 +7,25 @@ import {
   PasswordField,
   CheckboxField,
   SelectField,
+  AvatarUploader,
 } from '../../../components';
 import { IUsersDetailForm } from './types';
 import { useUsersDetailForm } from './useUsersDetailForm';
 
 const UsersDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, options } =
-    useUsersDetailForm();
+  const {
+    id,
+    title,
+    form,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    onAvatarUpdate,
+    options,
+    avatarImage,
+    uid,
+  } = useUsersDetailForm();
 
   return (
     <DetailDrawer<IUsersDetailForm>
@@ -27,6 +39,25 @@ const UsersDetailForm = () => {
       onDelete={onDelete}
     >
       <Grid container spacing={SPACING.form}>
+        <Grid size={12} container spacing={SPACING.form}>
+          <Grid
+            size={{ xs: 12, md: 6 }}
+            offset={{ xs: 0, md: 3 }}
+            sx={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
+            }}
+          >
+            <AvatarUploader
+              filename={avatarImage}
+              userUid={uid}
+              onComplete={onAvatarUpdate}
+              size={'175px'}
+            />
+          </Grid>
+        </Grid>
+
         <EmailField
           name="email"
           label="Email"

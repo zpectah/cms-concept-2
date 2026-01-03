@@ -37,7 +37,7 @@ class Users extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    $sql = "SELECT id, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users`";
+    $sql = "SELECT id, uid, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -57,15 +57,15 @@ class Users extends Model {
 
     if ($id) {
       if ($withPassword) {
-        $sql = "SELECT id, type, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
+        $sql = "SELECT id, uid, type, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
       } else {
-        $sql = "SELECT id, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
+        $sql = "SELECT id, uid, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `id` = :id LIMIT 1";
       }
     } else if ($email) {
       if ($withPassword) {
-        $sql = "SELECT id, type, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT id, uid, type, password, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
       } else {
-        $sql = "SELECT id, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
+        $sql = "SELECT id, uid, type, email, first_name, last_name, access_rights, avatar_image, avatar_hash, active, deleted, created, updated FROM `users` WHERE `email` = :email LIMIT 1";
       }
     }
     $stmt = $conn -> prepare($sql);
@@ -84,7 +84,7 @@ class Users extends Model {
   public function create($data): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query([ ...self::$tableFields, 'password' ]);
+    $params = self::get_columns_and_values_for_query([ ...self::$tableFields, 'uid', 'password' ]);
 
     $password = secure_password($data['password']);
 
@@ -93,6 +93,7 @@ class Users extends Model {
 
     $sql = "INSERT INTO `users` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':uid', $data['uid']);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':email', $data['email']);
     $stmt -> bindParam(':password', $password);
