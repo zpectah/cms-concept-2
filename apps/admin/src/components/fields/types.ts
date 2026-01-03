@@ -1,6 +1,7 @@
 import { GridProps } from '@mui/material';
 import {
   InputProps,
+  InputPlusProps,
   EmailInputProps,
   SelectProps,
   DatePickerProps,
@@ -32,6 +33,17 @@ export interface FieldBase
 
 export interface InputFieldProps extends FieldBase {
   inputProps?: Partial<Omit<InputProps, 'fullWidth' | 'placeholder'>>;
+}
+
+export interface InputPlusFieldProps extends FieldBase {
+  inputProps?: Partial<
+    Omit<
+      InputPlusProps,
+      'fullWidth' | 'placeholder' | 'startAdornment' | 'endAdornment'
+    >
+  >;
+  startAdornment?: InputPlusProps['startAdornment'];
+  endAdornment?: InputPlusProps['endAdornment'];
 }
 
 export interface EmailFieldProps extends FieldBase {

@@ -65,23 +65,25 @@ export const useFilesUploadForm = () => {
   };
 
   const submitHandler = (data: IFilesUploadForm) => {
-    if (!data) return;
+    if (!data || !data?.queue) return;
 
-    const { duplicities } = getQueueDuplicities(
+    const validation = getQueueDuplicities(
       data.queue as FilesQueue,
       files ? [...files] : []
     );
 
-    if (duplicities) {
-      if (duplicities?.files) {
-        duplicities.files?.forEach((index) => {
+    if (validation.duplicities) {
+      if (validation.duplicities?.files) {
+        validation.duplicities.files?.forEach((index) => {
+          console.log('err', index);
           form.setError(`queue.${index}.name`, {
             message: t('form:message.error.file_db_duplicity'),
           });
         });
       }
-      if (duplicities.queue) {
-        duplicities.queue?.forEach((index) => {
+      if (validation.duplicities.queue) {
+        validation.duplicities.queue?.forEach((index) => {
+          console.log('err', index);
           form.setError(`queue.${index}.name`, {
             message: t('form:message.error.file_queue_duplicity'),
           });
@@ -111,7 +113,7 @@ export const useFilesUploadForm = () => {
   return {
     id,
     form,
-    title: t('views:tags.new'),
+    title: t('views:files.new'),
     // Actions
     onSubmit: submitHandler,
     onClose: closeHandler,

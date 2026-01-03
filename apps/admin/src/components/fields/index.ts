@@ -3,6 +3,7 @@ export { default as CheckboxField } from './CheckboxField';
 export { default as DatePickerField } from './DatePickerField';
 export { default as DateTimePickerField } from './DateTimePickerField';
 export { default as InputField } from './InputField';
+export { default as InputPlusField } from './InputPlusField';
 export { default as NumberField } from './NumberField';
 export { default as NumberAltField } from './NumberAltField';
 export { default as NumberAlt2Field } from './NumberAlt2Field';

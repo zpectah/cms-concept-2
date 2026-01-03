@@ -28,6 +28,7 @@
     "markAsRead": "Mark as read",
     "cropImage": "Crop image",
     "confirm": "Confirm",
+    "removeFromQueue": "Remove from queue",
     "new": {
       "articles": "New article",
       "categories": "New category",
