@@ -56,17 +56,19 @@ const Dialog = ({
           {title}
         </DialogTitle>
       )}
-      <DialogContent {...contentProps}>
-        {text && (
-          <DialogContentText
-            id={`${labelId}-description`}
-            {...contentTextProps}
-          >
-            {text}
-          </DialogContentText>
-        )}
-        {content}
-      </DialogContent>
+      {(text || content) && (
+        <DialogContent {...contentProps}>
+          {text && (
+            <DialogContentText
+              id={`${labelId}-description`}
+              {...contentTextProps}
+            >
+              {text}
+            </DialogContentText>
+          )}
+          {content}
+        </DialogContent>
+      )}
       {children}
       {actions && <DialogActions {...actionsProps}>{actions}</DialogActions>}
     </MuiDialog>

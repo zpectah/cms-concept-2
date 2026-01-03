@@ -10,6 +10,7 @@ export const filesDetailFormSchema = z.object({
   file_type: commonFieldSchema.string_required,
   file_ext: commonFieldSchema.string_required,
   file_size: commonFieldSchema.number,
+  explicit: commonFieldSchema.boolean.optional(),
   active: commonFieldSchema.boolean.optional(),
   deleted: commonFieldSchema.boolean.optional(),
   created: commonFieldSchema.string.optional(),

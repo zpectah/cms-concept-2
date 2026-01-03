@@ -1,19 +1,27 @@
 import z from 'zod';
-import { filesTypeKeysArray } from '@model';
+import { filesTypeKeysArray, filesUploadContextKeysArray } from '@model';
 import { commonFieldSchema } from '../../../validation';
 
-// TODO - bude celé jako pole (queue plus options ...)
+const filesUploadQueueItemSchema = z.object({
+  content: commonFieldSchema.string_required,
+  mime: commonFieldSchema.string_required,
+  size: commonFieldSchema.number,
+  name: commonFieldSchema.string_required,
+  extension: commonFieldSchema.string_required,
+  type: z.enum(filesTypeKeysArray),
+  uid: commonFieldSchema.string_required,
+  context: z.enum(filesUploadContextKeysArray),
+  explicit: commonFieldSchema.boolean.optional(),
+});
+
+const filesUploadQueueSchema = z.array(filesUploadQueueItemSchema);
+
+const filesUploadOptionsSchema = z.object({
+  target: commonFieldSchema.string_required,
+  context: z.enum(filesUploadContextKeysArray),
+});
 
 export const filesUploadFormSchema = z.object({
-  id: commonFieldSchema.number,
-  type: z.enum(filesTypeKeysArray),
-  name: commonFieldSchema.string_required,
-  file_name: commonFieldSchema.string_required,
-  file_type: commonFieldSchema.string_required,
-  file_ext: commonFieldSchema.string_required,
-  file_size: commonFieldSchema.number,
-  active: commonFieldSchema.boolean.optional(),
-  deleted: commonFieldSchema.boolean.optional(),
-  created: commonFieldSchema.string.optional(),
-  updated: commonFieldSchema.string.optional(),
+  queue: filesUploadQueueSchema,
+  options: filesUploadOptionsSchema,
 });

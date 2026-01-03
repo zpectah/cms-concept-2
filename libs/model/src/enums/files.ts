@@ -1,5 +1,11 @@
 export const filesTypeKeys = {
-  default: 'default',
+  unknown: 'unknown',
+  unsupported: 'unsupported',
+  image: 'image',
+  audio: 'audio',
+  video: 'video',
+  document: 'document',
+  archive: 'archive',
 } as const;
 
 export const filesUploadContextKeys = {

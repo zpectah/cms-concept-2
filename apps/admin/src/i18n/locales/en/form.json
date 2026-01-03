@@ -63,7 +63,10 @@
   "message": {
     "info": {},
     "warning": {},
-    "error": {},
+    "error": {
+      "file_queue_duplicity": "This file already exist in queue",
+      "file_db_duplicity": "This file is already exist"
+    },
     "success": {}
   }
 }

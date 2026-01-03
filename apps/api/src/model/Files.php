@@ -11,7 +11,7 @@ class Files extends Model {
   private function parse_row_to_json($data): array {
     $item = [
       ...$data,
-
+      'explicit' => $data['explicit'] === 1,
       'active' => $data['active'] === 1,
       'deleted' => $data['deleted'] === 1,
     ];
@@ -23,7 +23,7 @@ class Files extends Model {
   private function parse_json_to_db($data): array {
     $item = [
       ...$data,
-
+      'explicit' => $data['explicit'] ? 1 : 0,
       'active' => $data['active'] ? 1 : 0,
       'deleted' => $data['deleted'] ? 1 : 0,
     ];
@@ -115,13 +115,78 @@ class Files extends Model {
     return $success;
   }
 
+  /** Creates single DB row */
+  private function create_single_file($data): array {
+    $conn = self::connection();
+    $data = self::parse_json_to_db($data);
+    $params = self::get_columns_and_values_for_query([
+      'type', 'name', 'file_name', 'file_type', 'file_ext', 'file_size', 'explicit', 'active', 'deleted'
+    ]);
+
+    $columns = $params['columns'];
+    $values = $params['values'];
+
+    $sql = "INSERT INTO `files` ($columns) VALUES ($values)";
+    $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':type', $data['type']);
+    $stmt -> bindParam(':name', $data['name']);
+    $stmt -> bindParam(':file_name', $data['file_name']);
+    $stmt -> bindParam(':file_type', $data['file_type']);
+    $stmt -> bindParam(':file_ext', $data['file_ext']);
+    $stmt -> bindParam(':file_size', $data['file_size'], PDO::PARAM_INT);
+    $stmt -> bindParam(':explicit', $data['explicit'], PDO::PARAM_INT);
+    $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
+    $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
+    $stmt -> execute();
+
+    return [
+      'id' => $conn -> lastInsertId(),
+    ];
+  }
+
+  /** Creates single file in uploads folder */
+  private function upload_single_file($file, $rootPath, $context): array {
+    $response = [
+      'files' => [],
+      'thumbnails' => [],
+    ];
+
+    if (
+      $context === 'user' ||
+      $context === 'member'
+    ) {
+      $filePath = $rootPath . $context . '/';
+    } else {
+      $filePath = $rootPath . $file['type'] . '/';
+    }
+
+    $fileName = $file['name'] . '.' . $file['extension'];
+    $finalFilePath = $filePath . $fileName;
+
+    if (!file_exists($rootPath)) mkdir($rootPath, 0777, true);
+    if (!file_exists($filePath)) mkdir($filePath, 0777, true);
+
+    $response['files'][$fileName] = file_put_contents($finalFilePath, file_get_contents($file['content']));
+
+    if ($file['type'] === 'image') {
+      $thumbRootPath = $filePath . 'thumbnail/';
+      $thumbFilePath = $thumbRootPath . $fileName;
+
+      if (!file_exists($thumbRootPath)) mkdir($thumbRootPath, 0777, true);
+
+      $response['thumbnails'][$fileName] = (new Files) -> create_image_thumbnail(file_get_contents($file['content']), $thumbFilePath);
+    }
+
+    return $response;
+  }
+
 
   public function get_list(): array {
     $conn = self::connection();
 
     $items = [];
 
-    $sql = "SELECT id, name, type, file_type, file_ext, file_size, active, deleted, created, updated FROM `files`";
+    $sql = "SELECT * FROM `files`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -148,69 +213,24 @@ class Files extends Model {
   }
 
   public function create($data): array {
-    $conn = self::connection();
-    $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query([
-      'type', 'name', 'file_type', 'file_ext', 'file_size', 'active', 'deleted'
-    ]);
+    $id = [];
 
-    $columns = $params['columns'];
-    $values = $params['values'];
+    foreach ($data as $item) {
+      $res = self::create_single_file($item);
 
-    $sql = "INSERT INTO `files` ($columns) VALUES ($values)";
-    $stmt = $conn -> prepare($sql);
-    $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
-    $stmt -> bindParam(':file_type', $data['file_type']);
-    $stmt -> bindParam(':file_ext', $data['file_ext']);
-    $stmt -> bindParam(':file_size', $data['file_size'], PDO::PARAM_INT);
-    $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
-    $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
-    $stmt -> execute();
+      $id[] = $res['id'];
+    }
 
     return [
-      'id' => $conn -> lastInsertId(),
+      'ids' => $id,
     ];
-  }
-
-  static function upload_single_file($file, $rootPath, $context): array {
-    $response = [];
-
-    if (
-      $context === 'user' ||
-      $context === 'member'
-    ) {
-      $filePath = $rootPath . $context . '/';
-    } else {
-      $filePath = $rootPath . $file['type'] . '/';
-    }
-
-    $fileName = $file['name'] . '.' . $file['extension'];
-    $finalFilePath = $filePath . $fileName;
-
-    if (!file_exists($rootPath)) mkdir($rootPath, 0777, true);
-    if (!file_exists($filePath)) mkdir($filePath, 0777, true);
-
-    $response[$file['type']][$file['name']] = file_put_contents($finalFilePath, file_get_contents($file['content']));
-
-    if ($file['type'] === 'image') {
-      $thumbRootPath = $filePath . 'thumbnail/';
-      $thumbFilePath = $thumbRootPath . $fileName;
-
-      if (!file_exists($thumbRootPath)) mkdir($thumbRootPath, 0777, true);
-
-      // ???
-      $response['thumbnail'][$file['name']] = (new Files) -> create_image_thumbnail(file_get_contents($file['content']), $thumbFilePath);
-    }
-
-    return $response;
   }
 
   public function upload($data): array {
     $response = [];
     $options = $data['options'] ?? [];
     $queue = $data['queue'] ?? [];
-    $rootPath = $options['path'];
+    $rootPath = $options['target'];
     $pathContext = $options['context'];
 
     foreach ($queue as $file) {
@@ -224,11 +244,12 @@ class Files extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
     $setParts = self::query_parts($data, [
-      'active', 'deleted'
+      'explicit', 'active', 'deleted'
     ]);
 
     $sql = "UPDATE `files` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':explicit', $data['explicit'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);
@@ -271,7 +292,7 @@ class Files extends Model {
     $conn = self::connection();
     $placeholders = self::delete_placeholders($data);
 
-    $selectSql = "SELECT `type`, `name` FROM `files` WHERE id IN ($placeholders)";
+    $selectSql = "SELECT `type`, `name`, `file_name` FROM `files` WHERE id IN ($placeholders)";
     $selectStmt = $conn -> prepare($selectSql);
     $selectStmt -> execute($data);
 

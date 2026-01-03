@@ -26,6 +26,8 @@
     "create": "Create",
     "update": "Update",
     "markAsRead": "Mark as read",
+    "cropImage": "Crop image",
+    "confirm": "Confirm",
     "new": {
       "articles": "New article",
       "categories": "New category",
@@ -104,7 +106,11 @@
       "read_other": "{{count}} items was successfully set as read"
     },
     "info": {},
-    "warning": {},
+    "warning": {
+      "file_max_size": "File '{{file}}' exceeded max file size",
+      "file_unsupported": "Unsupported file '{{file}}'",
+      "file_unknown": "Unknown file '{{file}}'"
+    },
     "error": {}
   },
   "routes": {

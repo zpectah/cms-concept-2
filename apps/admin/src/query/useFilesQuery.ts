@@ -31,10 +31,10 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
 
   const createMutation = useMutation<
     {
-      id: number;
+      ids: number[];
     },
     unknown,
-    FilesDetail
+    Files
   >({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-create`],
     mutationFn: (data) =>

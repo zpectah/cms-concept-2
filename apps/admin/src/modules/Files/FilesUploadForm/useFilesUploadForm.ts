@@ -1,21 +1,18 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, FilesDetail, filesUploadContextKeys } from '@model';
+import { modelKeys, FilesUploadRequest, FilesQueue } from '@model';
 import { getConfig } from '../../../config';
 import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { useFilesQuery } from '../../../query';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
+import { useFilesValidations } from '../../../validation';
 import { IFilesUploadForm } from './types';
 import { filesUploadFormSchema } from './schema';
-import {
-  defaultDataToForm,
-  detailDataToForm,
-  formDataToMaster,
-} from './helpers';
+import { defaultDataToForm, formDataToMaster, queueToFiles } from './helpers';
 
 export const useFilesUploadForm = () => {
   const {
@@ -23,7 +20,7 @@ export const useFilesUploadForm = () => {
   } = getConfig();
 
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'views']);
+  const { t } = useTranslation(['common', 'form']);
   const { addToast } = useAppStore();
   const { rootUrl } = useViewContext();
   const { id } = useParams();
@@ -31,78 +28,80 @@ export const useFilesUploadForm = () => {
   const { getTypeFieldOptions } = useSelectOptions();
   const form = useForm<IFilesUploadForm>({
     resolver: zodResolver(filesUploadFormSchema),
-    defaultValues: defaultDataToForm(),
+    defaultValues: defaultDataToForm(target),
   });
+  const { getQueueDuplicities } = useFilesValidations();
+  const { filesQuery, filesCreateMutation, filesUploadMutation } =
+    useFilesQuery({ id });
 
-  const {
-    filesQuery,
-    filesDetailQuery,
-    filesCreateMutation,
-    filesUploadMutation,
-  } = useFilesQuery({ id });
-
-  const { refetch } = filesQuery;
-  const { data: detail } = filesDetailQuery;
+  const { data: files, refetch } = filesQuery;
   const { mutate: onCreate } = filesCreateMutation;
   const { mutate: onUpload } = filesUploadMutation;
 
   const closeHandler = () => {
     navigate(rootUrl);
-    form.reset(defaultDataToForm());
+    form.reset(defaultDataToForm(target));
   };
 
-  const createHandler = (master: FilesDetail) => {
-    onUpload(
-      {
-        queue: [
-          /* TODO */
-        ],
-        options: {
-          context: filesUploadContextKeys.default,
-          target,
-        },
-      },
-      {
-        /* TODO */
-      }
-    );
+  const createHandler = (master: FilesUploadRequest) => {
+    onUpload(master, {
+      onSuccess: (res) => {
+        const updatedQueue = queueToFiles([...master.queue]);
 
-    onCreate(master, {
-      onSuccess: ({ id }) => {
-        closeHandler();
-        addToast({
-          title: t('message.success.create', { count: id ? 1 : 0 }),
-          severity: 'success',
-          autoclose: true,
+        onCreate(updatedQueue, {
+          onSuccess: ({ ids }) => {
+            closeHandler();
+            addToast({
+              title: t('message.success.create', { count: ids.length }),
+              severity: 'success',
+              autoclose: true,
+            });
+            refetch();
+          },
+          onError,
         });
-        refetch();
       },
-      onError,
     });
   };
 
   const submitHandler = (data: IFilesUploadForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    const { duplicities } = getQueueDuplicities(
+      data.queue as FilesQueue,
+      files ? [...files] : []
+    );
+
+    if (duplicities) {
+      if (duplicities?.files) {
+        duplicities.files?.forEach((index) => {
+          form.setError(`queue.${index}.name`, {
+            message: t('form:message.error.file_db_duplicity'),
+          });
+        });
+      }
+      if (duplicities.queue) {
+        duplicities.queue?.forEach((index) => {
+          form.setError(`queue.${index}.name`, {
+            message: t('form:message.error.file_queue_duplicity'),
+          });
+        });
+      }
+
+      return;
+    }
 
     const master = formDataToMaster(data);
 
     createHandler(master);
   };
 
-  const drawerTitle = useMemo(() => {
-    return id === 'new' ? t('views:tags.new') : detail?.name;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, detail]);
-
   const resetHandler = useCallback(() => {
     if (id === 'new') {
-      form.reset(defaultDataToForm());
-    } else if (detail) {
-      form.reset(detailDataToForm(detail));
+      form.reset(defaultDataToForm(target));
     }
-  }, [id, detail, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, form]);
 
   useEffect(() => {
     if (id) resetHandler();
@@ -112,7 +111,7 @@ export const useFilesUploadForm = () => {
   return {
     id,
     form,
-    title: drawerTitle,
+    title: t('views:tags.new'),
     // Actions
     onSubmit: submitHandler,
     onClose: closeHandler,

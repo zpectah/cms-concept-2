@@ -5,7 +5,7 @@ export const filesTypeKeysArray = [...Object.keys(filesTypeKeys)] as [
   ...string[]
 ];
 
-export const filesTypeDefault = filesTypeKeys.default;
+export const filesTypeDefault = filesTypeKeys.unsupported;
 
 export const filesUploadContextKeysArray = [
   ...Object.keys(filesUploadContextKeys),

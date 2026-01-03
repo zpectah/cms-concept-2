@@ -1,6 +1,7 @@
 import { DetailDrawer } from '../../../components';
 import { IFilesUploadForm } from './types';
 import { useFilesUploadForm } from './useFilesUploadForm';
+import { FilesUploadQueue } from './FilesUploadQueue';
 
 const FilesUploadForm = () => {
   const { id, title, form, onSubmit, onClose, onReset } = useFilesUploadForm();
@@ -15,7 +16,14 @@ const FilesUploadForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
     >
-      <>...FilesUploadForm...</>
+      <>
+        <FilesUploadQueue />
+        <div>
+          <pre>
+            <code>{JSON.stringify(form.formState.errors, null, 2)}</code>
+          </pre>
+        </div>
+      </>
     </DetailDrawer>
   );
 };
