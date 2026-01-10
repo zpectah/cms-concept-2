@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import mapboxgl, { Map } from 'mapbox-gl';
 import { GpsLocation } from '@common';
+import { getConfig } from '../../config';
 import { UseLocationPickerProps } from './types';
 import { locationPickerDefaults } from './constants';
 
@@ -11,15 +12,21 @@ export const useLocationPicker = ({
   onMapChange,
   styles = 'mapbox://styles/mapbox/streets-v11',
 }: UseLocationPickerProps) => {
+  const {
+    cms: {
+      apps: { mapbox },
+    },
+  } = getConfig();
+
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [center, setCenter] = useState<GpsLocation>(
-    locationPickerDefaults.center.empty
+    mapbox.defaults.center as GpsLocation
   );
   const [selectedCenter, setSelectedCenter] = useState<GpsLocation>(
-    locationPickerDefaults.center.empty
+    mapbox.defaults.center as GpsLocation
   );
   const [markerCenter, setMarkerCenter] = useState<GpsLocation>(
-    locationPickerDefaults.center.empty
+    mapbox.defaults.center as GpsLocation
   );
   const [zoom, setZoom] = useState<number>(locationPickerDefaults.zoom.default);
   const [thumbZoom] = useState<number>(
@@ -93,7 +100,7 @@ export const useLocationPicker = ({
     mainSelectedMarker.remove();
     thumbSelectedMarker.remove();
 
-    setMarkerCenter(locationPickerDefaults.center.empty);
+    setMarkerCenter(mapbox.defaults.center as GpsLocation);
 
     mainMapLoadHandler();
   };

@@ -5,10 +5,17 @@
   },
   "apps": {
     "mapbox": {
-      "token": "pk.eyJ1IjoienBlY3RlciIsImEiOiJjbWczZWs3a2owZXN1MmtzOXo4NjI1ODlwIn0.Oq06DQcsMOwtpCvu_TWF8g"
+      "token": "pk.eyJ1IjoienBlY3RlciIsImEiOiJjbWczZWs3a2owZXN1MmtzOXo4NjI1ODlwIn0.Oq06DQcsMOwtpCvu_TWF8g",
+      "defaults": {
+        "center": [14.420780083888587, 50.087045878155095]
+      }
     }
   },
-  "features": {},
+  "features": {
+    "content.explicit": true,
+    "members.avatar": true,
+    "users.avatar": true
+  },
   "admin": {
     "meta": {
       "title": "CMS concept",
