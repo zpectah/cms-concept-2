@@ -10,6 +10,7 @@ export * from './form';
 export * from './imageCropper';
 export * from './layout';
 export * from './localesTabs';
+export * from './locationPicker';
 export * from './menu';
 export * from './portal';
 export * from './ui';

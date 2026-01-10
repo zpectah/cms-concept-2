@@ -6,14 +6,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { WithChildren } from '@common';
 import { AppContextProvider } from '../contexts';
 import { theme } from '../styles';
-import { useAppProvider } from './hooks';
+import { useAppInit, useAppProvider } from './hooks';
 
-interface AppProviderProps extends WithChildren {
-  test?: string;
-}
+type AppProviderProps = WithChildren;
 
 const AppProvider = ({ children }: AppProviderProps) => {
   const { appContext, queryClient } = useAppProvider();
+
+  useAppInit({});
 
   return (
     <AppContextProvider value={appContext}>

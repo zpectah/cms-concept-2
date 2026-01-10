@@ -6,6 +6,7 @@ import {
   TextareaField,
   AddressField,
   ValuePickerField,
+  LocationPickerField,
 } from '../../../components';
 import { useSettingsGlobalForm } from './useSettingsGlobalForm';
 
@@ -80,8 +81,21 @@ const SettingsGlobalForm = () => {
         />
         <AddressField fieldPrefix="company.address" />
 
-        {/* TODO */}
-        <input type="hidden" {...form.register('company.location')} />
+        <LocationPickerField
+          name="company.location"
+          label="Company location"
+          placeholder="Zadejte telefon"
+          isFullWidth
+          labelWrapperProps={{
+            justifyContent: 'flex-start',
+            sx: {
+              pt: {
+                xs: 0,
+                md: 2,
+              },
+            },
+          }}
+        />
 
         <InputField
           name="company.bank"

@@ -116,6 +116,13 @@ const MembersDetailForm = () => {
           }}
         />
 
+        <InputField
+          name="flat_no"
+          label="Flat number"
+          placeholder="Flat number"
+          layout="vertical"
+        />
+
         <DatePickerField
           name="birthdate"
           label="Birthdate"
