@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { styled, Box, Grid, Paper, Stack } from '@mui/material';
-import { IconArchive } from '@tabler/icons-react';
+import { IconArchive, IconFile } from '@tabler/icons-react';
 import { filesTypeKeys } from '@model';
 import { getConfig } from '../../../config';
 import {
@@ -78,7 +78,7 @@ const FilesDetailForm = () => {
                     />
                   ) : (
                     <ThumbWrapper>
-                      <IconArchive size="2.5rem" />
+                      <IconFile size="2.5rem" />
                       <span>{values.file_name}</span>
                     </ThumbWrapper>
                   )}

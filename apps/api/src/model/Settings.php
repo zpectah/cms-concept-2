@@ -161,38 +161,15 @@ class Settings extends Model {
       $newTable = "{$table}_{$locale}";
       $sourceTable = "{$table}_{$source}";
 
-      $stmt = $conn -> query("SHOW TABLES LIKE " . $conn -> quote($newTable));
+      try {
+        $conn -> exec("CREATE TABLE `{$newTable}` LIKE `{$sourceTable}`");
+        $conn -> exec("INSERT INTO `{$newTable}` SELECT * FROM `{$sourceTable}`");
 
-      if ($stmt -> fetch()) {
-        $results['error'][] = 'table_exist';
+        $results[] = $newTable;
 
-        return $results;
+      } catch (\PDOException $e) {
+        $results['error'][] = "Failed to create {$newTable}: " . $e -> getMessage();
       }
-
-      $stmt = $conn -> query("SHOW TABLES LIKE " . $conn -> quote($sourceTable));
-
-      if (!$stmt -> fetch()) {
-        $results['error'][] = 'table_not_exist';
-
-        return $results;
-      }
-
-      $createStmt = $conn -> query("SHOW CREATE TABLE `{$sourceTable}`");
-      $row = $createStmt -> fetch();
-
-      if (!$row || !isset($row['Create Table'])) {
-        $results['error'][] = 'source_not_exist';
-
-        return $results;
-      }
-
-      $createSql = $row['Create Table'];
-      $createSql = str_replace("`{$sourceTable}`", "`{$newTable}`", $createSql);
-
-      $conn -> exec($createSql);
-      $conn -> exec("INSERT INTO `{$newTable}` SELECT * FROM `{$sourceTable}`");
-
-      $results[] = $newTable;
     }
 
     return $results;

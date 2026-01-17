@@ -61,6 +61,21 @@
       "client": "Client",
       "languages": "Languages",
       "blacklist": "Blacklist"
+    },
+    "languages": {
+      "title": "Language management",
+      "messages": {
+        "success": {
+          "locale_installed": "Language '{{locale}}' was successfully installed",
+          "locale_updated": "Language '{{locale}}' was successfully updated"
+        },
+        "confirm": {
+          "install": {
+            "title": "Language install",
+            "content": "New '{{locale}}' tables will be created in the database"
+          }
+        }
+      }
     }
   },
   "tags": {

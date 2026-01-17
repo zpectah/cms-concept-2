@@ -8,6 +8,7 @@ export * from './input';
 export * from './label';
 export * from './picker';
 export * from './radio';
+export * from './section';
 export * from './select';
 export * from './value';
 export * from './wysiwyg';

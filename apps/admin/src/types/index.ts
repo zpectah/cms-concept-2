@@ -3,6 +3,7 @@ export * from './api';
 export * from './confirmDialog';
 // export * from './files';
 export * from './layout';
+export * from './locales';
 export * from './model';
 export * from './theme';
 export * from './toasts';

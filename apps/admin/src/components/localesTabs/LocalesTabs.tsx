@@ -1,6 +1,7 @@
 import { Box, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { LocalesTabsProps } from './types';
 import { getConfig } from '../../config';
+import { ProjectLocales } from '../../types';
+import { LocalesTabsProps } from './types';
 
 const LocalesTabs = ({
   locales,
@@ -21,7 +22,7 @@ const LocalesTabs = ({
             onClick={() => onLocaleChange(loc)}
           >
             &nbsp;
-            {(cfgLocales as Record<string, { label: string }>)[loc].label}
+            {(cfgLocales as ProjectLocales)[loc].label}
             &nbsp;
           </ToggleButton>
         ))}

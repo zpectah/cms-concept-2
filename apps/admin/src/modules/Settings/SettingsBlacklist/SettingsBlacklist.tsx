@@ -1,7 +1,12 @@
 import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { BlacklistItem } from '@model';
-import { dataListSortOrderKeys, TagSelect } from '../../../components';
+import {
+  dataListSortOrderKeys,
+  TagSelect,
+  Section,
+  Button,
+} from '../../../components';
 import { useSettingsBlacklist } from './useSettingsBlacklist';
 import { useSettingsBlacklistList } from './useSettingsBlacklistList';
 
@@ -27,7 +32,10 @@ const SettingsBlacklist = () => {
   // TODO: detail form
 
   return (
-    <div>
+    <Section
+      title="Správa blokování přístupu"
+      headerSlot={<Button variant="contained">New entry</Button>}
+    >
       <div>
         <input
           type="search"
@@ -62,7 +70,7 @@ const SettingsBlacklist = () => {
           </div>
         ))}
       </div>
-    </div>
+    </Section>
   );
 };
 
