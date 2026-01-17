@@ -10,13 +10,14 @@ import {
   TextareaField,
   WysiwygField,
   SelectField,
+  DateTimePickerField,
 } from '../../../components';
 import { TagsPickerField } from '../../Tags';
 import { CategoriesPickerField } from '../../Categories';
 import { CommentsManager } from '../../Comments';
 import { IArticlesDetailForm } from './types';
 import { useArticlesDetailForm } from './useArticlesDetailForm';
-import { modelKeys } from '@model';
+import { articlesTypeKeys, modelKeys } from '@model';
 
 const ArticlesDetailForm = () => {
   const { t } = useTranslation(['form']);
@@ -31,6 +32,8 @@ const ArticlesDetailForm = () => {
     localesTabs,
     options,
     detailId,
+    detailType,
+    eventMinDate,
   } = useArticlesDetailForm();
 
   const dynamicSlotId = 'articles-comments-portal-target';
@@ -64,7 +67,25 @@ const ArticlesDetailForm = () => {
             layout="vertical"
             selectProps={{ sx: { width: '50%' } }}
           />
-
+          {detailType === articlesTypeKeys.event && (
+            <Grid size={12} container>
+              <DateTimePickerField
+                name="event_start"
+                label="Event start"
+                layout="vertical"
+                isFullWidth
+                size={6}
+              />
+              <DateTimePickerField
+                name="event_end"
+                label="Event ends"
+                layout="vertical"
+                isFullWidth
+                size={6}
+                dateTimePickerProps={{ minDate: eventMinDate }}
+              />
+            </Grid>
+          )}
           <Grid size={12}>
             <LocalesTabs
               {...localesTabs}
@@ -102,7 +123,6 @@ const ArticlesDetailForm = () => {
               )}
             />
           </Grid>
-
           <TagsPickerField
             name="tags"
             label={t('form:label.tags')}
@@ -121,7 +141,7 @@ const ArticlesDetailForm = () => {
           />
           {/* TODO */}
           <input type="hidden" {...form.register('files', { value: [] })} />
-
+          {/* TODO */}
           <Grid container size={12} spacing={0}>
             <CheckboxField
               name="approved"

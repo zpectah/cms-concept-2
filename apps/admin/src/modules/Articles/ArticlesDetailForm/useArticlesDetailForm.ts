@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { modelKeys, ArticlesDetail } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
+import { getTypedDate } from '../../../utils';
 import {
   useDetailFormLocales,
   useProfile,
@@ -151,6 +152,11 @@ export const useArticlesDetailForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, detail, cloneDetail]);
 
+  const detailId = form.watch('id');
+  const detailType = form.watch('type');
+  const startDate = form.watch('event_start');
+  const eventMinDate = getTypedDate(startDate);
+
   return {
     id,
     form,
@@ -170,7 +176,9 @@ export const useArticlesDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.articles),
     },
-    // Current detail ID as number
-    detailId: form.watch('id'),
+    // Current detail values
+    detailId,
+    detailType,
+    eventMinDate,
   };
 };

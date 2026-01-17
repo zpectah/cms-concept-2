@@ -73,7 +73,11 @@
     "first": "First",
     "prev": "Previous",
     "next": "Next",
-    "last": "Last"
+    "last": "Last",
+    "loading": "Loading",
+    "preparing": "Preparing",
+    "errorWhileLoading": "Error while loading",
+    "notFound": "Not found"
   },
   "message": {
     "confirm": {

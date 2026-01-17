@@ -8,33 +8,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   exit();
 }
 
-$requested_uri = $_SERVER['REQUEST_URI'];
+$requested_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$requested_path = rawurldecode($requested_path);
+$base_dir = realpath(__DIR__ . '/../../dist/uploads');
+$path_to_check = $base_dir . $requested_path;
 
-$query_pos = strpos($requested_uri, '?');
-
-if ($query_pos !== false) {
-  $requested_uri = substr($requested_uri, 0, $query_pos);
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+  $path_to_check = iconv("UTF-8", "CP1250//IGNORE", $path_to_check);
 }
 
-$relative_path = ltrim($requested_uri, '/');
-$full_path = realpath(__DIR__ . '/../dist/uploads/' . $relative_path);
-$uploads_dir = realpath(__DIR__ . '/../dist/uploads');
+$full_path = realpath($path_to_check);
 
-if ($full_path && str_starts_with($full_path, $uploads_dir) && is_file($full_path)) {
+if ($full_path && strpos($full_path, $base_dir) === 0 && is_file($full_path)) {
   $finfo = finfo_open(FILEINFO_MIME_TYPE);
-  if ($finfo) {
-    $mime_type = finfo_file($finfo, $full_path);
-    finfo_close($finfo);
-  } else {
-    $mime_type = 'application/octet-stream';
-  }
+  $mime_type = finfo_file($finfo, $full_path);
+  finfo_close($finfo);
+
+  if (ob_get_level()) ob_end_clean();
 
   header("Content-Type: {$mime_type}");
   header("Content-Length: " . filesize($full_path));
+
   readfile($full_path);
   exit();
 }
 
 http_response_code(404);
-echo "File not found or access denied.";
-exit();
+echo "File not found";

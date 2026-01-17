@@ -9,4 +9,5 @@ export * from './label';
 export * from './picker';
 export * from './radio';
 export * from './select';
+export * from './value';
 export * from './wysiwyg';

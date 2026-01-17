@@ -12,5 +12,7 @@ export * from './layout';
 export * from './localesTabs';
 export * from './locationPicker';
 export * from './menu';
+export * from './player';
 export * from './portal';
 export * from './ui';
+export * from './viewer';

@@ -1,5 +1,5 @@
 import { ArticlesItem } from '@model';
-import { DataList } from '../../../components';
+import { DataList, DateValue, TypeValue } from '../../../components';
 import { useViewContext } from '../../../contexts';
 import { ArticlesDetailForm } from '../ArticlesDetailForm';
 import { useArticlesList } from './useArticlesList';
@@ -24,11 +24,11 @@ const ArticlesList = () => {
           },
           {
             name: 'type',
-            renderValue: (row) => row.type,
+            renderValue: (row) => <TypeValue value={row.type} />,
           },
           {
             name: 'updated',
-            renderValue: (row) => row.updated,
+            renderValue: (row) => <DateValue value={row.updated} />,
           },
         ]}
         keys={{

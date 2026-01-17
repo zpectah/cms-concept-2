@@ -121,5 +121,12 @@ export const useFilesDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.files),
     },
+    // Local values
+    values: {
+      type: form.watch('type'),
+      name: form.watch('name'),
+      file_name: form.watch('file_name'),
+      file_ext: form.watch('file_ext'),
+    },
   };
 };
