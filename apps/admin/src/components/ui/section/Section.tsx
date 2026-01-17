@@ -1,17 +1,24 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { SectionProps } from './types';
 
-const Section = ({ children, title, caption, headerSlot }: SectionProps) => {
+const Section = ({
+  children,
+  title,
+  caption,
+  headerSlot,
+  contentBeforeSlot,
+  contentAfterSlot,
+}: SectionProps) => {
   return (
     <Box>
-      <Stack>
+      <Stack direction="column" gap={4}>
         {title && (
           <Stack
             direction="row"
             alignItems="flex-start"
             justifyContent="space-between"
           >
-            <Stack direction="column" gap={0.5}>
+            <Stack direction="column" gap={1}>
               <Typography variant="h4">{title}</Typography>
               {caption && (
                 <Typography variant="caption" color="textDisabled">
@@ -26,7 +33,11 @@ const Section = ({ children, title, caption, headerSlot }: SectionProps) => {
             )}
           </Stack>
         )}
-        <Box>{children}</Box>
+        <Stack direction="column" gap={4}>
+          {contentBeforeSlot && <Box>{contentBeforeSlot}</Box>}
+          <Box>{children}</Box>
+          {contentAfterSlot && <Box>{contentAfterSlot}</Box>}
+        </Stack>
       </Stack>
     </Box>
   );

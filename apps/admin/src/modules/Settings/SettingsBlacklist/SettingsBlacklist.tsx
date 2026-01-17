@@ -1,76 +1,92 @@
 import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
+import { Stack } from '@mui/material';
+import { IconPlus } from '@tabler/icons-react';
 import { BlacklistItem } from '@model';
 import {
   dataListSortOrderKeys,
   TagSelect,
   Section,
   Button,
+  SearchInput,
 } from '../../../components';
+import { SettingsBlacklistContextProvider } from './SettingsBlacklist.context';
 import { useSettingsBlacklist } from './useSettingsBlacklist';
 import { useSettingsBlacklistList } from './useSettingsBlacklistList';
+import { SettingsBlacklistList } from './SettingsBlacklistList';
+import { SettingsBlacklistDetailForm } from './SettingsBlacklistDetailForm';
 
 const SettingsBlacklist = () => {
-  const { t } = useTranslation(['common', 'components']);
-  const { items: rows, rowActions, selectedActions } = useSettingsBlacklist();
+  const { t } = useTranslation(['common', 'components', 'views']);
+  const {
+    items: rows,
+    rowActions,
+    selectedActions,
+    detail,
+  } = useSettingsBlacklist();
   const {
     items,
     sortBy,
     orderBy,
     options,
-    selected,
     query,
     onQuery,
     onOrderBy,
+    selected,
     onSelectRow,
     onSelectAll,
   } = useSettingsBlacklistList({ items: rows });
 
-  const { onCreate } = rowActions;
-  const {} = selectedActions;
-
-  // TODO: detail form
+  const context = {
+    detail: detail.detail,
+    setDetail: detail.onDetail,
+    rowActions,
+    selectedActions,
+    selected,
+    onSelectRow,
+    onSelectAll,
+  };
 
   return (
-    <Section
-      title="Správa blokování přístupu"
-      headerSlot={<Button variant="contained">New entry</Button>}
-    >
-      <div>
-        <input
-          type="search"
-          value={query}
-          onChange={(event) => onQuery(event.target.value)}
-        />
-      </div>
-      <div>
-        <TagSelect
-          label={t('components:dataList.label.sortOrder')}
-          value={sortBy}
-          onChange={(value) => onOrderBy(value as keyof BlacklistItem)}
-          options={options.orderBy}
-          renderSelectedIcon={() =>
-            orderBy === dataListSortOrderKeys.asc ? (
-              <IconSortAscending size="1rem" />
-            ) : (
-              <IconSortDescending size="1rem" />
-            )
-          }
-        />
-      </div>
-      ...SettingsBlacklist...
-      <div>
-        {items.map((item) => (
-          <div key={item.id}>
-            {item.type}|{item.email ? item.email : '-'}|
-            {item.ipaddress ? item.ipaddress : '-'}
-            <div>
-              <button type="button">...</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </Section>
+    <SettingsBlacklistContextProvider value={context}>
+      <Section
+        title={t('views:settings.blacklist.title')}
+        headerSlot={
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => detail.onDetail('new')}
+            startIcon={<IconPlus size="1rem" />}
+          >
+            {t('common:button.new.entry')}
+          </Button>
+        }
+        contentBeforeSlot={
+          <Stack direction="column" gap={2}>
+            <SearchInput
+              value={query}
+              onChange={(event) => onQuery(event.target.value)}
+              fullWidth
+            />
+            <TagSelect
+              value={sortBy}
+              onChange={(value) => onOrderBy(value as keyof BlacklistItem)}
+              options={options.orderBy}
+              renderSelectedIcon={() =>
+                orderBy === dataListSortOrderKeys.asc ? (
+                  <IconSortAscending size="1rem" />
+                ) : (
+                  <IconSortDescending size="1rem" />
+                )
+              }
+            />
+          </Stack>
+        }
+      >
+        <SettingsBlacklistList items={items} />
+      </Section>
+      <SettingsBlacklistDetailForm />
+    </SettingsBlacklistContextProvider>
   );
 };
 

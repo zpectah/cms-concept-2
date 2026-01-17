@@ -67,7 +67,7 @@ const SettingsLanguagesTable = () => {
                   ) : (
                     <Button
                       size="small"
-                      variant="contained"
+                      variant="outlined"
                       onClick={() => onLocaleInstall(row)}
                       loading={isInstalling === row}
                     >

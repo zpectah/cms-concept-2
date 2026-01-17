@@ -30,7 +30,8 @@
     "meta_robots": "Meta robots",
     "value": "Value",
     "access_rights": "Access rights",
-    "ipaddress": "IP Address"
+    "ipaddress": "IP Address",
+    "actions": "Actions"
   },
   "placeholder": {
     "name": "Type item name",
@@ -64,8 +65,11 @@
     "info": {},
     "warning": {},
     "error": {
+      "required": "Field is required",
       "file_queue_duplicity": "This file already exist in queue",
-      "file_db_duplicity": "This file is already exist"
+      "file_db_duplicity": "This file is already exist",
+      "invalid_email_format": "Invalid email format",
+      "invalid_format": "Invalid format"
     },
     "success": {}
   }

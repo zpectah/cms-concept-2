@@ -76,6 +76,25 @@
           }
         }
       }
+    },
+    "blacklist": {
+      "title": "Manage access blocking",
+      "dialog": {
+        "title": {
+          "create": "New entry",
+          "update": "Edit entry"
+        }
+      },
+      "form": {
+        "label": {
+          "email": "Blocked email",
+          "ipaddress": "Blocked IP Address"
+        },
+        "placeholder": {
+          "email": "Set blocked email",
+          "ipaddress": "Set blocked IP Address"
+        }
+      }
     }
   },
   "tags": {

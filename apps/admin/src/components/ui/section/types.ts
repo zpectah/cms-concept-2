@@ -5,4 +5,6 @@ export interface SectionProps extends WithChildren {
   title?: ReactNode;
   caption?: string;
   headerSlot?: ReactNode;
+  contentBeforeSlot?: ReactNode;
+  contentAfterSlot?: ReactNode;
 }

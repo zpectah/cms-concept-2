@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../../store';
 import { useResponseMessage } from '../../../hooks';
@@ -5,12 +6,15 @@ import { useBlacklistQuery } from '../../../query';
 import { BlacklistDetail } from '@model';
 
 export const useSettingsBlacklist = () => {
+  const [detailId, setDetailId] = useState<number | 'new' | null>(null);
+
   const { t } = useTranslation(['common']);
-  const { addToast } = useAppStore();
+  const { addToast, setConfirmDialog } = useAppStore();
   const { onError } = useResponseMessage();
   const {
     blacklistQuery,
     blacklistCreateMutation,
+    blacklistPatchMutation,
     blacklistToggleMutation,
     blacklistDeleteMutation,
     blacklistDeletePermanentMutation,
@@ -18,6 +22,7 @@ export const useSettingsBlacklist = () => {
 
   const { data: items, refetch, isLoading } = blacklistQuery;
   const { mutate: onCreate } = blacklistCreateMutation;
+  const { mutate: onPatch } = blacklistPatchMutation;
   const { mutate: onToggle } = blacklistToggleMutation;
   const { mutate: onDelete } = blacklistDeleteMutation;
   const { mutate: onDeletePermanent } = blacklistDeletePermanentMutation;
@@ -30,6 +35,22 @@ export const useSettingsBlacklist = () => {
           severity: 'success',
           autoclose: true,
         });
+        setDetailId(null);
+        refetch();
+      },
+      onError,
+    });
+  };
+
+  const patchHandler = (master: BlacklistDetail) => {
+    onPatch(master, {
+      onSuccess: ({ rows }) => {
+        addToast({
+          title: t('message.success.update', { count: rows }),
+          severity: 'success',
+          autoclose: true,
+        });
+        setDetailId(null);
         refetch();
       },
       onError,
@@ -37,7 +58,9 @@ export const useSettingsBlacklist = () => {
   };
 
   const toggleHandler = (ids: number[]) => {
-    onToggle([...ids], {
+    const master = [...ids];
+
+    onToggle(master, {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.update', { count: rows }),
@@ -50,8 +73,10 @@ export const useSettingsBlacklist = () => {
     });
   };
 
-  const deleteHandler = (ids: number[]) => {
-    onDelete([...ids], {
+  const deleteConfirmHandler = (ids: number[]) => {
+    const master = [...ids];
+
+    onDelete(master, {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.delete', { count: rows }),
@@ -64,8 +89,10 @@ export const useSettingsBlacklist = () => {
     });
   };
 
-  const deletePermanentHandler = (ids: number[]) => {
-    onDeletePermanent([...ids], {
+  const deletePermanentConfirmHandler = (ids: number[]) => {
+    const master = [...ids];
+
+    onDeletePermanent(master, {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.deletePermanent', { count: rows }),
@@ -78,10 +105,33 @@ export const useSettingsBlacklist = () => {
     });
   };
 
+  const deleteHandler = (ids: number[]) => {
+    setConfirmDialog({
+      title: t('message.confirm.delete.title'),
+      content: t('message.confirm.delete.content', {
+        subject: t('plurals.items.item', { count: ids.length }),
+      }),
+      onConfirm: () => deleteConfirmHandler(ids),
+      context: 'delete',
+    });
+  };
+
+  const deletePermanentHandler = (ids: number[]) => {
+    setConfirmDialog({
+      title: t('message.confirm.delete.title'),
+      content: t('message.confirm.delete.content', {
+        subject: t('plurals.items.item', { count: ids.length }),
+      }),
+      onConfirm: () => deletePermanentConfirmHandler(ids),
+      context: 'delete',
+    });
+  };
+
   return {
     items: items ? [...items] : [],
     rowActions: {
       onCreate: createHandler,
+      onPatch: patchHandler,
       onToggle: (id: number) => toggleHandler([id]),
       onDelete: (id: number) => deleteHandler([id]),
       onDeletePermanent: (id: number) => deletePermanentHandler([id]),
@@ -94,6 +144,10 @@ export const useSettingsBlacklist = () => {
     loading: {
       items: isLoading,
       submitting: false,
+    },
+    detail: {
+      detail: detailId,
+      onDetail: setDetailId,
     },
   };
 };

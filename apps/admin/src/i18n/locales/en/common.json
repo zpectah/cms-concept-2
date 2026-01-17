@@ -46,7 +46,8 @@
       "pages": "New page",
       "tags": "New tag",
       "translations": "New translation",
-      "users": "New user"
+      "users": "New user",
+      "entry": "New entry"
     },
     "items": {
       "toggle": "Toggle {{subject}}",
