@@ -3,7 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, TranslationsDetail } from '@model';
+import {
+  modelKeys,
+  translationsNamespaceKeysArray,
+  TranslationsDetail,
+} from '@model';
 import {
   useDetailFormLocales,
   useResponseMessage,
@@ -27,7 +31,8 @@ export const useTranslationsDetailForm = () => {
   const { rootUrl } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
-  const { getTypeFieldOptions } = useSelectOptions();
+  const { getTypeFieldOptions, getTranslatedOptionsFromList } =
+    useSelectOptions();
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
   const form = useForm<ITranslationsDetailForm>({
     resolver: zodResolver(translationsDetailFormSchema),
@@ -156,8 +161,12 @@ export const useTranslationsDetailForm = () => {
     // Options
     options: {
       type: getTypeFieldOptions(modelKeys.translations),
+      namespace: getTranslatedOptionsFromList(
+        translationsNamespaceKeysArray,
+        'namespace'
+      ),
     },
-    // Current detail ID as number
-    detailId: form.watch('id'),
+    // Values
+    values: {},
   };
 };

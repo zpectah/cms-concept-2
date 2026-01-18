@@ -21,7 +21,7 @@ const MenuDetailForm = () => {
     onReset,
     onDelete,
     options,
-    detailId,
+    values,
   } = useMenuDetailForm();
 
   const dynamicSlotId = 'menu-menuitems-portal-target';
@@ -72,7 +72,7 @@ const MenuDetailForm = () => {
       </DetailDrawer>
       {/* We must render out of the main form due to context conflict */}
       <DynamicPortal targetId={dynamicSlotId}>
-        <MenuItemsManager menuId={detailId} />
+        <MenuItemsManager menuId={values.id} />
       </DynamicPortal>
     </>
   );

@@ -84,7 +84,6 @@ const SettingsGlobalForm = () => {
         <LocationPickerField
           name="company.location"
           label="Company location"
-          placeholder="Zadejte telefon"
           isFullWidth
           labelWrapperProps={{
             justifyContent: 'flex-start',

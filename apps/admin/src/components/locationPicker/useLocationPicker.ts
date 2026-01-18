@@ -41,6 +41,8 @@ export const useLocationPicker = ({
   const mainSelectedMarker = new mapboxgl.Marker();
   const thumbSelectedMarker = new mapboxgl.Marker();
 
+  const isEmptyValue = JSON.stringify(selectedCenter) === '[0,0]';
+
   const mainMapLoadHandler = useCallback(() => {
     mainMapRef.current = new mapboxgl.Map({
       container: mainMapContainerRef.current as HTMLElement,
@@ -165,5 +167,6 @@ export const useLocationPicker = ({
     onClose: closeHandler,
     onReset: resetHandler,
     onSave: saveHandler,
+    isEmptyValue,
   };
 };

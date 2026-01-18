@@ -1,3 +1,4 @@
+import { useState, DragEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { filesTypeKeys, FilesQueue } from '@model';
@@ -7,6 +8,8 @@ import { useFilesValidations } from '../../../../validation';
 import { IFilesUploadForm } from '../types';
 
 export const useFilesUploadQueue = () => {
+  const [isOver, setIsOver] = useState(false);
+
   const { t } = useTranslation(['common']);
   const { addToast } = useAppStore();
   const { control, watch } = useFormContext<IFilesUploadForm>();
@@ -52,6 +55,26 @@ export const useFilesUploadQueue = () => {
     });
   };
 
+  const dragEnterHandler = (event: DragEvent) => {
+    event.preventDefault();
+    setIsOver(true);
+  };
+
+  const dragLeaveHandler = (event: DragEvent) => {
+    event.preventDefault();
+    setIsOver(false);
+  };
+
+  const dragOverHandler = (event: DragEvent) => {
+    // Nutné pro povolení dropu
+    event.preventDefault();
+  };
+
+  const dropHandler = (event: DragEvent) => {
+    event.preventDefault();
+    onChange(event?.dataTransfer?.files as FileList);
+  };
+
   const { inputRef, onChange } = useFileUpload({
     onQueueChange: changeCallback,
     isMultiple: true,
@@ -64,5 +87,10 @@ export const useFilesUploadQueue = () => {
     inputRef,
     onChange,
     onRemove: remove,
+    isOver,
+    onDrop: dropHandler,
+    onDragEnter: dragEnterHandler,
+    onDragLeave: dragLeaveHandler,
+    onDragOver: dragOverHandler,
   };
 };

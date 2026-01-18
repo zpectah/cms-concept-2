@@ -36,7 +36,10 @@ export default defineConfig(() => ({
           react: ['react', 'react-dom', 'react-router-dom'],
           form: ['react-hook-form', '@hookform/resolvers'],
           data: ['axios', 'zod', 'zustand'],
-          ui: ['mapbox-gl', 'react-advanced-cropper', 'react-pdf', 'react-simple-wysiwyg']
+          ui_mapbox: ['mapbox-gl'],
+          ui_cropper: ['react-advanced-cropper'],
+          ui_pdf: ['react-pdf'],
+          ui_wysiwyg: ['react-simple-wysiwyg'],
         },
       },
     },

@@ -15,7 +15,6 @@ import { useCategoriesDetailForm } from './useCategoriesDetailForm';
 const CategoriesDetailForm = () => {
   const {
     id,
-    detailId,
     title,
     form,
     onSubmit,
@@ -24,6 +23,7 @@ const CategoriesDetailForm = () => {
     onDelete,
     localesTabs,
     options,
+    values,
   } = useCategoriesDetailForm();
 
   return (
@@ -85,7 +85,7 @@ const CategoriesDetailForm = () => {
           layout="vertical"
           isFullWidth
           categoriesPickerProps={{
-            ignored: [detailId],
+            ignored: [values.id],
           }}
         />
 

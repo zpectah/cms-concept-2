@@ -16,14 +16,7 @@ const FilesUploadForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
     >
-      <>
-        <FilesUploadQueue />
-        <div>
-          <pre>
-            <code>{JSON.stringify(form.formState.errors, null, 2)}</code>
-          </pre>
-        </div>
-      </>
+      <FilesUploadQueue />
     </DetailDrawer>
   );
 };

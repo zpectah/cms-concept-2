@@ -1,14 +1,28 @@
 import { Box, Stack } from '@mui/material';
+import { IconUpload } from '@tabler/icons-react';
 import { Button } from '../../../../components';
 import { useFilesUploadQueue } from './useFilesUploadQueue';
 import FilesUploadQueueItem from './FilesUploadQueueItem';
+import { useTranslation } from 'react-i18next';
 
 const FilesUploadQueue = () => {
-  const { queue, inputRef, onChange, onRemove } = useFilesUploadQueue();
+  const { t } = useTranslation(['common']);
+  const {
+    queue,
+    inputRef,
+    onChange,
+    onRemove,
+    isOver,
+    onDrop,
+    onDragOver,
+    onDragEnter,
+    onDragLeave,
+  } = useFilesUploadQueue();
 
   return (
     <div>
       <Box
+        component="div"
         sx={({ palette, shape }) => ({
           width: '100%',
           height: queue.length > 0 ? '25vh' : '50vh',
@@ -16,17 +30,22 @@ const FilesUploadQueue = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: `2px dashed ${palette.divider}`,
+          borderWidth: '2px',
+          borderColor: palette.divider,
+          borderStyle: isOver ? 'solid' : 'dashed',
           borderRadius: shape.borderRadius,
         })}
-        onDragOver={(event) => event.preventDefault()}
-        onDrop={(event) => {
-          event.preventDefault();
-          onChange(event.dataTransfer.files);
-        }}
+        onDragOver={onDragOver}
+        onDrop={onDrop}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
       >
-        <Button component="label">
-          <span>Select or drop your files here...</span>
+        <Button
+          component="label"
+          variant="contained"
+          startIcon={<IconUpload size="1rem" />}
+        >
+          <span>{t('label.selectOrDropFilesToUpload')}</span>
           <input
             type="file"
             multiple

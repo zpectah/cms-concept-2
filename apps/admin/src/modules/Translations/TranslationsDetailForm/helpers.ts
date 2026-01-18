@@ -1,6 +1,7 @@
 import { getFormattedString } from '@common';
 import {
   translationsTypeDefault,
+  translationsNamespaceDefault,
   TranslationsDetailLocale,
   TranslationsDetail,
 } from '@model';
@@ -15,6 +16,7 @@ export const defaultDataToForm = (
     id: 0,
     name: '',
     type: translationsTypeDefault,
+    namespace: translationsNamespaceDefault,
     locale: getModelLocales<TranslationsDetailLocale>(locales, {
       value: '',
     }),

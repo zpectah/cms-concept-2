@@ -156,8 +156,10 @@ export const useMembersDetailForm = () => {
       type: getTypeFieldOptions(modelKeys.members),
       sex: getTranslatedOptionsFromList(personSexKeysArray, 'sex'),
     },
-    // Live values
-    uid: form.watch('uid'),
-    avatarImage: form.getValues('avatar_image'),
+    // Values
+    values: {
+      uid: form.watch('uid'),
+      avatar: form.getValues('avatar_image'),
+    },
   };
 };

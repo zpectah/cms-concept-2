@@ -7,13 +7,6 @@ import { modelKeys, usersAccessKeys, UsersDetail } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
 import { getOptionValue } from '../../../helpers';
-import { IUsersDetailForm } from './types';
-import { usersDetailFormSchema } from './schema';
-import {
-  defaultDataToForm,
-  detailDataToForm,
-  formDataToMaster,
-} from './helpers';
 import {
   useProfile,
   useResponseMessage,
@@ -21,6 +14,13 @@ import {
 } from '../../../hooks';
 import { useUsersQuery } from '../../../query';
 import { OptionItem } from '../../../components';
+import { IUsersDetailForm } from './types';
+import { usersDetailFormSchema } from './schema';
+import {
+  defaultDataToForm,
+  detailDataToForm,
+  formDataToMaster,
+} from './helpers';
 
 export const useUsersDetailForm = () => {
   const navigate = useNavigate();
@@ -178,8 +178,10 @@ export const useUsersDetailForm = () => {
       type: getTypeFieldOptions(modelKeys.users),
       accessRights: getAccessRightsFieldOptions(),
     },
-    // Live values
-    uid: form.watch('uid'),
-    avatarImage: form.getValues('avatar_image'),
+    // Values
+    values: {
+      uid: form.watch('uid'),
+      avatar: form.getValues('avatar_image'),
+    },
   };
 };

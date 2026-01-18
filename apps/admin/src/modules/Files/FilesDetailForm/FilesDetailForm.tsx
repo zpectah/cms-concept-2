@@ -10,6 +10,7 @@ import {
   PdfViewer,
   AudioPlayer,
   VideoPlayer,
+  DownloadButton,
 } from '../../../components';
 import { SPACING } from '../../../constants';
 import { IFilesDetailForm } from './types';
@@ -56,6 +57,13 @@ const FilesDetailForm = () => {
                 lineHeight: 0,
               })}
             >
+              <Box sx={{ my: 2 }}>
+                <DownloadButton
+                  source={`${source}${values.type}/${values.file_name}`}
+                  filename={`${values.name}.${values.file_ext}`}
+                />
+              </Box>
+
               {values.type === filesTypeKeys.image && (
                 <ImageViewer src={values.file_name} alt={values.name} />
               )}
@@ -91,7 +99,6 @@ const FilesDetailForm = () => {
                 </ThumbWrapper>
               )}
             </Paper>
-            <Box>TODO...download button...</Box>
           </Stack>
         </Grid>
         <Grid container size={12} spacing={0}>

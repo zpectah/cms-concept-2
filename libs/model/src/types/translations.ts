@@ -1,12 +1,16 @@
 import { EnumKeyValues } from '@common';
-import { translationsTypeKeys } from '../enums';
+import { translationsTypeKeys, translationsNamespaceKeys } from '../enums';
 import { ItemBase, ItemLocaleBase } from './item';
 
 export type TranslationsType = EnumKeyValues<typeof translationsTypeKeys>;
+export type TranslationsNamespace = EnumKeyValues<
+  typeof translationsNamespaceKeys
+>;
 
 export interface TranslationsItem extends ItemBase {
   type: TranslationsType;
   name: string;
+  namespace: TranslationsNamespace;
 }
 
 export type Translations = TranslationsItem[];

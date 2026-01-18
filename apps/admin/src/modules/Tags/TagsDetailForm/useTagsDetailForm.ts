@@ -144,5 +144,7 @@ export const useTagsDetailForm = () => {
       type: getTypeFieldOptions(modelKeys.tags),
       color: getTranslatedOptionsFromList(tagsColorKeysArray, 'color'),
     },
+    // Values
+    values: {},
   };
 };

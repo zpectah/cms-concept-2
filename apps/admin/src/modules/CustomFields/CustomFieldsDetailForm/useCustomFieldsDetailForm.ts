@@ -142,5 +142,7 @@ export const useCustomFieldsDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.customFields),
     },
+    // Values
+    values: {},
   };
 };

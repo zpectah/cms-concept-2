@@ -162,5 +162,7 @@ export const usePagesDetailForm = () => {
         'robots'
       ),
     },
+    // Values
+    values: {},
   };
 };

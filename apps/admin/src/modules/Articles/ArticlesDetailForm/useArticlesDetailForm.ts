@@ -40,6 +40,8 @@ export const useArticlesDetailForm = () => {
   });
 
   const cloneId = searchParams.get('clone');
+  const type = form.watch('type');
+  const startDate = form.watch('event_start');
 
   const {
     articlesQuery,
@@ -102,7 +104,7 @@ export const useArticlesDetailForm = () => {
 
     // TODO: add user as editor
 
-    const master = formDataToMaster(data);
+    const master = formDataToMaster(data, user.id);
 
     if (data.id === 0) {
       createHandler(master);
@@ -152,11 +154,6 @@ export const useArticlesDetailForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, detail, cloneDetail]);
 
-  const detailId = form.watch('id');
-  const detailType = form.watch('type');
-  const startDate = form.watch('event_start');
-  const eventMinDate = getTypedDate(startDate);
-
   return {
     id,
     form,
@@ -176,9 +173,11 @@ export const useArticlesDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.articles),
     },
-    // Current detail values
-    detailId,
-    detailType,
-    eventMinDate,
+    // Values
+    values: {
+      id: form.watch('id'),
+      type,
+      minDate: getTypedDate(startDate),
+    },
   };
 };

@@ -51,14 +51,22 @@ const LocationPicker = forwardRef<HTMLInputElement, LocationPickerProps>(
       styles,
     } = props;
 
-    const { center, open, onOpen, onClose, refs, onReset, onSave } =
-      useLocationPicker({
-        value,
-        onChange,
-        initialThumbZoom,
-        onMapChange,
-        styles,
-      });
+    const {
+      center,
+      open,
+      onOpen,
+      onClose,
+      refs,
+      onReset,
+      onSave,
+      isEmptyValue,
+    } = useLocationPicker({
+      value,
+      onChange,
+      initialThumbZoom,
+      onMapChange,
+      styles,
+    });
 
     return (
       <>
@@ -82,7 +90,12 @@ const LocationPicker = forwardRef<HTMLInputElement, LocationPickerProps>(
               {...inputProps}
             />
           </Box>
-          {!disableThumbMap && <ThumbMapContainer ref={refs.thumb} />}
+          {!disableThumbMap && (
+            <ThumbMapContainer
+              ref={refs.thumb}
+              sx={{ display: isEmptyValue ? 'none' : 'block' }}
+            />
+          )}
         </Stack>
         <Dialog
           open={open}

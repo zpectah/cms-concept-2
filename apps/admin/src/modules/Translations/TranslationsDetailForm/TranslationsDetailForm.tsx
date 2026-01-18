@@ -36,6 +36,14 @@ const TranslationsDetailForm = () => {
       onDelete={onDelete}
     >
       <Grid container spacing={SPACING.form}>
+        <SelectField
+          name="namespace"
+          label="Namespace"
+          placeholder="Select namespace"
+          options={options.namespace}
+          layout="vertical"
+          selectProps={{ sx: { width: '50%' } }}
+        />
         <InputField
           name="name"
           label="Name"

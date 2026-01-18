@@ -23,8 +23,7 @@ const UsersDetailForm = () => {
     onDelete,
     onAvatarUpdate,
     options,
-    avatarImage,
-    uid,
+    values,
   } = useUsersDetailForm();
 
   return (
@@ -50,8 +49,8 @@ const UsersDetailForm = () => {
             }}
           >
             <AvatarUploader
-              filename={avatarImage}
-              userUid={uid}
+              filename={values.avatar}
+              userUid={values.uid}
               onComplete={onAvatarUpdate}
               onClear={() => onAvatarUpdate('')}
               size={'175px'}
@@ -116,11 +115,6 @@ const UsersDetailForm = () => {
           />
         </Grid>
       </Grid>
-
-      <pre>
-        <code>{JSON.stringify(form.formState.errors, null, 2)}</code>
-        <code>{JSON.stringify(form.watch(), null, 2)}</code>
-      </pre>
     </DetailDrawer>
   );
 };

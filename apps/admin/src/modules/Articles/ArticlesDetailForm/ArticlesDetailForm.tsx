@@ -11,6 +11,8 @@ import {
   WysiwygField,
   SelectField,
   DateTimePickerField,
+  AddressField,
+  LocationPickerField,
 } from '../../../components';
 import { TagsPickerField } from '../../Tags';
 import { CategoriesPickerField } from '../../Categories';
@@ -31,9 +33,7 @@ const ArticlesDetailForm = () => {
     onDelete,
     localesTabs,
     options,
-    detailId,
-    detailType,
-    eventMinDate,
+    values,
   } = useArticlesDetailForm();
 
   const dynamicSlotId = 'articles-comments-portal-target';
@@ -67,24 +67,38 @@ const ArticlesDetailForm = () => {
             layout="vertical"
             selectProps={{ sx: { width: '50%' } }}
           />
-          {detailType === articlesTypeKeys.event && (
-            <Grid size={12} container>
-              <DateTimePickerField
-                name="event_start"
-                label="Event start"
-                layout="vertical"
-                isFullWidth
-                size={6}
+          {values.type === articlesTypeKeys.event && (
+            <>
+              <Grid container size={12} spacing={SPACING.form}>
+                <DateTimePickerField
+                  name="event_start"
+                  label="Event start"
+                  layout="vertical"
+                  isFullWidth
+                  size={6}
+                />
+                <DateTimePickerField
+                  name="event_end"
+                  label="Event ends"
+                  layout="vertical"
+                  isFullWidth
+                  size={6}
+                  dateTimePickerProps={{ minDate: values.minDate }}
+                />
+              </Grid>
+              <AddressField
+                fieldPrefix={'event_address'}
+                fieldCommonProps={{
+                  layout: 'vertical',
+                }}
               />
-              <DateTimePickerField
-                name="event_end"
-                label="Event ends"
-                layout="vertical"
+              <LocationPickerField
+                name="event_location"
+                label="Event location"
                 isFullWidth
-                size={6}
-                dateTimePickerProps={{ minDate: eventMinDate }}
+                layout="vertical"
               />
-            </Grid>
+            </>
           )}
           <Grid size={12}>
             <LocalesTabs
@@ -172,7 +186,7 @@ const ArticlesDetailForm = () => {
       <DynamicPortal targetId={dynamicSlotId}>
         <CommentsManager
           contentType={modelKeys.articles}
-          contentId={detailId}
+          contentId={values.id}
         />
       </DynamicPortal>
     </>

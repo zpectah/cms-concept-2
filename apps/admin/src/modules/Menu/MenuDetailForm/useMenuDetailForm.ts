@@ -142,7 +142,9 @@ export const useMenuDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.menu),
     },
-    // Current detail ID as number
-    detailId: form.watch('id'),
+    // Values
+    values: {
+      id: form.watch('id'),
+    },
   };
 };

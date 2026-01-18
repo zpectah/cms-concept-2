@@ -18,8 +18,7 @@
     "readonly": "Read only",
     "primary": "Primary",
     "secondary": "Secondary",
-    "category": "Category",
-    "system": "System"
+    "category": "Category"
   },
   "accessRights": {
     "none": "None",
@@ -56,5 +55,9 @@
     "unset": "Unset",
     "male": "Male",
     "female": "Female"
+  },
+  "namespace": {
+    "common": "Common",
+    "system": "System"
   }
 }

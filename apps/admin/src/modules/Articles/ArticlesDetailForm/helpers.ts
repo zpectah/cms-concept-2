@@ -73,11 +73,19 @@ export const cloneDetailDataToForm = (
 };
 
 /** Gets formatted form data to master before submit */
-export const formDataToMaster = (data: IArticlesDetailForm): ArticlesDetail => {
+export const formDataToMaster = (
+  data: IArticlesDetailForm,
+  editor: number
+): ArticlesDetail => {
   const master = Object.assign({
     ...data,
     name: getFormattedString(data.name),
   });
+
+  // Update array with editor
+  if (master.id !== 0 && editor) {
+    if (!master.editor.includes(editor)) master.editor.push(editor);
+  }
 
   return { ...master };
 };

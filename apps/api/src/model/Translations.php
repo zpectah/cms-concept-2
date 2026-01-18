@@ -92,7 +92,7 @@ class Translations extends Model {
   public function create($data, $locales): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['type', 'name', 'namespace', 'active', 'deleted']);
 
     $columns = $params['columns'];
     $values = $params['values'];
@@ -101,6 +101,7 @@ class Translations extends Model {
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
+    $stmt -> bindParam(':namespace', $data['namespace']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> execute();
@@ -135,12 +136,13 @@ class Translations extends Model {
   public function patch($data, $locales): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $setParts = self::query_parts($data, ['type', 'name', 'active', 'deleted']);
+    $setParts = self::query_parts($data, ['type', 'name', 'namespace', 'active', 'deleted']);
 
     $sql = "UPDATE `translations` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
+    $stmt -> bindParam(':namespace', $data['namespace']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);

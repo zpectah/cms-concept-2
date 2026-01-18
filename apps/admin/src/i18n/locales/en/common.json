@@ -36,6 +36,7 @@
     "upload": "Upload",
     "clear": "Clear",
     "install": "Install",
+    "download": "Download",
     "new": {
       "articles": "New article",
       "categories": "New category",
@@ -83,7 +84,8 @@
     "installed": "Installed",
     "active": "Active",
     "default": "Default",
-    "searchInTable": "Search in table"
+    "searchInTable": "Search in table",
+    "selectOrDropFilesToUpload": "Select or drop your files here"
   },
   "message": {
     "confirm": {

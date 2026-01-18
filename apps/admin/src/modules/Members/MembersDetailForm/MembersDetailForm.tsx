@@ -26,8 +26,7 @@ const MembersDetailForm = () => {
     onDelete,
     onAvatarUpdate,
     options,
-    avatarImage,
-    uid,
+    values,
   } = useMembersDetailForm();
 
   return (
@@ -53,8 +52,8 @@ const MembersDetailForm = () => {
             }}
           >
             <AvatarUploader
-              filename={avatarImage}
-              memberUid={uid}
+              filename={values.avatar}
+              memberUid={values.uid}
               onComplete={onAvatarUpdate}
               onClear={() => onAvatarUpdate('')}
               size={'175px'}

@@ -49,7 +49,10 @@ const NewItemButton = ({ model }: NewItemButtonProps) => {
                 'aria-labelledby': 'new-item-button',
               },
             }}
-            anchorPosition={{ top: 0, left: 0 }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
           >
             {options.map((item) => (
               <MenuItem

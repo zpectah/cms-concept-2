@@ -1,5 +1,8 @@
 import z from 'zod';
-import { translationsTypeKeysArray } from '@model';
+import {
+  translationsTypeKeysArray,
+  translationsNamespaceKeysArray,
+} from '@model';
 import { commonFieldSchema } from '../../../validation';
 
 const LocaleSchema = z.record(
@@ -12,6 +15,7 @@ const LocaleSchema = z.record(
 export const translationsDetailFormSchema = z.object({
   id: commonFieldSchema.number,
   type: z.enum(translationsTypeKeysArray),
+  namespace: z.enum(translationsNamespaceKeysArray),
   name: commonFieldSchema.string_required,
   locale: LocaleSchema,
   active: commonFieldSchema.boolean.optional(),
