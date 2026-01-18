@@ -66,6 +66,7 @@ const SettingsBlacklist = () => {
             <SearchInput
               value={query}
               onChange={(event) => onQuery(event.target.value)}
+              placeholder={t('common:label.searchInTable')}
               fullWidth
             />
             <TagSelect

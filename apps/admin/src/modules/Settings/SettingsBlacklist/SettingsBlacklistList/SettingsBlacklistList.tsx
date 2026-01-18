@@ -8,7 +8,15 @@ import {
   TableCell,
   Stack,
 } from '@mui/material';
-import { Button, TypeValue } from '../../../../components';
+import {
+  IconEye,
+  IconEyeOff,
+  IconTrash,
+  IconTrashX,
+  IconTrashOff,
+  IconArrowUpRight,
+} from '@tabler/icons-react';
+import { TypeValue, IconButtonPlus } from '../../../../components';
 import { useSettingsBlacklistContext } from '../SettingsBlacklist.context';
 import { SettingsBlacklistListProps } from './types';
 
@@ -25,9 +33,7 @@ const SettingsBlacklistList = ({ items = [] }: SettingsBlacklistListProps) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell width="auto" align="center">
-                {t('form:label.type')}
-              </TableCell>
+              <TableCell width="auto">{t('form:label.type')}</TableCell>
               <TableCell width="auto">{t('form:label.email')}</TableCell>
               <TableCell width="auto">{t('form:label.ipaddress')}</TableCell>
               <TableCell width="auto" align="right">
@@ -52,36 +58,50 @@ const SettingsBlacklistList = ({ items = [] }: SettingsBlacklistListProps) => {
                       justifyContent="flex-end"
                       gap={1}
                     >
-                      <Button
-                        variant="outlined"
+                      <IconButtonPlus
                         size="small"
                         onClick={() => onToggle(row.id)}
+                        tooltip={t('common:button.toggle')}
                       >
-                        {t('common:button.toggle')}
-                      </Button>
-                      <Button
-                        variant="outlined"
+                        {row.active ? (
+                          <IconEye size="1.25rem" />
+                        ) : (
+                          <IconEyeOff size="1.25rem" />
+                        )}
+                      </IconButtonPlus>
+                      <IconButtonPlus
                         size="small"
                         color="warning"
                         onClick={() => onDelete(row.id)}
+                        tooltip={
+                          row.deleted
+                            ? t('common:button.undelete')
+                            : t('common:button.delete')
+                        }
                       >
-                        {t('common:button.delete')}
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        color="error"
-                        onClick={() => onDeletePermanent(row.id)}
-                      >
-                        {t('common:button.deletePermanent')}
-                      </Button>
-                      <Button
-                        variant="contained"
+                        {row.deleted ? (
+                          <IconTrashOff size="1.25rem" />
+                        ) : (
+                          <IconTrash size="1.25rem" />
+                        )}
+                      </IconButtonPlus>
+                      {row.deleted && (
+                        <IconButtonPlus
+                          size="small"
+                          color="error"
+                          onClick={() => onDeletePermanent(row.id)}
+                          tooltip={t('common:button.deletePermanent')}
+                        >
+                          <IconTrashX size="1.25rem" />
+                        </IconButtonPlus>
+                      )}
+                      <IconButtonPlus
                         size="small"
                         onClick={() => setDetail(row.id)}
+                        tooltip={t('common:button.detail')}
                       >
-                        {t('common:button.detail')}
-                      </Button>
+                        <IconArrowUpRight size="1.25rem" />
+                      </IconButtonPlus>
                     </Stack>
                   </TableCell>
                 </TableRow>

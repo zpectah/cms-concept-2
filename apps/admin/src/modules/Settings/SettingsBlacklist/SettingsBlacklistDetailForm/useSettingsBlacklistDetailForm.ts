@@ -78,6 +78,10 @@ export const useSettingsBlacklistDetailForm = () => {
     options: {
       type: getTypeFieldOptions(modelKeys.blacklist),
     },
+    values: {
+      active: form.watch('active'),
+      deleted: form.watch('deleted'),
+    },
     isCreate: detail === 'new',
     isUpdate: typeof detail === 'number',
   };

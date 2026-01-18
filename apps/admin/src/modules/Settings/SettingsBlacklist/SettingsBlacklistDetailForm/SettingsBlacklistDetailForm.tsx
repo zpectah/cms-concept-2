@@ -24,6 +24,7 @@ const SettingsBlacklistDetailForm = () => {
     onDelete,
     options,
     isUpdate,
+    values,
   } = useSettingsBlacklistDetailForm();
 
   const formId = 'settingsBlacklistDetailForm';
@@ -51,7 +52,9 @@ const SettingsBlacklistDetailForm = () => {
                 color="error"
                 onClick={() => onDelete(detail as number)}
               >
-                {t('common:button.delete')}
+                {values.deleted
+                  ? t('common:button.undelete')
+                  : t('common:button.delete')}
               </Button>
             )}
             <Button variant="outlined" color="warning" onClick={onReset}>
@@ -98,12 +101,6 @@ const SettingsBlacklistDetailForm = () => {
                   name="active"
                   label=""
                   fieldLabel={t('form:label.active')}
-                  layout="vertical"
-                />
-                <CheckboxField
-                  name="deleted"
-                  label=""
-                  fieldLabel={t('form:label.deleted')}
                   layout="vertical"
                 />
               </Grid>

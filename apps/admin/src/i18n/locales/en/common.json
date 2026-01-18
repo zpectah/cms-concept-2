@@ -82,7 +82,8 @@
     "notFound": "Not found",
     "installed": "Installed",
     "active": "Active",
-    "default": "Default"
+    "default": "Default",
+    "searchInTable": "Search in table"
   },
   "message": {
     "confirm": {

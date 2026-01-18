@@ -1,4 +1,4 @@
-import { IconLogout } from '@tabler/icons-react';
+import { IconPower } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { IconButtonPlus } from '../ui';
 
@@ -20,7 +20,7 @@ const LogoutTrigger = () => {
         });
       }}
     >
-      <IconLogout />
+      <IconPower />
     </IconButtonPlus>
   );
 };

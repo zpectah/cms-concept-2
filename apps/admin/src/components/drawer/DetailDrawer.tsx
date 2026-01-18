@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { AlertProps } from '@mui/material';
-import { IconWindowMaximize, IconWindowMinimize } from '@tabler/icons-react';
+import { IconMaximize, IconMaximizeOff } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useViewContext } from '../../contexts';
 import { modalCloseReasonKeys } from '../../enums';
@@ -87,7 +87,7 @@ const DetailDrawer = <T extends FieldValues>({
 
   const headingActions = [
     {
-      children: fullscreen ? <IconWindowMinimize /> : <IconWindowMaximize />,
+      children: fullscreen ? <IconMaximizeOff /> : <IconMaximize />,
       onClick: () => onFullscreenToggle(),
       tooltip: fullscreen ? t('button.exitFullscreen') : t('button.fullscreen'),
     },

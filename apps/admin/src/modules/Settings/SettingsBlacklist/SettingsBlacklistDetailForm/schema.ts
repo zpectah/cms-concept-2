@@ -15,6 +15,19 @@ export const settingsBlacklistDetailFormSchema = z
     created: commonFieldSchema.string.optional(),
   })
   .superRefine((model, context) => {
+    if (!model.email && !model.ipaddress) {
+      context.addIssue({
+        code: 'custom',
+        path: ['email'],
+        message: i18next.t('form:message.error.required'),
+      });
+      context.addIssue({
+        code: 'custom',
+        path: ['ipaddress'],
+        message: i18next.t('form:message.error.required'),
+      });
+    }
+
     if (model.email && model.email !== '' && model.email.length > 3) {
       if (!VALID_EMAIL_REGEX.test(model.email))
         context.addIssue({
