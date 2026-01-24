@@ -55,6 +55,8 @@ export const useArticlesDetailForm = () => {
     cloneId,
   });
 
+  const formId = 'articles-detail-form';
+
   const { refetch } = articlesQuery;
   const { data: detail } = articlesDetailQuery;
   const { data: cloneDetail } = articlesCloneDetailQuery;
@@ -157,6 +159,7 @@ export const useArticlesDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

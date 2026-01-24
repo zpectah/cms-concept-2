@@ -27,6 +27,7 @@ const ArticlesDetailForm = () => {
     id,
     title,
     form,
+    formId,
     onSubmit,
     onClose,
     onReset,
@@ -41,6 +42,7 @@ const ArticlesDetailForm = () => {
   return (
     <>
       <DetailDrawer<IArticlesDetailForm>
+        formId={formId}
         id={id}
         open={!!id}
         defaultTitle={title}

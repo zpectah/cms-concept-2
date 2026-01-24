@@ -99,19 +99,20 @@ class MenuItems extends Model {
     $conn = self::connection();
 
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'link_order', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['uid', 'type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'item_order', 'active', 'deleted']);
     $columns = $params['columns'];
     $values = $params['values'];
 
     $sql = "INSERT INTO `menuitems` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':uid', $data['uid']);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':parent_id', $data['parent_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':menu_id', $data['menu_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_page', $data['link_page'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_url', $data['link_url']);
-    $stmt -> bindParam(':link_order', $data['link_order'], PDO::PARAM_INT);
+    $stmt -> bindParam(':item_order', $data['item_order'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> execute();
@@ -146,17 +147,18 @@ class MenuItems extends Model {
   public function patch($data, $locales): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $setParts = self::query_parts($data, ['type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'link_order', 'active', 'deleted']);
+    $setParts = self::query_parts($data, ['uid', 'type', 'name', 'parent_id', 'menu_id', 'link_page', 'link_url', 'item_order', 'active', 'deleted']);
 
     $sql = "UPDATE `menuitems` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':uid', $data['uid']);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':parent_id', $data['parent_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':menu_id', $data['menu_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_page', $data['link_page'], PDO::PARAM_INT);
     $stmt -> bindParam(':link_url', $data['link_url']);
-    $stmt -> bindParam(':link_order', $data['link_order'], PDO::PARAM_INT);
+    $stmt -> bindParam(':item_order', $data['item_order'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);

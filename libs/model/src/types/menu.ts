@@ -5,6 +5,7 @@ import { ItemBase } from './item';
 export type MenuType = EnumKeyValues<typeof menuTypeKeys>;
 
 export interface MenuItem extends ItemBase {
+  uid: string;
   type: MenuType;
   name: string;
 }

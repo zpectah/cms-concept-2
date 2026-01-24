@@ -17,6 +17,7 @@ const CategoriesDetailForm = () => {
     id,
     title,
     form,
+    formId,
     onSubmit,
     onClose,
     onReset,
@@ -28,6 +29,7 @@ const CategoriesDetailForm = () => {
 
   return (
     <DetailDrawer<ICategoriesDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

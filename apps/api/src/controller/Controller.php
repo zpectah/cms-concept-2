@@ -9,6 +9,11 @@ class Controller {
     return ($url['a1'] === 'id' && is_numeric($url['a2'])) ? $url['a2'] : null;
   }
 
+  /** URL parser for menu ID only */
+  protected function url_menuId($url): string | null {
+    return ($url['a1'] === 'menu' && is_numeric($url['a2'])) ? $url['a2'] : null;
+  }
+
   /** URL parser for email only */
   protected function url_email($url): string | null {
     return ($url['a1'] === 'email' && filter_var($url['a2'], FILTER_VALIDATE_EMAIL)) ? $url['a2'] : null;

@@ -17,6 +17,7 @@ const UsersDetailForm = () => {
     id,
     title,
     form,
+    formId,
     onSubmit,
     onClose,
     onReset,
@@ -28,6 +29,7 @@ const UsersDetailForm = () => {
 
   return (
     <DetailDrawer<IUsersDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

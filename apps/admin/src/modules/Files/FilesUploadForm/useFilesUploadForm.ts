@@ -34,6 +34,8 @@ export const useFilesUploadForm = () => {
   const { filesQuery, filesCreateMutation, filesUploadMutation } =
     useFilesQuery({ id });
 
+  const formId = 'files-upload-form';
+
   const { data: files, refetch } = filesQuery;
   const { mutate: onCreate } = filesCreateMutation;
   const { mutate: onUpload } = filesUploadMutation;
@@ -113,6 +115,7 @@ export const useFilesUploadForm = () => {
   return {
     id,
     form,
+    formId,
     title: t('views:files.new'),
     // Actions
     onSubmit: submitHandler,

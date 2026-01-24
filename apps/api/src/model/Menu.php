@@ -67,12 +67,13 @@ class Menu extends Model {
     $conn = self::connection();
 
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['uid', 'type', 'name', 'active', 'deleted']);
     $columns = $params['columns'];
     $values = $params['values'];
 
     $sql = "INSERT INTO `menu` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':uid', $data['uid']);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
@@ -88,10 +89,11 @@ class Menu extends Model {
     $conn = self::connection();
 
     $data = self::parse_json_to_db($data);
-    $setParts = self::query_parts($data, ['type', 'name', 'active', 'deleted']);
+    $setParts = self::query_parts($data, ['uid', 'type', 'name', 'active', 'deleted']);
 
     $sql = "UPDATE `menu` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
+    $stmt -> bindParam(':uid', $data['uid']);
     $stmt -> bindParam(':type', $data['type']);
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);

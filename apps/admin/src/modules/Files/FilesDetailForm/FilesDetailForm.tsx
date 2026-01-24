@@ -31,11 +31,21 @@ const FilesDetailForm = () => {
   } = getConfig();
 
   const { t } = useTranslation(['form']);
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, values } =
-    useFilesDetailForm();
+  const {
+    id,
+    title,
+    form,
+    formId,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    values,
+  } = useFilesDetailForm();
 
   return (
     <DetailDrawer<IFilesDetailForm>
+      formId={formId}
       id={id}
       open={!!id && id !== 'new'}
       defaultTitle={title}

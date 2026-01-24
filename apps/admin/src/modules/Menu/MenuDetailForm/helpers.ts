@@ -1,4 +1,4 @@
-import { getFormattedString } from '@common';
+import { getFormattedString, getRandomId } from '@common';
 import { menuTypeDefault, MenuDetail } from '@model';
 import { IMenuDetailForm } from './types';
 
@@ -6,6 +6,7 @@ import { IMenuDetailForm } from './types';
 export const defaultDataToForm = (): IMenuDetailForm => {
   return Object.assign({
     id: 0,
+    uid: getRandomId(8),
     name: '',
     type: menuTypeDefault,
     active: true,

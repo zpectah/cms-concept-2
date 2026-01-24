@@ -1,14 +1,14 @@
 import { useCallback, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { AlertProps } from '@mui/material';
+import { AlertProps, Grid, Box } from '@mui/material';
 import { IconMaximize, IconMaximizeOff } from '@tabler/icons-react';
 import { useAppStore } from '../../store';
 import { useViewContext } from '../../contexts';
 import { modalCloseReasonKeys } from '../../enums';
 import { ModalCloseReason } from '../../types';
 import { useUserActions } from '../../hooks';
-import { DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT } from '../../constants';
+import { DETAIL_DEFAULT_DRAWER_WIDTH_DEFAULT, SPACING } from '../../constants';
 import { Button, DrawerBase, DrawerLayout, ButtonProps } from '../ui';
 import { ControlledForm } from '../form';
 import { DetailDrawerProps } from './types';
@@ -32,6 +32,8 @@ const DetailDrawer = <T extends FieldValues>({
   disableCloseConfirm,
   keepMounted,
   onExited,
+  externalSlot,
+  formId,
 }: DetailDrawerProps<T>) => {
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
@@ -121,6 +123,7 @@ const DetailDrawer = <T extends FieldValues>({
     {
       id: 'submit',
       type: 'submit',
+      form: formId,
       children: id === 'new' ? t('button.create') : t('button.update'),
       variant: 'contained',
       disabled: id === 'new' ? !modelActions.create : !modelActions.modify,
@@ -175,25 +178,37 @@ const DetailDrawer = <T extends FieldValues>({
           },
         }}
       >
-        <ControlledForm<T>
-          form={form}
-          onSubmit={onSubmit && form.handleSubmit(onSubmit)}
-          {...formProps}
-          sx={{ width: '100%', height: '100%', ...formProps?.sx }}
-        >
-          <DrawerLayout
-            title={context.title}
-            titleActions={headingActions}
-            actions={footerActions?.map((button, index) => {
-              if (button.hidden) return null;
+        <DrawerLayout
+          title={context.title}
+          titleActions={headingActions}
+          actions={footerActions?.map((button, index) => {
+            if (button.hidden) return null;
 
-              return <Button key={button.id || index} {...button} />;
-            })}
-            actionsMessages={formErrors}
-            onClose={() => closeHandler({}, 'default')}
-            children={children}
-          />
-        </ControlledForm>
+            return <Button key={button.id || index} {...button} />;
+          })}
+          actionsMessages={formErrors}
+          onClose={() => closeHandler({}, 'default')}
+        >
+          <Box sx={{ width: '100%', height: '100%' }}>
+            <ControlledForm<T>
+              id={formId}
+              form={form}
+              onSubmit={onSubmit && form.handleSubmit(onSubmit)}
+              {...formProps}
+            >
+              {children}
+            </ControlledForm>
+            {externalSlot && (
+              <Grid
+                container
+                sx={{ mt: 2, width: '100%' }}
+                spacing={SPACING.form}
+              >
+                {externalSlot}
+              </Grid>
+            )}
+          </Box>
+        </DrawerLayout>
       </DrawerBase>
     </DetailDrawerContextProvider>
   );

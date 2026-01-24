@@ -22,13 +22,13 @@ class FilesController extends Controller {
   private function create($url, $data): array {
     $files = new Files;
 
-    return $files -> create($data);
+    return $files -> create_many($data);
   }
 
   private function upload($url, $data): array {
     $files = new Files;
 
-    return $files -> upload($data);
+    return $files -> upload_many($data);
   }
 
   private function patch($url, $data): array {

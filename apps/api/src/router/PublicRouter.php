@@ -12,6 +12,7 @@ use public\FilesController;
 use public\MemberController;
 use public\MembersController;
 use public\MenuController;
+use public\MenuItemsController;
 use public\MessagesController;
 use public\PagesController;
 use public\RequestsController;
@@ -64,6 +65,10 @@ class PublicRouter extends Router {
 
       case 'menu':
         $menu = new MenuController;
+        return $menu -> resolve($url, $data);
+
+      case 'menu-items':
+        $menu = new MenuItemsController;
         return $menu -> resolve($url, $data);
 
       case 'messages':

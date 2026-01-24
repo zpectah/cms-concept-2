@@ -11,6 +11,7 @@ use private\CustomFieldsController;
 use private\FilesController;
 use private\MembersController;
 use private\MenuController;
+use private\MenuItemsController;
 use private\MessagesController;
 use private\PagesController;
 use private\RequestsController;
@@ -60,6 +61,10 @@ class PrivateRouter extends Router {
 
       case 'menu':
         $menu = new MenuController;
+        return $menu -> resolve($url, $data);
+
+      case 'menu-items':
+        $menu = new MenuItemsController;
         return $menu -> resolve($url, $data);
 
       case 'messages':

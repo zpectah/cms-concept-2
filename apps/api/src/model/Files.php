@@ -116,7 +116,7 @@ class Files extends Model {
   }
 
   /** Creates single DB row */
-  private function create_single_file($data): array {
+  private function create($data): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
     $params = self::get_columns_and_values_for_query([
@@ -145,7 +145,7 @@ class Files extends Model {
   }
 
   /** Creates single file in uploads folder */
-  private function upload_single_file($file, $rootPath, $context): array {
+  private function upload($file, $rootPath, $context): array {
     $response = [
       'files' => [],
       'thumbnails' => [],
@@ -212,11 +212,11 @@ class Files extends Model {
     return self::parse_row_to_json($detail);
   }
 
-  public function create($data): array {
+  public function create_many($data): array {
     $id = [];
 
     foreach ($data as $item) {
-      $res = self::create_single_file($item);
+      $res = self::create($item);
 
       $id[] = $res['id'];
     }
@@ -226,7 +226,7 @@ class Files extends Model {
     ];
   }
 
-  public function upload($data): array {
+  public function upload_many($data): array {
     $response = [];
     $options = $data['options'] ?? [];
     $queue = $data['queue'] ?? [];
@@ -234,7 +234,7 @@ class Files extends Model {
     $pathContext = $options['context'];
 
     foreach ($queue as $file) {
-      $response[] = self::upload_single_file($file, $rootPath, $pathContext);
+      $response[] = self::upload($file, $rootPath, $pathContext);
     }
 
     return $response;

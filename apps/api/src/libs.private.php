@@ -8,6 +8,7 @@ require_once PATH_ROOT . 'controller/private/CustomFieldsController.php';
 require_once PATH_ROOT . 'controller/private/FilesController.php';
 require_once PATH_ROOT . 'controller/private/MembersController.php';
 require_once PATH_ROOT . 'controller/private/MenuController.php';
+require_once PATH_ROOT . 'controller/private/MenuItemsController.php';
 require_once PATH_ROOT . 'controller/private/MessagesController.php';
 require_once PATH_ROOT . 'controller/private/PagesController.php';
 require_once PATH_ROOT . 'controller/private/RequestsController.php';

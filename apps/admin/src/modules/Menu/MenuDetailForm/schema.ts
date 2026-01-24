@@ -4,6 +4,7 @@ import { commonFieldSchema } from '../../../validation';
 
 export const menuDetailFormSchema = z.object({
   id: commonFieldSchema.number,
+  uid: commonFieldSchema.string_required,
   type: z.enum(menuTypeKeysArray),
   name: commonFieldSchema.string_required,
   active: commonFieldSchema.boolean.optional(),

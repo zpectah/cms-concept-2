@@ -36,6 +36,8 @@ export const useFilesDetailForm = () => {
     filesDeleteMutation,
   } = useFilesQuery({ id });
 
+  const formId = 'files-detail-form';
+
   const { refetch } = filesQuery;
   const { data: detail } = filesDetailQuery;
   const { mutate: onPatch } = filesPatchMutation;
@@ -111,6 +113,7 @@ export const useFilesDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

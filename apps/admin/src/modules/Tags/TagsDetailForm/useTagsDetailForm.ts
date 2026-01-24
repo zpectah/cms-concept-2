@@ -38,6 +38,8 @@ export const useTagsDetailForm = () => {
     tagsDeleteMutation,
   } = useTagsQuery({ id });
 
+  const formId = 'tags-detail-form';
+
   const { refetch } = tagsQuery;
   const { data: detail } = tagsDetailQuery;
   const { mutate: onCreate } = tagsCreateMutation;
@@ -133,6 +135,7 @@ export const useTagsDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

@@ -44,6 +44,8 @@ export const useUsersDetailForm = () => {
     usersDeleteMutation,
   } = useUsersQuery({ id });
 
+  const formId = 'users-detail-form';
+
   const { refetch } = usersQuery;
   const { data: detail } = usersDetailQuery;
   const { mutate: onCreate } = usersCreateMutation;
@@ -166,6 +168,7 @@ export const useUsersDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

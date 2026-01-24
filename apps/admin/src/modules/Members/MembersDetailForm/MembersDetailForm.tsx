@@ -20,6 +20,7 @@ const MembersDetailForm = () => {
     id,
     title,
     form,
+    formId,
     onSubmit,
     onClose,
     onReset,
@@ -31,6 +32,7 @@ const MembersDetailForm = () => {
 
   return (
     <DetailDrawer<IMembersDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

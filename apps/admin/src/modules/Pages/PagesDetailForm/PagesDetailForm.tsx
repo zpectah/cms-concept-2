@@ -18,6 +18,7 @@ const PagesDetailForm = () => {
     id,
     title,
     form,
+    formId,
     onSubmit,
     onClose,
     onReset,
@@ -30,6 +31,7 @@ const PagesDetailForm = () => {
 
   return (
     <DetailDrawer<IPagesDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

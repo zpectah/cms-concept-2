@@ -16,6 +16,7 @@ const TranslationsDetailForm = () => {
     id,
     title,
     form,
+    formId,
     onSubmit,
     onClose,
     onReset,
@@ -26,6 +27,7 @@ const TranslationsDetailForm = () => {
 
   return (
     <DetailDrawer<ITranslationsDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

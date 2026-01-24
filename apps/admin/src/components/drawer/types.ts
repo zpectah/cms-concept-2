@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { FieldValues, UseFormReturn, SubmitHandler } from 'react-hook-form';
 import { WithChildren } from '@common';
 import { ModalCloseReason } from '../../types';
@@ -35,6 +36,10 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   keepMounted?: boolean;
   /** When drawer finally exited */
   onExited?: () => void;
+  /** External slot (outside of form) */
+  externalSlot?: ReactNode;
+  /** Shortcut for form id attribute */
+  formId?: string;
 }
 
 export interface UseDetailDrawerProps {

@@ -18,7 +18,8 @@
     "readonly": "Read only",
     "primary": "Primary",
     "secondary": "Secondary",
-    "category": "Category"
+    "category": "Category",
+    "link": "Link"
   },
   "accessRights": {
     "none": "None",

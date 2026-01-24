@@ -45,6 +45,8 @@ export const usePagesDetailForm = () => {
     id,
   });
 
+  const formId = 'pages-detail-form';
+
   const { refetch } = pagesQuery;
   const { data: detail } = pagesDetailQuery;
   const { mutate: onCreate } = pagesCreateMutation;
@@ -142,6 +144,7 @@ export const usePagesDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

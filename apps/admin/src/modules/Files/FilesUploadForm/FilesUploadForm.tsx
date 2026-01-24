@@ -4,10 +4,12 @@ import { useFilesUploadForm } from './useFilesUploadForm';
 import { FilesUploadQueue } from './FilesUploadQueue';
 
 const FilesUploadForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset } = useFilesUploadForm();
+  const { id, title, form, formId, onSubmit, onClose, onReset } =
+    useFilesUploadForm();
 
   return (
     <DetailDrawer<IFilesUploadForm>
+      formId={formId}
       id={id}
       open={!!id && id === 'new'}
       defaultTitle={title}

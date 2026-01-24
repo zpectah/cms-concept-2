@@ -10,11 +10,21 @@ import { ITagsDetailForm } from './types';
 import { useTagsDetailForm } from './useTagsDetailForm';
 
 const TagsDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, options } =
-    useTagsDetailForm();
+  const {
+    id,
+    title,
+    form,
+    formId,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    options,
+  } = useTagsDetailForm();
 
   return (
     <DetailDrawer<ITagsDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

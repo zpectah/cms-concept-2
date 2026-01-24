@@ -5,7 +5,6 @@ import {
   InputField,
   CheckboxField,
   SelectField,
-  DynamicPortal,
 } from '../../../components';
 import { MenuItemsManager } from '../../MenuItems';
 import { IMenuDetailForm } from './types';
@@ -15,6 +14,7 @@ const MenuDetailForm = () => {
   const {
     id,
     title,
+    formId,
     form,
     onSubmit,
     onClose,
@@ -23,8 +23,6 @@ const MenuDetailForm = () => {
     options,
     values,
   } = useMenuDetailForm();
-
-  const dynamicSlotId = 'menu-menuitems-portal-target';
 
   return (
     <>
@@ -37,6 +35,14 @@ const MenuDetailForm = () => {
         onSubmit={onSubmit}
         onReset={onReset}
         onDelete={onDelete}
+        formId={formId}
+        externalSlot={
+          <MenuItemsManager
+            key={values.updated}
+            menuId={values.id}
+            menuPrefix={values.uid}
+          />
+        }
         keepMounted
       >
         <Grid container spacing={SPACING.form}>
@@ -55,7 +61,6 @@ const MenuDetailForm = () => {
             layout="vertical"
             selectProps={{ sx: { width: '50%' } }}
           />
-
           <Grid container size={12} spacing={0}>
             <CheckboxField
               name="active"
@@ -64,16 +69,8 @@ const MenuDetailForm = () => {
               layout="vertical"
             />
           </Grid>
-
-          <Grid container size={12}>
-            <div id={dynamicSlotId} />
-          </Grid>
         </Grid>
       </DetailDrawer>
-      {/* We must render out of the main form due to context conflict */}
-      <DynamicPortal targetId={dynamicSlotId}>
-        <MenuItemsManager menuId={values.id} />
-      </DynamicPortal>
     </>
   );
 };

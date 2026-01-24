@@ -44,6 +44,8 @@ export const useCategoriesDetailForm = () => {
     id,
   });
 
+  const formId = 'categories-detail-form';
+
   const { refetch } = categoriesQuery;
   const { data: detail } = categoriesDetailQuery;
   const { mutate: onCreate } = categoriesCreateMutation;
@@ -141,6 +143,7 @@ export const useCategoriesDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

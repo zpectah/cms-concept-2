@@ -5,6 +5,7 @@ export * from './useCommentsQuery';
 export * from './useCustomFieldsQuery';
 export * from './useFilesQuery';
 export * from './useMembersQuery';
+export * from './useMenuItemsQuery';
 export * from './useMenuQuery';
 export * from './useMessagesQuery';
 export * from './usePagesQuery';

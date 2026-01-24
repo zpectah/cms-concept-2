@@ -23,7 +23,7 @@ const getConfig = () => {
     files: `${apiUrl}${endpoints.files}`,
     members: `${apiUrl}${endpoints.members}`,
     menu: `${apiUrl}${endpoints.menu}`,
-    menuItems: `${apiUrl}${endpoints.menuItems}`, // TODO ?
+    menuItems: `${apiUrl}${endpoints.menuItems}`,
     messages: `${apiUrl}${endpoints.messages}`,
     pages: `${apiUrl}${endpoints.pages}`,
     settings: `${apiUrl}${endpoints.settings}`,

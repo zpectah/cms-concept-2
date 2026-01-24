@@ -37,6 +37,8 @@ export const useCustomFieldsDetailForm = () => {
     customFieldsDeleteMutation,
   } = useCustomFieldsQuery({ id });
 
+  const formId = 'customfields-detail-form';
+
   const { refetch } = customFieldsQuery;
   const { data: detail } = customFieldsDetailQuery;
   const { mutate: onCreate } = customFieldsCreateMutation;
@@ -132,6 +134,7 @@ export const useCustomFieldsDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

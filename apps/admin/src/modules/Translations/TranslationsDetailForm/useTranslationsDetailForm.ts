@@ -49,6 +49,8 @@ export const useTranslationsDetailForm = () => {
     id,
   });
 
+  const formId = 'translations-detail-form';
+
   const { refetch } = translationsQuery;
   const { data: detail } = translationsDetailQuery;
   const { mutate: onCreate } = translationsCreateMutation;
@@ -146,6 +148,7 @@ export const useTranslationsDetailForm = () => {
   return {
     id,
     form,
+    formId,
     title: drawerTitle,
     // Actions
     onSubmit: submitHandler,

@@ -10,11 +10,21 @@ import { ICustomFieldsDetailForm } from './types';
 import { useCustomFieldsDetailForm } from './useCustomFieldsDetailForm';
 
 const CustomFieldsDetailForm = () => {
-  const { id, title, form, onSubmit, onClose, onReset, onDelete, options } =
-    useCustomFieldsDetailForm();
+  const {
+    id,
+    title,
+    form,
+    formId,
+    onSubmit,
+    onClose,
+    onReset,
+    onDelete,
+    options,
+  } = useCustomFieldsDetailForm();
 
   return (
     <DetailDrawer<ICustomFieldsDetailForm>
+      formId={formId}
       id={id}
       open={!!id}
       defaultTitle={title}

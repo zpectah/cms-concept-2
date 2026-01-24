@@ -37,6 +37,8 @@ export const useMenuDetailForm = () => {
     menuDeleteMutation,
   } = useMenuQuery({ id });
 
+  const formId = 'menu-detail-form';
+
   const { refetch } = menuQuery;
   const { data: detail } = menuDetailQuery;
   const { mutate: onCreate } = menuCreateMutation;
@@ -133,6 +135,7 @@ export const useMenuDetailForm = () => {
     id,
     form,
     title: drawerTitle,
+    formId,
     // Actions
     onSubmit: submitHandler,
     onClose: closeHandler,
@@ -145,6 +148,8 @@ export const useMenuDetailForm = () => {
     // Values
     values: {
       id: form.watch('id'),
+      uid: form.watch('uid'),
+      updated: form.watch('updated'),
     },
   };
 };
