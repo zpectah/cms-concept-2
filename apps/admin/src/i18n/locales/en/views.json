@@ -40,7 +40,12 @@
   "menu": {
     "title": "Menu",
     "new": "New menu",
-    "detail": "Menu detail"
+    "detail": "Menu detail",
+    "messages": {
+      "info": {
+        "newMenu": "You must create menu first before adding menu items"
+      }
+    }
   },
   "messages": {
     "title": "Messages",

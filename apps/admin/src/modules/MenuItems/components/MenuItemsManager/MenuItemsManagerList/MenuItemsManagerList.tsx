@@ -1,9 +1,19 @@
+import { useTranslation } from 'react-i18next';
 import { Grid, Paper, Stack, Box } from '@mui/material';
+import {
+  IconEye,
+  IconEyeOff,
+  IconTrash,
+  IconTrashOff,
+  IconPencil,
+} from '@tabler/icons-react';
 import { SPACING } from '../../../../../constants';
-import { Button } from '../../../../../components';
+import { NewButton, IconButtonPlus } from '../../../../../components';
 import { useMenuItemsManagerList } from './useMenuItemsManagerList';
 import { useMenuItemsManagerContext } from '../MenuItemsManager.context';
 import { MenuItemsManagerListItemProps } from './types';
+
+const ICON_SIZE = '1rem';
 
 const MenuItemsManagerListItem = ({
   id,
@@ -13,29 +23,59 @@ const MenuItemsManagerListItem = ({
   onDetail,
   onToggle,
   onDelete,
+  ...item
 }: MenuItemsManagerListItemProps) => {
+  const { t } = useTranslation(['common']);
+
+  const rowActions = [
+    {
+      id: 'delete',
+      onClick: () => onDelete(id),
+      tooltip: item.deleted ? t('button.undelete') : t('button.delete'),
+      children: item.deleted ? (
+        <IconTrashOff size={ICON_SIZE} />
+      ) : (
+        <IconTrash size={ICON_SIZE} />
+      ),
+    },
+    {
+      id: 'toggle',
+      onClick: () => onToggle(id),
+      tooltip: t('button.toggle'),
+      children: item.active ? (
+        <IconEye size={ICON_SIZE} />
+      ) : (
+        <IconEyeOff size={ICON_SIZE} />
+      ),
+    },
+    {
+      id: 'detail',
+      onClick: () => onDetail(id),
+      tooltip: t('button.detail'),
+      children: <IconPencil size={ICON_SIZE} />,
+    },
+  ];
+
   return (
     <>
-      <Paper variant="outlined" sx={{ p: 1 }}>
+      <Paper variant="outlined" sx={{ p: 1, pl: 2 }}>
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
         >
-          <Stack>
-            <small>{item_order}.</small>
+          <Stack direction="row" gap={1} alignItems="center">
             <span>{name}</span>
           </Stack>
-          <Stack direction="row" gap={1} justifyContent="flex-end">
-            <button type="button" onClick={() => onDelete(id)}>
-              delete
-            </button>
-            <button type="button" onClick={() => onToggle(id)}>
-              toggle
-            </button>
-            <button type="button" onClick={() => onDetail(id)}>
-              detail
-            </button>
+          <Stack
+            direction="row"
+            gap={1}
+            justifyContent="flex-end"
+            alignItems="center"
+          >
+            {rowActions.map((row) => (
+              <IconButtonPlus key={row.id} {...row} />
+            ))}
           </Stack>
         </Stack>
       </Paper>
@@ -43,11 +83,11 @@ const MenuItemsManagerListItem = ({
         <Stack direction="column" gap={1} sx={{ pl: 1 }}>
           {children.map(({ children, ...sub }) => (
             <MenuItemsManagerListItem
-              key={sub.id}
-              onDetail={() => onDetail(sub.id)}
+              key={`${id}.${sub.uid}`}
+              onDetail={onDetail}
               onToggle={onToggle}
-              children={children}
               onDelete={onDelete}
+              children={children}
               {...sub}
             />
           ))}
@@ -58,6 +98,7 @@ const MenuItemsManagerListItem = ({
 };
 
 const MenuItemsManagerList = () => {
+  const { t } = useTranslation(['common']);
   const { items } = useMenuItemsManagerList();
   const {
     setDetailOpen,
@@ -74,13 +115,9 @@ const MenuItemsManagerList = () => {
               alignItems="center"
               justifyContent="flex-end"
             >
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => setDetailOpen('new')}
-              >
-                New menu item
-              </Button>
+              <NewButton onClick={() => setDetailOpen('new')}>
+                {t('button.new.menuItems')}
+              </NewButton>
             </Stack>
           </Grid>
           <Grid size={12}>
