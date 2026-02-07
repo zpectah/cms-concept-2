@@ -11,7 +11,7 @@ class Comments extends Model {
   private function parse_row_to_json($data): array {
     $item = [
       ...$data,
-
+      'reported' => $data['reported'] === 1,
       'active' => $data['active'] === 1,
       'deleted' => $data['deleted'] === 1,
     ];
@@ -23,7 +23,7 @@ class Comments extends Model {
   private function parse_json_to_db($data): array {
     $item = [
       ...$data,
-
+      'reported' => $data['reported'] ? 1 : 0,
       'active' => $data['active'] ? 1 : 0,
       'deleted' => $data['deleted'] ? 1 : 0,
     ];
@@ -38,7 +38,8 @@ class Comments extends Model {
     if ($type && $id) {
       $sql = "SELECT * FROM `comments` WHERE `content_type` = :content_type AND `content_id` = :content_id";
     } else {
-      $sql = "SELECT * FROM `comments`";
+      // $sql = "SELECT * FROM `comments`";
+      return [];
     }
     $stmt = $conn -> prepare($sql);
     if ($type && $id) {
@@ -74,7 +75,7 @@ class Comments extends Model {
   public function create($data): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $params = self::get_columns_and_values_for_query(['type', 'name', 'sender', 'subject', 'content', 'parent', 'content_type', 'content_id', 'active', 'deleted']);
+    $params = self::get_columns_and_values_for_query(['type', 'sender', 'subject', 'content', 'parent_id', 'content_type', 'content_id', 'reported', 'active', 'deleted']);
 
     $columns = $params['columns'];
     $values = $params['values'];
@@ -82,13 +83,13 @@ class Comments extends Model {
     $sql = "INSERT INTO `comments` ($columns) VALUES ($values)";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':sender', $data['sender']);
     $stmt -> bindParam(':subject', $data['subject']);
     $stmt -> bindParam(':content', $data['content']);
-    $stmt -> bindParam(':parent', $data['parent'], PDO::PARAM_INT);
+    $stmt -> bindParam(':parent_id', $data['parent_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':content_type', $data['content_type']);
     $stmt -> bindParam(':content_id', $data['content_id'], PDO::PARAM_INT);
+    $stmt -> bindParam(':reported', $data['reported'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> execute();
@@ -101,18 +102,18 @@ class Comments extends Model {
   public function patch($data): array {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
-    $setParts = self::query_parts($data, ['type', 'name', 'sender', 'subject', 'content', 'parent', 'content_type', 'content_id', 'active', 'deleted']);
+    $setParts = self::query_parts($data, ['type', 'sender', 'subject', 'content', 'parent_id', 'content_type', 'content_id', 'reported', 'active', 'deleted']);
 
     $sql = "UPDATE `comments` SET " . implode(', ', $setParts) . " WHERE `id` = :id";
     $stmt = $conn -> prepare($sql);
     $stmt -> bindParam(':type', $data['type']);
-    $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':sender', $data['sender']);
     $stmt -> bindParam(':subject', $data['subject']);
     $stmt -> bindParam(':content', $data['content']);
-    $stmt -> bindParam(':parent', $data['parent'], PDO::PARAM_INT);
+    $stmt -> bindParam(':parent_id', $data['parent_id'], PDO::PARAM_INT);
     $stmt -> bindParam(':content_type', $data['content_type']);
     $stmt -> bindParam(':content_id', $data['content_id'], PDO::PARAM_INT);
+    $stmt -> bindParam(':reported', $data['reported'], PDO::PARAM_INT);
     $stmt -> bindParam(':active', $data['active'], PDO::PARAM_INT);
     $stmt -> bindParam(':deleted', $data['deleted'], PDO::PARAM_INT);
     $stmt -> bindParam(':id', $data['id'], PDO::PARAM_INT);

@@ -17,9 +17,9 @@ CREATE TABLE `articles` (
   `event_start` varchar(32) NOT NULL,
   `event_end` varchar(32) NOT NULL,
   `author` int(11) NOT NULL,
-  `editor` varchar(32) NOT NULL,  
+  `editor` varchar(32) NOT NULL,
   `approved` int(11) NOT NULL,
-  `explicit` int(11) NOT NULL,  
+  `explicit` int(11) NOT NULL,
   `active` int(11) NOT NULL,
   `deleted` int(11) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -123,7 +123,7 @@ CREATE TABLE `members` (
   `address_country` text NOT NULL,
   `address_zip` text NOT NULL,
   `flat_no` varchar(32) NOT NULL,
-  `sex` varchar(32) NOT NULL,  
+  `sex` varchar(32) NOT NULL,
   `birthdate` text NOT NULL,
   `description` text NOT NULL,
   `active` int(11) NOT NULL,
@@ -199,7 +199,7 @@ CREATE TABLE `pages` (
   `id` int(11) NOT NULL,
   `type` varchar(32) NOT NULL,
   `name` text NOT NULL,
-  `meta_robots` varchar(32) NOT NULL,  
+  `meta_robots` varchar(32) NOT NULL,
   `active` int(11) NOT NULL,
   `deleted` int(11) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -240,7 +240,7 @@ CREATE TABLE `translations_en` (
   `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `translations_en` ADD PRIMARY KEY (`id`);
-ALTER TABLE `translations_en` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;  
+ALTER TABLE `translations_en` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
 
@@ -330,6 +330,23 @@ ALTER TABLE `customfields_items` ADD PRIMARY KEY (`id`);
 ALTER TABLE `customfields_items` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `type` varchar(32) NOT NULL,
+  `sender` varchar(32) NOT NULL,
+  `subject` text NOT NULL,
+  `content` text NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `content_type` varchar(32) NOT NULL,
+  `content_id` int(11) NOT NULL,
+  `reported` int(11) NOT NULL,
+  `active` int(11) NOT NULL,
+  `deleted` int(11) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `comments` ADD PRIMARY KEY (`id`);
+ALTER TABLE `comments` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
 

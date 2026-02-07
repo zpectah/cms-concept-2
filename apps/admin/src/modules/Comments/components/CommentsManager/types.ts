@@ -6,3 +6,5 @@ export interface CommentsManagerProps {
   contentType?: CommentsContentType;
   contentId?: number;
 }
+
+export type UseCommentsManagerProps = CommentsManagerProps & {};

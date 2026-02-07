@@ -10,17 +10,19 @@ class CommentsController extends Controller {
   private function get($url): array {
     $comments = new Comments;
 
-    $attrs = self::url_comments($url);
+    $id = self::url_id($url);
 
-    if ($attrs['type'] === 'id' && $attrs['id']) {
-      return $comments -> get_detail($attrs['id']);
+    if ($id) {
+      return $comments -> get_detail($id);
     }
+
+    $attrs = self::url_comments($url);
 
     if ($attrs['type'] && $attrs['id']) {
       return $comments -> get_list($attrs['type'], $attrs['id']);
     }
 
-    return $comments -> get_list(false, false);
+    return [];
   }
 
   private function create($url, $data): array {

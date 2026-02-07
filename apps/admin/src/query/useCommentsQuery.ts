@@ -5,9 +5,10 @@ import { getConfig } from '../config';
 import { ApiCommonRequest } from '../types';
 
 interface UseCommentsQueryProps {
-  id?: string | 'new';
-  contentType?: ModelNames;
+  id?: number | 'new' | null;
+  contentType?: ModelNames | null;
   contentId?: number;
+  parentId?: number | null;
 }
 
 const QUERY_KEY_BASE = 'comments';
@@ -16,13 +17,14 @@ export const useCommentsQuery = ({
   id,
   contentType,
   contentId,
+  parentId,
 }: UseCommentsQueryProps) => {
   const {
     api: { endpoints },
   } = getConfig();
 
   const listQuery = useQuery<unknown, unknown, Comments>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: [QUERY_KEY_BASE, contentType, contentId],
     queryFn: () =>
       axios
         .get(`${endpoints.comments}/${contentType}/${contentId}`)
@@ -31,12 +33,21 @@ export const useCommentsQuery = ({
   });
 
   const detailQuery = useQuery<unknown, unknown, CommentsDetail>({
-    queryKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-${id}`],
+    queryKey: [QUERY_KEY_BASE, 'detail', id],
     queryFn: () =>
       axios
         .get(`${endpoints.comments}/id/${id}`)
         .then((response) => response.data),
     enabled: !!id && id !== 'new',
+  });
+
+  const parentDetailQuery = useQuery<unknown, unknown, CommentsDetail>({
+    queryKey: [QUERY_KEY_BASE, 'parent-detail', parentId],
+    queryFn: () =>
+      axios
+        .get(`${endpoints.comments}/id/${parentId}`)
+        .then((response) => response.data),
+    enabled: !!parentId,
   });
 
   const createMutation = useMutation<
@@ -46,7 +57,7 @@ export const useCommentsQuery = ({
     unknown,
     CommentsDetail
   >({
-    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-create`],
+    mutationKey: [QUERY_KEY_BASE, 'create'],
     mutationFn: (data) =>
       axios
         .post(`${endpoints.comments}/create`, data)
@@ -60,7 +71,7 @@ export const useCommentsQuery = ({
     unknown,
     CommentsDetail
   >({
-    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
+    mutationKey: [QUERY_KEY_BASE, 'patch'],
     mutationFn: (data) =>
       axios
         .patch(`${endpoints.comments}/patch`, data)
@@ -74,7 +85,7 @@ export const useCommentsQuery = ({
     unknown,
     ApiCommonRequest
   >({
-    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-toggle`],
+    mutationKey: [QUERY_KEY_BASE, 'toggle'],
     mutationFn: (data) =>
       axios
         .patch(`${endpoints.comments}/toggle`, data)
@@ -88,7 +99,7 @@ export const useCommentsQuery = ({
     unknown,
     ApiCommonRequest
   >({
-    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete`],
+    mutationKey: [QUERY_KEY_BASE, 'delete'],
     mutationFn: (data) =>
       axios
         .patch(`${endpoints.comments}/delete`, data)
@@ -102,7 +113,7 @@ export const useCommentsQuery = ({
     unknown,
     ApiCommonRequest
   >({
-    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete-permanent`],
+    mutationKey: [QUERY_KEY_BASE, 'delete-permanent'],
     mutationFn: (data) =>
       axios
         .patch(`${endpoints.comments}/delete-permanent`, data)
@@ -112,6 +123,7 @@ export const useCommentsQuery = ({
   return {
     commentsQuery: listQuery,
     commentsDetailQuery: detailQuery,
+    commentsParentDetailQuery: parentDetailQuery,
     commentsCreateMutation: createMutation,
     commentsPatchMutation: patchMutation,
     commentsToggleMutation: toggleMutation,

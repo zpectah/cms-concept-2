@@ -25,9 +25,9 @@ const defaultMenuItemsManagerContext: IMenuItemsManagerContext = {
     onDetail: () => null,
     onCreate: () => null,
     onPatch: () => null,
-    onToggle: (id: number) => null,
-    onDelete: (id: number) => null,
-    onDeletePermanent: (id: number) => null,
+    onToggle: () => null,
+    onDelete: () => null,
+    onDeletePermanent: () => null,
   },
 };
 

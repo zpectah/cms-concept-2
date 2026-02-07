@@ -5,14 +5,14 @@ import {
   MenuItemsDetailLocale,
 } from '@model';
 import { getModelLocales } from '../../../../../helpers';
-import { IMenuItemsDetailFormSchema } from './types';
+import { IMenuItemsDetailForm } from './types';
 
 /** Gets default form values */
 export const defaultDataToForm = (
   locales: string[],
   menuId: number,
   menuPrefix: string
-): IMenuItemsDetailFormSchema => {
+): IMenuItemsDetailForm => {
   return Object.assign({
     id: 0,
     uid: getRandomId(8),
@@ -34,7 +34,7 @@ export const defaultDataToForm = (
 /** Gets formatted detail data to form */
 export const detailDataToForm = (
   data: MenuItemsDetail
-): IMenuItemsDetailFormSchema => {
+): IMenuItemsDetailForm => {
   return Object.assign({
     ...data,
   });
@@ -42,7 +42,7 @@ export const detailDataToForm = (
 
 /** Gets formatted form data to master before submit */
 export const formDataToMaster = (
-  data: IMenuItemsDetailFormSchema
+  data: IMenuItemsDetailForm
 ): MenuItemsDetail => {
   const master = Object.assign({
     ...data,

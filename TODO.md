@@ -6,6 +6,7 @@
 - [] 'ImageCropper' - přidat nějakou volbu možností pro poměr stran 'ratio'
 - [] Předělat volání `refetch()` za `queryClient.invalidateQueries`
 - [ok] U všech formulářu(detail drawer) přidat ID formuláře!!! - přidat do useHooku...
+- [] Přidat `number | 'new'` jako typ
 
 ## API
 - [] endpoints initialization

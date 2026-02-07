@@ -27,7 +27,7 @@ class Controller {
   /** URL parser for comments only */
   protected function url_comments($url): array {
     $type = $url['a1'] ?? null;
-    $id = ($url['a2'] && is_numeric($url['a2'])) ?? null;
+    $id = ($type && is_numeric($url['a2'])) ? $url['a2'] : null;
 
     return [
       'type' => $type,

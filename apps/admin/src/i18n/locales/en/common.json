@@ -37,9 +37,11 @@
     "clear": "Clear",
     "install": "Install",
     "download": "Download",
+    "reply": "Reply",
     "new": {
       "articles": "New article",
       "categories": "New category",
+      "comments": "New comment",
       "customFields": "New custom field",
       "files": "New file",
       "members": "New member",
@@ -86,7 +88,10 @@
     "active": "Active",
     "default": "Default",
     "searchInTable": "Search in table",
-    "selectOrDropFilesToUpload": "Select or drop your files here"
+    "selectOrDropFilesToUpload": "Select or drop your files here",
+    "reply": "Reply",
+    "today": "Today",
+    "yesterday": "Yesterday"
   },
   "message": {
     "confirm": {

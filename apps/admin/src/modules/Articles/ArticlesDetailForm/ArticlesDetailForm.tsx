@@ -1,9 +1,9 @@
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { articlesTypeKeys, modelKeys } from '@model';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
-  DynamicPortal,
   LocalesTabs,
   InputField,
   CheckboxField,
@@ -19,7 +19,6 @@ import { CategoriesPickerField } from '../../Categories';
 import { CommentsManager } from '../../Comments';
 import { IArticlesDetailForm } from './types';
 import { useArticlesDetailForm } from './useArticlesDetailForm';
-import { articlesTypeKeys, modelKeys } from '@model';
 
 const ArticlesDetailForm = () => {
   const { t } = useTranslation(['form']);
@@ -37,8 +36,6 @@ const ArticlesDetailForm = () => {
     values,
   } = useArticlesDetailForm();
 
-  const dynamicSlotId = 'articles-comments-portal-target';
-
   return (
     <>
       <DetailDrawer<IArticlesDetailForm>
@@ -51,7 +48,12 @@ const ArticlesDetailForm = () => {
         onSubmit={onSubmit}
         onReset={onReset}
         onDelete={onDelete}
-        keepMounted
+        externalSlot={
+          <CommentsManager
+            contentType={modelKeys.articles}
+            contentId={values.id}
+          />
+        }
       >
         <Grid container spacing={SPACING.form}>
           <InputField
@@ -178,19 +180,8 @@ const ArticlesDetailForm = () => {
               layout="vertical"
             />
           </Grid>
-
-          <Grid container size={12}>
-            <div id={dynamicSlotId} />
-          </Grid>
         </Grid>
       </DetailDrawer>
-      {/* We must render out of the main form due to context conflict */}
-      <DynamicPortal targetId={dynamicSlotId}>
-        <CommentsManager
-          contentType={modelKeys.articles}
-          contentId={values.id}
-        />
-      </DynamicPortal>
     </>
   );
 };

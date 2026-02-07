@@ -5,7 +5,7 @@ import { modelKeys } from '@model';
 import { useDetailFormLocales, useSelectOptions } from '../../../../../hooks';
 import { useMenuItemsQuery } from '../../../../../query';
 import { useMenuItemsManagerContext } from '../MenuItemsManager.context';
-import { IMenuItemsDetailFormSchema } from './types';
+import { IMenuItemsDetailForm } from './types';
 import { menuItemsDetailFormSchema } from './schema';
 import {
   defaultDataToForm,
@@ -26,7 +26,7 @@ export const useMenuItemsManagerDetailForm = () => {
   const { getTypeFieldOptions } = useSelectOptions();
   const { menuItemsDetailQuery } = useMenuItemsQuery({ id: detailOpen });
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
-  const form = useForm<IMenuItemsDetailFormSchema>({
+  const form = useForm<IMenuItemsDetailForm>({
     defaultValues: defaultDataToForm(locales, menuId ?? 0, menuPrefix),
     resolver: zodResolver(menuItemsDetailFormSchema),
   });
@@ -35,7 +35,7 @@ export const useMenuItemsManagerDetailForm = () => {
 
   const { data: detailData, isLoading } = menuItemsDetailQuery;
 
-  const submitHandler: SubmitHandler<IMenuItemsDetailFormSchema> = (data) => {
+  const submitHandler: SubmitHandler<IMenuItemsDetailForm> = (data) => {
     const master = formDataToMaster(data);
 
     if (master.id === 0) {
