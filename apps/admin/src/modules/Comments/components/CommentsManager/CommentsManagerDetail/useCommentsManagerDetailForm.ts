@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useCommentsQuery } from '../../../../../query';
 import { useProfile } from '../../../../../hooks';
 import { useCommentsManagerContext } from '../CommentsManager.context';
@@ -17,7 +16,6 @@ import {
 export const useCommentsManagerDetailForm = () => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const queryClient = useQueryClient();
   const { t } = useTranslation();
   const { user } = useProfile();
   const {
@@ -68,18 +66,11 @@ export const useCommentsManagerDetailForm = () => {
           contentId,
         })
       );
-
-      if (parentDetailData) {
-        form.setValue('subject', `Re: ${parentDetailData.subject}`, {
-          shouldDirty: false,
-        });
-      }
     } else if (detailData) {
       form.reset(detailDataToForm(detailData));
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detailOpen, detailData, parentDetailData, isLoading, isParentLoading]);
+  }, [detailOpen, detailData]);
 
   const detailTitle = useMemo(() => {
     let title =
@@ -91,17 +82,30 @@ export const useCommentsManagerDetailForm = () => {
   }, [detailOpen, detailData, parentId, parentDetailData]);
 
   useEffect(() => {
-    if (detailOpen) {
-      setOpen(true);
-      resetHandler();
-    } else {
-      setOpen(false);
-      queryClient.invalidateQueries({
-        queryKey: ['comments', 'detail'],
+    if (
+      detailOpen === 'new' &&
+      parentId &&
+      parentDetailData &&
+      !form.formState.isDirty
+    ) {
+      form.setValue('subject', `Re: ${parentDetailData.subject}`, {
+        shouldDirty: false,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detailOpen, isLoading, isParentLoading]);
+  }, [parentDetailData, parentId, parentDetailData]);
+
+  useEffect(() => {
+    if (detailData && detailOpen !== 'new' && detailOpen !== null) {
+      form.reset(detailDataToForm(detailData));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detailData, detailOpen]);
+
+  useEffect(
+    () => setOpen(!!detailOpen),
+    [detailOpen, isLoading, isParentLoading]
+  );
 
   useEffect(() => {
     if (!open) setTimeout(() => setDetailOpen(null), 350);

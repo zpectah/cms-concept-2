@@ -47,8 +47,8 @@ const Header = ({ variant }: HeaderProps) => {
             <LocaleMenu />
             {isDefaultVariant && (
               <>
-                <ProfileToggle />
                 <LogoutTrigger />
+                <ProfileToggle />
               </>
             )}
           </Block>

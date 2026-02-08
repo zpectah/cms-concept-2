@@ -33,7 +33,6 @@ const CommentsManagerDetail = () => {
       maxWidth="sm"
       fullWidth
       title={detailTitle}
-      keepMounted={true}
       content={
         <ControlledForm form={form} onSubmit={onSubmit} id={formId}>
           <Grid container spacing={SPACING.form}>
