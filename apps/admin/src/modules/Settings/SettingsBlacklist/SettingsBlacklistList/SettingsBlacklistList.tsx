@@ -14,7 +14,7 @@ import {
   IconTrash,
   IconTrashX,
   IconTrashOff,
-  IconArrowUpRight,
+  IconPencil,
 } from '@tabler/icons-react';
 import { TypeValue, IconButtonPlus } from '../../../../components';
 import { useSettingsBlacklistContext } from '../SettingsBlacklist.context';
@@ -60,6 +60,13 @@ const SettingsBlacklistList = ({ items = [] }: SettingsBlacklistListProps) => {
                     >
                       <IconButtonPlus
                         size="small"
+                        onClick={() => setDetail(row.id)}
+                        tooltip={t('common:button.detail')}
+                      >
+                        <IconPencil size="1.25rem" />
+                      </IconButtonPlus>
+                      <IconButtonPlus
+                        size="small"
                         onClick={() => onToggle(row.id)}
                         tooltip={t('common:button.toggle')}
                       >
@@ -95,13 +102,6 @@ const SettingsBlacklistList = ({ items = [] }: SettingsBlacklistListProps) => {
                           <IconTrashX size="1.25rem" />
                         </IconButtonPlus>
                       )}
-                      <IconButtonPlus
-                        size="small"
-                        onClick={() => setDetail(row.id)}
-                        tooltip={t('common:button.detail')}
-                      >
-                        <IconArrowUpRight size="1.25rem" />
-                      </IconButtonPlus>
                     </Stack>
                   </TableCell>
                 </TableRow>

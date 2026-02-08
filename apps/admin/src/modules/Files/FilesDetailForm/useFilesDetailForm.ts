@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, FilesDetail } from '@model';
+import { modelKeys, FilesDetail, FilesType } from '@model';
 import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { useFilesQuery } from '../../../query';
 import { useViewContext } from '../../../contexts';
@@ -126,7 +126,7 @@ export const useFilesDetailForm = () => {
     },
     // Local values
     values: {
-      type: form.watch('type'),
+      type: form.watch('type') as FilesType,
       name: form.watch('name'),
       file_name: form.watch('file_name'),
       file_ext: form.watch('file_ext'),

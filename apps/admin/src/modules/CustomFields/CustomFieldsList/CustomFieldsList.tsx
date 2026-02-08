@@ -1,5 +1,5 @@
 import { CustomFieldsItem } from '@model';
-import { DataList } from '../../../components';
+import { DataList, DateValue, TypeValue } from '../../../components';
 import { useViewContext } from '../../../contexts';
 import { CustomFieldsDetailForm } from '../CustomFieldsDetailForm';
 import { useCustomFieldsList } from './useCustomFieldsList';
@@ -23,7 +23,11 @@ const CustomFieldsList = () => {
           },
           {
             name: 'type',
-            renderValue: (row) => row.type,
+            renderValue: (row) => <TypeValue value={row.type} prefix="model" />,
+          },
+          {
+            name: 'updated',
+            renderValue: (row) => <DateValue value={row.updated} />,
           },
         ]}
         keys={{

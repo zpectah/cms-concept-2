@@ -1,4 +1,5 @@
 export { default as Button } from './Button';
+export { default as CheckboxButton } from './CheckboxButton';
 export { default as CloseButton } from './CloseButton';
 export { default as IconButtonPlus } from './IconButtonPlus';
 export { default as LinkButton } from './LinkButton';

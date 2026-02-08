@@ -62,14 +62,15 @@ export const useMenuItemsManagerDetailForm = () => {
   );
 
   useEffect(() => {
-    if (detailOpen) {
-      setOpen(true);
-      resetHandler();
-    } else {
-      setOpen(false);
+    if (detailOpen === 'new') {
+      form.reset(defaultDataToForm(locales, menuId ?? 0, menuPrefix));
+    } else if (detailData) {
+      form.reset(detailDataToForm(detailData));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detailOpen, isLoading]);
+  }, [detailOpen, detailData]);
+
+  useEffect(() => setOpen(!!detailOpen), [detailOpen, isLoading]);
 
   useEffect(() => {
     if (!open) setTimeout(() => setDetailOpen(null), 350);

@@ -221,5 +221,6 @@ export const useDataListView = <T extends ListModelItem>() => {
   return {
     renderFavoriteStar,
     renderRowActions,
+    onDetail: detailHandler,
   };
 };

@@ -27,6 +27,14 @@ const ArticlesList = () => {
             renderValue: (row) => <TypeValue value={row.type} prefix="model" />,
           },
           {
+            name: 'tags',
+            renderValue: (row) => `${row.tags}`,
+          },
+          {
+            name: 'categories',
+            renderValue: (row) => `${row.categories}`,
+          },
+          {
             name: 'updated',
             renderValue: (row) => <DateValue value={row.updated} />,
           },

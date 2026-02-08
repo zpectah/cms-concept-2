@@ -93,14 +93,33 @@ export const useCommentsManagerDetailForm = () => {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parentDetailData, parentId, parentDetailData]);
+  }, [
+    parentDetailData,
+    parentId,
+    parentDetailData,
+    isLoading,
+    isParentLoading,
+  ]);
 
   useEffect(() => {
     if (detailData && detailOpen !== 'new' && detailOpen !== null) {
       form.reset(detailDataToForm(detailData));
+    } else if (detailOpen === 'new') {
+      form.reset(
+        defaultDataToForm({
+          sender: user.email,
+          contentType,
+          contentId,
+        })
+      );
+      if (!form.formState.isDirty && parentDetailData) {
+        form.setValue('subject', `Re: ${parentDetailData.subject}`, {
+          shouldDirty: false,
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detailData, detailOpen]);
+  }, [detailData, parentDetailData, detailOpen, form]);
 
   useEffect(
     () => setOpen(!!detailOpen),

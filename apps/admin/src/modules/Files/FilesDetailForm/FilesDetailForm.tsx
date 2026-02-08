@@ -1,29 +1,15 @@
 import { useTranslation } from 'react-i18next';
-import { styled, Box, Grid, Paper, Stack } from '@mui/material';
-import { IconArchive, IconFile } from '@tabler/icons-react';
-import { filesTypeKeys } from '@model';
+import { Box, Grid, Paper, Stack } from '@mui/material';
 import { getConfig } from '../../../config';
 import {
   CheckboxField,
   DetailDrawer,
-  ImageViewer,
-  PdfViewer,
-  AudioPlayer,
-  VideoPlayer,
   DownloadButton,
 } from '../../../components';
 import { SPACING } from '../../../constants';
+import { useFileTypeElement } from '../../../hooks';
 import { IFilesDetailForm } from './types';
 import { useFilesDetailForm } from './useFilesDetailForm';
-
-const ThumbWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(4),
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: theme.spacing(2),
-}));
 
 const FilesDetailForm = () => {
   const {
@@ -42,6 +28,11 @@ const FilesDetailForm = () => {
     onDelete,
     values,
   } = useFilesDetailForm();
+  const { renderFileByType } = useFileTypeElement();
+
+  const fileElement = renderFileByType(values.file_name, values.type, {
+    alt: values.name,
+  });
 
   return (
     <DetailDrawer<IFilesDetailForm>
@@ -73,41 +64,7 @@ const FilesDetailForm = () => {
                   filename={`${values.name}.${values.file_ext}`}
                 />
               </Box>
-
-              {values.type === filesTypeKeys.image && (
-                <ImageViewer src={values.file_name} alt={values.name} />
-              )}
-              {values.type === filesTypeKeys.audio && (
-                <ThumbWrapper>
-                  {/* TODO: ID3 thumb - if exist */}
-                  <AudioPlayer source={`${source}audio/${values.file_name}`} />
-                </ThumbWrapper>
-              )}
-              {values.type === filesTypeKeys.video && (
-                <ThumbWrapper>
-                  <VideoPlayer source={`${source}video/${values.file_name}`} />
-                </ThumbWrapper>
-              )}
-              {values.type === filesTypeKeys.document && (
-                <>
-                  {values.file_ext === 'pdf' ? (
-                    <PdfViewer
-                      source={`${source}document/${values.file_name}`}
-                    />
-                  ) : (
-                    <ThumbWrapper>
-                      <IconFile size="2.5rem" />
-                      <span>{values.file_name}</span>
-                    </ThumbWrapper>
-                  )}
-                </>
-              )}
-              {values.type === filesTypeKeys.archive && (
-                <ThumbWrapper>
-                  <IconArchive size="2.5rem" />
-                  <span>{values.file_name}</span>
-                </ThumbWrapper>
-              )}
+              {fileElement}
             </Paper>
           </Stack>
         </Grid>

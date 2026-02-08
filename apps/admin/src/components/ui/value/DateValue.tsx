@@ -10,7 +10,15 @@ dayjs.extend(isYesterday);
 
 const DateValue = ({ id, value, typographyProps }: DateValueProps) => {
   return (
-    <Typography id={id} variant="inherit" {...typographyProps}>
+    <Typography
+      id={id}
+      variant="inherit"
+      {...typographyProps}
+      sx={{
+        whiteSpace: 'pre',
+        ...typographyProps?.sx,
+      }}
+    >
       {getFormattedDateString(value)}
     </Typography>
   );

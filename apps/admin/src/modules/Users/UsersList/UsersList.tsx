@@ -1,5 +1,5 @@
 import { UsersItem } from '@model';
-import { DataList } from '../../../components';
+import { DataList, DateValue, TypeValue } from '../../../components';
 import { useViewContext } from '../../../contexts';
 import { UsersDetailForm } from '../UsersDetailForm';
 import { useUsersList } from './useUsersList';
@@ -23,7 +23,11 @@ const UsersList = () => {
           },
           {
             name: 'type',
-            renderValue: (row) => row.type,
+            renderValue: (row) => <TypeValue value={row.type} prefix="model" />,
+          },
+          {
+            name: 'updated',
+            renderValue: (row) => <DateValue value={row.updated} />,
           },
         ]}
         keys={{

@@ -129,8 +129,13 @@ interface ViewCommon<T extends ListModelItem> {
 }
 
 export type TableViewProps<T extends ListModelItem> = ViewCommon<T>;
-
 export type FilesViewProps<T extends ListModelItem> = ViewCommon<T>;
+
+export type FilesViewItemProps<T extends ListModelItem> = {
+  row: ListModelItemProps;
+  columns: DataListColumnProps<T>[];
+  isSelected?: boolean;
+};
 
 export interface IDataListContext {
   /** Model name, undefined on init */

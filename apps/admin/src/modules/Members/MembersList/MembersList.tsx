@@ -1,5 +1,5 @@
 import { MembersItem } from '@model';
-import { DataList } from '../../../components';
+import { DataList, DateValue, TypeValue } from '../../../components';
 import { useViewContext } from '../../../contexts';
 import { MembersDetailForm } from '../MembersDetailForm';
 import { useMembersList } from './useMembersList';
@@ -23,7 +23,11 @@ const MembersList = () => {
           },
           {
             name: 'type',
-            renderValue: (row) => row.type,
+            renderValue: (row) => <TypeValue value={row.type} prefix="model" />,
+          },
+          {
+            name: 'updated',
+            renderValue: (row) => <DateValue value={row.updated} />,
           },
         ]}
         keys={{

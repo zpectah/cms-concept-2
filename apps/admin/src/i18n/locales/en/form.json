@@ -32,7 +32,8 @@
     "access_rights": "Access rights",
     "ipaddress": "IP Address",
     "actions": "Actions",
-    "reported": "Reported"
+    "reported": "Reported",
+    "updated": "Updated"
   },
   "placeholder": {
     "name": "Type item name",

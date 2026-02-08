@@ -23,14 +23,15 @@ const ImageElement = styled('img')(() => ({
   left: 0,
 }));
 
-const ImageViewer = ({ src, alt, size }: ImageViewerProps) => {
+const ImageViewer = ({ src, alt, size, isThumbnail }: ImageViewerProps) => {
   const {
     uploads: { source },
   } = getConfig();
 
   const { t } = useTranslation(['common']);
 
-  const pathBase = `${source}image/`;
+  let pathBase = `${source}image/`;
+  if (isThumbnail) pathBase = `${pathBase}thumbnail/`;
   const fullPath = `${pathBase}${src}`;
 
   return (

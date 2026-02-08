@@ -21,3 +21,8 @@ export type PrimaryButtonProps = Omit<ButtonProps, 'variant' | 'color'> & {};
 export type SecondaryButtonProps = Omit<ButtonProps, 'variant' | 'color'> & {};
 
 export type NewButtonProps = Omit<ButtonProps, 'color'> & {};
+
+export type CheckboxButtonProps = Omit<IconButtonPlusProps, 'children'> & {
+  isSelected?: boolean;
+  iconSize?: string;
+};

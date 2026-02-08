@@ -54,14 +54,15 @@ export const useSettingsBlacklistDetailForm = () => {
   }, [detail, detailData, isLoading]);
 
   useEffect(() => {
-    if (detail) {
-      setOpen(true);
-      resetHandler();
-    } else {
-      setOpen(false);
+    if (detail === 'new') {
+      form.reset(defaultDataToForm());
+    } else if (detailData) {
+      form.reset(detailDataToForm(detailData));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detail, isLoading]);
+  }, [detail, detailData]);
+
+  useEffect(() => setOpen(!!detail), [detail, isLoading]);
 
   useEffect(() => {
     if (!open) setTimeout(() => setDetail(null), 350);

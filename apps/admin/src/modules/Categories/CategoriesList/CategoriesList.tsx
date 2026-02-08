@@ -1,5 +1,5 @@
 import { CategoriesItem } from '@model';
-import { DataList } from '../../../components';
+import { DataList, DateValue, TypeValue } from '../../../components';
 import { useViewContext } from '../../../contexts';
 import { CategoriesDetailForm } from '../CategoriesDetailForm';
 import { useCategoriesList } from './useCategoriesList';
@@ -23,7 +23,11 @@ const CategoriesList = () => {
           },
           {
             name: 'type',
-            renderValue: (row) => row.type,
+            renderValue: (row) => <TypeValue value={row.type} prefix="model" />,
+          },
+          {
+            name: 'updated',
+            renderValue: (row) => <DateValue value={row.updated} />,
           },
         ]}
         keys={{

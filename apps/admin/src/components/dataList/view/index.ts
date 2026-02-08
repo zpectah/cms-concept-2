@@ -1,2 +1,2 @@
-export { default as FilesView } from './FilesView';
-export { default as TableView } from './TableView';
+export * from './FilesView';
+export * from './TableView';

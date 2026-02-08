@@ -18,16 +18,7 @@ const FilesList = () => {
         rowActions={rowActions}
         selectedActions={selectedActions}
         items={items}
-        columns={[
-          {
-            name: 'name',
-            isTitle: true,
-          },
-          {
-            name: 'type',
-            renderValue: (row) => row.type,
-          },
-        ]}
+        columns={[]}
         keys={{
           order: ['id', 'name', 'type'],
           search: ['name', 'type'],
