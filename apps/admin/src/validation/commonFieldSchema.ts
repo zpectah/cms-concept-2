@@ -23,6 +23,16 @@ export const commonFieldSchema = {
     .refine((val) => val.length > commonStringMinLength, {
       error: () => i18next.t('form:message.error.required'),
     }),
+  /** Required string or number */
+  stringOrNumber_required: z
+    .union([
+      z.string({ error: () => i18next.t('form:message.error.invalidString') }),
+      z.number({ error: () => i18next.t('form:message.error.invalidNumber') }),
+    ])
+    .transform((val) => String(val))
+    .refine((val) => val.length > 0, {
+      error: () => i18next.t('form:message.error.required'),
+    }),
   /** Common number */
   number: z.number({
     error: () => i18next.t('form:message.error.invalidNumber'),

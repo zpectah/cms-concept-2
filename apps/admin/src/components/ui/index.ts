@@ -4,6 +4,7 @@ export * from './dialog';
 export * from './drawer';
 export * from './field';
 export * from './form';
+export * from './grid';
 export * from './input';
 export * from './label';
 export * from './picker';

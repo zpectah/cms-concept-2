@@ -67,6 +67,84 @@
       "languages": "Languages",
       "blacklist": "Blacklist"
     },
+    "global": {
+      "section": {
+        "project": {
+          "title": "Project"
+        },
+        "company": {
+          "title": "Company"
+        },
+        "companyAddress": {
+          "title": "Company address and location"
+        }
+      },
+      "label": {
+        "projectName": "Project name",
+        "projectDescription": "Project description",
+        "companyName": "Company name",
+        "companyDescription": "Company description",
+        "companyId": "Company ID",
+        "companyEmail": "Company email",
+        "companyPhone": "Company phone",
+        "companyBank": "Company bank",
+        "companyLocation": "Company location"
+      },
+      "placeholder": {
+        "projectName": "Type your project name",
+        "projectDescription": "Type your project description",
+        "companyName": "Type your company name",
+        "companyDescription": "Type your company description",
+        "companyId": "Type your company ID",
+        "companyEmail": "Type new email",
+        "companyPhone": "Type new phone",
+        "companyBank": "Prefix / Number / Bank",
+        "companyLocation": "Select company location"
+      }
+    },
+    "client": {
+      "section": {
+        "meta": {
+          "title": "Meta"
+        },
+        "emailServer": {
+          "title": "Email SMTP server"
+        },
+        "feedback": {
+          "title": "Feedback"
+        },
+        "states": {
+          "title": "States"
+        }
+      },
+      "label": {
+        "metaTitle": "Meta title",
+        "metaDescription": "Meta description",
+        "metaKeywords": "Meta keywords",
+        "metaRobots": "Meta robots",
+        "emailHostName": "Host name",
+        "emailHostUsername": "Host username",
+        "emailHostPort": "Host Port",
+        "emailHostPassword": "Host password",
+        "messagesActive": "Messages active",
+        "commentsActive": "Comments active",
+        "debugMode": "Debug mode",
+        "maintenanceMode": "Maintenance mode"
+      },
+      "placeholder": {
+        "metaTitle": "Type your app title",
+        "metaDescription": "Type your app description",
+        "metaKeywords": "Type new keyword",
+        "metaRobots": "Select indexation",
+        "emailHostName": "Type your host",
+        "emailHostUsername": "Type your username",
+        "emailHostPort": "Type your port",
+        "emailHostPassword": "Type your new password"
+      },
+      "helpers": {
+        "emailHostPassword": "The password is stored on the server in encrypted form."
+      }
+    },
     "languages": {
       "title": "Language management",
       "messages": {

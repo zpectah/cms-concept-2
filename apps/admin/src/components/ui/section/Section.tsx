@@ -19,7 +19,7 @@ const Section = ({
             justifyContent="space-between"
           >
             <Stack direction="column" gap={1}>
-              <Typography variant="h4">{title}</Typography>
+              <Typography variant="h3">{title}</Typography>
               {caption && (
                 <Typography variant="caption" color="textDisabled">
                   {caption}

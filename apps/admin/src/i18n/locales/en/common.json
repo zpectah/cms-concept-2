@@ -128,7 +128,8 @@
       "approve_other": "{{count}} items was successfully approved",
       "read_zero": "Nothing was set as read",
       "read_one": "Item was successfully set as read",
-      "read_other": "{{count}} items was successfully set as read"
+      "read_other": "{{count}} items was successfully set as read",
+      "dataSaved": "Data was successfully saved"
     },
     "info": {
       "avatar_updated": "Avatar was updated, we recommends you to save data"

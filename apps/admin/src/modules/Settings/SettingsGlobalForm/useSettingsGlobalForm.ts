@@ -54,5 +54,6 @@ export const useSettingsGlobalForm = () => {
   return {
     form,
     onSubmit: form.handleSubmit(submitHandler),
+    onReset: () => form.reset(detailDataToForm(settingsData)),
   };
 };

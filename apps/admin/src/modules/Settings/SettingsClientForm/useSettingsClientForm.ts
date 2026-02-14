@@ -60,6 +60,7 @@ export const useSettingsClientForm = () => {
   return {
     form,
     onSubmit: form.handleSubmit(submitHandler),
+    onReset: () => form.reset(detailDataToForm(settingsData)),
     options: {
       metaRobots: getTranslatedOptionsFromList(metaRobotsKeysArray, 'robots'),
     },

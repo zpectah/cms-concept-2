@@ -20,9 +20,9 @@ export const SettingsClientFormSchema = z.object({
   }),
   email: z.object({
     smtp: z.object({
-      port: commonFieldSchema.stringOrNumber,
-      host: commonFieldSchema.string,
-      username: commonFieldSchema.string,
+      port: commonFieldSchema.number,
+      host: commonFieldSchema.string_required,
+      username: commonFieldSchema.string_required,
       password: commonFieldSchema.string.optional(),
     }),
   }),

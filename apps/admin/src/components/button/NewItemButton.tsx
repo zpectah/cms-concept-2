@@ -1,7 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ButtonGroup, Menu, MenuItem } from '@mui/material';
-import { IconDots } from '@tabler/icons-react';
+import { IconDots, IconPlus } from '@tabler/icons-react';
 import { Button, LinkButton } from '../ui';
 import { useNewItem } from '../../hooks';
 import { NewItemButtonProps } from './types';
@@ -26,7 +26,11 @@ const NewItemButton = ({ model }: NewItemButtonProps) => {
 
   return (
     <ButtonGroup color="success" variant="contained">
-      {current && <LinkButton to={current.path}>{current.label}</LinkButton>}
+      {current && (
+        <LinkButton to={current.path} startIcon={<IconPlus size="1rem" />}>
+          {current.label}
+        </LinkButton>
+      )}
       {options.length > 0 && (
         <>
           <Button

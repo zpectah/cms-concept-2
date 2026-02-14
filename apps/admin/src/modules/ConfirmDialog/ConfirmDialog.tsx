@@ -42,7 +42,7 @@ const ConfirmDialog = () => {
       }
       maxWidth={CONFIRM_DIALOG_WIDTH_DEFAULT}
       fullWidth
-      disableEscapeKeyDown
+      // disableEscapeKeyDown
       disableBackdropClose
     />
   );
