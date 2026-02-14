@@ -33,7 +33,15 @@
     "ipaddress": "IP Address",
     "actions": "Actions",
     "reported": "Reported",
-    "updated": "Updated"
+    "updated": "Updated",
+    "event_start": "Event start",
+    "event_end": "Event end",
+    "event_location": "Event location",
+    "parent": "Parent",
+    "flat_number": "Flat number",
+    "category": "Category",
+    "color": "Color",
+    "namespace": "Namespace"
   },
   "placeholder": {
     "name": "Type item name",

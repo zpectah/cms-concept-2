@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
@@ -12,6 +13,7 @@ import { ITranslationsDetailForm } from './types';
 import { useTranslationsDetailForm } from './useTranslationsDetailForm';
 
 const TranslationsDetailForm = () => {
+  const { t } = useTranslation(['form']);
   const {
     id,
     title,
@@ -40,7 +42,7 @@ const TranslationsDetailForm = () => {
       <Grid container spacing={SPACING.form}>
         <SelectField
           name="namespace"
-          label="Namespace"
+          label={t('form:label.namespace')}
           placeholder="Select namespace"
           options={options.namespace}
           layout="vertical"
@@ -48,14 +50,14 @@ const TranslationsDetailForm = () => {
         />
         <InputField
           name="name"
-          label="Name"
+          label={t('form:label.name')}
           layout="vertical"
           placeholder="Translation name"
           isFullWidth
         />
         <SelectField
           name="type"
-          label="Type"
+          label={t('form:label.type')}
           placeholder="Select item type"
           options={options.type}
           layout="vertical"
@@ -69,7 +71,7 @@ const TranslationsDetailForm = () => {
               <Grid container size={12} spacing={SPACING.form}>
                 <TextareaField
                   name={`locale.${loc}.value`}
-                  label="Value"
+                  label={t('form:label.value')}
                   layout="vertical"
                   placeholder={`Translation ${loc} value`}
                   isFullWidth
@@ -84,7 +86,7 @@ const TranslationsDetailForm = () => {
           <CheckboxField
             name="active"
             label=""
-            fieldLabel="Active"
+            fieldLabel={t('form:label.active')}
             layout="vertical"
           />
         </Grid>

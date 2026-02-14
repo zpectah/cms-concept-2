@@ -7,6 +7,7 @@ export * from './form';
 export * from './grid';
 export * from './input';
 export * from './label';
+export * from './literal';
 export * from './picker';
 export * from './radio';
 export * from './section';

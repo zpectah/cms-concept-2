@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
@@ -16,6 +17,7 @@ import { IMembersDetailForm } from './types';
 import { useMembersDetailForm } from './useMembersDetailForm';
 
 const MembersDetailForm = () => {
+  const { t } = useTranslation(['form']);
   const {
     id,
     title,
@@ -65,21 +67,21 @@ const MembersDetailForm = () => {
 
         <EmailField
           name="email"
-          label="Email"
+          label={t('form:label.email')}
           layout="vertical"
           placeholder="Member email"
           isFullWidth
         />
         <PasswordField
           name="password"
-          label="Password"
+          label={t('form:label.password')}
           layout="vertical"
           placeholder="Member password"
           isFullWidth
         />
         <SelectField
           name="type"
-          label="Type"
+          label={t('form:label.type')}
           placeholder="Select item type"
           options={options.type}
           layout="vertical"
@@ -88,14 +90,14 @@ const MembersDetailForm = () => {
 
         <InputField
           name="first_name"
-          label="First name"
+          label={t('form:label.first_name')}
           layout="vertical"
           placeholder="Type first name"
           isFullWidth
         />
         <InputField
           name="last_name"
-          label="Last name"
+          label={t('form:label.last_name')}
           layout="vertical"
           placeholder="Type first name"
           isFullWidth
@@ -103,7 +105,7 @@ const MembersDetailForm = () => {
 
         <SelectField
           name="sex"
-          label="Sex"
+          label={t('form:label.sex')}
           placeholder="Select sex"
           options={options.sex}
           layout="vertical"
@@ -119,21 +121,21 @@ const MembersDetailForm = () => {
 
         <InputField
           name="flat_no"
-          label="Flat number"
+          label={t('form:label.flat_number')}
           placeholder="Flat number"
           layout="vertical"
         />
 
         <DatePickerField
           name="birthdate"
-          label="Birthdate"
+          label={t('form:label.birthdate')}
           layout="vertical"
           isFullWidth
         />
 
         <TextareaField
           name="description"
-          label="Description"
+          label={t('form:label.description')}
           layout="vertical"
           placeholder="Member description"
           isFullWidth

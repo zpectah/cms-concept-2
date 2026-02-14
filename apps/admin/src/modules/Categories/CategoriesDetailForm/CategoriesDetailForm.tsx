@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
@@ -13,6 +14,7 @@ import { ICategoriesDetailForm } from './types';
 import { useCategoriesDetailForm } from './useCategoriesDetailForm';
 
 const CategoriesDetailForm = () => {
+  const { t } = useTranslation(['form']);
   const {
     id,
     title,
@@ -42,14 +44,14 @@ const CategoriesDetailForm = () => {
       <Grid container spacing={SPACING.form}>
         <InputField
           name="name"
-          label="Name"
+          label={t('form:label.name')}
           layout="vertical"
           placeholder="Category name"
           isFullWidth
         />
         <SelectField
           name="type"
-          label="Type"
+          label={t('form:label.type')}
           placeholder="Select item type"
           options={options.type}
           layout="vertical"
@@ -83,7 +85,7 @@ const CategoriesDetailForm = () => {
 
         <CategoriesPickerField
           name="parent_id"
-          label="Parent"
+          label={t('form:label.parent')}
           layout="vertical"
           isFullWidth
           categoriesPickerProps={{
@@ -95,7 +97,7 @@ const CategoriesDetailForm = () => {
           <CheckboxField
             name="active"
             label=""
-            fieldLabel="Active"
+            fieldLabel={t('form:label.active')}
             layout="vertical"
           />
         </Grid>

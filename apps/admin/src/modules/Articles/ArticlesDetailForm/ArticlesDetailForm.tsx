@@ -76,14 +76,14 @@ const ArticlesDetailForm = () => {
               <Grid container size={12} spacing={SPACING.form}>
                 <DateTimePickerField
                   name="event_start"
-                  label="Event start"
+                  label={t('form:label.event_start')}
                   layout="vertical"
                   isFullWidth
                   size={6}
                 />
                 <DateTimePickerField
                   name="event_end"
-                  label="Event ends"
+                  label={t('form:label.event_end')}
                   layout="vertical"
                   isFullWidth
                   size={6}
@@ -98,7 +98,7 @@ const ArticlesDetailForm = () => {
               />
               <LocationPickerField
                 name="event_location"
-                label="Event location"
+                label={t('form:label.event_location')}
                 isFullWidth
                 layout="vertical"
               />

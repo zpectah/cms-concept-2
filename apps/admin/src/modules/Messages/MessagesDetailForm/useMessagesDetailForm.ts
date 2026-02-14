@@ -121,6 +121,6 @@ export const useMessagesDetailForm = () => {
       type: getTypeFieldOptions(modelKeys.messages),
     },
     // Values
-    values: {},
+    values: form.watch(),
   };
 };

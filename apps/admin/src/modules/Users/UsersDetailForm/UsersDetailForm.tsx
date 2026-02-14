@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
@@ -13,6 +14,7 @@ import { IUsersDetailForm } from './types';
 import { useUsersDetailForm } from './useUsersDetailForm';
 
 const UsersDetailForm = () => {
+  const { t } = useTranslation(['form']);
   const {
     id,
     title,
@@ -62,57 +64,57 @@ const UsersDetailForm = () => {
 
         <EmailField
           name="email"
-          label="Email"
+          label={t('form:label.email')}
           layout="vertical"
           placeholder="User email"
           isFullWidth
         />
         <PasswordField
           name="password"
-          label="Password"
+          label={t('form:label.password')}
           layout="vertical"
           placeholder="User password"
           isFullWidth
           isRequired={id === 'new'}
         />
+
         <SelectField
           name="type"
-          label="Type"
+          label={t('form:label.type')}
           placeholder="Select item type"
           options={options.type}
           layout="vertical"
           selectProps={{ sx: { width: '50%' } }}
         />
-
-        <InputField
-          name="first_name"
-          label="First name"
-          layout="vertical"
-          placeholder="Type first name"
-          isFullWidth
-        />
-        <InputField
-          name="last_name"
-          label="Last name"
-          layout="vertical"
-          placeholder="Type first name"
-          isFullWidth
-        />
-
         <SelectField
           name="access_rights"
-          label="Access rights"
+          label={t('form:label.access_rights')}
           placeholder="Select rules"
           options={options.accessRights}
           layout="vertical"
           selectProps={{ sx: { width: '50%' } }}
         />
 
+        <InputField
+          name="first_name"
+          label={t('form:label.first_name')}
+          layout="vertical"
+          placeholder="Type first name"
+          isFullWidth
+        />
+        <InputField
+          name="last_name"
+          label={t('form:label.last_name')}
+          layout="vertical"
+          placeholder="Type first name"
+          isFullWidth
+        />
+
         <Grid container size={12} spacing={0}>
           <CheckboxField
             name="active"
             label=""
-            fieldLabel="Active"
+            fieldLabel={t('form:label.active')}
             layout="vertical"
           />
         </Grid>

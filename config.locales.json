@@ -9,21 +9,21 @@
   "cs": {
     "label": "Čeština",
     "format": {
-      "date": "DD.MM.YYYY",
+      "date": "DD.MM. YYYY",
       "time": "HH:mm"
     }
   },
   "sk": {
     "label": "Slovenčina",
     "format": {
-      "date": "DD.MM.YYYY",
+      "date": "DD.MM. YYYY",
       "time": "HH:mm"
     }
   },
   "pl": {
     "label": "Polski",
     "format": {
-      "date": "DD.MM.YYYY",
+      "date": "DD.MM. YYYY",
       "time": "HH:mm"
     }
   },
@@ -37,7 +37,7 @@
   "uk": {
     "label": "Українська",
     "format": {
-      "date": "DD.MM.YYYY",
+      "date": "DD.MM. YYYY",
       "time": "HH:mm"
     }
   },

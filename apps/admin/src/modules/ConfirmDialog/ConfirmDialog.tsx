@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../store';
 import { CONFIRM_DIALOG_WIDTH_DEFAULT } from '../../constants';
 import { Dialog, PrimaryButton, SecondaryButton } from '../../components';
@@ -6,6 +7,7 @@ import { Dialog, PrimaryButton, SecondaryButton } from '../../components';
 const ConfirmDialog = () => {
   const [open, setOpen] = useState(false);
 
+  const { t } = useTranslation();
   const { confirmDialog, setConfirmDialog } = useAppStore();
 
   const exitHandler = () => setConfirmDialog(null);
@@ -24,7 +26,7 @@ const ConfirmDialog = () => {
 
   return (
     <Dialog
-      labelId="confirm-dialog"
+      labelId={`confirm-dialog-${confirmDialog?.context}`}
       open={open}
       onClose={closeHandler}
       title={confirmDialog?.title}
@@ -36,14 +38,18 @@ const ConfirmDialog = () => {
       }}
       actions={
         <>
-          <SecondaryButton onClick={closeHandler}>Cancel</SecondaryButton>
-          <PrimaryButton onClick={confirmHandler}>Confirm</PrimaryButton>
+          <SecondaryButton onClick={closeHandler}>
+            {t('button.cancel')}
+          </SecondaryButton>
+          <PrimaryButton onClick={confirmHandler}>
+            {t('button.confirm')}
+          </PrimaryButton>
         </>
       }
       maxWidth={CONFIRM_DIALOG_WIDTH_DEFAULT}
       fullWidth
-      // disableEscapeKeyDown
       disableBackdropClose
+      // disableEscapeKeyDown
     />
   );
 };

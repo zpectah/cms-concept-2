@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
@@ -10,6 +11,7 @@ import { ICustomFieldsDetailForm } from './types';
 import { useCustomFieldsDetailForm } from './useCustomFieldsDetailForm';
 
 const CustomFieldsDetailForm = () => {
+  const { t } = useTranslation(['form']);
   const {
     id,
     title,
@@ -37,14 +39,14 @@ const CustomFieldsDetailForm = () => {
       <Grid container spacing={SPACING.form}>
         <InputField
           name="name"
-          label="Name"
+          label={t('form:label.name')}
           layout="vertical"
           placeholder="Custom field name"
           isFullWidth
         />
         <SelectField
           name="type"
-          label="Type"
+          label={t('form:label.type')}
           placeholder="Select custom field type"
           options={options.type}
           layout="vertical"
@@ -55,7 +57,7 @@ const CustomFieldsDetailForm = () => {
           <CheckboxField
             name="active"
             label=""
-            fieldLabel="Active"
+            fieldLabel={t('form:label.active')}
             layout="vertical"
           />
         </Grid>

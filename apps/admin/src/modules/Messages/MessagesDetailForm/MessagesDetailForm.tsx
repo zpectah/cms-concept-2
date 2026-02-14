@@ -1,11 +1,13 @@
 import { Grid } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { SPACING } from '../../../constants';
-import { DetailDrawer, InputField, TextareaField } from '../../../components';
+import { DetailDrawer, Literal, TypeValue } from '../../../components';
 import { IMessagesDetailForm } from './types';
 import { useMessagesDetailForm } from './useMessagesDetailForm';
 
 const MessagesDetailForm = () => {
-  const { id, title, form, onClose, onDelete, customActions } =
+  const { t } = useTranslation(['form']);
+  const { id, title, form, onClose, onDelete, customActions, values } =
     useMessagesDetailForm();
 
   return (
@@ -19,33 +21,25 @@ const MessagesDetailForm = () => {
       actions={customActions}
     >
       <Grid container spacing={SPACING.form}>
-        <InputField
-          name="sender"
-          label="Sender"
+        <Literal
+          label={t('form:label.type')}
+          value={<TypeValue value={values.type} prefix="model" />}
           layout="vertical"
-          isFullWidth
-          isReadOnly
         />
-        <InputField
-          name="type"
-          label="Type"
+        <Literal
+          label={t('form:label.sender')}
+          value={values.sender}
           layout="vertical"
-          isFullWidth
-          isReadOnly
         />
-        <InputField
-          name="subject"
-          label="Subject"
+        <Literal
+          label={t('form:label.subject')}
+          value={values.subject}
           layout="vertical"
-          isFullWidth
-          isReadOnly
         />
-        <TextareaField
-          name="content"
-          label="Content"
+        <Literal
+          label={t('form:label.content')}
+          value={values.content}
           layout="vertical"
-          isFullWidth
-          isReadOnly
         />
       </Grid>
     </DetailDrawer>
