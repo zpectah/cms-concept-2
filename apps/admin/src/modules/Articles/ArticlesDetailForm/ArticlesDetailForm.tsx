@@ -14,6 +14,7 @@ import {
   AddressField,
   LocationPickerField,
 } from '../../../components';
+import { FilesPickerField } from '../../Files';
 import { TagsPickerField } from '../../Tags';
 import { CategoriesPickerField } from '../../Categories';
 import { CommentsManager } from '../../Comments';
@@ -141,6 +142,13 @@ const ArticlesDetailForm = () => {
               )}
             />
           </Grid>
+          <FilesPickerField
+            name="image_thumb_id"
+            label="Thumbnail"
+            placeholder="Pick thumbnail"
+            layout="vertical"
+            fileType="image"
+          />
           <TagsPickerField
             name="tags"
             label={t('form:label.tags')}
@@ -157,9 +165,13 @@ const ArticlesDetailForm = () => {
             isMultiple
             isFullWidth
           />
-          {/* TODO */}
-          <input type="hidden" {...form.register('files', { value: [] })} />
-          {/* TODO */}
+          <FilesPickerField
+            name="attachments"
+            label="Attachments"
+            placeholder="Pick attachments"
+            layout="vertical"
+            isMultiple
+          />
           <Grid container size={12} spacing={0}>
             <CheckboxField
               name="approved"

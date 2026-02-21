@@ -58,11 +58,11 @@ export const useFileTypeElement = () => {
     const path = getPath(type, source, isThumbnail);
     const extension = getFileExtension(source);
     const label = !options?.disableLabel ? (
-      <Typography variant="body2" color="textSecondary">
+      <Typography variant="body2" color="textSecondary" textAlign="center">
         {source}
       </Typography>
     ) : options?.customLabel ? (
-      <Typography variant="body2" color="textDisabled">
+      <Typography variant="body2" color="textDisabled" textAlign="center">
         {options?.customLabel}
       </Typography>
     ) : null;

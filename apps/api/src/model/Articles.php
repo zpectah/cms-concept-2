@@ -13,7 +13,7 @@ class Articles extends Model {
       ...$data,
       'categories' => $data['categories'] ? explode(',', $data['categories']) : [],
       'tags' => $data['tags'] ? explode(',', $data['tags']) : [],
-      'files' => $data['files'] ? explode(',', $data['files']) : [],
+      'attachments' => $data['attachments'] ? explode(',', $data['attachments']) : [],
       'author' => $data['author'] ?? 0,
       'editor' => $data['editor'] ? explode(',', $data['editor']) : [],
       'explicit' => $data['explicit'] === 1,
@@ -56,7 +56,7 @@ class Articles extends Model {
       ...$data,
       'categories' => implode(',', $data['categories']),
       'tags' => implode(',', $data['tags']),
-      'files' => implode(',', $data['files']),
+      'attachments' => implode(',', $data['attachments']),
       'author' => $data['author'] ?? 0,
       'editor' => implode(',', $data['editor']),
       'explicit' => $data['explicit'] ? 1 : 0,
@@ -94,7 +94,7 @@ class Articles extends Model {
 
     $items = [];
 
-    $sql = "SELECT id, name, type, categories, tags, files, author, editor, approved, explicit, active, deleted, created, updated FROM `articles`";
+    $sql = "SELECT id, name, type, categories, tags, attachments, author, editor, approved, explicit, active, deleted, created, updated FROM `articles`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 
@@ -139,8 +139,9 @@ class Articles extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
     $params = self::get_columns_and_values_for_query([
-      'type', 'name', 'categories', 'tags', 'files',
+      'type', 'name', 'categories', 'tags', 'attachments',
       'event_address_street', 'event_address_street_no', 'event_address_district', 'event_address_city', 'event_address_country', 'event_address_zip', 'event_location', 'event_start', 'event_end',
+      'image_thumb_id',
       'author', 'editor', 'explicit', 'approved', 'active', 'deleted'
     ]);
 
@@ -153,7 +154,7 @@ class Articles extends Model {
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':categories', $data['categories']);
     $stmt -> bindParam(':tags', $data['tags']);
-    $stmt -> bindParam(':files', $data['files']);
+    $stmt -> bindParam(':attachments', $data['attachments']);
     $stmt -> bindParam(':event_address_street', $data['event_address_street']);
     $stmt -> bindParam(':event_address_street_no', $data['event_address_street_no']);
     $stmt -> bindParam(':event_address_district', $data['event_address_district']);
@@ -163,6 +164,7 @@ class Articles extends Model {
     $stmt -> bindParam(':event_location', $data['event_location']);
     $stmt -> bindParam(':event_start', $data['event_start']);
     $stmt -> bindParam(':event_end', $data['event_end']);
+    $stmt -> bindParam(':image_thumb_id', $data['image_thumb_id']);
     $stmt -> bindParam(':author', $data['author'], PDO::PARAM_INT);
     $stmt -> bindParam(':editor', $data['editor']);
     $stmt -> bindParam(':explicit', $data['explicit'], PDO::PARAM_INT);
@@ -204,8 +206,9 @@ class Articles extends Model {
     $conn = self::connection();
     $data = self::parse_json_to_db($data);
     $setParts = self::query_parts($data, [
-      'type', 'name', 'categories', 'tags', 'files',
+      'type', 'name', 'categories', 'tags', 'attachments',
       'event_address_street', 'event_address_street_no', 'event_address_district', 'event_address_city', 'event_address_country', 'event_address_zip', 'event_location', 'event_start', 'event_end',
+      'image_thumb_id',
       'author', 'editor', 'explicit', 'approved', 'active', 'deleted'
     ]);
 
@@ -215,7 +218,7 @@ class Articles extends Model {
     $stmt -> bindParam(':name', $data['name']);
     $stmt -> bindParam(':categories', $data['categories']);
     $stmt -> bindParam(':tags', $data['tags']);
-    $stmt -> bindParam(':files', $data['files']);
+    $stmt -> bindParam(':attachments', $data['attachments']);
     $stmt -> bindParam(':event_address_street', $data['event_address_street']);
     $stmt -> bindParam(':event_address_street_no', $data['event_address_street_no']);
     $stmt -> bindParam(':event_address_district', $data['event_address_district']);
@@ -225,6 +228,7 @@ class Articles extends Model {
     $stmt -> bindParam(':event_location', $data['event_location']);
     $stmt -> bindParam(':event_start', $data['event_start']);
     $stmt -> bindParam(':event_end', $data['event_end']);
+    $stmt -> bindParam(':image_thumb_id', $data['image_thumb_id']);
     $stmt -> bindParam(':author', $data['author'], PDO::PARAM_INT);
     $stmt -> bindParam(':editor', $data['editor']);
     $stmt -> bindParam(':explicit', $data['explicit'], PDO::PARAM_INT);

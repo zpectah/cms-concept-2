@@ -9,7 +9,7 @@ export interface ArticlesItem extends ItemBase {
   type: ArticlesType;
   tags: number[];
   categories: number[];
-  files: number[];
+  attachments: number[];
   approved: boolean;
   explicit: boolean;
   author: number;
@@ -31,4 +31,6 @@ export interface ArticlesDetailLocale {
 
 export interface ArticlesDetail
   extends ArticlesItem,
-    ItemLocaleBase<ArticlesDetailLocale> {}
+    ItemLocaleBase<ArticlesDetailLocale> {
+  image_thumb_id: number;
+}
