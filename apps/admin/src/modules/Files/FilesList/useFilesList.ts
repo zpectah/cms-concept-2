@@ -2,8 +2,11 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../../store';
 import { useResponseMessage } from '../../../hooks';
 import { useFilesQuery } from '../../../query';
+import { getConfig } from '../../../config';
 
 export const useFilesList = () => {
+  const { uploads } = getConfig();
+
   const { t } = useTranslation(['common']);
   const { addToast } = useAppStore();
   const { onError } = useResponseMessage();
@@ -48,7 +51,12 @@ export const useFilesList = () => {
   };
 
   const deletePermanentHandler = (ids: number[]) => {
-    onDeletePermanent([...ids], {
+    const master = {
+      ids,
+      path: uploads.target,
+    };
+
+    onDeletePermanent(master, {
       onSuccess: ({ rows }) => {
         addToast({
           title: t('message.success.deletePermanent', { count: rows }),

@@ -2,7 +2,12 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Pages, PagesDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import {
+  ApiCommonRequest,
+  CommonIdAndLocalesResponse,
+  CommonRowsAndLocalesResponse,
+  CommonRowsResponse,
+} from '../types';
 
 interface UsePagesQueryProps {
   id?: string | 'new';
@@ -29,7 +34,11 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
     enabled: !!id && id !== 'new',
   });
 
-  const createMutation = useMutation<{ id: number }, unknown, PagesDetail>({
+  const createMutation = useMutation<
+    CommonIdAndLocalesResponse,
+    unknown,
+    PagesDetail
+  >({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-create`],
     mutationFn: (data) =>
       axios
@@ -37,7 +46,11 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const patchMutation = useMutation<{ rows: number }, unknown, PagesDetail>({
+  const patchMutation = useMutation<
+    CommonRowsAndLocalesResponse,
+    unknown,
+    PagesDetail
+  >({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
     mutationFn: (data) =>
       axios
@@ -45,7 +58,7 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const toggleMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const toggleMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-toggle`],
     mutationFn: (data) =>
       axios
@@ -53,7 +66,7 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const deleteMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const deleteMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete`],
     mutationFn: (data) =>
       axios

@@ -2,7 +2,12 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Categories, CategoriesDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import {
+  ApiCommonRequest,
+  CommonIdAndLocalesResponse,
+  CommonRowsAndLocalesResponse,
+  CommonRowsResponse,
+} from '../types';
 
 interface UseCategoriesQueryProps {
   id?: string | 'new';
@@ -31,10 +36,7 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
   });
 
   const createMutation = useMutation<
-    {
-      id: number;
-      locales: string[];
-    },
+    CommonIdAndLocalesResponse,
     unknown,
     CategoriesDetail
   >({
@@ -46,10 +48,7 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
   });
 
   const patchMutation = useMutation<
-    {
-      rows: number;
-      locales: string[];
-    },
+    CommonRowsAndLocalesResponse,
     unknown,
     CategoriesDetail
   >({
@@ -61,9 +60,7 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
   });
 
   const toggleMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -75,9 +72,7 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
   });
 
   const deleteMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -89,9 +84,7 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

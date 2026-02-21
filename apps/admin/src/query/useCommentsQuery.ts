@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Comments, CommentsDetail, ModelNames } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import { ApiCommonRequest, CommonRowsResponse } from '../types';
 
 interface UseCommentsQueryProps {
   id?: number | 'new' | null;
@@ -65,9 +65,7 @@ export const useCommentsQuery = ({
   });
 
   const patchMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     CommentsDetail
   >({
@@ -79,9 +77,7 @@ export const useCommentsQuery = ({
   });
 
   const toggleMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -93,9 +89,7 @@ export const useCommentsQuery = ({
   });
 
   const deleteMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -107,9 +101,7 @@ export const useCommentsQuery = ({
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

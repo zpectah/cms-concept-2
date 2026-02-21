@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { CustomFields, CustomFieldsDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import { ApiCommonRequest, CommonRowsResponse } from '../types';
 
 interface UseCustomFieldsQueryProps {
   id?: string | 'new';
@@ -43,7 +43,7 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
   });
 
   const patchMutation = useMutation<
-    { rows: number },
+    CommonRowsResponse,
     unknown,
     CustomFieldsDetail
   >({
@@ -54,7 +54,7 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
         .then((response) => response.data),
   });
 
-  const toggleMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const toggleMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-toggle`],
     mutationFn: (data) =>
       axios
@@ -62,7 +62,7 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
         .then((response) => response.data),
   });
 
-  const deleteMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const deleteMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete`],
     mutationFn: (data) =>
       axios
@@ -71,9 +71,7 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

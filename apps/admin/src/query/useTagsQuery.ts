@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Tags, TagsDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import { ApiCommonRequest, CommonRowsResponse } from '../types';
 
 interface UseTagsQueryProps {
   id?: string | 'new';
@@ -41,13 +41,7 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
         .then((response) => response.data),
   });
 
-  const patchMutation = useMutation<
-    {
-      rows: number;
-    },
-    unknown,
-    TagsDetail
-  >({
+  const patchMutation = useMutation<CommonRowsResponse, unknown, TagsDetail>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
     mutationFn: (data) =>
       axios
@@ -56,9 +50,7 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
   });
 
   const toggleMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -70,9 +62,7 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
   });
 
   const deleteMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -84,9 +74,7 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

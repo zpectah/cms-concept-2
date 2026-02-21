@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Messages, MessagesDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import { ApiCommonRequest, CommonRowsResponse } from '../types';
 
 interface UseMessagesQueryProps {
   id?: string | 'new';
@@ -38,7 +38,11 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const patchMutation = useMutation<{ rows: number }, unknown, MessagesDetail>({
+  const patchMutation = useMutation<
+    CommonRowsResponse,
+    unknown,
+    MessagesDetail
+  >({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
     mutationFn: (data) =>
       axios
@@ -46,7 +50,7 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const toggleMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const toggleMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-toggle`],
     mutationFn: (data) =>
       axios
@@ -54,7 +58,7 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const readMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const readMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-read`],
     mutationFn: (data) =>
       axios
@@ -62,7 +66,7 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const deleteMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const deleteMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete`],
     mutationFn: (data) =>
       axios
@@ -71,9 +75,7 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

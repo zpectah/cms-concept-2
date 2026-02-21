@@ -2,7 +2,12 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Articles, ArticlesDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import {
+  ApiCommonRequest,
+  CommonIdAndLocalesResponse,
+  CommonRowsAndLocalesResponse,
+  CommonRowsResponse,
+} from '../types';
 
 interface UseArticlesQueryProps {
   id?: string | 'new';
@@ -41,10 +46,7 @@ export const useArticlesQuery = ({ id, cloneId }: UseArticlesQueryProps) => {
   });
 
   const createMutation = useMutation<
-    {
-      id: number;
-      locales: string[];
-    },
+    CommonIdAndLocalesResponse,
     unknown,
     ArticlesDetail
   >({
@@ -56,10 +58,7 @@ export const useArticlesQuery = ({ id, cloneId }: UseArticlesQueryProps) => {
   });
 
   const patchMutation = useMutation<
-    {
-      rows: number;
-      locales: string[];
-    },
+    CommonRowsAndLocalesResponse,
     unknown,
     ArticlesDetail
   >({
@@ -71,9 +70,7 @@ export const useArticlesQuery = ({ id, cloneId }: UseArticlesQueryProps) => {
   });
 
   const toggleMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -85,9 +82,7 @@ export const useArticlesQuery = ({ id, cloneId }: UseArticlesQueryProps) => {
   });
 
   const approveMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -99,9 +94,7 @@ export const useArticlesQuery = ({ id, cloneId }: UseArticlesQueryProps) => {
   });
 
   const deleteMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -113,9 +106,7 @@ export const useArticlesQuery = ({ id, cloneId }: UseArticlesQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

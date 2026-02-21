@@ -4,12 +4,16 @@ export interface CommonRowsResponse {
   rows: number;
 }
 
-export interface CommonRowsWithLocalesResponse {
+export interface CommonRowsAndLocalesResponse {
   rows: number;
   locales: string[];
 }
 
-export interface CommonDetailWithLocalesResponse {
+export interface CommonIdsResponse {
+  ids: number[];
+}
+
+export interface CommonIdAndLocalesResponse {
   id: number;
   locales: string[];
 }

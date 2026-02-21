@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Settings } from '@model';
 import { getConfig } from '../config';
+import { CommonRowsResponse } from '../types';
 
 const QUERY_KEY_BASE = 'settings';
 
@@ -17,7 +18,7 @@ export const useSettingsQuery = () => {
   });
 
   const patchMutation = useMutation<
-    { rows: number },
+    CommonRowsResponse,
     unknown,
     Partial<Settings>
   >({

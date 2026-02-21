@@ -2,7 +2,12 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { MenuItems, MenuItemsDetail } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import {
+  ApiCommonRequest,
+  CommonIdAndLocalesResponse,
+  CommonRowsAndLocalesResponse,
+  CommonRowsResponse,
+} from '../types';
 
 interface UseMenuItemsQueryProps {
   id?: number | 'new' | null;
@@ -34,7 +39,11 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
     enabled: !!id && id !== 'new',
   });
 
-  const createMutation = useMutation<{ id: number }, unknown, MenuItemsDetail>({
+  const createMutation = useMutation<
+    CommonIdAndLocalesResponse,
+    unknown,
+    MenuItemsDetail
+  >({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-create`],
     mutationFn: (data) =>
       axios
@@ -42,17 +51,19 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
         .then((response) => response.data),
   });
 
-  const patchMutation = useMutation<{ rows: number }, unknown, MenuItemsDetail>(
-    {
-      mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
-      mutationFn: (data) =>
-        axios
-          .patch(`${endpoints.menuItems}/patch`, data)
-          .then((response) => response.data),
-    }
-  );
+  const patchMutation = useMutation<
+    CommonRowsAndLocalesResponse,
+    unknown,
+    MenuItemsDetail
+  >({
+    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
+    mutationFn: (data) =>
+      axios
+        .patch(`${endpoints.menuItems}/patch`, data)
+        .then((response) => response.data),
+  });
 
-  const toggleMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const toggleMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-toggle`],
     mutationFn: (data) =>
       axios
@@ -60,7 +71,7 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
         .then((response) => response.data),
   });
 
-  const deleteMutation = useMutation<{ rows: number }, unknown, number[]>({
+  const deleteMutation = useMutation<CommonRowsResponse, unknown, number[]>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete`],
     mutationFn: (data) =>
       axios
@@ -69,9 +80,7 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({

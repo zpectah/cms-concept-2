@@ -2,7 +2,11 @@ import axios from 'axios';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Files, FilesDetail, FilesUploadRequest } from '@model';
 import { getConfig } from '../config';
-import { ApiCommonRequest } from '../types';
+import {
+  ApiCommonRequest,
+  CommonIdsResponse,
+  CommonRowsResponse,
+} from '../types';
 
 interface UseFilesQueryProps {
   id?: string | 'new';
@@ -29,13 +33,7 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
     enabled: !!id && id !== 'new',
   });
 
-  const createMutation = useMutation<
-    {
-      ids: number[];
-    },
-    unknown,
-    Files
-  >({
+  const createMutation = useMutation<CommonIdsResponse, unknown, Files>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-create`],
     mutationFn: (data) =>
       axios
@@ -55,13 +53,7 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
         .then((response) => response.data),
   });
 
-  const patchMutation = useMutation<
-    {
-      rows: number;
-    },
-    unknown,
-    FilesDetail
-  >({
+  const patchMutation = useMutation<CommonRowsResponse, unknown, FilesDetail>({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
     mutationFn: (data) =>
       axios
@@ -70,9 +62,7 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
   });
 
   const toggleMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -84,9 +74,7 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
   });
 
   const deleteMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
     ApiCommonRequest
   >({
@@ -98,11 +86,9 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
   });
 
   const deletePermanentMutation = useMutation<
-    {
-      rows: number;
-    },
+    CommonRowsResponse,
     unknown,
-    ApiCommonRequest
+    { ids: number[]; path: string }
   >({
     mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-delete-permanent`],
     mutationFn: (data) =>
