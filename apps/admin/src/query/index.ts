@@ -13,4 +13,5 @@ export * from './useRequestsQuery';
 export * from './useSettingsQuery';
 export * from './useTagsQuery';
 export * from './useTranslationsQuery';
+export * from './useUserQuery';
 export * from './useUsersQuery';

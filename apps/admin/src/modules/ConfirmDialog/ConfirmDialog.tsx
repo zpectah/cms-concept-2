@@ -20,6 +20,7 @@ const ConfirmDialog = () => {
   const confirmHandler = () => {
     confirmDialog?.onConfirm();
     closeHandler();
+    exitHandler();
   };
 
   useEffect(() => setOpen(!!confirmDialog), [confirmDialog]);
@@ -48,6 +49,7 @@ const ConfirmDialog = () => {
       }
       maxWidth={CONFIRM_DIALOG_WIDTH_DEFAULT}
       fullWidth
+      disableCloseButton
       disableBackdropClose
       // disableEscapeKeyDown
     />

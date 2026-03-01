@@ -29,6 +29,8 @@ const UsersDetailForm = () => {
     values,
   } = useUsersDetailForm();
 
+  const isNew = id === 'new';
+
   return (
     <DetailDrawer<IUsersDetailForm>
       formId={formId}
@@ -73,9 +75,9 @@ const UsersDetailForm = () => {
           name="password"
           label={t('form:label.password')}
           layout="vertical"
-          placeholder="User password"
+          placeholder={isNew ? 'User password' : 'New password'}
           isFullWidth
-          isRequired={id === 'new'}
+          isRequired={isNew}
         />
 
         <SelectField

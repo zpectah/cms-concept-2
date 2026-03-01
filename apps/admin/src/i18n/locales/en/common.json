@@ -129,17 +129,21 @@
       "read_zero": "Nothing was set as read",
       "read_one": "Item was successfully set as read",
       "read_other": "{{count}} items was successfully set as read",
-      "dataSaved": "Data was successfully saved"
+      "dataSaved": "Data was successfully saved",
+      "logoutSuccess": "You have been successfully logged out"
     },
     "info": {
-      "avatar_updated": "Avatar was updated, we recommends you to save data"
+      "avatar_updated": "Avatar was updated, we recommends you to save data",
+      "expiredSession": "You are not logged in, please log in again"
     },
     "warning": {
       "file_max_size": "File '{{file}}' exceeded max file size",
       "file_unsupported": "Unsupported file '{{file}}'",
       "file_unknown": "Unknown file '{{file}}'"
     },
-    "error": {}
+    "error": {
+
+    }
   },
   "routes": {
     "articles": "Articles",

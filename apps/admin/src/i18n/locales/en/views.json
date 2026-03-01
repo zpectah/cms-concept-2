@@ -15,7 +15,12 @@
     "detail": "Custom field detail"
   },
   "dashboard": {
-    "title": "Dashboard"
+    "title": "Dashboard",
+    "messages": {
+      "success": {
+        "login": "You have been successfully logged in"
+      }
+    }
   },
   "demo": {
     "title": "Demo"
@@ -29,8 +34,28 @@
     "detail": "File detail"
   },
   "login": {
-    "title": "Login",
-    "description": "Login to administration"
+    "title": "Login to administration",
+    "description": "Form with login to administration",
+    "form": {
+      "label": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "placeholder": {
+        "email": "Type your email",
+        "password": "Type your password"
+      }
+    },
+    "messages": {
+      "success": {
+        "loggingIn": "Logging into the system is in progress."
+      },
+      "error": {
+        "logIn": "There was an error logging in, please try again",
+        "credentials": "The credentials are incorrect, please correct them and try again",
+        "userNotExist": "The user you are trying to log in with does not exist"
+      }
+    }
   },
   "members": {
     "title": "Members",

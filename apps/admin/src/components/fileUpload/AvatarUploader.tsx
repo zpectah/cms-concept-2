@@ -110,6 +110,7 @@ const AvatarUploader = ({
             onClick={onSubmit}
             disabled={!current}
             variant="contained"
+            color="success"
             size="small"
           >
             {t('button.upload')}
@@ -118,6 +119,7 @@ const AvatarUploader = ({
             onClick={onReset}
             disabled={!current}
             variant="contained"
+            color="warning"
             size="small"
           >
             {t('button.cancel')}

@@ -1,8 +1,9 @@
-import { GridProps } from '@mui/material';
+import { GridProps, StackProps } from '@mui/material';
 import { WithChildren } from '@common';
 
 export interface GridActionsProps extends WithChildren {
   disableSeparator?: boolean;
+  stackProps?: Partial<StackProps>;
 }
 
 export interface GridHeadingProps {

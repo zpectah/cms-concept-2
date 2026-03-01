@@ -12,6 +12,7 @@ export const endpoints = {
   settings: `private/settings`,
   tags: `private/tags`,
   translations: `private/translations`,
+  user: `private/user`,
   users: `private/users`,
   blacklist: `private/blacklist`,
   requests: `private/requests`,

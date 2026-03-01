@@ -29,6 +29,7 @@ const getConfig = () => {
     settings: `${apiUrl}${endpoints.settings}`,
     tags: `${apiUrl}${endpoints.tags}`,
     translations: `${apiUrl}${endpoints.translations}`,
+    user: `${apiUrl}${endpoints.user}`,
     users: `${apiUrl}${endpoints.users}`,
     blacklist: `${apiUrl}${endpoints.blacklist}`,
     requests: `${apiUrl}${endpoints.requests}`,

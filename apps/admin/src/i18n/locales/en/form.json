@@ -79,7 +79,13 @@
       "file_queue_duplicity": "This file already exist in queue",
       "file_db_duplicity": "This file is already exist",
       "invalid_email_format": "Invalid email format",
-      "invalid_format": "Invalid format"
+      "invalid_format": "Invalid format",
+      "invalid_number": "Invalid number",
+      "invalid_boolean": "Invalid boolean",
+      "invalid_string": "Invalid string",
+      "invalid_date": "Invalid date",
+      "invalid_date_time": "Invalid date and time",
+      "invalid_array": "Invalid array"
     },
     "success": {}
   }

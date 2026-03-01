@@ -1,4 +1,35 @@
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
+import { useAppStore } from '../../store';
+
 const Dashboard = () => {
+  const { t } = useTranslation(['common', 'views']);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { addToast } = useAppStore();
+
+  // TODO: in hook
+
+  useEffect(() => {
+    const login = searchParams.get('login');
+
+    if (login && login === 'success') {
+      addToast({
+        title: t('views:dashboard.messages.success.login'),
+        severity: 'success',
+        autoclose: true,
+      });
+
+      setSearchParams((state) => {
+        state.delete('login');
+
+        return state;
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   return (
     <>
       <p>

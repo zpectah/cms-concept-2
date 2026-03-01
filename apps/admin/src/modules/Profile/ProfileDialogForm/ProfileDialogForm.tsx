@@ -1,9 +1,11 @@
 import { useAppStore } from '../../../store';
 import { PROFILE_DRAWER_WIDTH_DEFAULT } from '../../../constants';
 import { Button, Drawer } from '../../../components';
+import { useProfileDialogForm } from './useProfileDialogForm';
 
 const ProfileDialogForm = () => {
   const { profileDialog, setProfileDialog } = useAppStore();
+  const { profile } = useProfileDialogForm();
 
   // TODO
 
@@ -28,6 +30,11 @@ const ProfileDialogForm = () => {
     >
       ...ProfileDialogForm...
       <div>
+        <div>
+          <pre>
+            <code>{JSON.stringify(profile, null, 2)}</code>
+          </pre>
+        </div>
         Curabitur mauris cursus vehicula malesuada amet ac sem blandit tincidunt
         risus consectetur dignissim sit nibh. Ultrices sollicitudin donec quis
         tristique lacus at sit eleifend sagittis nunc vestibulum pharetra sem
