@@ -40,6 +40,7 @@ export const useAvatarUploader = ({
     ? filesUploadContextKeys.member
     : filesUploadContextKeys.default;
   const entityUid = userUid ?? memberUid;
+  // const temporaryHash = Date.now();
 
   const submitHandler = () => {
     if (!current?.content) return;

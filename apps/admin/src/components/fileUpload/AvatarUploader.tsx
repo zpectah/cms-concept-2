@@ -1,13 +1,14 @@
+import { useTranslation } from 'react-i18next';
 import { Box } from '@mui/material';
+import { Button } from '../ui';
 import { ImageCropper } from '../imageCropper';
 import { AvatarUploaderProps } from './types';
 import { useAvatarUploader } from './useAvatarUploader';
-import { Button } from '../ui';
-import { useTranslation } from 'react-i18next';
 
 const AvatarUploader = ({
   filename,
   size = '150px',
+  disabled,
   ...rest
 }: AvatarUploaderProps) => {
   const { t } = useTranslation();
@@ -26,7 +27,6 @@ const AvatarUploader = ({
   });
 
   const isCurrent = filename !== '';
-
   const inputElement = (
     <input
       type="file"
@@ -71,6 +71,7 @@ const AvatarUploader = ({
             variant="contained"
             size="small"
             sx={{ opacity: 0, '.avatar-container:hover &': { opacity: 1 } }}
+            disabled={disabled}
           >
             <span>{t('button.select_file', { count: 1 })}</span>
             {inputElement}

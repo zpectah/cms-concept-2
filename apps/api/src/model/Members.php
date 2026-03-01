@@ -64,7 +64,7 @@ class Members extends Model {
   public function get_list(): array {
     $conn = self::connection();
 
-    $sql = "SELECT id, uid, type, email, first_name, last_name, sex, birthdate, active, deleted, created, updated FROM `members`";
+    $sql = "SELECT id, uid, type, email, first_name, last_name, sex, birthdate, avatar_image, avatar_hash, active, deleted, created, updated FROM `members`";
     $stmt = $conn -> prepare($sql);
     $stmt -> execute();
 

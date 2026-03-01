@@ -25,6 +25,7 @@
     "submit": "Submit",
     "create": "Create",
     "update": "Update",
+    "updateChanges": "Update changes",
     "markAsRead": "Mark as read",
     "cropImage": "Crop image",
     "confirm": "Confirm",

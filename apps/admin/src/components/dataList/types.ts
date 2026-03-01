@@ -86,6 +86,7 @@ export interface DataListColumnProps<T extends ListModelItem> {
   isTitle?: boolean;
   label?: string;
   renderValue?: (row: T) => ReactNode;
+  renderTitleSlot?: (row: T) => ReactNode;
 }
 
 export interface DataListProps<T extends ListModelItem> {

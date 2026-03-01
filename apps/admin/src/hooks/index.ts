@@ -7,6 +7,7 @@ export * from './useMediaQuery';
 export * from './useMenuItems';
 export * from './useModelFavorites';
 export * from './useNewItem';
+export * from './usePersonData';
 export * from './useProfile';
 export * from './useResponseMessage';
 export * from './useSelectOptions';

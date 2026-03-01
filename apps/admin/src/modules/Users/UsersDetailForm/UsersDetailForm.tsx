@@ -60,6 +60,7 @@ const UsersDetailForm = () => {
               onComplete={onAvatarUpdate}
               onClear={() => onAvatarUpdate('')}
               size={'175px'}
+              disabled={isNew}
             />
           </Grid>
         </Grid>

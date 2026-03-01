@@ -24,6 +24,7 @@ interface AvatarUploaderBase {
 
 export interface AvatarUploaderProps extends AvatarUploaderBase {
   size?: string;
+  disabled?: boolean;
 }
 
 export type UseAvatarUploaderProps = AvatarUploaderBase & {};

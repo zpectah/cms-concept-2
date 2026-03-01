@@ -24,7 +24,19 @@ export const useUserQuery = () => {
         .then((response) => response.data),
   });
 
-  const userDetailPatchMutation = () => null;
+  const userDetailPatchMutation = useMutation<
+    { rows: number },
+    unknown,
+    UsersDetail
+  >({
+    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-patch`],
+    mutationFn: (data) =>
+      axios
+        .patch(`${endpoints.user}/patch`, data, {
+          withCredentials: true,
+        })
+        .then((response) => response.data),
+  });
 
   const userLoginCheckEmailMutation = useMutation<
     { match: boolean },

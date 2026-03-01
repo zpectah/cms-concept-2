@@ -62,7 +62,7 @@ export const useUsersDetailForm = () => {
         id: String(item),
         value,
         label: getOptionValue(String(item), 'accessRights'),
-        disabled: value > user.access_rights,
+        disabled: value > (user?.access_rights ?? 0), // TODO #check
       });
     });
 

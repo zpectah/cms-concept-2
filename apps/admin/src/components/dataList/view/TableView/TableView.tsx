@@ -87,12 +87,15 @@ const TableView = <T extends ListModelItem>({
                       {column.isTitle ? (
                         <Stack direction="row" gap={2} alignItems="center">
                           {renderFavoriteStar(row.id)}
+                          {column?.renderTitleSlot?.(row as T)}
                           <Typography
                             variant="button"
                             onClick={() => onDetail(rowId)}
                             sx={{ cursor: 'pointer' }}
                           >
-                            {value}
+                            {column.renderValue
+                              ? column.renderValue(row as T)
+                              : value}
                           </Typography>
                         </Stack>
                       ) : column.renderValue ? (
