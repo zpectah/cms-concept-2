@@ -7,15 +7,19 @@ use model\Files;
 
 class FilesController extends Controller {
 
-  private function get($url): array {
-    $files = new Files;
+  private static Files $files;
 
+  public function __construct() {
+    self::$files = new Files();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $files -> get_detail($id);
+      return self::$files -> get_detail($id);
     } else {
-      return $files -> get_list();
+      return self::$files -> get_list();
     }
   }
 

@@ -3,69 +3,61 @@
 namespace private;
 
 use controller\Controller;
-use model\MenuItems;
 use model\Settings;
+use model\MenuItems;
 
 class MenuItemsController extends Controller {
 
-  private function getLocales(): array {
-    $settings = new Settings;
+  private static Settings $settings;
+  private static MenuItems $menuItems;
 
-    return [
-      ...$settings -> get_table()['locales'],
-    ];
+  public function __construct() {
+    self::$settings = new Settings();
+    self::$menuItems = new MenuItems();
+  }
+
+  private function getLocales(): array {
+    return self::$settings -> get_table()['locales'];
   }
 
   private function get($url): array {
-    $menu = new MenuItems;
-
     $locales = self::getLocales()['active'];
     $id = self::url_id($url);
     $menuId = self::url_menuId($url);
 
     if ($id) {
-      return $menu -> get_detail($id, $locales);
+      return self::$menuItems -> get_detail($id, $locales);
     } else if ($menuId) {
-      return $menu -> get_list($menuId);
+      return self::$menuItems -> get_list($menuId);
     } else {
       return [];
     }
   }
 
   private function create($url, $data): array {
-    $menu = new MenuItems;
-
     $locales = self::getLocales()['active'];
 
-    return $menu -> create($data, $locales);
+    return self::$menuItems -> create($data, $locales);
   }
 
   private function patch($url, $data): array {
-    $menu = new MenuItems;
-
     $locales = self::getLocales()['active'];
 
-    return $menu -> patch($data, $locales);
+    return self::$menuItems -> patch($data, $locales);
   }
 
   private function toggle($url, $data): array {
-    $menu = new MenuItems;
-
-    return $menu -> toggle($data);
+    return self::$menuItems -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $menu = new MenuItems;
-
-    return $menu -> delete($data);
+    return self::$menuItems -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $menu = new MenuItems;
-
     $locales = self::getLocales()['installed'];
 
-    return $menu -> delete_permanent($data, $locales);
+    return self::$menuItems -> delete_permanent($data, $locales);
   }
 
   public function resolve($url, $data): array {

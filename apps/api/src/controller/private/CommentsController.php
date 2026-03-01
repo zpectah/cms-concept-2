@@ -7,52 +7,46 @@ use model\Comments;
 
 class CommentsController extends Controller {
 
-  private function get($url): array {
-    $comments = new Comments;
+  private static Comments $comments;
 
+  public function __construct() {
+    self::$comments = new Comments();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $comments -> get_detail($id);
+      return self::$comments -> get_detail($id);
     }
 
     $attrs = self::url_comments($url);
 
     if ($attrs['type'] && $attrs['id']) {
-      return $comments -> get_list($attrs['type'], $attrs['id']);
+      return self::$comments -> get_list($attrs['type'], $attrs['id']);
     }
 
     return [];
   }
 
   private function create($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> create($data);
+    return self::$comments -> create($data);
   }
 
   private function patch($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> patch($data);
+    return self::$comments -> patch($data);
   }
 
   private function toggle($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> toggle($data);
+    return self::$comments -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> delete($data);
+    return self::$comments -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> delete_permanent($data);
+    return self::$comments -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

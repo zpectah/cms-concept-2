@@ -7,31 +7,31 @@ use model\Members;
 
 class MembersController extends Controller {
 
-  private function get($url): array {
-    $members = new Members;
+  private static Members $members;
 
+  public function __construct() {
+    self::$members = new Members();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
     $email = self::url_email($url);
 
     if ($id) {
-      return $members -> get_detail($id, false);
+      return self::$members -> get_detail($id, false);
     } else if ($email) {
-      return $members -> get_detail(false, $email);
+      return self::$members -> get_detail(false, $email);
     } else {
-      return $members -> get_list();
+      return self::$members -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $members = new Members;
-
-    return $members -> create($data);
+    return self::$members -> create($data);
   }
 
   private function patch($url, $data): array {
-    $members = new Members;
-
-    return $members -> patch($data);
+    return self::$members -> patch($data);
   }
 
   public function resolve($url, $data): array {

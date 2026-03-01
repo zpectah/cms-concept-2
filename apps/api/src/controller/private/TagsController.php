@@ -7,46 +7,40 @@ use model\Tags;
 
 class TagsController extends Controller {
 
-  private function get($url): array {
-    $tags = new Tags;
+  private static Tags $tags;
 
+  public function __construct() {
+    self::$tags = new Tags();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $tags -> get_detail($id);
+      return self::$tags -> get_detail($id);
     } else {
-      return $tags -> get_list();
+      return self::$tags -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $tags = new Tags;
-
-    return $tags -> create($data);
+    return self::$tags -> create($data);
   }
 
   private function patch($url, $data): array {
-    $tags = new Tags;
-
-    return $tags -> patch($data);
+    return self::$tags -> patch($data);
   }
 
   private function toggle($url, $data): array {
-    $tags = new Tags;
-
-    return $tags -> toggle($data);
+    return self::$tags -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $tags = new Tags;
-
-    return $tags -> delete($data);
+    return self::$tags -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $tags = new Tags;
-
-    return $tags -> delete_permanent($data);
+    return self::$tags -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

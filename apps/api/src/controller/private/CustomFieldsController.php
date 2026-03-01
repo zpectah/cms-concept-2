@@ -4,50 +4,44 @@ namespace private;
 
 use controller\Controller;
 use model\CustomFields;
-use model\CustomFieldsItems;
+// use model\CustomFieldsItems;
 
 class CustomFieldsController extends Controller {
 
-  private function get($url): array {
-    $customFields = new CustomFields;
+  private static CustomFields $customFields;
 
+  public function __construct() {
+    self::$customFields = new CustomFields();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $customFields -> get_detail($id);
+      return self::$customFields -> get_detail($id);
     } else {
-      return $customFields -> get_list();
+      return self::$customFields -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $customFields = new CustomFields;
-
-    return $customFields -> create($data);
+    return self::$customFields -> create($data);
   }
 
   private function patch($url, $data): array {
-    $customFields = new CustomFields;
-
-    return $customFields -> patch($data);
+    return self::$customFields -> patch($data);
   }
 
   private function toggle($url, $data): array {
-    $customFields = new CustomFields;
-
-    return $customFields -> toggle($data);
+    return self::$customFields -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $customFields = new CustomFields;
-
-    return $customFields -> delete($data);
+    return self::$customFields -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $customFields = new CustomFields;
-
-    return $customFields -> delete_permanent($data);
+    return self::$customFields -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

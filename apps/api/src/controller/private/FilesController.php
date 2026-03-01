@@ -7,55 +7,47 @@ use model\Files;
 
 class FilesController extends Controller {
 
-  private function get($url): array {
-    $files = new Files;
+  private static Files $files;
 
+  public function __construct() {
+    self::$files = new Files();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $files -> get_detail($id);
+      return self::$files -> get_detail($id);
     } else {
-      return $files -> get_list();
+      return self::$files -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $files = new Files;
-
-    return $files -> create_many($data);
+    return self::$files -> create_many($data);
   }
 
   private function upload($url, $data): array {
-    $files = new Files;
-
-    return $files -> upload_many($data);
+    return self::$files -> upload_many($data);
   }
 
   private function patch($url, $data): array {
-    $files = new Files;
-
-    return $files -> patch($data);
+    return self::$files -> patch($data);
   }
 
   private function toggle($url, $data): array {
-    $files = new Files;
-
-    return $files -> toggle($data);
+    return self::$files -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $files = new Files;
-
-    return $files -> delete($data);
+    return self::$files -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $files = new Files;
-
     $ids = $data['ids'];
     $path = $data['path'];
 
-    return $files -> delete_permanent($ids, $path);
+    return self::$files -> delete_permanent($ids, $path);
   }
 
   public function resolve($url, $data): array {

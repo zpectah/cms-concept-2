@@ -7,34 +7,30 @@ use model\Settings;
 
 class SettingsController extends Controller {
 
-  private function get($url): array {
-    $settings = new Settings;
+  private static Settings $settings;
 
-    return $settings -> get_table();
+  public function __construct() {
+    self::$settings = new Settings();
+  }
+
+  private function get($url): array {
+    return self::$settings -> get_table();
   }
 
   private function patch($url, $data): array {
-    $settings = new Settings;
-
-    return $settings -> patch($data);
+    return self::$settings -> patch($data);
   }
 
   private function localeInstall($url, $data): array {
-    $settings = new Settings;
-
-    return $settings -> locale_install($data);
+    return self::$settings -> locale_install($data);
   }
 
   private function localeToggle($url, $data): array {
-    $settings = new Settings;
-
-    return $settings -> locale_toggle($data);
+    return self::$settings -> locale_toggle($data);
   }
 
   private function localeDefault($url, $data): array {
-    $settings = new Settings;
-
-    return $settings -> locale_default($data);
+    return self::$settings -> locale_default($data);
   }
 
   public function resolve($url, $data): array {

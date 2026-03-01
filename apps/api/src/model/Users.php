@@ -11,6 +11,8 @@ class Users extends Model {
 
   /** Parsed data from DB to JSON response */
   private function parse_row_to_json($data): array {
+    if (!$data) return [];
+
     $item = [
       ...$data,
 

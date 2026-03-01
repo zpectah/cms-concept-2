@@ -7,15 +7,19 @@ use model\Users;
 
 class UsersController extends Controller {
 
-  private function get($url): array {
-    $users = new Users;
+  private static Users $users;
 
+  public function __construct() {
+    self::$users = new Users();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $users -> get_detail($id, false);
+      return self::$users -> get_detail($id, false);
     } else {
-      return $users -> get_list();
+      return self::$users -> get_list();
     }
   }
 

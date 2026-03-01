@@ -3,64 +3,58 @@
 namespace private;
 
 use controller\Controller;
-use model\Categories;
 use model\Settings;
+use model\Categories;
 
 class CategoriesController extends Controller {
 
-  private function getActiveLocales(): array {
-    $settings = new Settings;
+  private static Settings $settings;
+  private static Categories $categories;
 
-    return $settings -> get_table()['locales']['active'];
+  public function __construct() {
+    self::$settings = new Settings();
+    self::$categories = new Categories();
+  }
+
+  private function getActiveLocales(): array {
+    return self::$settings -> get_table()['locales']['active'];
   }
 
   private function get($url): array {
-    $categories = new Categories;
-
     $locales = self::getActiveLocales();
     $id = self::url_id($url);
 
     if ($id) {
-      return $categories -> get_detail($id, $locales);
+      return self::$categories -> get_detail($id, $locales);
     } else {
-      return $categories -> get_list();
+      return self::$categories -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $categories = new Categories;
-
     $locales = self::getActiveLocales();
 
-    return $categories -> create($data, $locales);
+    return self::$categories -> create($data, $locales);
   }
 
   private function patch($url, $data): array {
-    $categories = new Categories;
-
     $locales = self::getActiveLocales();
 
-    return $categories -> patch($data, $locales);
+    return self::$categories -> patch($data, $locales);
   }
 
   private function toggle($url, $data): array {
-    $categories = new Categories;
-
-    return $categories -> toggle($data);
+    return self::$categories -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $categories = new Categories;
-
-    return $categories -> delete($data);
+    return self::$categories -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $categories = new Categories;
-
     $locales = self::getActiveLocales();
 
-    return $categories -> delete_permanent($data, $locales);
+    return self::$categories -> delete_permanent($data, $locales);
   }
 
   public function resolve($url, $data): array {

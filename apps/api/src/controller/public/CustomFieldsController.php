@@ -4,19 +4,23 @@ namespace public;
 
 use controller\Controller;
 use model\CustomFields;
-use model\CustomFieldsItems;
+// use model\CustomFieldsItems;
 
 class CustomFieldsController extends Controller {
 
-  private function get($url): array {
-    $customFields = new CustomFields;
+  private static CustomFields $customFields;
 
+  public function __construct() {
+    self::$customFields = new CustomFields();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $customFields -> get_detail($id);
+      return self::$customFields -> get_detail($id);
     } else {
-      return $customFields -> get_list();
+      return self::$customFields -> get_list();
     }
   }
 

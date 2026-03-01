@@ -3,64 +3,58 @@
 namespace private;
 
 use controller\Controller;
-use model\Translations;
 use model\Settings;
+use model\Translations;
 
 class TranslationsController extends Controller {
 
-  private function getActiveLocales(): array {
-    $settings = new Settings;
+  private static Settings $settings;
+  private static Translations $translations;
 
-    return $settings -> get_table()['locales']['active'];
+  public function __construct() {
+    self::$settings = new Settings();
+    self::$translations = new Translations();
+  }
+
+  private function getActiveLocales(): array {
+    return self::$settings -> get_table()['locales']['active'];
   }
 
   private function get($url): array {
-    $translations = new Translations;
-
     $locales = self::getActiveLocales();
     $id = self::url_id($url);
 
     if ($id) {
-      return $translations -> get_detail($id, $locales);
+      return self::$translations -> get_detail($id, $locales);
     } else {
-      return $translations -> get_list();
+      return self::$translations -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $translations = new Translations;
-
     $locales = self::getActiveLocales();
 
-    return $translations -> create($data, $locales);
+    return self::$translations -> create($data, $locales);
   }
 
   private function patch($url, $data): array {
-    $translations = new Translations;
-
     $locales = self::getActiveLocales();
 
-    return $translations -> patch($data, $locales);
+    return self::$translations -> patch($data, $locales);
   }
 
   private function toggle($url, $data): array {
-    $translations = new Translations;
-
-    return $translations -> toggle($data);
+    return self::$translations -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $translations = new Translations;
-
-    return $translations -> delete($data);
+    return self::$translations -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $translations = new Translations;
-
     $locales = self::getActiveLocales();
 
-    return $translations -> delete_permanent($data, $locales);
+    return self::$translations -> delete_permanent($data, $locales);
   }
 
   public function resolve($url, $data): array {

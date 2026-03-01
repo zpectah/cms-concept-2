@@ -23,81 +23,100 @@ use private\UsersController;
 
 class PrivateRouter extends Router {
 
+  private static ArticlesController $articles;
+  private static BlacklistController $blacklist;
+  private static CategoriesController $categories;
+  private static CommentsController $comments;
+  private static CustomFieldsController $customFields;
+  private static FilesController $files;
+  private static MembersController $members;
+  private static MenuController $menu;
+  private static MenuItemsController $menuItems;
+  private static MessagesController $messages;
+  private static PagesController $pages;
+  private static RequestsController $requests;
+  private static SettingsController $settings;
+  private static TagsController $tags;
+  private static TranslationsController $translations;
+  private static UserController $user;
+  private static UsersController $users;
+
+  public function __construct() {
+    self::$articles = new ArticlesController();
+    self::$blacklist = new BlacklistController();
+    self::$categories = new CategoriesController();
+    self::$comments = new CommentsController();
+    self::$customFields = new CustomFieldsController();
+    self::$files = new FilesController();
+    self::$members = new MembersController();
+    self::$menu = new MenuController();
+    self::$menuItems = new MenuItemsController();
+    self::$messages = new MessagesController();
+    self::$pages = new PagesController();
+    self::$requests = new RequestsController();
+    self::$settings = new SettingsController();
+    self::$tags = new TagsController();
+    self::$translations = new TranslationsController();
+    self::$user = new UserController();
+    self::$users = new UsersController();
+  }
+
   public function dispatch(): array {
     $url = self::getParsedUrl();
     $data = self::getParsedData();
-
     $model = $url['model'];
 
     switch ($model) {
-
       case 'articles':
-        $articles = new ArticlesController;
-        return $articles -> resolve($url, $data);
+        return self::$articles -> resolve($url, $data);
 
       case 'blacklist':
-        $blacklist = new BlacklistController;
-        return $blacklist -> resolve($url, $data);
+        return self::$blacklist -> resolve($url, $data);
 
       case 'categories':
-        $categories = new CategoriesController;
-        return $categories -> resolve($url, $data);
+        return self::$categories -> resolve($url, $data);
 
       case 'comments':
-        $comments = new CommentsController;
-        return $comments -> resolve($url, $data);
+        return self::$comments -> resolve($url, $data);
 
       case 'custom-fields':
-        $customFields = new CustomFieldsController;
-        return $customFields -> resolve($url, $data);
+        return self::$customFields -> resolve($url, $data);
 
       case 'files':
-        $files = new FilesController;
-        return $files -> resolve($url, $data);
+        return self::$files -> resolve($url, $data);
 
       case 'members':
-        $members = new MembersController;
-        return $members -> resolve($url, $data);
+        return self::$members -> resolve($url, $data);
 
       case 'menu':
-        $menu = new MenuController;
-        return $menu -> resolve($url, $data);
+        return self::$menu -> resolve($url, $data);
 
       case 'menu-items':
-        $menu = new MenuItemsController;
-        return $menu -> resolve($url, $data);
+        return self::$menuItems -> resolve($url, $data);
 
       case 'messages':
-        $messages = new MessagesController;
-        return $messages -> resolve($url, $data);
+        return self::$messages -> resolve($url, $data);
 
       case 'pages':
-        $pages = new PagesController;
-        return $pages -> resolve($url, $data);
+        return self::$pages -> resolve($url, $data);
 
       case 'requests':
-        $requests = new RequestsController;
-        return $requests -> resolve($url, $data);
+        return self::$requests -> resolve($url, $data);
 
       case 'settings':
-        $settings = new SettingsController;
-        return $settings -> resolve($url, $data);
+        return self::$settings -> resolve($url, $data);
 
       case 'tags':
-        $tags = new TagsController;
-        return $tags -> resolve($url, $data);
+        return self::$tags -> resolve($url, $data);
 
       case 'translations':
-        $translations = new TranslationsController;
-        return $translations -> resolve($url, $data);
+        return self::$translations -> resolve($url, $data);
 
       case 'user':
-        $user = new UserController;
-        return $user -> resolve($url, $data);
+        return self::$user -> resolve($url, $data);
 
       case 'users':
-        $users = new UsersController;
-        return $users -> resolve($url, $data);
+        return self::$users -> resolve($url, $data);
 
       default:
         http_response_code(404);

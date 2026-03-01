@@ -4,19 +4,23 @@ namespace public;
 
 use controller\Controller;
 use model\Menu;
-use model\MenuItems;
+// use model\MenuItems;
 
 class MenuController extends Controller {
 
-  private function get($url): array {
-    $menu = new Menu;
+  private static Menu $menu;
 
+  public function __construct() {
+    self::$menu = new Menu();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $menu -> get_detail($id);
+      return self::$menu -> get_detail($id);
     } else {
-      return $menu -> get_list();
+      return self::$menu -> get_list();
     }
   }
 

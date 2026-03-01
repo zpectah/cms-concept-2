@@ -7,6 +7,12 @@ use model\Members;
 
 class MemberController extends Controller {
 
+  private static Members $members;
+
+  public function __construct() {
+    self::$members = new Members();
+  }
+
   // TODO
 
   public function resolve($url, $data): array {

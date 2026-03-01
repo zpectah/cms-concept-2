@@ -7,9 +7,13 @@ use PHPMailer\PHPMailer\Exception;
 
 class EmailService {
 
-  public function createEmail($to, $subject, $body, $credentials, $altBody = null): bool {
-    $mail = new PHPMailer(true);
+  private static PHPMailer $mailer;
 
+  public function __construct() {
+    self::$mailer = new PHPMailer(true);
+  }
+
+  public function createEmail($to, $subject, $body, $credentials, $altBody = null): bool {
     $send = false;
 
     $smtp_port = $credentials['smtp_port'];
@@ -29,27 +33,27 @@ class EmailService {
     ) return false;
 
     try {
-      $mail -> isSMTP();
-      $mail -> SMTPAuth = true;
-      $mail -> SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+      self::$mailer -> isSMTP();
+      self::$mailer -> SMTPAuth = true;
+      self::$mailer -> SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 
-      $mail -> Port = $smtp_port;
-      $mail -> Host = $smtp_host;
-      $mail -> Username = $smtp_username;
-      $mail -> Password = $smtp_password;
+      self::$mailer -> Port = $smtp_port;
+      self::$mailer -> Host = $smtp_host;
+      self::$mailer -> Username = $smtp_username;
+      self::$mailer -> Password = $smtp_password;
 
-      $mail -> setFrom($from_email, $from_domain);
-      $mail -> addAddress($to);
+      self::$mailer -> setFrom($from_email, $from_domain);
+      self::$mailer -> addAddress($to);
 
-      $mail -> isHTML(true);
-      $mail -> Subject = $subject;
-      $mail -> Body = $body;
+      self::$mailer -> isHTML(true);
+      self::$mailer -> Subject = $subject;
+      self::$mailer -> Body = $body;
 
-      if (isset($altBody)) $mail -> AltBody = $altBody;
+      if (isset($altBody)) self::$mailer -> AltBody = $altBody;
 
-      $send = $mail -> send();
+      $send = self::$mailer -> send();
     } catch (Exception $e) {
-      $send = $mail -> ErrorInfo;
+      $send = self::$mailer -> ErrorInfo;
     }
 
     return $send;

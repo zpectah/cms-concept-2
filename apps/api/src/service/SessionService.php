@@ -4,6 +4,9 @@ namespace service;
 
 class SessionService {
 
+  public function __construct() {}
+
+
   private function startSession(): void {
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
@@ -16,12 +19,10 @@ class SessionService {
 
     $id = $data['id'];
     $email = $data['email'];
-    // $token = '';
 
     $_SESSION[$entity] = [
       'id' => $id,
       'email' => $email,
-      // 'token' => $token,
     ];
 
     return [

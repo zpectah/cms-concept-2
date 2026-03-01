@@ -3,27 +3,31 @@
 namespace public;
 
 use controller\Controller;
-use model\Pages;
 use model\Settings;
+use model\Pages;
 
 class PagesController extends Controller {
 
-  private function getActiveLocales(): array {
-    $settings = new Settings;
+  private static Settings $settings;
+  private static Pages $pages;
 
-    return $settings -> get_table()['locales']['active'];
+  public function __construct() {
+    self::$settings = new Settings();
+    self::$pages = new Pages();
+  }
+
+  private function getActiveLocales(): array {
+    return self::$settings -> get_table()['locales']['active'];
   }
 
   private function get($url): array {
-    $pages = new Pages;
-
     $locales = self::getActiveLocales();
     $id = self::url_id($url);
 
     if ($id) {
-      return $pages -> get_detail($id, $locales);
+      return self::$pages -> get_detail($id, $locales);
     } else {
-      return $pages -> get_list();
+      return self::$pages -> get_list();
     }
   }
 

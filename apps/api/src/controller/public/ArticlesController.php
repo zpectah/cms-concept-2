@@ -3,27 +3,31 @@
 namespace public;
 
 use controller\Controller;
-use model\Articles;
 use model\Settings;
+use model\Articles;
 
 class ArticlesController extends Controller {
 
-  private function getActiveLocales(): array {
-    $settings = new Settings;
+  private static Settings $settings;
+  private static Articles $articles;
 
-    return $settings -> get_table()['locales']['active'];
+  public function __construct() {
+    self::$settings = new Settings();
+    self::$articles = new Articles();
+  }
+
+  private function getActiveLocales(): array {
+    return self::$settings -> get_table()['locales']['active'];
   }
 
   private function get($url): array {
-    $articles = new Articles;
-
     $locales = self::getActiveLocales();
     $id = self::url_id($url);
 
     if ($id) {
-      return $articles -> get_detail($id, $locales);
+      return self::$articles -> get_detail($id, $locales);
     } else {
-      return $articles -> get_list();
+      return self::$articles -> get_list();
     }
   }
 

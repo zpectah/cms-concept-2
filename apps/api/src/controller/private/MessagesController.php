@@ -7,52 +7,44 @@ use model\Messages;
 
 class MessagesController extends Controller {
 
-  private function get($url): array {
-    $message = new Messages;
+  private static Messages $messages;
 
+  public function __construct() {
+    self::$messages = new Messages();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $message -> get_detail($id);
+      return self::$messages -> get_detail($id);
     } else {
-      return $message -> get_list();
+      return self::$messages -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $message = new Messages;
-
-    return $message -> create($data);
+    return self::$messages -> create($data);
   }
 
   private function patch($url, $data): array {
-    $message = new Messages;
-
-    return $message -> patch($data);
+    return self::$messages -> patch($data);
   }
 
   private function toggle($url, $data): array {
-    $message = new Messages;
-
-    return $message -> toggle($data);
+    return self::$messages -> toggle($data);
   }
 
   private function read($url, $data): array {
-    $message = new Messages;
-
-    return $message -> read($data);
+    return self::$messages -> read($data);
   }
 
   private function delete($url, $data): array {
-    $message = new Messages;
-
-    return $message -> delete($data);
+    return self::$messages -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $message = new Messages;
-
-    return $message -> delete_permanent($data);
+    return self::$messages -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

@@ -3,26 +3,37 @@
 namespace private;
 
 use controller\Controller;
-use model\Requests;
 use model\Settings;
 use model\Users;
-use service\EmailService;
+use model\Requests;
 use service\SessionService;
+use service\EmailService;
 
 class UserController extends Controller {
 
-  private function get(): array {
-    $users = new Users;
-    $sessionService = new SessionService;
+  private static Settings $settings;
+  private static Users $users;
+  private static Requests $requests;
+  private static SessionService $sessionService;
+  private static EmailService $emailService;
 
-    $session = $sessionService -> getActiveSession('user');
+  public function __construct() {
+    self::$settings = new Settings();
+    self::$users = new Users();
+    self::$requests = new Requests();
+    self::$sessionService = new SessionService();
+    self::$emailService = new EmailService();
+  }
+
+  private function get(): array {
+    $session = self::$sessionService -> getActiveSession('user');
 
     if ($session['active']) {
       $email = $session['session']['email'];
 
       $response = [
         'active' => true,
-        'user' => $users -> get_detail(null, $email),
+        'user' => self::$users -> get_detail(null, $email),
       ];
     } else {
       $response = [
@@ -35,10 +46,8 @@ class UserController extends Controller {
   }
 
   private function checkEmail($data): array {
-    $users = new Users;
-
     $email = $data['email'];
-    $user = $users -> get_detail(null, $email);
+    $user = self::$users -> get_detail(null, $email);
     $id = $user['id'] ?? 0;
 
     return [
@@ -48,40 +57,35 @@ class UserController extends Controller {
   }
 
   private function checkPassword($data): array {
-    $users = new Users;
+    $defaultResponse = [
+      'match' => false,
+      'id' => 0,
+    ];
 
-    $email = $data['email'];
-    $rawPassword = $data['password'];
-    $password = trim($rawPassword);
+    $email = $data['email'] ?? null;
+    $password = trim($data['password'] ?? '');
 
-    $user = $users -> get_detail(null, $email, true);
-    $hash = $user['password'];
-    $id = $user['id'] ?? 0;
+    if (!$email || !$password) return $defaultResponse;
+
+    $user = self::$users -> get_detail(null, $email, true);
+
+    if (!isset($user['password'])) return $defaultResponse;
 
     return [
-      'match' => match_password($password, $hash),
-      'id' => $id,
+      'match' => match_password($password, $user['password']),
+      'id' => $user['id'] ?? 0,
     ];
   }
 
   private function login($data): array {
-    $sessionService = new SessionService;
-
-    return $sessionService -> openEntitySession('user', $data);
+    return self::$sessionService -> openEntitySession('user', $data);
   }
 
   private function logout($data): array {
-    $sessionService = new SessionService;
-
-    return $sessionService -> closeEntitySession('user', $data);
+    return self::$sessionService -> closeEntitySession('user', $data);
   }
 
   private function passwordRecoveryRequest($data): array {
-    $users = new Users;
-    $requests = new Requests;
-    $emailService = new EmailService;
-    $settings = new Settings;
-
     $response = [
       'tokenCreated' => false,
       'requestCreated' => false,
@@ -90,8 +94,8 @@ class UserController extends Controller {
     ];
 
     $email = $data['email'];
-    $user = $users -> get_detail(null, $email);
-    $settingsTable = $settings -> get_table();
+    $user = self::$users -> get_detail(null, $email);
+    $settingsTable = self::$settings -> get_table();
 
     if (isset($user['id'])) {
       $token = getRandomString(24);
@@ -102,7 +106,7 @@ class UserController extends Controller {
         'applicant' => $email,
         'status' => 1,
       ];
-      $requestCreated = $requests -> create($request);
+      $requestCreated = self::$requests -> create($request);
 
       $password = decrypt_string($settingsTable['email']['smtp']['password'], EMAIL_SMTP_CRYPT_KEY);
       $emailCredentials = [
@@ -114,11 +118,11 @@ class UserController extends Controller {
         'domain' => $settingsTable['project']['name'],
       ];
 
-      $emailBody = $emailService -> createPasswordRecoveryEmail([
+      $emailBody = self::$emailService -> createPasswordRecoveryEmail([
         'token' => $token,
         'path' => $data['path'],
       ]);
-      $emailSend = $emailService -> createEmail($email, 'Password recovery', $emailBody, $emailCredentials);
+      $emailSend = self::$emailService -> createEmail($email, 'Password recovery', $emailBody, $emailCredentials);
 
       $response['tokenCreated'] = !!$token;
       $response['requestCreated'] = !!$requestCreated['id'];
@@ -130,10 +134,8 @@ class UserController extends Controller {
   }
 
   private function passwordRecoveryRequestCheck($data): array {
-    $requests = new Requests;
-
     $token = $data['token'];
-    $request = $requests -> get_detail(null, $token);
+    $request = self::$requests -> get_detail(null, $token);
 
     $response = [
       'email' => null,
@@ -148,9 +150,6 @@ class UserController extends Controller {
   }
 
   private function passwordRecoveryToken($data): array {
-    $users = new Users;
-    $requests = new Requests;
-
     $response = [
       'requestActive' => false,
       'userActive' => false,
@@ -159,7 +158,6 @@ class UserController extends Controller {
     ];
 
     $token = $data['token'];
-    // $email = $data['email']; // TODO: check
     $password = $data['password'];
 
     $request = self::passwordRecoveryRequestCheck([ 'token' => $token ]);
@@ -170,14 +168,14 @@ class UserController extends Controller {
       $id = $request['id'];
       $email = $request['email'];
 
-      $user = $users -> get_detail(null, $email);
+      $user = self::$users -> get_detail(null, $email);
 
       if (isset($user['id'])) {
-        $changedPassword = $users -> patch_password([
+        $changedPassword = self::$users -> patch_password([
           'email' => $email,
           'password' => $password,
         ]);
-        $changedRequest = $requests -> toggle([ $id ]);
+        $changedRequest = self::$requests -> toggle([ $id ]);
 
         $response['userActive'] = true;
         $response['userUpdated'] = $changedPassword['rows'] === 1;
@@ -189,18 +187,15 @@ class UserController extends Controller {
   }
 
   private function patch($data): array {
-    $users = new Users;
-    $sessionService = new SessionService;
-
     $response = [];
 
-    $session = $sessionService -> getActiveSession('user');
+    $session = self::$sessionService -> getActiveSession('user');
 
     if ($session['active']) {
       $email = $session['session']['email'];
 
       if ($email === $data['email']) {
-        $response = $users -> patch($data);
+        $response = self::$users -> patch($data);
       }
     }
 

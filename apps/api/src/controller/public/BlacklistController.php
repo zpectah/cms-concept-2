@@ -7,15 +7,19 @@ use model\Blacklist;
 
 class BlacklistController extends Controller {
 
-  private function get($url): array {
-    $blacklist = new Blacklist;
+  private static Blacklist $blacklist;
 
+  public function __construct() {
+    self::$blacklist = new Blacklist();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $blacklist -> get_detail($id);
+      return self::$blacklist -> get_detail($id);
     } else {
-      return $blacklist -> get_list();
+      return self::$blacklist -> get_list();
     }
   }
 

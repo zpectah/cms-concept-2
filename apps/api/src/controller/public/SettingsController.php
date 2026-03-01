@@ -7,10 +7,14 @@ use model\Settings;
 
 class SettingsController extends Controller {
 
-  private function get($url): array {
-    $settings = new Settings;
+  private static Settings $settings;
 
-    return $settings -> get_table();
+  public function __construct() {
+    self::$settings = new Settings();
+  }
+
+  private function get($url): array {
+    return self::$settings -> get_table();
   }
 
   public function resolve($url, $data): array {

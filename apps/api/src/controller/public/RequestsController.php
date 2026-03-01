@@ -7,31 +7,31 @@ use model\Requests;
 
 class RequestsController extends Controller {
 
-  private function get($url): array {
-    $requests = new Requests;
+  private static Requests $requests;
 
+  public function __construct() {
+    self::$requests = new Requests();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
     $token = self::url_token($url);
 
     if ($id) {
-      return $requests -> get_detail($id, false);
+      return self::$requests -> get_detail($id, false);
     } else if ($token) {
-      return $requests -> get_detail(false, $token);
+      return self::$requests -> get_detail(false, $token);
     } else {
-      return $requests -> get_list();
+      return self::$requests -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $requests = new Requests;
-
-    return $requests -> create($data);
+    return self::$requests -> create($data);
   }
 
   private function patch($url, $data): array {
-    $requests = new Requests;
-
-    return $requests -> patch($data);
+    return self::$requests -> patch($data);
   }
 
   public function resolve($url, $data): array {

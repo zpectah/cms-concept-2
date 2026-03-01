@@ -7,39 +7,37 @@ use model\Comments;
 
 class CommentsController extends Controller {
 
-  private function get($url): array {
-    $comments = new Comments;
+  private static Comments $comments;
 
+  public function __construct() {
+    self::$comments = new Comments();
+  }
+
+  private function get($url): array {
     $a1 = $url['a1'] ?? null;
     $a2 = $url['a2'] ?? null;
 
     if ($a1 === 'id' && is_numeric($a2)) {
-      return $comments -> get_detail($a2);
+      return self::$comments -> get_detail($a2);
     }
 
     if ($a1 && is_numeric($a2)) {
-      return $comments -> get_list($a1, $a2);
+      return self::$comments -> get_list($a1, $a2);
     }
 
-    return $comments -> get_list(false, false);
+    return self::$comments -> get_list(false, false);
   }
 
   private function create($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> create($data);
+    return self::$comments -> create($data);
   }
 
   private function patch($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> patch($data);
+    return self::$comments -> patch($data);
   }
 
   private function delete($url, $data): array {
-    $comments = new Comments;
-
-    return $comments -> delete($data);
+    return self::$comments -> delete($data);
   }
 
   public function resolve($url, $data): array {

@@ -4,50 +4,44 @@ namespace private;
 
 use controller\Controller;
 use model\Menu;
-use model\MenuItems;
+// use model\MenuItems;
 
 class MenuController extends Controller {
 
-  private function get($url): array {
-    $menu = new Menu;
+  private static Menu $menu;
 
+  public function __construct() {
+    self::$menu = new Menu();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $menu -> get_detail($id);
+      return self::$menu -> get_detail($id);
     } else {
-      return $menu -> get_list();
+      return self::$menu -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $menu = new Menu;
-
-    return $menu -> create($data);
+    return self::$menu -> create($data);
   }
 
   private function patch($url, $data): array {
-    $menu = new Menu;
-
-    return $menu -> patch($data);
+    return self::$menu -> patch($data);
   }
 
   private function toggle($url, $data): array {
-    $menu = new Menu;
-
-    return $menu -> toggle($data);
+    return self::$menu -> toggle($data);
   }
 
   private function delete($url, $data): array {
-    $menu = new Menu;
-
-    return $menu -> delete($data);
+    return self::$menu -> delete($data);
   }
 
   private function deletePermanent($url, $data): array {
-    $menu = new Menu;
-
-    return $menu -> delete_permanent($data);
+    return self::$menu -> delete_permanent($data);
   }
 
   public function resolve($url, $data): array {

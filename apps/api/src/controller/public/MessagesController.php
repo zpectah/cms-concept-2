@@ -7,22 +7,24 @@ use model\Messages;
 
 class MessagesController extends Controller {
 
-  private function get($url): array {
-    $message = new Messages;
+  private static Messages $messages;
 
+  public function __construct() {
+    self::$messages = new Messages();
+  }
+
+  private function get($url): array {
     $id = self::url_id($url);
 
     if ($id) {
-      return $message -> get_detail($id);
+      return self::$messages -> get_detail($id);
     } else {
-      return $message -> get_list();
+      return self::$messages -> get_list();
     }
   }
 
   private function create($url, $data): array {
-    $message = new Messages;
-
-    return $message -> create($data);
+    return self::$messages -> create($data);
   }
 
   public function resolve($url, $data): array {
