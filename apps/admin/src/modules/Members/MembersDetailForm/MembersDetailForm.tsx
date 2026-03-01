@@ -32,6 +32,8 @@ const MembersDetailForm = () => {
     values,
   } = useMembersDetailForm();
 
+  const isNew = id === 'new';
+
   return (
     <DetailDrawer<IMembersDetailForm>
       formId={formId}
@@ -61,6 +63,7 @@ const MembersDetailForm = () => {
               onComplete={onAvatarUpdate}
               onClear={() => onAvatarUpdate('')}
               size={'175px'}
+              disabled={isNew}
             />
           </Grid>
         </Grid>
