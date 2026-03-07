@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getConfig } from '../config';
 import { CONTAINER_WIDTH_CENTERED } from '../constants';
@@ -11,10 +12,18 @@ const PasswordRecoveryForm = lazy(
     )
 );
 
+const PasswordRecoveryTokenForm = lazy(
+  () =>
+    import(
+      '../modules/PasswordRecovery/PasswordRecoveryTokenForm/PasswordRecoveryTokenForm'
+    )
+);
+
 const PasswordRecoveryView = () => {
   const { routes } = getConfig();
 
   const { t } = useTranslation(['views']);
+  const { token } = useParams();
 
   return (
     <ViewLayout
@@ -23,7 +32,7 @@ const PasswordRecoveryView = () => {
       rootUrl={routes.passwordRecovery.root}
       title={t('passwordRecovery.title')}
     >
-      <PasswordRecoveryForm />
+      {token ? <PasswordRecoveryTokenForm /> : <PasswordRecoveryForm />}
     </ViewLayout>
   );
 };

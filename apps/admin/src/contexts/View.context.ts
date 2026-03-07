@@ -4,6 +4,7 @@ import { IViewContext } from './types';
 const defaultContext: IViewContext = {
   model: undefined,
   rootUrl: '',
+  vid: '',
   list: {
     selected: [],
     setSelected: () => null,

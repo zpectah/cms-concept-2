@@ -2,18 +2,21 @@ import { IPasswordRecoveryForm } from './types';
 
 /** Gets default form values */
 export const defaultDataToForm = (): IPasswordRecoveryForm => {
-  return {};
-};
-
-/** Gets formatted detail data to form */
-export const detailDataToForm = (data: object): IPasswordRecoveryForm => {
-  return {};
+  return Object.assign({
+    email: '',
+  });
 };
 
 /** Gets formatted form data to master before submit */
-export const formDataToMaster = (data: IPasswordRecoveryForm): object => {
+export const formDataToMaster = (
+  data: IPasswordRecoveryForm,
+  type: string,
+  path: string
+): { email: string; type: string; path: string } => {
   const master = Object.assign({
-    ...data,
+    email: data.email,
+    type,
+    path,
   });
 
   return { ...master };

@@ -82,7 +82,33 @@
     "detail": "Page detail"
   },
   "passwordRecovery": {
-    "title": "Password recovery"
+    "title": "Password recovery",
+    "form": {
+      "label": {
+        "email": "Your email",
+        "password": "New password"
+      },
+      "placeholder": {
+        "email": "Type your email",
+        "password": "Type your new password"
+      }
+    },
+    "messages": {
+      "success": {
+        "passwordChanged": "Your password has been successfully changed, you will now be redirected to the login page.",
+        "emailSend": "The request has been successfully created, please check your email inbox."
+      },
+      "warning": {
+        "noEmail": "The user with this email is not registered here"
+      },
+      "error": {
+        "noRequest": "There is no request for this token",
+        "noRequestCreated": "An error occurred while creating the request. Please reload the page and try again.",
+        "noTokenCreated": "An error occurred while creating the token. Please reload the page and try again.",
+        "noEmailCreated": "An error occurred while creating the email. Please reload the page and try again.",
+        "noEmailSend": "An error occurred while sending the email. Please reload the page and try again."
+      }
+    }
   },
   "settings": {
     "title": "Settings",

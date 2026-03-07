@@ -71,8 +71,8 @@ class EmailService {
       </head>
       <body>
         <p>
-          Tady je odkaz pro obnovu hesla. <br />
-          <a href="' . $path . '?token=' . $token . '">Obnovit heslo</a>
+          Tady je odkaz pro obnovu hesla. Token:' . $token . ' <br />
+          <a href="' . $path . $token . '">Obnovit heslo</a>
         </p>
       </body>
       </html>';

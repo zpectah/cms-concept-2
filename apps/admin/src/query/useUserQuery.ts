@@ -90,11 +90,58 @@ export const useUserQuery = () => {
         .then((response) => response.data),
   });
 
-  const userPasswordRecoveryRequestMutation = () => null;
+  const userPasswordRecoveryRequestMutation = useMutation<
+    {
+      tokenCreated: boolean;
+      requestCreated: boolean;
+      emailCreated: boolean;
+      emailSend: boolean;
+      userId: number;
+    },
+    unknown,
+    { email: string; type: string; path: string }
+  >({
+    mutationKey: [
+      QUERY_KEY_BASE,
+      `${QUERY_KEY_BASE}-password-recovery-request`,
+    ],
+    mutationFn: (data) =>
+      axios
+        .post(`${endpoints.user}/password-recovery-request`, data)
+        .then((response) => response.data),
+  });
 
-  const userPasswordRecoveryRequestCheckMutation = () => null;
+  const userPasswordRecoveryRequestCheckMutation = useMutation<
+    { id: number; email: string | null },
+    unknown,
+    { token: string }
+  >({
+    mutationKey: [
+      QUERY_KEY_BASE,
+      `${QUERY_KEY_BASE}-password-recovery-request-check`,
+    ],
+    mutationFn: (data) =>
+      axios
+        .post(`${endpoints.user}/password-recovery-request-check`, data)
+        .then((response) => response.data),
+  });
 
-  const userPasswordRecoveryTokenMutation = () => null;
+  const userPasswordRecoveryTokenMutation = useMutation<
+    {
+      requestActive: boolean;
+      userActive: boolean;
+      userUpdated: boolean;
+      requestUpdated: boolean;
+    },
+    unknown,
+    { token: string; email: string; password: string }
+  >({
+    mutationKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-password-recovery-token`],
+    mutationFn: (data) =>
+      axios
+        .post(`${endpoints.user}/password-recovery-token`, data)
+        .then((response) => response.data),
+  });
 
   return {
     userDetailQuery,

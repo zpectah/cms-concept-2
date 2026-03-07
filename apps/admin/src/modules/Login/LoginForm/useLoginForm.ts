@@ -113,6 +113,7 @@ export const useLoginForm = () => {
     addToast({
       title: t('message.info.expiredSession'),
       severity: 'info',
+      autoclose: true,
     });
 
     setSearchParams((state) => {

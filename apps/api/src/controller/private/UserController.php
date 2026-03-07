@@ -91,6 +91,7 @@ class UserController extends Controller {
       'requestCreated' => false,
       'emailCreated' => false,
       'emailSend' => false,
+      'userId' => 0,
     ];
 
     $email = $data['email'];
@@ -128,6 +129,7 @@ class UserController extends Controller {
       $response['requestCreated'] = !!$requestCreated['id'];
       $response['emailCreated'] = !!$emailBody;
       $response['emailSend'] = !!$emailSend;
+      $response['userId'] = $user['id'];
     }
 
     return $response;
@@ -138,6 +140,7 @@ class UserController extends Controller {
     $request = self::$requests -> get_detail(null, $token);
 
     $response = [
+      'id' => 0,
       'email' => null,
     ];
 

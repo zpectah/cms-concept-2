@@ -9,7 +9,7 @@ class Requests extends Model {
 
   /** Parsed data from DB to JSON response */
   private function parse_row_to_json($data): array {
-    $item = [...$data];
+    $item = $data ? [...$data] : [];
 
     return $item;
   }

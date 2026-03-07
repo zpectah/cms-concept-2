@@ -23,6 +23,7 @@ export type ViewContextPanels = object;
 export interface IViewContext {
   model: ModelNames | undefined;
   rootUrl: string;
+  vid: string;
   list: ViewContextList;
   detail: ViewContextDetail;
   panels: ViewContextPanels;

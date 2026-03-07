@@ -11,6 +11,7 @@ import { useViewLayout } from './useViewLayout';
 import Breadcrumbs from './Breadcrumbs';
 import Preloader from './Preloader';
 import Footer from './Footer';
+import { getRandomId } from '@common';
 
 const Wrapper = styled('div')(({ theme }) => ({
   width: '100%',
@@ -87,6 +88,7 @@ const ViewLayout = ({
   const { listSelected, setListSelected } = useViewLayout();
 
   const isDefaultVariant = variant === viewLayoutVariantKeys.default;
+  const vid = getRandomId(8);
 
   useEffect(() => {
     setContainerWidth(containerWidth);
@@ -109,6 +111,7 @@ const ViewLayout = ({
       value={{
         model,
         rootUrl: rootUrl ?? '',
+        vid,
         list: {
           selected: listSelected,
           setSelected: setListSelected,
