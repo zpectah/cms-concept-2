@@ -7,7 +7,9 @@ import {
   modelKeys,
   translationsNamespaceKeysArray,
   TranslationsDetail,
+  TranslationsItem,
 } from '@model';
+import { useModelValidations } from '../../../validation';
 import {
   useDetailFormLocales,
   useResponseMessage,
@@ -28,12 +30,13 @@ export const useTranslationsDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions, getTranslatedOptionsFromList } =
     useSelectOptions();
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<ITranslationsDetailForm>({
     resolver: zodResolver(translationsDetailFormSchema),
     defaultValues: defaultDataToForm(locales),
@@ -49,9 +52,9 @@ export const useTranslationsDetailForm = () => {
     id,
   });
 
-  const formId = 'translations-detail-form';
+  const formId = `translations-detail-form__${vid}`;
 
-  const { refetch } = translationsQuery;
+  const { data: translations, refetch } = translationsQuery;
   const { data: detail } = translationsDetailQuery;
   const { mutate: onCreate } = translationsCreateMutation;
   const { mutate: onPatch } = translationsPatchMutation;
@@ -95,9 +98,19 @@ export const useTranslationsDetailForm = () => {
   const submitHandler = (data: ITranslationsDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (
+      !isAttributeUnique<TranslationsItem>(
+        translations ?? [],
+        'name',
+        data as TranslationsItem
+      )
+    ) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
 
-    // TODO: add user as editor
+      return;
+    }
 
     const master = formDataToMaster(data);
 

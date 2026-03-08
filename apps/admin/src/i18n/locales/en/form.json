@@ -85,7 +85,9 @@
       "invalid_string": "Invalid string",
       "invalid_date": "Invalid date",
       "invalid_date_time": "Invalid date and time",
-      "invalid_array": "Invalid array"
+      "invalid_array": "Invalid array",
+      "duplicity_name": "An item with this name already exists in the system",
+      "duplicity_email": "A person with this email already exists in the system"
     },
     "success": {}
   }

@@ -1,4 +1,5 @@
 import { useState, MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Menu, MenuItem } from '@mui/material';
 import { IconLanguage, IconX } from '@tabler/icons-react';
 import { getConfig } from '../../config';
@@ -10,6 +11,7 @@ const LocaleMenu = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const { t } = useTranslation(['common']);
   const { locale } = useMenuItems();
   const { onChange } = useLocale();
 
@@ -34,7 +36,7 @@ const LocaleMenu = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={openHandler}
-        tooltip="Locale menu"
+        tooltip={t('label.localeMenu')}
       >
         {open ? <IconX /> : <IconLanguage />}
       </IconButtonPlus>

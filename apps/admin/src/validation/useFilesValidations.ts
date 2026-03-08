@@ -56,7 +56,6 @@ export const useFilesValidations = () => {
   };
 
   return {
-    isAttributeUnique,
     isValidFileSize,
     getQueueDuplicities,
   };

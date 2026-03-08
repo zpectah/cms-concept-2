@@ -11,7 +11,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { IconCheck } from '@tabler/icons-react';
-import { Checkbox, Button } from '../../../components';
+import { Checkbox, Radio, Button } from '../../../components';
 import { useSettingsLanguagesTable } from './useSettingsLanguagesTable';
 
 const SettingsLanguagesTable = () => {
@@ -84,7 +84,7 @@ const SettingsLanguagesTable = () => {
                   />
                 </TableCell>
                 <TableCell>
-                  <Checkbox
+                  <Radio
                     checked={isLocaleDefault(row)}
                     onChange={() => onLocaleDefault(row)}
                     disabled={!isInstalled || !isActive || isSingleRow}

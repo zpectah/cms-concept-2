@@ -21,7 +21,11 @@ const SettingsClientForm = () => {
   const { form, onSubmit, onReset, options } = useSettingsClientForm();
 
   return (
-    <ControlledForm form={form} onSubmit={onSubmit}>
+    <ControlledForm
+      form={form}
+      onSubmit={onSubmit}
+      testId="settings-client-form"
+    >
       <Grid container spacing={SPACING.form}>
         <GridHeading title={t('views:settings.client.section.meta.title')} />
 

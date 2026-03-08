@@ -35,6 +35,7 @@ const TagsDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="tags-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <InputField

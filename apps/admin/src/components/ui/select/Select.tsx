@@ -1,16 +1,28 @@
 import { forwardRef } from 'react';
 import { Select as MuiSelect, MenuItem, Typography } from '@mui/material';
 import { SelectProps } from './types';
+import { useTranslation } from 'react-i18next';
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
   const {
     id,
     options = [],
     children,
-    placeholder = 'Pick item(s)',
+    placeholder,
     forcePlaceholder,
+    showSingleOption,
+    disabled,
     ...rest
   } = props;
+
+  const { t } = useTranslation(['common']);
+
+  const isDisabledDueOneOption = !showSingleOption && options.length === 1;
+  const fieldPlaceholder = placeholder
+    ? placeholder
+    : rest.multiple
+    ? t('label.pickMore')
+    : t('label.pickOne');
 
   const renderValue = (value: unknown) => {
     if (!value || (value as (number | string)[]).length === 0) {
@@ -22,7 +34,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
             p: 0,
           })}
         >
-          {placeholder}
+          {fieldPlaceholder}
         </Typography>
       );
     }
@@ -36,11 +48,12 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>((props, ref) => {
       ref={ref}
       displayEmpty
       renderValue={forcePlaceholder ? renderValue : undefined}
+      disabled={isDisabledDueOneOption || disabled}
       {...rest}
     >
       {placeholder && !forcePlaceholder && (
         <MenuItem value="''" disabled>
-          {placeholder}
+          {fieldPlaceholder}
         </MenuItem>
       )}
       {options.map(({ id, value, label, itemProps, hidden, ...option }) => {

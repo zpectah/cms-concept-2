@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, MenuDetail } from '@model';
+import { modelKeys, MenuDetail, MenuItem } from '@model';
+import { useModelValidations } from '../../../validation';
 import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { useMenuQuery } from '../../../query';
 import { useViewContext } from '../../../contexts';
@@ -20,10 +21,11 @@ export const useMenuDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions } = useSelectOptions();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<IMenuDetailForm>({
     resolver: zodResolver(menuDetailFormSchema),
     defaultValues: defaultDataToForm(),
@@ -37,9 +39,9 @@ export const useMenuDetailForm = () => {
     menuDeleteMutation,
   } = useMenuQuery({ id });
 
-  const formId = 'menu-detail-form';
+  const formId = `menu-detail-form__${vid}`;
 
-  const { refetch } = menuQuery;
+  const { data: menu, refetch } = menuQuery;
   const { data: detail } = menuDetailQuery;
   const { mutate: onCreate } = menuCreateMutation;
   const { mutate: onPatch } = menuPatchMutation;
@@ -83,7 +85,13 @@ export const useMenuDetailForm = () => {
   const submitHandler = (data: IMenuDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (!isAttributeUnique<MenuItem>(menu ?? [], 'name', data as MenuItem)) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
+
+      return;
+    }
 
     const master = formDataToMaster(data);
 

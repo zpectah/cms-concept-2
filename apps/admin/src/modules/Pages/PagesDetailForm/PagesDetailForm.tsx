@@ -42,6 +42,7 @@ const PagesDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="pages-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <InputField

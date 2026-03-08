@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { articlesTypeKeys, modelKeys } from '@model';
+import { getConfig } from '../../../config';
 import { SPACING } from '../../../constants';
 import {
   DetailDrawer,
@@ -22,6 +23,10 @@ import { IArticlesDetailForm } from './types';
 import { useArticlesDetailForm } from './useArticlesDetailForm';
 
 const ArticlesDetailForm = () => {
+  const {
+    cms: { features },
+  } = getConfig();
+
   const { t } = useTranslation(['form']);
   const {
     id,
@@ -36,6 +41,8 @@ const ArticlesDetailForm = () => {
     options,
     values,
   } = useArticlesDetailForm();
+
+  const isEvent = values.type === articlesTypeKeys.event;
 
   return (
     <>
@@ -55,6 +62,7 @@ const ArticlesDetailForm = () => {
             contentId={values.id}
           />
         }
+        formTestId="articles-detail-form"
       >
         <Grid container spacing={SPACING.form}>
           <InputField
@@ -63,6 +71,7 @@ const ArticlesDetailForm = () => {
             placeholder={t('form:placeholder.name')}
             layout="vertical"
             isFullWidth
+            isRequired
           />
           <SelectField
             name="type"
@@ -72,7 +81,7 @@ const ArticlesDetailForm = () => {
             layout="vertical"
             selectProps={{ sx: { width: '50%' } }}
           />
-          {values.type === articlesTypeKeys.event && (
+          {isEvent && (
             <>
               <Grid container size={12} spacing={SPACING.form}>
                 <DateTimePickerField
@@ -80,6 +89,7 @@ const ArticlesDetailForm = () => {
                   label={t('form:label.event_start')}
                   layout="vertical"
                   isFullWidth
+                  isRequired={isEvent}
                   size={6}
                 />
                 <DateTimePickerField
@@ -87,6 +97,7 @@ const ArticlesDetailForm = () => {
                   label={t('form:label.event_end')}
                   layout="vertical"
                   isFullWidth
+                  isRequired={isEvent}
                   size={6}
                   dateTimePickerProps={{ minDate: values.minDate }}
                 />
@@ -184,6 +195,7 @@ const ArticlesDetailForm = () => {
               label=""
               fieldLabel={t('form:label.explicit')}
               layout="vertical"
+              isHidden={!features['content.explicit']}
             />
             <CheckboxField
               name="active"

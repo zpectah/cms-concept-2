@@ -17,6 +17,7 @@ const FilesUploadForm = () => {
       onClose={onClose}
       onSubmit={onSubmit}
       onReset={onReset}
+      formTestId="files-upload-form"
     >
       <FilesUploadQueue />
     </DetailDrawer>

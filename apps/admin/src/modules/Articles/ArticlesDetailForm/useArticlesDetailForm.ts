@@ -3,10 +3,11 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { modelKeys, ArticlesDetail } from '@model';
+import { modelKeys, ArticlesDetail, ArticlesItem } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
 import { getTypedDate } from '../../../utils';
+import { useModelValidations } from '../../../validation';
 import {
   useDetailFormLocales,
   useProfile,
@@ -28,15 +29,16 @@ export const useArticlesDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { user } = useProfile();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions } = useSelectOptions();
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<IArticlesDetailForm>({
     resolver: zodResolver(articlesDetailFormSchema),
-    defaultValues: defaultDataToForm(locales, user.id),
+    defaultValues: defaultDataToForm(locales, user?.id),
   });
 
   const cloneId = searchParams.get('clone');
@@ -55,9 +57,9 @@ export const useArticlesDetailForm = () => {
     cloneId,
   });
 
-  const formId = 'articles-detail-form';
+  const formId = `articles-detail-form__${vid}`;
 
-  const { refetch } = articlesQuery;
+  const { data: articles, refetch } = articlesQuery;
   const { data: detail } = articlesDetailQuery;
   const { data: cloneDetail } = articlesCloneDetailQuery;
   const { mutate: onCreate } = articlesCreateMutation;
@@ -66,7 +68,7 @@ export const useArticlesDetailForm = () => {
 
   const closeHandler = () => {
     navigate(rootUrl);
-    form.reset(defaultDataToForm(locales, user.id));
+    form.reset(defaultDataToForm(locales, user?.id));
   };
 
   const createHandler = (master: ArticlesDetail) => {
@@ -102,11 +104,21 @@ export const useArticlesDetailForm = () => {
   const submitHandler = (data: IArticlesDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (
+      !isAttributeUnique<ArticlesItem>(
+        articles ?? [],
+        'name',
+        data as ArticlesItem
+      )
+    ) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
 
-    // TODO: add user as editor
+      return;
+    }
 
-    const master = formDataToMaster(data, user.id);
+    const master = formDataToMaster(data, user?.id);
 
     if (data.id === 0) {
       createHandler(master);
@@ -142,9 +154,9 @@ export const useArticlesDetailForm = () => {
   const resetHandler = useCallback(() => {
     if (id === 'new') {
       if (cloneId && cloneDetail) {
-        form.reset(cloneDetailDataToForm(cloneDetail, user.id));
+        form.reset(cloneDetailDataToForm(cloneDetail, user?.id));
       } else {
-        form.reset(defaultDataToForm(locales, user.id));
+        form.reset(defaultDataToForm(locales, user?.id));
       }
     } else if (detail) {
       form.reset(detailDataToForm(detail));

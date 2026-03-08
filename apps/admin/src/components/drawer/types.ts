@@ -29,7 +29,7 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   /** Detail ID */
   id: string | 'new' | undefined;
   /** Rest of controlled form props */
-  formProps?: Partial<Omit<ControlledFormProps<T>, 'form'>>;
+  formProps?: Partial<Omit<ControlledFormProps<T>, 'form' | 'testId'>>;
   /** In case we need to disable confirm dialog when closing form with changes */
   disableCloseConfirm?: boolean;
   /** When we need to keep content even if its closed */
@@ -38,8 +38,10 @@ export interface DetailDrawerProps<T extends FieldValues> extends WithChildren {
   onExited?: () => void;
   /** External slot (outside of form) */
   externalSlot?: ReactNode;
-  /** Shortcut for form id attribute */
+  /** Shortcut for form 'id' attribute */
   formId?: string;
+  /** Shortcut for form 'testId¨ */
+  formTestId?: string;
 }
 
 export interface UseDetailDrawerProps {

@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { CategoriesDetail, modelKeys } from '@model';
+import { modelKeys, CategoriesDetail, CategoriesItem } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
+import { useModelValidations } from '../../../validation';
 import {
   useDetailFormLocales,
   useResponseMessage,
@@ -24,11 +25,12 @@ export const useCategoriesDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions } = useSelectOptions();
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<ICategoriesDetailForm>({
     resolver: zodResolver(categoriesDetailFormSchema),
     defaultValues: defaultDataToForm(locales),
@@ -44,9 +46,9 @@ export const useCategoriesDetailForm = () => {
     id,
   });
 
-  const formId = 'categories-detail-form';
+  const formId = `categories-detail-form__${vid}`;
 
-  const { refetch } = categoriesQuery;
+  const { data: categories, refetch } = categoriesQuery;
   const { data: detail } = categoriesDetailQuery;
   const { mutate: onCreate } = categoriesCreateMutation;
   const { mutate: onPatch } = categoriesPatchMutation;
@@ -90,9 +92,19 @@ export const useCategoriesDetailForm = () => {
   const submitHandler = (data: ICategoriesDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (
+      !isAttributeUnique<CategoriesItem>(
+        categories ?? [],
+        'name',
+        data as CategoriesItem
+      )
+    ) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
 
-    // TODO: add user as editor
+      return;
+    }
 
     const master = formDataToMaster(data);
 

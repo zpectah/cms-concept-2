@@ -7,18 +7,22 @@ import { getConfig } from '../../../config';
 import { useAppStore } from '../../../store';
 import { useViewContext } from '../../../contexts';
 import { useSettingsQuery, useUserQuery } from '../../../query';
-import { useResponseMessage } from '../../../hooks';
+import { useProfile, useResponseMessage } from '../../../hooks';
 import { ILoginForm } from './types';
 import { loginFormSchema } from './schema';
 import { defaultDataToForm, formDataToMaster } from './helpers';
+
+const REDIRECT_TIMEOUT = 1250;
 
 export const useLoginForm = () => {
   const { routes } = getConfig();
 
   const [processing, setProcessing] = useState(false);
+  const [redirectingBack, setRedirectingBack] = useState(false);
 
   const { t } = useTranslation(['common', 'views']);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { active } = useProfile();
   const { addToast } = useAppStore();
   const { id } = useParams();
   const { rootUrl } = useViewContext();
@@ -131,11 +135,23 @@ export const useLoginForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  useEffect(() => {
+    if (active) {
+      setRedirectingBack(true);
+      setTimeout(() => {
+        setRedirectingBack(false);
+        document.location = routes.dashboard.root;
+      }, REDIRECT_TIMEOUT);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
   return {
     id,
     rootUrl,
     form,
     processing,
+    redirectingBack,
     onSubmit: form.handleSubmit(submitHandler),
     onReset: resetHandler,
     meta: {

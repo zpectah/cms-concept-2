@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, CustomFieldsDetail } from '@model';
+import { modelKeys, CustomFieldsDetail, CustomFieldsItem } from '@model';
+import { useModelValidations } from '../../../validation';
 import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { useCustomFieldsQuery } from '../../../query';
 import { useViewContext } from '../../../contexts';
@@ -20,10 +21,11 @@ export const useCustomFieldsDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions } = useSelectOptions();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<ICustomFieldsDetailForm>({
     resolver: zodResolver(customFieldsDetailFormSchema),
     defaultValues: defaultDataToForm(),
@@ -37,9 +39,9 @@ export const useCustomFieldsDetailForm = () => {
     customFieldsDeleteMutation,
   } = useCustomFieldsQuery({ id });
 
-  const formId = 'customfields-detail-form';
+  const formId = `customFields-detail-form__${vid}`;
 
-  const { refetch } = customFieldsQuery;
+  const { data: customFields, refetch } = customFieldsQuery;
   const { data: detail } = customFieldsDetailQuery;
   const { mutate: onCreate } = customFieldsCreateMutation;
   const { mutate: onPatch } = customFieldsPatchMutation;
@@ -83,7 +85,19 @@ export const useCustomFieldsDetailForm = () => {
   const submitHandler = (data: ICustomFieldsDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (
+      !isAttributeUnique<CustomFieldsItem>(
+        customFields ?? [],
+        'name',
+        data as CustomFieldsItem
+      )
+    ) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
+
+      return;
+    }
 
     const master = formDataToMaster(data);
 

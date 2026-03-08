@@ -66,7 +66,12 @@ const ProfileDialogForm = () => {
         md: PROFILE_DRAWER_WIDTH_DEFAULT,
       }}
     >
-      <ControlledForm id={formId} form={form} onSubmit={onSubmit}>
+      <ControlledForm
+        id={formId}
+        form={form}
+        onSubmit={onSubmit}
+        testId="profile-dialog-form"
+      >
         <Grid container spacing={SPACING.form}>
           <Grid size={12} container spacing={SPACING.form}>
             <Grid

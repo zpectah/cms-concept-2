@@ -38,6 +38,7 @@ export type SelectProps = Omit<MuiSelectProps, 'label' | 'helperText'> &
     options: OptionItem[];
     placeholder?: string;
     forcePlaceholder?: boolean;
+    showSingleOption?: boolean;
   };
 
 export type TagSelectProps<T = string | number> = SelectOptionsProps &

@@ -22,7 +22,7 @@ export const useFilesUploadForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'form']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions } = useSelectOptions();
@@ -34,7 +34,7 @@ export const useFilesUploadForm = () => {
   const { filesQuery, filesCreateMutation, filesUploadMutation } =
     useFilesQuery({ id });
 
-  const formId = 'files-upload-form';
+  const formId = `files-upload-form__${vid}`;
 
   const { data: files, refetch } = filesQuery;
   const { mutate: onCreate } = filesCreateMutation;

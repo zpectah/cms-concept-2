@@ -42,7 +42,12 @@ const MenuItemsManagerDetail = () => {
       fullWidth
       title={detailTitle}
       content={
-        <ControlledForm form={form} onSubmit={onSubmit} id={formId}>
+        <ControlledForm
+          form={form}
+          onSubmit={onSubmit}
+          id={formId}
+          testId="menuItems-manager-detail-form"
+        >
           <Grid container spacing={SPACING.form}>
             <InputField
               name="name"

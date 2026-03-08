@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Alert } from '@mui/material';
 import { getConfig } from '../../../config';
 import { SPACING } from '../../../constants';
 import {
@@ -18,18 +18,33 @@ const LoginForm = () => {
   const { routes } = getConfig();
 
   const { t } = useTranslation(['common', 'views']);
-  const { form, processing, onSubmit, onReset, meta } = useLoginForm();
+  const { form, processing, onSubmit, onReset, meta, redirectingBack } =
+    useLoginForm();
 
   return (
     <ControlledForm<ILoginForm>
       form={form}
       onSubmit={onSubmit}
       sx={{ width: '100%' }}
+      testId="login-form"
     >
       <Grid container spacing={SPACING.form}>
         <Grid size={12}>
           <Typography variant="h5">{meta.projectName}</Typography>
         </Grid>
+
+        {redirectingBack && (
+          <Grid
+            size={{ xs: 12, md: 8 }}
+            offset={{ md: 2 }}
+            sx={{ py: 2, textAlign: 'left' }}
+          >
+            <Alert severity="info" variant="filled">
+              {t('message.info.alreadyLoggedIn')}
+            </Alert>
+          </Grid>
+        )}
+
         <EmailField
           name="email"
           label={t('views:login.form.label.email')}
@@ -39,7 +54,7 @@ const LoginForm = () => {
           isRequired
           size={{ xs: 12, md: 8 }}
           gridProps={{ offset: { md: 2 } }}
-          isDisabled={processing}
+          isDisabled={processing || redirectingBack}
         />
         <PasswordField
           name="password"
@@ -50,7 +65,7 @@ const LoginForm = () => {
           isRequired
           size={{ xs: 12, md: 8 }}
           gridProps={{ offset: { md: 2 } }}
-          isDisabled={processing}
+          isDisabled={processing || redirectingBack}
         />
         <GridActions
           disableSeparator
@@ -58,10 +73,18 @@ const LoginForm = () => {
             justifyContent: 'center',
           }}
         >
-          <SecondaryButton onClick={onReset} size="large" disabled={processing}>
+          <SecondaryButton
+            onClick={onReset}
+            size="large"
+            disabled={processing || redirectingBack}
+          >
             {t('button.reset')}
           </SecondaryButton>
-          <PrimaryButton type="submit" size="large" disabled={processing}>
+          <PrimaryButton
+            type="submit"
+            size="large"
+            disabled={processing || redirectingBack}
+          >
             {t('button.submit')}
           </PrimaryButton>
         </GridActions>

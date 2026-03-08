@@ -38,6 +38,7 @@ const TranslationsDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="translations-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <SelectField

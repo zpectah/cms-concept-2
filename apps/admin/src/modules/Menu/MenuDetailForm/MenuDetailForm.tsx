@@ -45,6 +45,7 @@ const MenuDetailForm = () => {
             menuPrefix={values.uid}
           />
         }
+        formTestId="menu-detail-form"
         keepMounted
       >
         <Grid container spacing={SPACING.form}>

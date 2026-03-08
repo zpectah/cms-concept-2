@@ -3,7 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, pagesMetaRobotsKeysArray, PagesDetail } from '@model';
+import {
+  modelKeys,
+  pagesMetaRobotsKeysArray,
+  PagesDetail,
+  PagesItem,
+} from '@model';
+import { useModelValidations } from '../../../validation';
 import {
   useDetailFormLocales,
   useResponseMessage,
@@ -24,12 +30,13 @@ export const usePagesDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions, getTranslatedOptionsFromList } =
     useSelectOptions();
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<IPagesDetailForm>({
     resolver: zodResolver(pagesDetailFormSchema),
     defaultValues: defaultDataToForm(locales),
@@ -45,9 +52,9 @@ export const usePagesDetailForm = () => {
     id,
   });
 
-  const formId = 'pages-detail-form';
+  const formId = `pages-detail-form__${vid}`;
 
-  const { refetch } = pagesQuery;
+  const { data: pages, refetch } = pagesQuery;
   const { data: detail } = pagesDetailQuery;
   const { mutate: onCreate } = pagesCreateMutation;
   const { mutate: onPatch } = pagesPatchMutation;
@@ -91,9 +98,13 @@ export const usePagesDetailForm = () => {
   const submitHandler = (data: IPagesDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (!isAttributeUnique<PagesItem>(pages ?? [], 'name', data as PagesItem)) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
 
-    // TODO: add user as editor
+      return;
+    }
 
     const master = formDataToMaster(data);
 

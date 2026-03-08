@@ -19,6 +19,7 @@ const MessagesDetailForm = () => {
       onClose={onClose}
       onDelete={onDelete}
       actions={customActions}
+      formTestId="messages-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <Literal

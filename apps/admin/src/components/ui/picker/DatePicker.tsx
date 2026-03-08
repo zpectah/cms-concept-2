@@ -21,6 +21,7 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
         {...rest}
         enableAccessibleFieldDOMStructure={false}
         slotProps={{
+          ...rest?.slotProps,
           textField: {
             id,
             error: isError,
@@ -29,7 +30,6 @@ const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(
             readOnly: isReadOnly,
             ...rest?.slotProps?.textField,
           },
-          ...rest?.slotProps,
         }}
       />
     );

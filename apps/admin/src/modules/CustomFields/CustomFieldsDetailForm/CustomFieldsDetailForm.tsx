@@ -35,6 +35,7 @@ const CustomFieldsDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="customFields-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <InputField

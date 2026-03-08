@@ -34,7 +34,12 @@ const CommentsManagerDetail = () => {
       fullWidth
       title={detailTitle}
       content={
-        <ControlledForm form={form} onSubmit={onSubmit} id={formId}>
+        <ControlledForm
+          form={form}
+          onSubmit={onSubmit}
+          id={formId}
+          testId="comments-manager-detail-form"
+        >
           <Grid container spacing={SPACING.form}>
             <EmailField
               name="sender"

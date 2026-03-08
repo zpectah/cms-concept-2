@@ -36,6 +36,7 @@ const PasswordRecoveryTokenForm = () => {
       form={form}
       onSubmit={onSubmit}
       sx={{ width: '100%' }}
+      testId="password-recovery-token-form"
     >
       <Grid container spacing={SPACING.form}>
         <input type="hidden" {...form.register('token')} />

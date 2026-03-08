@@ -92,13 +92,18 @@
     "selectOrDropFilesToUpload": "Select or drop your files here",
     "reply": "Reply",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "pickOne": "Pick item",
+    "pickMore": "Pick items",
+    "logOut": "Log out",
+    "localeMenu": "Locales",
+    "themeMode": "Theme mode"
   },
   "message": {
     "confirm": {
       "logout": {
-        "title": "...todo...",
-        "content": "...todo..."
+        "title": "Exit application?",
+        "content": "Are you sure you really want to exit app"
       },
       "delete": {
         "title": "Confirm delete",
@@ -135,16 +140,15 @@
     },
     "info": {
       "avatar_updated": "Avatar was updated, we recommends you to save data",
-      "expiredSession": "You are not logged in, please log in again"
+      "expiredSession": "You are not logged in, please log in again",
+      "alreadyLoggedIn": "You are already logged in, redirecting back to dashboard"
     },
     "warning": {
       "file_max_size": "File '{{file}}' exceeded max file size",
       "file_unsupported": "Unsupported file '{{file}}'",
       "file_unknown": "Unknown file '{{file}}'"
     },
-    "error": {
-
-    }
+    "error": {}
   },
   "routes": {
     "articles": "Articles",

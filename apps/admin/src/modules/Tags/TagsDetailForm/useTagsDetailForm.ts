@@ -3,10 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, tagsColorKeysArray, TagsDetail } from '@model';
+import { modelKeys, tagsColorKeysArray, TagsDetail, TagsItem } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
 import { useTagsQuery } from '../../../query';
+import { useModelValidations } from '../../../validation';
 import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { ITagsDetailForm } from './types';
 import { tagsDetailFormSchema } from './schema';
@@ -20,11 +21,12 @@ export const useTagsDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions, getTranslatedOptionsFromList } =
     useSelectOptions();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<ITagsDetailForm>({
     resolver: zodResolver(tagsDetailFormSchema),
     defaultValues: defaultDataToForm(),
@@ -38,9 +40,9 @@ export const useTagsDetailForm = () => {
     tagsDeleteMutation,
   } = useTagsQuery({ id });
 
-  const formId = 'tags-detail-form';
+  const formId = `tags-detail-form__${vid}`;
 
-  const { refetch } = tagsQuery;
+  const { data: tags, refetch } = tagsQuery;
   const { data: detail } = tagsDetailQuery;
   const { mutate: onCreate } = tagsCreateMutation;
   const { mutate: onPatch } = tagsPatchMutation;
@@ -84,7 +86,13 @@ export const useTagsDetailForm = () => {
   const submitHandler = (data: ITagsDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (!isAttributeUnique<TagsItem>(tags ?? [], 'name', data as TagsItem)) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
+
+      return;
+    }
 
     const master = formDataToMaster(data);
 

@@ -42,6 +42,7 @@ const UsersDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="users-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <Grid size={12} container spacing={SPACING.form}>
@@ -71,6 +72,7 @@ const UsersDetailForm = () => {
           layout="vertical"
           placeholder="User email"
           isFullWidth
+          isRequired
         />
         <PasswordField
           name="password"

@@ -32,6 +32,8 @@ export const useSettingsBlacklistDetailForm = () => {
 
   const { data: detailData, isLoading } = blacklistDetailQuery;
 
+  const formId = 'settingsBlacklistDetailForm';
+
   const submitHandler: SubmitHandler<ISettingsBlacklistDetailForm> = (data) => {
     const master = formDataToMaster(data);
 
@@ -73,6 +75,7 @@ export const useSettingsBlacklistDetailForm = () => {
     open,
     setOpen,
     form,
+    formId,
     onSubmit: form.handleSubmit(submitHandler),
     onReset: resetHandler,
     onDelete,

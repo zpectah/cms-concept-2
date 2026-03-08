@@ -12,7 +12,7 @@ import { IArticlesDetailForm } from './types';
 /** Gets default form values */
 export const defaultDataToForm = (
   locales: string[],
-  author: number
+  author?: number
 ): IArticlesDetailForm => {
   return Object.assign({
     id: 0,
@@ -22,16 +22,17 @@ export const defaultDataToForm = (
     type: articlesTypeDefault,
     categories: [],
     tags: [],
-    files: [],
+    attachments: [],
     approved: false,
     explicit: false,
-    author: author,
-    editor: [author],
+    author: author ?? 0,
+    editor: [author ?? 0],
     locale: getModelLocales<ArticlesDetailLocale>(locales, {
       title: '',
       description: '',
       content: '',
     }),
+    image_thumb_id: 0,
     // Event specific
     event_location: [0, 0],
     event_address: addressFormDefaults,
@@ -44,7 +45,7 @@ export const defaultDataToForm = (
 export const detailDataToForm = (data: ArticlesDetail): IArticlesDetailForm => {
   return Object.assign({
     ...data,
-
+    // Event specific
     event_start: data.event_start ? dayjs(data.event_start) : null,
     event_end: data.event_end ? dayjs(data.event_end) : null,
     event_address: {
@@ -57,7 +58,7 @@ export const detailDataToForm = (data: ArticlesDetail): IArticlesDetailForm => {
 /** Gets formatted detail data of clone to form */
 export const cloneDetailDataToForm = (
   data: ArticlesDetail,
-  author: number
+  author?: number
 ): IArticlesDetailForm => {
   const clone = detailDataToForm(data);
 
@@ -67,15 +68,15 @@ export const cloneDetailDataToForm = (
     name: `clone-${data.name}`,
     approved: false,
     explicit: false,
-    author: author,
-    editor: [author],
+    author: author ?? 0,
+    editor: [author ?? 0],
   });
 };
 
 /** Gets formatted form data to master before submit */
 export const formDataToMaster = (
   data: IArticlesDetailForm,
-  editor: number
+  editor?: number
 ): ArticlesDetail => {
   const master = Object.assign({
     ...data,

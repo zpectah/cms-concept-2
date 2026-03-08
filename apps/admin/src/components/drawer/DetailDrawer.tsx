@@ -34,6 +34,7 @@ const DetailDrawer = <T extends FieldValues>({
   onExited,
   externalSlot,
   formId,
+  formTestId,
 }: DetailDrawerProps<T>) => {
   const { t } = useTranslation(['common', 'model']);
   const { setConfirmDialog } = useAppStore();
@@ -143,7 +144,7 @@ const DetailDrawer = <T extends FieldValues>({
     return counter > 0
       ? [
           {
-            children: `There is ${counter} error(s)`,
+            children: `There is ${counter} error(s)`, // TODO #i18n
             severity: 'error',
           },
         ]
@@ -194,6 +195,7 @@ const DetailDrawer = <T extends FieldValues>({
               id={formId}
               form={form}
               onSubmit={onSubmit && form.handleSubmit(onSubmit)}
+              testId={formTestId}
               {...formProps}
             >
               {children}

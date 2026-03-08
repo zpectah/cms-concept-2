@@ -19,6 +19,7 @@ const SettingsBlacklistDetailForm = () => {
     open,
     setOpen,
     form,
+    formId,
     onSubmit,
     onReset,
     onDelete,
@@ -26,8 +27,6 @@ const SettingsBlacklistDetailForm = () => {
     isUpdate,
     values,
   } = useSettingsBlacklistDetailForm();
-
-  const formId = 'settingsBlacklistDetailForm';
 
   return (
     <>
@@ -68,7 +67,12 @@ const SettingsBlacklistDetailForm = () => {
           </>
         }
         content={
-          <ControlledForm id={formId} form={form} onSubmit={onSubmit}>
+          <ControlledForm
+            id={formId}
+            form={form}
+            onSubmit={onSubmit}
+            testId="settings-blacklist-detail-form"
+          >
             <Grid container spacing={2}>
               <SelectField
                 name="type"

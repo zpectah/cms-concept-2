@@ -45,6 +45,7 @@ const FilesDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="files-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <Grid size={12}>

@@ -40,6 +40,7 @@ const CategoriesDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="categories-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <InputField

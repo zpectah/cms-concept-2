@@ -20,7 +20,11 @@ const SettingsGlobalForm = () => {
   const { form, onSubmit, onReset } = useSettingsGlobalForm();
 
   return (
-    <ControlledForm form={form} onSubmit={onSubmit}>
+    <ControlledForm
+      form={form}
+      onSubmit={onSubmit}
+      testId="settings-global-form"
+    >
       <Grid container spacing={SPACING.form}>
         <GridHeading title={t('views:settings.global.section.project.title')} />
 

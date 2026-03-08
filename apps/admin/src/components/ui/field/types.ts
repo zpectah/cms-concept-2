@@ -35,4 +35,6 @@ export interface FieldProps extends WithChildren {
   labelWrapperProps?: Partial<StackProps>;
   /** Box wrapping input */
   inputBoxProps?: Partial<BoxProps>;
+  /** Hide the element from DOM */
+  isHidden?: boolean;
 }

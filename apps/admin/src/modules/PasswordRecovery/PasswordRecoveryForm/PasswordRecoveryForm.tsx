@@ -68,6 +68,7 @@ const PasswordRecoveryForm = () => {
       form={form}
       onSubmit={onSubmit}
       sx={{ width: '100%' }}
+      testId="password-recovery-form"
     >
       <Grid container spacing={SPACING.form}>
         {status && (

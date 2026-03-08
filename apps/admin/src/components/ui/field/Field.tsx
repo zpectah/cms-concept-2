@@ -23,6 +23,7 @@ const Field = ({
   labelProps,
   labelWrapperProps,
   inputBoxProps,
+  isHidden,
 }: FieldProps) => {
   const sizes = {
     responsive: {
@@ -55,6 +56,8 @@ const Field = ({
   };
 
   const isMessages = helpers?.length > 0 || errors?.length > 0;
+
+  if (isHidden) return;
 
   return (
     <Grid id={id} container spacing={spacing} size={size} {...gridProps}>

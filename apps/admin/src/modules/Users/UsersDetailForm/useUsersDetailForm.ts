@@ -3,10 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys, usersAccessKeys, UsersDetail } from '@model';
+import { modelKeys, usersAccessKeys, UsersDetail, UsersItem } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
 import { getOptionValue } from '../../../helpers';
+import { useModelValidations } from '../../../validation';
 import {
   useProfile,
   useResponseMessage,
@@ -26,11 +27,12 @@ export const useUsersDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { user } = useProfile();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions } = useSelectOptions();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<IUsersDetailForm>({
     resolver: zodResolver(usersDetailFormSchema),
     defaultValues: defaultDataToForm(),
@@ -44,9 +46,9 @@ export const useUsersDetailForm = () => {
     usersDeleteMutation,
   } = useUsersQuery({ id });
 
-  const formId = 'users-detail-form';
+  const formId = `users-detail-form__${vid}`;
 
-  const { refetch } = usersQuery;
+  const { data: users, refetch } = usersQuery;
   const { data: detail } = usersDetailQuery;
   const { mutate: onCreate } = usersCreateMutation;
   const { mutate: onPatch } = usersPatchMutation;
@@ -107,7 +109,15 @@ export const useUsersDetailForm = () => {
   const submitHandler = (data: IUsersDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (
+      !isAttributeUnique<UsersItem>(users ?? [], 'email', data as UsersItem)
+    ) {
+      form.setError('email', {
+        message: t('form:message.error.duplicity_email'),
+      });
+
+      return;
+    }
 
     const master = formDataToMaster(data);
 

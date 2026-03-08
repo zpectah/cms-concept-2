@@ -4,9 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { personSexKeysArray } from '@common';
-import { modelKeys, MembersDetail } from '@model';
+import { modelKeys, MembersDetail, MembersItem } from '@model';
 import { useViewContext } from '../../../contexts';
 import { useAppStore } from '../../../store';
+import { useModelValidations } from '../../../validation';
 import { useResponseMessage, useSelectOptions } from '../../../hooks';
 import { useMembersQuery } from '../../../query';
 import { IMembersDetailForm } from './types';
@@ -21,11 +22,12 @@ export const useMembersDetailForm = () => {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'views']);
   const { addToast } = useAppStore();
-  const { rootUrl } = useViewContext();
+  const { rootUrl, vid } = useViewContext();
   const { id } = useParams();
   const { onError } = useResponseMessage();
   const { getTypeFieldOptions, getTranslatedOptionsFromList } =
     useSelectOptions();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<IMembersDetailForm>({
     resolver: zodResolver(membersDetailFormSchema),
     defaultValues: defaultDataToForm(),
@@ -39,9 +41,9 @@ export const useMembersDetailForm = () => {
     membersDeleteMutation,
   } = useMembersQuery({ id });
 
-  const formId = 'members-detail-form';
+  const formId = `members-detail-form__${vid}`;
 
-  const { refetch } = membersQuery;
+  const { data: members, refetch } = membersQuery;
   const { data: detail } = membersDetailQuery;
   const { mutate: onCreate } = membersCreateMutation;
   const { mutate: onPatch } = membersPatchMutation;
@@ -85,7 +87,19 @@ export const useMembersDetailForm = () => {
   const submitHandler = (data: IMembersDetailForm) => {
     if (!data) return;
 
-    // TODO: unique validation
+    if (
+      !isAttributeUnique<MembersItem>(
+        members ?? [],
+        'email',
+        data as MembersItem
+      )
+    ) {
+      form.setError('email', {
+        message: t('form:message.error.duplicity_email'),
+      });
+
+      return;
+    }
 
     const master = formDataToMaster(data);
 

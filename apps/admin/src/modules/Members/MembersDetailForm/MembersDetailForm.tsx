@@ -45,6 +45,7 @@ const MembersDetailForm = () => {
       onSubmit={onSubmit}
       onReset={onReset}
       onDelete={onDelete}
+      formTestId="members-detail-form"
     >
       <Grid container spacing={SPACING.form}>
         <Grid size={12} container spacing={SPACING.form}>
