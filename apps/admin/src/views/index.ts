@@ -2,7 +2,6 @@ export { default as ArticlesView } from './ArticlesView';
 export { default as CategoriesView } from './CategoriesView';
 export { default as CustomFieldsView } from './CustomFieldsView';
 export { default as DashboardView } from './DashboardView';
-export { default as DemoView } from './DemoView';
 export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as ErrorView } from './ErrorView';
 export { default as FilesView } from './FilesView';

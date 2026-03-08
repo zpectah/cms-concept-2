@@ -11,7 +11,7 @@ export const useMenuItems = () => {
     },
   } = getConfig();
 
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { groups } = useUserActions(undefined);
 
   const createLocaleMenu = () => {
@@ -30,117 +30,95 @@ export const useMenuItems = () => {
 
   const mainMenu = [
     {
+      id: 'dashboard',
+      label: t('routes.dashboard'),
+      path: routes.dashboard.root,
+      disabled: false,
+      hidden: !groups.redaction.view,
+    },
+    {
       id: 'articles',
-      label: 'Articles',
+      label: t('routes.articles'),
       path: routes.articles.root,
       disabled: false,
       hidden: !groups.redaction.view,
     },
     {
       id: 'categories',
-      label: 'Categories',
+      label: t('routes.categories'),
       path: routes.categories.root,
       disabled: false,
       hidden: !groups.redaction.view,
     },
     {
       id: 'customFields',
-      label: 'Custom fields',
+      label: t('routes.customFields'),
       path: routes.customFields.root,
       disabled: false,
       hidden: !groups.organization.view,
     },
     {
       id: 'files',
-      label: 'Files',
+      label: t('routes.files'),
       path: routes.files.root,
       disabled: false,
       hidden: !groups.redaction.view,
     },
     {
       id: 'members',
-      label: 'Members',
+      label: t('routes.members'),
       path: routes.members.root,
       disabled: false,
       hidden: !groups.entities.view,
     },
     {
       id: 'menu',
-      label: 'Menu',
+      label: t('routes.menu'),
       path: routes.menu.root,
       disabled: false,
       hidden: !groups.organization.view,
     },
     {
       id: 'messages',
-      label: 'Messages',
+      label: t('routes.messages'),
       path: routes.messages.root,
       disabled: false,
       hidden: !groups.feedback.view,
     },
     {
       id: 'pages',
-      label: 'Pages',
+      label: t('routes.pages'),
       path: routes.pages.root,
       disabled: false,
       hidden: !groups.organization.view,
     },
     {
       id: 'settings',
-      label: 'Settings',
+      label: t('routes.settings'),
       path: routes.settings.root,
       disabled: false,
       hidden: !groups.organization.view,
     },
     {
       id: 'tags',
-      label: 'Tags',
+      label: t('routes.tags'),
       path: routes.tags.root,
       disabled: false,
       hidden: !groups.redaction.view,
     },
     {
       id: 'translations',
-      label: 'Translations',
+      label: t('routes.translations'),
       path: routes.translations.root,
       disabled: false,
       hidden: !groups.organization.view,
     },
     {
       id: 'users',
-      label: 'Users',
+      label: t('routes.users'),
       path: routes.users.root,
       disabled: false,
       hidden: !groups.entities.view,
-    },
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      path: routes.dashboard.root,
-      disabled: false,
-      hidden: !groups.redaction.view,
-    },
-    // TODO
-    {
-      id: 'login',
-      label: 'Login',
-      path: routes.login.root,
-      disabled: false,
-      hidden: false,
-    },
-    {
-      id: 'passwordRecovery',
-      label: 'Password recovery',
-      path: routes.passwordRecovery.root,
-      disabled: false,
-      hidden: false,
-    },
-    {
-      id: 'demo',
-      label: 'Demo',
-      path: routes.demo.root,
-      disabled: false,
-      hidden: false,
     },
   ];
 

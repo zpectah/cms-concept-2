@@ -17,7 +17,6 @@ import {
   CategoriesView,
   CustomFieldsView,
   DashboardView,
-  DemoView,
   ErrorBoundary,
   ErrorView,
   FilesView,
@@ -134,12 +133,6 @@ const AppRouter = () => {
             />
           ),
           children: [
-            // Demo
-            {
-              path: routes.demo.root,
-              element: <DemoView />,
-            },
-
             // Dashboard
             {
               path: routes.dashboard.root,
