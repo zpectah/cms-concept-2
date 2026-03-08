@@ -20,7 +20,7 @@
     "last_name": "Last name",
     "sex": "Sex",
     "street": "Street",
-    "street_no": "Street number",
+    "street_no": "Street No",
     "city": "City",
     "country": "Country",
     "zip": "ZIP",
@@ -41,7 +41,8 @@
     "flat_number": "Flat number",
     "category": "Category",
     "color": "Color",
-    "namespace": "Namespace"
+    "namespace": "Namespace",
+    "district": "District"
   },
   "placeholder": {
     "name": "Type item name",
@@ -62,14 +63,15 @@
     "last_name": "Type last name",
     "sex": "Select sex",
     "street": "Pick street name",
-    "street_no": "Pick street number",
+    "street_no": "Street number",
     "city": "Select city",
     "country": "Select country",
     "zip": "ZIP Code",
     "birthdate": "Select birthdate",
     "meta_robots": "Index options",
     "value": "Type value",
-    "access_rights": "Select access rights"
+    "access_rights": "Select access rights",
+    "district": "Type address district"
   },
   "message": {
     "info": {},

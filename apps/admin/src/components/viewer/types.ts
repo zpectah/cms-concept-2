@@ -3,6 +3,7 @@ export interface ImageViewerProps {
   alt?: string;
   size?: number;
   isThumbnail?: boolean;
+  disablePathPrefix?: boolean;
 }
 
 export interface PdfViewerProps {

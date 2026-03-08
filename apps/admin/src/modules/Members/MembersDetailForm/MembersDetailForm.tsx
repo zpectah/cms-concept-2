@@ -113,7 +113,14 @@ const MembersDetailForm = () => {
           placeholder="Select sex"
           options={options.sex}
           layout="vertical"
-          selectProps={{ sx: { width: '50%' } }}
+          selectProps={{
+            sx: {
+              width: {
+                xs: '100%',
+                md: '50%',
+              },
+            },
+          }}
         />
 
         <AddressField
@@ -134,7 +141,14 @@ const MembersDetailForm = () => {
           name="birthdate"
           label={t('form:label.birthdate')}
           layout="vertical"
-          isFullWidth
+          datePickerProps={{
+            sx: {
+              width: {
+                xs: '100%',
+                md: '50%',
+              },
+            },
+          }}
         />
 
         <TextareaField
@@ -149,7 +163,7 @@ const MembersDetailForm = () => {
           <CheckboxField
             name="active"
             label=""
-            fieldLabel="Active"
+            fieldLabel={t('form:label.active')}
             layout="vertical"
           />
         </Grid>

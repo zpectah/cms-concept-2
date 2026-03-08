@@ -14,6 +14,7 @@ import { useFilesDetailForm } from './useFilesDetailForm';
 const FilesDetailForm = () => {
   const {
     uploads: { source },
+    cms: { features },
   } = getConfig();
 
   const { t } = useTranslation(['form']);
@@ -75,6 +76,7 @@ const FilesDetailForm = () => {
             label=""
             fieldLabel={t('form:label.explicit')}
             layout="vertical"
+            isHidden={!features['content.explicit']}
           />
           <CheckboxField
             name="active"

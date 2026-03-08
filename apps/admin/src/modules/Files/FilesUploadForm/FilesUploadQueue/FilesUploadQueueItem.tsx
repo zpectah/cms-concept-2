@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'react-hook-form';
 import { Stack, Typography, Paper, Box, Grid } from '@mui/material';
 import { formatBytes, getBase64Size } from '@common';
+import { getConfig } from '../../../../config';
 import { getOptionValue } from '../../../../helpers';
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   InputPlusField,
   CheckboxField,
 } from '../../../../components';
+import { useFileTypeElement } from '../../../../hooks';
 import { IFilesUploadForm } from '../types';
 import { FilesUploadQueueItemProps } from './types';
 
@@ -22,8 +24,19 @@ const FilesUploadQueueItem = ({
   content,
   onRemove,
 }: FilesUploadQueueItemProps) => {
+  const {
+    cms: { features },
+  } = getConfig();
+
   const { t } = useTranslation();
   const { setValue } = useFormContext<IFilesUploadForm>();
+  const { renderFileByType } = useFileTypeElement();
+
+  const fileElement = renderFileByType(content, type, {
+    alt: name,
+    disablePathPrefix: true,
+    disableLabel: true,
+  });
 
   return (
     <Paper
@@ -33,17 +46,8 @@ const FilesUploadQueueItem = ({
       }}
     >
       <Box>
-        <div>
-          {type === 'image' && (
-            <img
-              src={content}
-              alt={name}
-              style={{ maxWidth: '100%', height: 'auto' }}
-            />
-          )}
-          {/* TODO: rest of file types */}
-        </div>
-        <div>
+        <Box sx={{ textAlign: 'center' }}>{fileElement}</Box>
+        <Box>
           <Grid container spacing={1} sx={{ pt: 1 }}>
             <InputPlusField
               name={`queue.${index}.name`}
@@ -61,6 +65,7 @@ const FilesUploadQueueItem = ({
               label=""
               fieldLabel="Explicit"
               layout="vertical"
+              isHidden={!features['content.explicit']}
             />
 
             <Grid size={12}>
@@ -98,7 +103,7 @@ const FilesUploadQueueItem = ({
               </Stack>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Box>
     </Paper>
   );

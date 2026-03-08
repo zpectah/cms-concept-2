@@ -23,7 +23,13 @@ const ImageElement = styled('img')(() => ({
   left: 0,
 }));
 
-const ImageViewer = ({ src, alt, size, isThumbnail }: ImageViewerProps) => {
+const ImageViewer = ({
+  src,
+  alt,
+  size,
+  isThumbnail,
+  disablePathPrefix,
+}: ImageViewerProps) => {
   const {
     uploads: { source },
   } = getConfig();
@@ -42,7 +48,11 @@ const ImageViewer = ({ src, alt, size, isThumbnail }: ImageViewerProps) => {
       })}
     >
       {src ? (
-        <ImageElement src={fullPath} alt={alt} loading="lazy" />
+        <ImageElement
+          src={!disablePathPrefix ? fullPath : src}
+          alt={alt}
+          loading="lazy"
+        />
       ) : (
         <Typography variant="caption" color="textDisabled">
           {t('label.notFound')}

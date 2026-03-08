@@ -19,7 +19,11 @@
     "primary": "Primary",
     "secondary": "Secondary",
     "category": "Category",
-    "link": "Link"
+    "link": "Link",
+    "user-password-recovery": "User password recovery",
+    "member-password-recovery": "Member password recovery",
+    "subscriber": "Subscriber",
+    "contact-form": "Contact form"
   },
   "accessRights": {
     "none": "None",

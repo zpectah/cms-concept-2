@@ -1,5 +1,4 @@
 export const messagesTypeKeys = {
   default: 'default',
-  contactForm: 'contactForm',
-  // TODO ...
+  contactForm: 'contact-form',
 } as const;

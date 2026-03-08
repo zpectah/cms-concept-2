@@ -50,12 +50,15 @@ export const useFileTypeElement = () => {
       disableLabel?: boolean;
       customLabel?: string;
       iconSize?: string;
+      disablePathPrefix?: boolean;
     }
   ) => {
     if (!source || !type) return;
 
     const isThumbnail = options?.isThumbnail ?? false;
-    const path = getPath(type, source, isThumbnail);
+    const path = !options?.disablePathPrefix
+      ? getPath(type, source, isThumbnail)
+      : source;
     const extension = getFileExtension(source);
     const label = !options?.disableLabel ? (
       <Typography variant="body2" color="textSecondary" textAlign="center">
@@ -75,6 +78,7 @@ export const useFileTypeElement = () => {
             src={source}
             alt={options?.alt}
             isThumbnail={isThumbnail}
+            disablePathPrefix={options?.disablePathPrefix}
           />
         );
 

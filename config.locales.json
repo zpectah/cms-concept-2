@@ -4,70 +4,80 @@
     "format": {
       "date": "YYYY.MM.DD",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "cs": {
     "label": "Čeština",
     "format": {
       "date": "DD.MM. YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "sk": {
     "label": "Slovenčina",
     "format": {
       "date": "DD.MM. YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "pl": {
     "label": "Polski",
     "format": {
       "date": "DD.MM. YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "hu": {
     "label": "Magyar",
     "format": {
       "date": "YYYY.MM.DD",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "uk": {
     "label": "Українська",
     "format": {
       "date": "DD.MM. YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "it": {
     "label": "Italiano",
     "format": {
       "date": "DD/MM/YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "fr": {
     "label": "Français",
     "format": {
       "date": "DD/MM/YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "es": {
     "label": "Español",
     "format": {
       "date": "DD/MM/YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   },
   "pt": {
     "label": "Português",
     "format": {
       "date": "DD/MM/YYYY",
       "time": "HH:mm"
-    }
+    },
+    "ltr": true
   }
 }
 
