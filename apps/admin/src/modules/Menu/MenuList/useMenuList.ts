@@ -12,9 +12,10 @@ export const useMenuList = () => {
     menuToggleMutation,
     menuDeleteMutation,
     menuDeletePermanentMutation,
+    onMenuRefetch,
   } = useMenuQuery({});
 
-  const { data: items, refetch, isLoading } = menuQuery;
+  const { data: items, isLoading } = menuQuery;
   const { mutate: onToggle } = menuToggleMutation;
   const { mutate: onDelete } = menuDeleteMutation;
   const { mutate: onDeletePermanent } = menuDeletePermanentMutation;
@@ -27,7 +28,7 @@ export const useMenuList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMenuRefetch();
       },
       onError,
     });
@@ -41,7 +42,7 @@ export const useMenuList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMenuRefetch();
       },
       onError,
     });
@@ -55,7 +56,7 @@ export const useMenuList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMenuRefetch();
       },
       onError,
     });

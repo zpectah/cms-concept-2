@@ -12,9 +12,10 @@ export const useTagsList = () => {
     tagsToggleMutation,
     tagsDeleteMutation,
     tagsDeletePermanentMutation,
+    onTagsRefetch,
   } = useTagsQuery({});
 
-  const { data: items, refetch, isLoading } = tagsQuery;
+  const { data: items, isLoading } = tagsQuery;
   const { mutate: onToggle } = tagsToggleMutation;
   const { mutate: onDelete } = tagsDeleteMutation;
   const { mutate: onDeletePermanent } = tagsDeletePermanentMutation;
@@ -27,7 +28,7 @@ export const useTagsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTagsRefetch();
       },
       onError,
     });
@@ -41,7 +42,7 @@ export const useTagsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTagsRefetch();
       },
       onError,
     });
@@ -55,7 +56,7 @@ export const useTagsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTagsRefetch();
       },
       onError,
     });

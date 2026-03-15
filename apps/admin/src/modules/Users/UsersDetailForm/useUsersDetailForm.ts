@@ -44,15 +44,21 @@ export const useUsersDetailForm = () => {
     usersCreateMutation,
     usersPatchMutation,
     usersDeleteMutation,
+    onUsersRefetch,
   } = useUsersQuery({ id });
 
   const formId = `users-detail-form__${vid}`;
 
-  const { data: users, refetch } = usersQuery;
+  const { data: users } = usersQuery;
   const { data: detail } = usersDetailQuery;
   const { mutate: onCreate } = usersCreateMutation;
   const { mutate: onPatch } = usersPatchMutation;
   const { mutate: onDelete } = usersDeleteMutation;
+
+  const detailIsSameAsUser = useMemo(
+    () => user?.id === detail?.id,
+    [user, detail]
+  );
 
   const getAccessRightsFieldOptions = () => {
     const keys = Object.keys(usersAccessKeys);
@@ -64,7 +70,7 @@ export const useUsersDetailForm = () => {
         id: String(item),
         value,
         label: getOptionValue(String(item), 'accessRights'),
-        disabled: value > (user?.access_rights ?? 0), // TODO #check
+        disabled: value > (user?.access_rights ?? 0),
       });
     });
 
@@ -85,7 +91,7 @@ export const useUsersDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onUsersRefetch();
       },
       onError,
     });
@@ -100,7 +106,7 @@ export const useUsersDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onUsersRefetch();
       },
       onError,
     });
@@ -141,7 +147,7 @@ export const useUsersDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onUsersRefetch();
       },
       onError,
     });
@@ -196,5 +202,6 @@ export const useUsersDetailForm = () => {
       uid: form.watch('uid'),
       avatar: form.getValues('avatar_image'),
     },
+    detailIsSameAsUser,
   };
 };

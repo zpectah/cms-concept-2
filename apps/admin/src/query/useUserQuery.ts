@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { UsersDetail } from '@model';
 import { getConfig } from '../config';
 
@@ -10,12 +10,16 @@ export const useUserQuery = () => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const userDetailQuery = useQuery<
     unknown,
     unknown,
     { active: boolean; user: UsersDetail | null }
   >({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios
         .get(endpoints.user, {
@@ -143,6 +147,12 @@ export const useUserQuery = () => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     userDetailQuery,
     userDetailPatchMutation,
@@ -153,5 +163,6 @@ export const useUserQuery = () => {
     userPasswordRecoveryRequestMutation,
     userPasswordRecoveryRequestCheckMutation,
     userPasswordRecoveryTokenMutation,
+    onUserRefetch: refetchHandler,
   };
 };

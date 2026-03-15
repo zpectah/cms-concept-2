@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Categories, CategoriesDetail } from '@model';
 import { getConfig } from '../config';
 import {
@@ -20,8 +20,12 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Categories>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios.get(endpoints.categories).then((response) => response.data),
   });
@@ -95,6 +99,12 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     categoriesQuery: listQuery,
     categoriesDetailQuery: detailQuery,
@@ -103,5 +113,6 @@ export const useCategoriesQuery = ({ id }: UseCategoriesQueryProps) => {
     categoriesToggleMutation: toggleMutation,
     categoriesDeleteMutation: deleteMutation,
     categoriesDeletePermanentMutation: deletePermanentMutation,
+    onCategoriesRefetch: refetchHandler,
   };
 };

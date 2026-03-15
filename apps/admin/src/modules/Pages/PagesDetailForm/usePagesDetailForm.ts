@@ -48,13 +48,14 @@ export const usePagesDetailForm = () => {
     pagesCreateMutation,
     pagesPatchMutation,
     pagesDeleteMutation,
+    onPagesRefetch,
   } = usePagesQuery({
     id,
   });
 
   const formId = `pages-detail-form__${vid}`;
 
-  const { data: pages, refetch } = pagesQuery;
+  const { data: pages } = pagesQuery;
   const { data: detail } = pagesDetailQuery;
   const { mutate: onCreate } = pagesCreateMutation;
   const { mutate: onPatch } = pagesPatchMutation;
@@ -74,7 +75,7 @@ export const usePagesDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onPagesRefetch();
       },
       onError,
     });
@@ -89,7 +90,7 @@ export const usePagesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onPagesRefetch();
       },
       onError,
     });
@@ -128,7 +129,7 @@ export const usePagesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onPagesRefetch();
       },
       onError,
     });

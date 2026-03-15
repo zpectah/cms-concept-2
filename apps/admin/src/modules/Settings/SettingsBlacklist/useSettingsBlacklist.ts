@@ -18,9 +18,10 @@ export const useSettingsBlacklist = () => {
     blacklistToggleMutation,
     blacklistDeleteMutation,
     blacklistDeletePermanentMutation,
+    onBlacklistRefetch,
   } = useBlacklistQuery({});
 
-  const { data: items, refetch, isLoading } = blacklistQuery;
+  const { data: items, isLoading } = blacklistQuery;
   const { mutate: onCreate } = blacklistCreateMutation;
   const { mutate: onPatch } = blacklistPatchMutation;
   const { mutate: onToggle } = blacklistToggleMutation;
@@ -36,7 +37,7 @@ export const useSettingsBlacklist = () => {
           autoclose: true,
         });
         setDetailId(null);
-        refetch();
+        onBlacklistRefetch();
       },
       onError,
     });
@@ -51,7 +52,7 @@ export const useSettingsBlacklist = () => {
           autoclose: true,
         });
         setDetailId(null);
-        refetch();
+        onBlacklistRefetch();
       },
       onError,
     });
@@ -67,7 +68,7 @@ export const useSettingsBlacklist = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onBlacklistRefetch();
       },
       onError,
     });
@@ -83,7 +84,7 @@ export const useSettingsBlacklist = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onBlacklistRefetch();
       },
       onError,
     });
@@ -99,7 +100,7 @@ export const useSettingsBlacklist = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onBlacklistRefetch();
       },
       onError,
     });

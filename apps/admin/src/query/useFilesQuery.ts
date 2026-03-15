@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Files, FilesDetail, FilesUploadRequest } from '@model';
 import { getConfig } from '../config';
 import {
@@ -19,8 +19,12 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Files>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () => axios.get(endpoints.files).then((response) => response.data),
   });
 
@@ -97,6 +101,12 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     filesQuery: listQuery,
     filesDetailQuery: detailQuery,
@@ -106,5 +116,6 @@ export const useFilesQuery = ({ id }: UseFilesQueryProps) => {
     filesToggleMutation: toggleMutation,
     filesDeleteMutation: deleteMutation,
     filesDeletePermanentMutation: deletePermanentMutation,
+    onFilesRefetch: refetchHandler,
   };
 };

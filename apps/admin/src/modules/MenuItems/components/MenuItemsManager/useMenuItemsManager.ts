@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { MenuItemsDetail } from '@model';
 import { useAppStore } from '../../../../store';
@@ -12,14 +11,14 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
   const { t } = useTranslation(['common']);
   const { addToast, setConfirmDialog } = useAppStore();
   const { onError } = useResponseMessage();
-  const queryClient = useQueryClient();
   const {
     menuItemsCreateMutation,
     menuItemsPatchMutation,
     menuItemsToggleMutation,
     menuItemsDeleteMutation,
     menuItemsDeletePermanentMutation,
-  } = useMenuItemsQuery({});
+    onMenuItemsRefetch,
+  } = useMenuItemsQuery({ menuId });
 
   const { mutate: onCreate } = menuItemsCreateMutation;
   const { mutate: onPatch } = menuItemsPatchMutation;
@@ -28,13 +27,6 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
   const { mutate: onDeletePermanent } = menuItemsDeletePermanentMutation;
 
   const detailHandler = (detail: number | 'new') => setDetail(detail);
-
-  /** Using this instead of refetch() */
-  // TODO: make query keys available
-  const reloadHandler = () =>
-    queryClient.invalidateQueries({
-      queryKey: ['menuitems', `menuitems-menu`, menuId],
-    });
 
   const createHandler = (master: MenuItemsDetail) => {
     onCreate(master, {
@@ -45,7 +37,7 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
           autoclose: true,
         });
         setDetail(null);
-        reloadHandler();
+        onMenuItemsRefetch();
       },
       onError,
     });
@@ -60,7 +52,7 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
           autoclose: true,
         });
         setDetail(null);
-        reloadHandler();
+        onMenuItemsRefetch();
       },
       onError,
     });
@@ -76,7 +68,7 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        reloadHandler();
+        onMenuItemsRefetch();
       },
       onError,
     });
@@ -92,7 +84,7 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        reloadHandler();
+        onMenuItemsRefetch();
       },
       onError,
     });
@@ -108,7 +100,7 @@ export const useMenuItemsManager = (menuId: number | undefined) => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        reloadHandler();
+        onMenuItemsRefetch();
       },
       onError,
     });

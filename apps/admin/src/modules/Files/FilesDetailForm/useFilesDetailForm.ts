@@ -30,15 +30,14 @@ export const useFilesDetailForm = () => {
   });
 
   const {
-    filesQuery,
     filesDetailQuery,
     filesPatchMutation,
     filesDeleteMutation,
+    onFilesRefetch,
   } = useFilesQuery({ id });
 
   const formId = 'files-detail-form';
 
-  const { refetch } = filesQuery;
   const { data: detail } = filesDetailQuery;
   const { mutate: onPatch } = filesPatchMutation;
   const { mutate: onDelete } = filesDeleteMutation;
@@ -57,7 +56,7 @@ export const useFilesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onFilesRefetch();
       },
       onError,
     });
@@ -86,7 +85,7 @@ export const useFilesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onFilesRefetch();
       },
       onError,
     });

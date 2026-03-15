@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Menu, MenuDetail } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -15,8 +15,12 @@ export const useMenuQuery = ({ id }: UseMenuQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Menu>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () => axios.get(endpoints.menu).then((response) => response.data),
   });
 
@@ -71,6 +75,12 @@ export const useMenuQuery = ({ id }: UseMenuQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     menuQuery: listQuery,
     menuDetailQuery: detailQuery,
@@ -79,5 +89,6 @@ export const useMenuQuery = ({ id }: UseMenuQueryProps) => {
     menuToggleMutation: toggleMutation,
     menuDeleteMutation: deleteMutation,
     menuDeletePermanentMutation: deletePermanentMutation,
+    onMenuRefetch: refetchHandler,
   };
 };

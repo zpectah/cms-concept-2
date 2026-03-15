@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Tags, TagsDetail } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -15,8 +15,12 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Tags>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () => axios.get(endpoints.tags).then((response) => response.data),
   });
 
@@ -85,6 +89,12 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     tagsQuery: listQuery,
     tagsDetailQuery: detailQuery,
@@ -93,5 +103,6 @@ export const useTagsQuery = ({ id }: UseTagsQueryProps) => {
     tagsToggleMutation: toggleMutation,
     tagsDeleteMutation: deleteMutation,
     tagsDeletePermanentMutation: deletePermanentMutation,
+    onTagsRefetch: refetchHandler,
   };
 };

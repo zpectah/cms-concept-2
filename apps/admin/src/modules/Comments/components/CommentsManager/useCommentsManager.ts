@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import { CommentsDetail } from '@model';
 import { useAppStore } from '../../../../store';
 import { useResponseMessage } from '../../../../hooks';
@@ -17,13 +16,13 @@ export const useCommentsManager = ({
   const { t } = useTranslation(['common']);
   const { addToast, setConfirmDialog } = useAppStore();
   const { onError } = useResponseMessage();
-  const queryClient = useQueryClient();
   const {
     commentsCreateMutation,
     commentsPatchMutation,
     commentsToggleMutation,
     commentsDeleteMutation,
     commentsDeletePermanentMutation,
+    onCommentsRefetch,
   } = useCommentsQuery({ contentType, contentId });
 
   const { mutate: onCreate } = commentsCreateMutation;
@@ -37,11 +36,6 @@ export const useCommentsManager = ({
     setReplyId(parentId ? parentId : null);
   };
 
-  const reloadHandler = () =>
-    queryClient.invalidateQueries({
-      queryKey: ['comments', contentType, contentId],
-    });
-
   const createHandler = (master: CommentsDetail) => {
     onCreate(master, {
       onSuccess: ({ id }) => {
@@ -52,7 +46,7 @@ export const useCommentsManager = ({
         });
         setDetail(null);
         setReplyId(null);
-        reloadHandler();
+        onCommentsRefetch();
       },
       onError,
     });
@@ -68,7 +62,7 @@ export const useCommentsManager = ({
         });
         setDetail(null);
         setReplyId(null);
-        reloadHandler();
+        onCommentsRefetch();
       },
       onError,
     });
@@ -84,7 +78,7 @@ export const useCommentsManager = ({
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        reloadHandler();
+        onCommentsRefetch();
       },
       onError,
     });
@@ -100,7 +94,7 @@ export const useCommentsManager = ({
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        reloadHandler();
+        onCommentsRefetch();
       },
       onError,
     });
@@ -116,7 +110,7 @@ export const useCommentsManager = ({
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        reloadHandler();
+        onCommentsRefetch();
       },
       onError,
     });

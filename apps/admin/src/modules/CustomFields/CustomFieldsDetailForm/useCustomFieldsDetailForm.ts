@@ -37,11 +37,12 @@ export const useCustomFieldsDetailForm = () => {
     customFieldsCreateMutation,
     customFieldsPatchMutation,
     customFieldsDeleteMutation,
+    onCustomFieldsRefetch,
   } = useCustomFieldsQuery({ id });
 
   const formId = `customFields-detail-form__${vid}`;
 
-  const { data: customFields, refetch } = customFieldsQuery;
+  const { data: customFields } = customFieldsQuery;
   const { data: detail } = customFieldsDetailQuery;
   const { mutate: onCreate } = customFieldsCreateMutation;
   const { mutate: onPatch } = customFieldsPatchMutation;
@@ -61,7 +62,7 @@ export const useCustomFieldsDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onCustomFieldsRefetch();
       },
       onError,
     });
@@ -76,7 +77,7 @@ export const useCustomFieldsDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCustomFieldsRefetch();
       },
       onError,
     });
@@ -121,7 +122,7 @@ export const useCustomFieldsDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCustomFieldsRefetch();
       },
       onError,
     });

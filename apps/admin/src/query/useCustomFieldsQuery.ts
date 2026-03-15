@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { CustomFields, CustomFieldsDetail } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -15,8 +15,12 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, CustomFields>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios.get(endpoints.customFields).then((response) => response.data),
   });
@@ -82,6 +86,12 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     customFieldsQuery: listQuery,
     customFieldsDetailQuery: detailQuery,
@@ -90,5 +100,6 @@ export const useCustomFieldsQuery = ({ id }: UseCustomFieldsQueryProps) => {
     customFieldsToggleMutation: toggleMutation,
     customFieldsDeleteMutation: deleteMutation,
     customFieldsDeletePermanentMutation: deletePermanentMutation,
+    onCustomFieldsRefetch: refetchHandler,
   };
 };

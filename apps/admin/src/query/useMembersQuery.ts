@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Members, MembersDetail } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -15,8 +15,12 @@ export const useMembersQuery = ({ id }: UseMembersQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Members>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios.get(endpoints.members).then((response) => response.data),
   });
@@ -76,6 +80,12 @@ export const useMembersQuery = ({ id }: UseMembersQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     membersQuery: listQuery,
     membersDetailQuery: detailQuery,
@@ -84,5 +94,6 @@ export const useMembersQuery = ({ id }: UseMembersQueryProps) => {
     membersToggleMutation: toggleMutation,
     membersDeleteMutation: deleteMutation,
     membersDeletePermanentMutation: deletePermanentMutation,
+    onMembersRefetch: refetchHandler,
   };
 };

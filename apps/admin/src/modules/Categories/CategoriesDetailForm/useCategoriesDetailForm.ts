@@ -42,13 +42,14 @@ export const useCategoriesDetailForm = () => {
     categoriesCreateMutation,
     categoriesPatchMutation,
     categoriesDeleteMutation,
+    onCategoriesRefetch,
   } = useCategoriesQuery({
     id,
   });
 
   const formId = `categories-detail-form__${vid}`;
 
-  const { data: categories, refetch } = categoriesQuery;
+  const { data: categories } = categoriesQuery;
   const { data: detail } = categoriesDetailQuery;
   const { mutate: onCreate } = categoriesCreateMutation;
   const { mutate: onPatch } = categoriesPatchMutation;
@@ -68,7 +69,7 @@ export const useCategoriesDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onCategoriesRefetch();
       },
       onError,
     });
@@ -83,7 +84,7 @@ export const useCategoriesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCategoriesRefetch();
       },
       onError,
     });
@@ -128,7 +129,7 @@ export const useCategoriesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCategoriesRefetch();
       },
       onError,
     });

@@ -31,12 +31,16 @@ export const useFilesUploadForm = () => {
     defaultValues: defaultDataToForm(target),
   });
   const { getQueueDuplicities } = useFilesValidations();
-  const { filesQuery, filesCreateMutation, filesUploadMutation } =
-    useFilesQuery({ id });
+  const {
+    filesQuery,
+    filesCreateMutation,
+    filesUploadMutation,
+    onFilesRefetch,
+  } = useFilesQuery({ id });
 
   const formId = `files-upload-form__${vid}`;
 
-  const { data: files, refetch } = filesQuery;
+  const { data: files } = filesQuery;
   const { mutate: onCreate } = filesCreateMutation;
   const { mutate: onUpload } = filesUploadMutation;
 
@@ -58,7 +62,7 @@ export const useFilesUploadForm = () => {
               severity: 'success',
               autoclose: true,
             });
-            refetch();
+            onFilesRefetch();
           },
           onError,
         });

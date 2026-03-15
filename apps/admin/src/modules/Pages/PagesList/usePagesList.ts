@@ -12,9 +12,10 @@ export const usePagesList = () => {
     pagesToggleMutation,
     pagesDeleteMutation,
     pagesDeletePermanentMutation,
+    onPagesRefetch,
   } = usePagesQuery({});
 
-  const { data: items, refetch, isLoading } = pagesQuery;
+  const { data: items, isLoading } = pagesQuery;
   const { mutate: onToggle } = pagesToggleMutation;
   const { mutate: onDelete } = pagesDeleteMutation;
   const { mutate: onDeletePermanent } = pagesDeletePermanentMutation;
@@ -27,7 +28,7 @@ export const usePagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onPagesRefetch();
       },
       onError,
     });
@@ -41,7 +42,7 @@ export const usePagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onPagesRefetch();
       },
       onError,
     });
@@ -55,7 +56,7 @@ export const usePagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onPagesRefetch();
       },
       onError,
     });

@@ -12,9 +12,10 @@ export const useCustomFieldsList = () => {
     customFieldsToggleMutation,
     customFieldsDeleteMutation,
     customFieldsDeletePermanentMutation,
+    onCustomFieldsRefetch,
   } = useCustomFieldsQuery({});
 
-  const { data: items, refetch, isLoading } = customFieldsQuery;
+  const { data: items, isLoading } = customFieldsQuery;
   const { mutate: onToggle } = customFieldsToggleMutation;
   const { mutate: onDelete } = customFieldsDeleteMutation;
   const { mutate: onDeletePermanent } = customFieldsDeletePermanentMutation;
@@ -27,7 +28,7 @@ export const useCustomFieldsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCustomFieldsRefetch();
       },
       onError,
     });
@@ -41,7 +42,7 @@ export const useCustomFieldsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCustomFieldsRefetch();
       },
       onError,
     });
@@ -55,7 +56,7 @@ export const useCustomFieldsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCustomFieldsRefetch();
       },
       onError,
     });

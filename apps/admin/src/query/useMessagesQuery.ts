@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Messages, MessagesDetail } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -15,8 +15,12 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Messages>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios.get(endpoints.messages).then((response) => response.data),
   });
@@ -86,6 +90,12 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     messagesQuery: listQuery,
     messagesDetailQuery: detailQuery,
@@ -95,5 +105,6 @@ export const useMessagesQuery = ({ id }: UseMessagesQueryProps) => {
     messagesReadMutation: readMutation,
     messagesDeleteMutation: deleteMutation,
     messagesDeletePermanentMutation: deletePermanentMutation,
+    onMessagesRefetch: refetchHandler,
   };
 };

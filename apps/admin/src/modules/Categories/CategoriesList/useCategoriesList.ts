@@ -13,9 +13,10 @@ export const useCategoriesList = () => {
     categoriesToggleMutation,
     categoriesDeleteMutation,
     categoriesDeletePermanentMutation,
+    onCategoriesRefetch,
   } = useCategoriesQuery({});
 
-  const { data: items, refetch, isLoading } = categoriesQuery;
+  const { data: items, isLoading } = categoriesQuery;
   const { mutate: onToggle } = categoriesToggleMutation;
   const { mutate: onDelete } = categoriesDeleteMutation;
   const { mutate: onDeletePermanent } = categoriesDeletePermanentMutation;
@@ -28,7 +29,7 @@ export const useCategoriesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCategoriesRefetch();
       },
       onError,
     });
@@ -42,7 +43,7 @@ export const useCategoriesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCategoriesRefetch();
       },
       onError,
     });
@@ -56,7 +57,7 @@ export const useCategoriesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onCategoriesRefetch();
       },
       onError,
     });

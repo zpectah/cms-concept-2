@@ -15,9 +15,10 @@ export const useFilesList = () => {
     filesToggleMutation,
     filesDeleteMutation,
     filesDeletePermanentMutation,
+    onFilesRefetch,
   } = useFilesQuery({});
 
-  const { data: items, refetch, isLoading } = filesQuery;
+  const { data: items, isLoading } = filesQuery;
   const { mutate: onToggle } = filesToggleMutation;
   const { mutate: onDelete } = filesDeleteMutation;
   const { mutate: onDeletePermanent } = filesDeletePermanentMutation;
@@ -30,7 +31,7 @@ export const useFilesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onFilesRefetch();
       },
       onError,
     });
@@ -44,7 +45,7 @@ export const useFilesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onFilesRefetch();
       },
       onError,
     });
@@ -63,7 +64,7 @@ export const useFilesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onFilesRefetch();
       },
       onError,
     });

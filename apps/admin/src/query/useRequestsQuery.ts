@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Requests, RequestsDetail } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -15,8 +15,12 @@ export const useRequestsQuery = ({ id }: UseRequestsQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Requests>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios.get(endpoints.requests).then((response) => response.data),
   });
@@ -78,6 +82,12 @@ export const useRequestsQuery = ({ id }: UseRequestsQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     requestsQuery: listQuery,
     requestsDetailQuery: detailQuery,
@@ -86,5 +96,6 @@ export const useRequestsQuery = ({ id }: UseRequestsQueryProps) => {
     requestsToggleMutation: toggleMutation,
     requestsDeleteMutation: deleteMutation,
     requestsDeletePermanentMutation: deletePermanentMutation,
+    onRequestsRefetch: refetchHandler,
   };
 };

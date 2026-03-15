@@ -23,11 +23,12 @@ export const useArticlesList = () => {
     articlesDeleteMutation,
     articlesDeletePermanentMutation,
     articlesApproveMutation,
+    onArticlesRefetch,
   } = useArticlesQuery({});
   const { tagsQuery } = useTagsQuery({});
   const { categoriesQuery } = useCategoriesQuery({});
 
-  const { data: items, refetch, isLoading } = articlesQuery;
+  const { data: items, isLoading } = articlesQuery;
   const { mutate: onToggle } = articlesToggleMutation;
   const { mutate: onDelete } = articlesDeleteMutation;
   const { mutate: onDeletePermanent } = articlesDeletePermanentMutation;
@@ -43,7 +44,7 @@ export const useArticlesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });
@@ -57,7 +58,7 @@ export const useArticlesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });
@@ -71,7 +72,7 @@ export const useArticlesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });
@@ -85,7 +86,7 @@ export const useArticlesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });

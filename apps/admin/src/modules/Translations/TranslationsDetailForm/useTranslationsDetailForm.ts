@@ -48,13 +48,14 @@ export const useTranslationsDetailForm = () => {
     translationsCreateMutation,
     translationsPatchMutation,
     translationsDeleteMutation,
+    onTranslationsRefetch,
   } = useTranslationsQuery({
     id,
   });
 
   const formId = `translations-detail-form__${vid}`;
 
-  const { data: translations, refetch } = translationsQuery;
+  const { data: translations } = translationsQuery;
   const { data: detail } = translationsDetailQuery;
   const { mutate: onCreate } = translationsCreateMutation;
   const { mutate: onPatch } = translationsPatchMutation;
@@ -74,7 +75,7 @@ export const useTranslationsDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onTranslationsRefetch();
       },
       onError,
     });
@@ -89,7 +90,7 @@ export const useTranslationsDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTranslationsRefetch();
       },
       onError,
     });
@@ -134,7 +135,7 @@ export const useTranslationsDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTranslationsRefetch();
       },
       onError,
     });

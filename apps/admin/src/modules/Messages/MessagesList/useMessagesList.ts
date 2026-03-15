@@ -13,9 +13,10 @@ export const useMessagesList = () => {
     messagesReadMutation,
     messagesDeleteMutation,
     messagesDeletePermanentMutation,
+    onMessagesRefetch,
   } = useMessagesQuery({});
 
-  const { data: items, refetch, isLoading } = messagesQuery;
+  const { data: items, isLoading } = messagesQuery;
   const { mutate: onToggle } = messagesToggleMutation;
   const { mutate: onRead } = messagesReadMutation;
   const { mutate: onDelete } = messagesDeleteMutation;
@@ -29,7 +30,7 @@ export const useMessagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMessagesRefetch();
       },
       onError,
     });
@@ -43,7 +44,7 @@ export const useMessagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMessagesRefetch();
       },
       onError,
     });
@@ -57,7 +58,7 @@ export const useMessagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMessagesRefetch();
       },
       onError,
     });
@@ -71,7 +72,7 @@ export const useMessagesList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMessagesRefetch();
       },
       onError,
     });

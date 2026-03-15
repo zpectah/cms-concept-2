@@ -52,6 +52,7 @@ export const useArticlesDetailForm = () => {
     articlesCreateMutation,
     articlesPatchMutation,
     articlesDeleteMutation,
+    onArticlesRefetch,
   } = useArticlesQuery({
     id,
     cloneId,
@@ -59,7 +60,7 @@ export const useArticlesDetailForm = () => {
 
   const formId = `articles-detail-form__${vid}`;
 
-  const { data: articles, refetch } = articlesQuery;
+  const { data: articles } = articlesQuery;
   const { data: detail } = articlesDetailQuery;
   const { data: cloneDetail } = articlesCloneDetailQuery;
   const { mutate: onCreate } = articlesCreateMutation;
@@ -80,7 +81,7 @@ export const useArticlesDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });
@@ -95,7 +96,7 @@ export const useArticlesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });
@@ -140,7 +141,7 @@ export const useArticlesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onArticlesRefetch();
       },
       onError,
     });

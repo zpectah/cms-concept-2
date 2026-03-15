@@ -39,11 +39,12 @@ export const useMembersDetailForm = () => {
     membersCreateMutation,
     membersPatchMutation,
     membersDeleteMutation,
+    onMembersRefetch,
   } = useMembersQuery({ id });
 
   const formId = `members-detail-form__${vid}`;
 
-  const { data: members, refetch } = membersQuery;
+  const { data: members } = membersQuery;
   const { data: detail } = membersDetailQuery;
   const { mutate: onCreate } = membersCreateMutation;
   const { mutate: onPatch } = membersPatchMutation;
@@ -63,7 +64,7 @@ export const useMembersDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onMembersRefetch();
       },
       onError,
     });
@@ -78,7 +79,7 @@ export const useMembersDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMembersRefetch();
       },
       onError,
     });
@@ -123,7 +124,7 @@ export const useMembersDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMembersRefetch();
       },
       onError,
     });

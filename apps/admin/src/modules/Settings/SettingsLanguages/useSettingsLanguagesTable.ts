@@ -19,14 +19,10 @@ export const useSettingsLanguagesTable = () => {
     settingsLocaleInstallMutation,
     settingsLocaleToggleMutation,
     settingsLocaleDefaultMutation,
+    onSettingsRefetch,
   } = useSettingsQuery();
 
-  const {
-    data: settingsData,
-    refetch,
-    isLoading,
-    isRefetching,
-  } = settingsQuery;
+  const { data: settingsData, isLoading } = settingsQuery;
   const { mutate: onLocaleInstall } = settingsLocaleInstallMutation;
   const { mutate: onLocaleToggle } = settingsLocaleToggleMutation;
   const { mutate: onLocaleDefault } = settingsLocaleDefaultMutation;
@@ -47,7 +43,7 @@ export const useSettingsLanguagesTable = () => {
           autoclose: true,
         });
         setIsInstalling(null);
-        refetch();
+        onSettingsRefetch();
       },
       onError: (err) => {
         onError(err);
@@ -83,7 +79,7 @@ export const useSettingsLanguagesTable = () => {
             autoclose: true,
           });
           setIsUpdating(null);
-          refetch();
+          onSettingsRefetch();
         },
         onError: (err) => {
           onError(err);
@@ -109,7 +105,7 @@ export const useSettingsLanguagesTable = () => {
             autoclose: true,
           });
           setIsUpdating(null);
-          refetch();
+          onSettingsRefetch();
         },
         onError: (err) => {
           onError(err);
@@ -150,7 +146,7 @@ export const useSettingsLanguagesTable = () => {
     availableLocales: locales as ProjectLocales,
     availableLocalesList: Object.keys(locales),
     locales: settingsData?.locales,
-    isLoading: isLoading ?? isRefetching,
+    isLoading: isLoading,
     isLocaleInstalled,
     isLocaleActive,
     isLocaleDefault,

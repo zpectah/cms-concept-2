@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Settings } from '@model';
 import { getConfig } from '../config';
 import { CommonRowsResponse } from '../types';
@@ -11,8 +11,12 @@ export const useSettingsQuery = () => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const settingsQuery = useQuery<unknown, unknown, Settings>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios.get(endpoints.settings).then((response) => response.data),
   });
@@ -65,11 +69,18 @@ export const useSettingsQuery = () => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     settingsQuery,
     settingsPatchMutation: patchMutation,
     settingsLocaleInstallMutation: localeInstallMutation,
     settingsLocaleDefaultMutation: localeDefaultMutation,
     settingsLocaleToggleMutation: localeToggleMutation,
+    onSettingsRefetch: refetchHandler,
   };
 };

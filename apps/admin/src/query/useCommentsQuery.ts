@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Comments, CommentsDetail, ModelNames } from '@model';
 import { getConfig } from '../config';
 import { ApiCommonRequest, CommonRowsResponse } from '../types';
@@ -23,8 +23,12 @@ export const useCommentsQuery = ({
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE, contentType, contentId];
+
   const listQuery = useQuery<unknown, unknown, Comments>({
-    queryKey: [QUERY_KEY_BASE, contentType, contentId],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios
         .get(`${endpoints.comments}/${contentType}/${contentId}`)
@@ -112,6 +116,12 @@ export const useCommentsQuery = ({
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     commentsQuery: listQuery,
     commentsDetailQuery: detailQuery,
@@ -121,5 +131,6 @@ export const useCommentsQuery = ({
     commentsToggleMutation: toggleMutation,
     commentsDeleteMutation: deleteMutation,
     commentsDeletePermanentMutation: deletePermanentMutation,
+    onCommentsRefetch: refetchHandler,
   };
 };

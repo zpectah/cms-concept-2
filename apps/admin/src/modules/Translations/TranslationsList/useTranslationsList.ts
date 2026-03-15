@@ -13,9 +13,10 @@ export const useTranslationsList = () => {
     translationsToggleMutation,
     translationsDeleteMutation,
     translationsDeletePermanentMutation,
+    onTranslationsRefetch,
   } = useTranslationsQuery({});
 
-  const { data: items, refetch, isLoading } = translationsQuery;
+  const { data: items, isLoading } = translationsQuery;
   const { mutate: onToggle } = translationsToggleMutation;
   const { mutate: onDelete } = translationsDeleteMutation;
   const { mutate: onDeletePermanent } = translationsDeletePermanentMutation;
@@ -28,7 +29,7 @@ export const useTranslationsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTranslationsRefetch();
       },
       onError,
     });
@@ -42,7 +43,7 @@ export const useTranslationsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTranslationsRefetch();
       },
       onError,
     });
@@ -56,7 +57,7 @@ export const useTranslationsList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTranslationsRefetch();
       },
       onError,
     });

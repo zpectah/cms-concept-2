@@ -37,11 +37,12 @@ export const useMenuDetailForm = () => {
     menuCreateMutation,
     menuPatchMutation,
     menuDeleteMutation,
+    onMenuRefetch,
   } = useMenuQuery({ id });
 
   const formId = `menu-detail-form__${vid}`;
 
-  const { data: menu, refetch } = menuQuery;
+  const { data: menu } = menuQuery;
   const { data: detail } = menuDetailQuery;
   const { mutate: onCreate } = menuCreateMutation;
   const { mutate: onPatch } = menuPatchMutation;
@@ -61,7 +62,7 @@ export const useMenuDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onMenuRefetch();
       },
       onError,
     });
@@ -76,7 +77,7 @@ export const useMenuDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMenuRefetch();
       },
       onError,
     });
@@ -115,7 +116,7 @@ export const useMenuDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMenuRefetch();
       },
       onError,
     });

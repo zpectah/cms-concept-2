@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Pages, PagesDetail } from '@model';
 import { getConfig } from '../config';
 import {
@@ -20,8 +20,12 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE];
+
   const listQuery = useQuery<unknown, unknown, Pages>({
-    queryKey: [QUERY_KEY_BASE],
+    queryKey: listQueryKey,
     queryFn: () => axios.get(endpoints.pages).then((response) => response.data),
   });
 
@@ -88,6 +92,12 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     pagesQuery: listQuery,
     pagesDetailQuery: detailQuery,
@@ -96,5 +106,6 @@ export const usePagesQuery = ({ id }: UsePagesQueryProps) => {
     pagesToggleMutation: toggleMutation,
     pagesDeleteMutation: deleteMutation,
     pagesDeletePermanentMutation: deletePermanentMutation,
+    onPagesRefetch: refetchHandler,
   };
 };

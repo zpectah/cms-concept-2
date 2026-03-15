@@ -38,11 +38,12 @@ export const useTagsDetailForm = () => {
     tagsCreateMutation,
     tagsPatchMutation,
     tagsDeleteMutation,
+    onTagsRefetch,
   } = useTagsQuery({ id });
 
   const formId = `tags-detail-form__${vid}`;
 
-  const { data: tags, refetch } = tagsQuery;
+  const { data: tags } = tagsQuery;
   const { data: detail } = tagsDetailQuery;
   const { mutate: onCreate } = tagsCreateMutation;
   const { mutate: onPatch } = tagsPatchMutation;
@@ -62,7 +63,7 @@ export const useTagsDetailForm = () => {
           severity: 'success',
           autoclose: true,
         });
-        refetch();
+        onTagsRefetch();
       },
       onError,
     });
@@ -77,7 +78,7 @@ export const useTagsDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTagsRefetch();
       },
       onError,
     });
@@ -116,7 +117,7 @@ export const useTagsDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onTagsRefetch();
       },
       onError,
     });

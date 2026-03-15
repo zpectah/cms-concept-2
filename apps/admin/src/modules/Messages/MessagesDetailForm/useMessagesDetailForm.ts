@@ -27,13 +27,12 @@ export const useMessagesDetailForm = () => {
   });
 
   const {
-    messagesQuery,
     messagesDetailQuery,
     messagesReadMutation,
     messagesDeleteMutation,
+    onMessagesRefetch,
   } = useMessagesQuery({ id });
 
-  const { refetch } = messagesQuery;
   const { data: detail } = messagesDetailQuery;
   const { mutate: onRead } = messagesReadMutation;
   const { mutate: onDelete } = messagesDeleteMutation;
@@ -56,7 +55,7 @@ export const useMessagesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMessagesRefetch();
       },
       onError,
     });
@@ -75,7 +74,7 @@ export const useMessagesDetailForm = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMessagesRefetch();
       },
       onError,
     });

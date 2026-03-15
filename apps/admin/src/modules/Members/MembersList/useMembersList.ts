@@ -12,9 +12,10 @@ export const useMembersList = () => {
     membersToggleMutation,
     membersDeleteMutation,
     membersDeletePermanentMutation,
+    onMembersRefetch,
   } = useMembersQuery({});
 
-  const { data: items, refetch, isLoading } = membersQuery;
+  const { data: items, isLoading } = membersQuery;
   const { mutate: onToggle } = membersToggleMutation;
   const { mutate: onDelete } = membersDeleteMutation;
   const { mutate: onDeletePermanent } = membersDeletePermanentMutation;
@@ -27,7 +28,7 @@ export const useMembersList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMembersRefetch();
       },
       onError,
     });
@@ -41,7 +42,7 @@ export const useMembersList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMembersRefetch();
       },
       onError,
     });
@@ -55,7 +56,7 @@ export const useMembersList = () => {
           severity: rows === 0 ? 'info' : 'success',
           autoclose: true,
         });
-        refetch();
+        onMembersRefetch();
       },
       onError,
     });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { MenuItems, MenuItemsDetail } from '@model';
 import { getConfig } from '../config';
 import {
@@ -21,8 +21,12 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
     api: { endpoints },
   } = getConfig();
 
+  const queryClient = useQueryClient();
+
+  const listQueryKey = [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-menu`, menuId];
+
   const listQuery = useQuery<unknown, unknown, MenuItems>({
-    queryKey: [QUERY_KEY_BASE, `${QUERY_KEY_BASE}-menu`, menuId],
+    queryKey: listQueryKey,
     queryFn: () =>
       axios
         .get(`${endpoints.menuItems}/menu/${menuId}`)
@@ -91,6 +95,12 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
         .then((response) => response.data),
   });
 
+  const refetchHandler = () => {
+    queryClient.invalidateQueries({
+      queryKey: listQueryKey,
+    });
+  };
+
   return {
     menuItemsQuery: listQuery,
     menuItemsDetailQuery: detailQuery,
@@ -99,5 +109,6 @@ export const useMenuItemsQuery = ({ id, menuId }: UseMenuItemsQueryProps) => {
     menuItemsToggleMutation: toggleMutation,
     menuItemsDeleteMutation: deleteMutation,
     menuItemsDeletePermanentMutation: deletePermanentMutation,
+    onMenuItemsRefetch: refetchHandler,
   };
 };
