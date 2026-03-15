@@ -89,7 +89,9 @@
       "invalid_date_time": "Invalid date and time",
       "invalid_array": "Invalid array",
       "duplicity_name": "An item with this name already exists in the system",
-      "duplicity_email": "A person with this email already exists in the system"
+      "duplicity_email": "A person with this email already exists in the system",
+      "duplicity_email_alt": "An item with this email already exists in the system",
+      "duplicity_ipaddress": "An item with this IP Address already exists in the system"
     },
     "success": {}
   }

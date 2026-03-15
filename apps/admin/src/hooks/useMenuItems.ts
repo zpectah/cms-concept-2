@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { modelKeys, ModelNames } from '@model';
 import { getConfig } from '../config';
 import { useUserActions } from './useUserActions';
 
@@ -12,7 +14,7 @@ export const useMenuItems = () => {
   } = getConfig();
 
   const { i18n, t } = useTranslation();
-  const { groups } = useUserActions(undefined);
+  const { groups, getGroupByModel } = useUserActions(undefined);
 
   const createLocaleMenu = () => {
     const items: { id: string; label: string; isActive: boolean }[] = [];
@@ -28,6 +30,40 @@ export const useMenuItems = () => {
     return items;
   };
 
+  const mainMenuItems = useMemo(() => {
+    return (
+      [
+        /** Also used for order */
+        modelKeys.dashboard,
+        modelKeys.articles,
+        modelKeys.categories,
+        modelKeys.customFields,
+        modelKeys.files,
+        modelKeys.members,
+        modelKeys.menu,
+        modelKeys.messages,
+        modelKeys.pages,
+        modelKeys.settings,
+        modelKeys.tags,
+        modelKeys.translations,
+        modelKeys.users,
+      ] as ModelNames[]
+    ).map((item) => {
+      const group = getGroupByModel(item);
+      const isHidden = !group ? true : !groups[group].view;
+
+      return {
+        id: item,
+        label: t(`routes.${item}`),
+        path: routes[item].root,
+        disabled: false,
+        hidden: isHidden,
+      };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t, groups]);
+
+  /*
   const mainMenu = [
     {
       id: 'dashboard',
@@ -48,7 +84,7 @@ export const useMenuItems = () => {
       label: t('routes.categories'),
       path: routes.categories.root,
       disabled: false,
-      hidden: !groups.redaction.view,
+      hidden: !groups.organization.view,
     },
     {
       id: 'customFields',
@@ -121,9 +157,11 @@ export const useMenuItems = () => {
       hidden: !groups.entities.view,
     },
   ];
+  */
 
   return {
-    main: mainMenu,
+    // main: mainMenu,
+    main: mainMenuItems,
     locale: createLocaleMenu(),
   };
 };

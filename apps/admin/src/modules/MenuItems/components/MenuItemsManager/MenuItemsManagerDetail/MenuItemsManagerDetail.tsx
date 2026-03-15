@@ -34,6 +34,8 @@ const MenuItemsManagerDetail = () => {
     values,
   } = useMenuItemsManagerDetailForm();
 
+  const isNew = detailId === 'new';
+
   return (
     <Dialog
       open={open}
@@ -144,22 +146,22 @@ const MenuItemsManagerDetail = () => {
       actions={
         <>
           <Button variant="outlined" onClick={() => setOpen(false)}>
-            Cancel
+            {t('button.cancel')}
           </Button>
-          <Button variant="outlined" color="warning" onClick={onReset}>
-            Reset
-          </Button>
-          {detailId !== 'new' && (
+          {!isNew && (
             <Button
               variant="outlined"
               color="error"
               onClick={() => onDelete(detailId ?? 0)}
             >
-              Delete
+              {t('button.delete')}
             </Button>
           )}
+          <Button variant="outlined" color="warning" onClick={onReset}>
+            {t('button.reset')}
+          </Button>
           <Button type="submit" variant="contained" form={formId}>
-            Submit
+            {isNew ? t('button.create') : t('button.update')}
           </Button>
         </>
       }

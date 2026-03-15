@@ -22,8 +22,8 @@ const FilesPicker = forwardRef<HTMLDivElement, FilesPickerProps>(
       id,
       placeholder,
       ignored = [],
+      disabled,
       // required,
-      // disabled,
       // error,
     } = props;
 
@@ -39,7 +39,6 @@ const FilesPicker = forwardRef<HTMLDivElement, FilesPickerProps>(
       onConfirm,
       onReset,
       onClear,
-      // selected,
     } = useFilesPicker({
       fileType,
       fileTypes,
@@ -53,14 +52,19 @@ const FilesPicker = forwardRef<HTMLDivElement, FilesPickerProps>(
       <>
         <Stack ref={ref} id={id} gap={1}>
           <Stack direction="row" alignItems="center" gap={1}>
-            <Button size="small" variant="outlined" onClick={onOpen}>
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={onOpen}
+              disabled={disabled}
+            >
               {t('button.select')}
             </Button>
             <Button
               size="small"
               variant="outlined"
               color="warning"
-              disabled={multiple ? value.length === 0 : value === 0}
+              disabled={multiple ? value.length === 0 : value === 0 || disabled}
               onClick={() => {
                 onClear();
                 if (multiple) {

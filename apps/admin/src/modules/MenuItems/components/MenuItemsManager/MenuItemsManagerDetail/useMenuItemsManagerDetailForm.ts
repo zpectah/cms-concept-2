@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { modelKeys } from '@model';
+import { modelKeys, MenuItemsItem } from '@model';
 import { useDetailFormLocales, useSelectOptions } from '../../../../../hooks';
 import { useMenuItemsQuery } from '../../../../../query';
+import { useModelValidations } from '../../../../../validation';
 import { useMenuItemsManagerContext } from '../MenuItemsManager.context';
 import { IMenuItemsDetailForm } from './types';
 import { menuItemsDetailFormSchema } from './schema';
@@ -16,6 +18,7 @@ import {
 export const useMenuItemsManagerDetailForm = () => {
   const [open, setOpen] = useState<boolean>(false);
 
+  const { t } = useTranslation(['common', 'form']);
   const {
     menuId,
     menuPrefix,
@@ -24,8 +27,12 @@ export const useMenuItemsManagerDetailForm = () => {
     rowActions: { onCreate, onPatch, onDelete },
   } = useMenuItemsManagerContext();
   const { getTypeFieldOptions } = useSelectOptions();
-  const { menuItemsDetailQuery } = useMenuItemsQuery({ id: detailOpen });
+  const { menuItemsQuery, menuItemsDetailQuery } = useMenuItemsQuery({
+    id: detailOpen,
+    menuId: menuId,
+  });
   const { locales, locale, onLocaleChange } = useDetailFormLocales();
+  const { isAttributeUnique } = useModelValidations();
   const form = useForm<IMenuItemsDetailForm>({
     defaultValues: defaultDataToForm(locales, menuId ?? 0, menuPrefix),
     resolver: zodResolver(menuItemsDetailFormSchema),
@@ -33,9 +40,26 @@ export const useMenuItemsManagerDetailForm = () => {
 
   const formId = 'menu-items-detail-form';
 
+  const { data: menuItemsItems } = menuItemsQuery;
   const { data: detailData, isLoading } = menuItemsDetailQuery;
 
   const submitHandler: SubmitHandler<IMenuItemsDetailForm> = (data) => {
+    if (!data) return;
+
+    if (
+      !isAttributeUnique<MenuItemsItem>(
+        menuItemsItems ?? [],
+        'name',
+        data as MenuItemsItem
+      )
+    ) {
+      form.setError('name', {
+        message: t('form:message.error.duplicity_name'),
+      });
+
+      return;
+    }
+
     const master = formDataToMaster(data);
 
     if (master.id === 0) {
@@ -57,8 +81,8 @@ export const useMenuItemsManagerDetailForm = () => {
   }, [detailOpen, detailData, menuId, isLoading]);
 
   const detailTitle = useMemo(
-    () => (detailOpen === 'new' ? 'New item' : detailData?.uid),
-    [detailOpen, detailData]
+    () => (detailOpen === 'new' ? t('button.new.menuItems') : detailData?.name),
+    [t, detailOpen, detailData]
   );
 
   useEffect(() => {

@@ -3,18 +3,15 @@ import { IViewContext } from './types';
 
 const defaultContext: IViewContext = {
   model: undefined,
+  modelGroup: null,
   rootUrl: '',
   vid: '',
   list: {
     selected: [],
     setSelected: () => null,
   },
-  detail: {
-    /* TODO */
-  },
-  panels: {
-    /* TODO */
-  },
+  detail: {},
+  panels: {},
 };
 
 export const ViewContext = createContext(defaultContext);

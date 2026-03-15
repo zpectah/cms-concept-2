@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { ContainerProps } from '@mui/material';
-import { ModelNames } from '@model';
+import { ModelGroups, ModelNames } from '@model';
 
 export interface IAppContext {
   pageTitle: ReactNode;
@@ -22,6 +22,7 @@ export type ViewContextPanels = object;
 
 export interface IViewContext {
   model: ModelNames | undefined;
+  modelGroup: ModelGroups | null;
   rootUrl: string;
   vid: string;
   list: ViewContextList;

@@ -1,4 +1,5 @@
 export const redactionModelKeys = {
+  dashboard: 'dashboard',
   articles: 'articles',
   files: 'files',
   tags: 'tags',
@@ -21,7 +22,7 @@ export const contentModelKeys = {
 
 export const entitiesModelKeys = {
   members: 'members',
-  users: 'users',
+  // users: 'users',
 } as const;
 
 export const feedbackModelKeys = {
@@ -33,6 +34,7 @@ export const systemModelKeys = {
   blacklist: 'blacklist',
   requests: 'requests',
   settings: 'settings',
+  users: 'users',
 } as const;
 
 export const modelKeys = {

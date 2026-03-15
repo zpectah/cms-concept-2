@@ -23,7 +23,7 @@ import {
 
 export const useCategoriesDetailForm = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(['common', 'views']);
+  const { t } = useTranslation(['common', 'views', 'form']);
   const { addToast } = useAppStore();
   const { rootUrl, vid } = useViewContext();
   const { id } = useParams();

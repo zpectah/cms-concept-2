@@ -15,5 +15,14 @@
       "filterCategories": "Filter by categories",
       "filterTags": "Filter by tags"
     }
+  },
+  "viewLayout": {
+    "message": {
+      "noAccess": {
+        "title": "Access Denied!",
+        "content": "You do not have sufficient permissions to view this content.",
+        "action": "Return to dashboard"
+      }
+    }
   }
 }

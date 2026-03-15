@@ -1,17 +1,21 @@
 import { Suspense, useEffect } from 'react';
-import { styled, Container, Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { styled, Container, Stack, Typography, Box } from '@mui/material';
+import { IconAlertTriangle } from '@tabler/icons-react';
+import { getRandomId } from '@common';
 import { getConfig } from '../../config';
 import { classNames, setDocumentMeta } from '../../utils';
 import { useAppContext } from '../../contexts';
 import { viewLayoutVariantKeys } from '../../enums';
 import { CONTAINER_WIDTH_DEFAULT, SPACING } from '../../constants';
 import { ViewContextProvider } from '../../contexts';
+import { useUserActions } from '../../hooks';
+import { LinkButton } from '../ui';
 import { ViewLayoutProps } from './types';
 import { useViewLayout } from './useViewLayout';
 import Breadcrumbs from './Breadcrumbs';
 import Preloader from './Preloader';
 import Footer from './Footer';
-import { getRandomId } from '@common';
 
 const Wrapper = styled('div')(({ theme }) => ({
   width: '100%',
@@ -82,13 +86,29 @@ const ViewLayout = ({
     cms: {
       admin: { meta },
     },
+    routes,
   } = getConfig();
 
+  const { t } = useTranslation(['components']);
   const { setContainerWidth, setPageTitle } = useAppContext();
   const { listSelected, setListSelected } = useViewLayout();
+  const { model: modelActions, modelGroup, isLoaded } = useUserActions(model);
 
   const isDefaultVariant = variant === viewLayoutVariantKeys.default;
   const vid = getRandomId(8);
+
+  const contextValue = {
+    model,
+    modelGroup,
+    rootUrl: rootUrl ?? '',
+    vid,
+    list: {
+      selected: listSelected,
+      setSelected: setListSelected,
+    },
+    detail: {},
+    panels: {},
+  };
 
   useEffect(() => {
     setContainerWidth(containerWidth);
@@ -107,63 +127,80 @@ const ViewLayout = ({
   }, [title, meta]);
 
   return (
-    <ViewContextProvider
-      value={{
-        model,
-        rootUrl: rootUrl ?? '',
-        vid,
-        list: {
-          selected: listSelected,
-          setSelected: setListSelected,
-        },
-        detail: {
-          /* TODO */
-        },
-        panels: {
-          /* TODO */
-        },
-      }}
-    >
+    <ViewContextProvider value={contextValue}>
       <Wrapper id="view-layout" className={classNames(`variant--${variant}`)}>
-        <Container maxWidth={containerWidth} {...containerProps}>
-          <ContainerContent>
-            <ViewHeading>
-              {isDefaultVariant && <Breadcrumbs />}
-              <Stack
-                direction="row"
-                gap={2}
-                alignItems="center"
-                justifyContent={
-                  title && titleSlot
-                    ? 'space-between'
-                    : isDefaultVariant
-                    ? 'flex-start'
-                    : 'center'
-                }
+        {!modelActions.view ? (
+          <Container maxWidth={containerWidth}>
+            <ContainerContent>
+              <Box
+                sx={{
+                  pt: '15vh',
+                }}
               >
-                {title && <Typography variant="h1">{title}</Typography>}
-                {titleSlot && (
-                  <Stack direction="row" gap={2}>
-                    {titleSlot}
+                <Stack alignItems="center" justifyContent="center" gap={6}>
+                  <Stack alignItems="center" justifyContent="center" gap={2}>
+                    {!isLoaded ? (
+                      <Preloader />
+                    ) : (
+                      <>
+                        <IconAlertTriangle />
+                        <Typography variant="h3">
+                          {t('components:viewLayout.message.noAccess.title')}
+                        </Typography>
+                        <Typography variant="body1">
+                          {t('components:viewLayout.message.noAccess.content')}
+                        </Typography>
+                      </>
+                    )}
                   </Stack>
-                )}
-              </Stack>
-            </ViewHeading>
-            {navigationSlot && (
-              <NavigationSlot>{navigationSlot}</NavigationSlot>
-            )}
-            <ViewBody>
-              {disableSuspense ? (
-                children
-              ) : (
-                <Suspense fallback={preloader ? preloader : <Preloader />}>
-                  {children}
-                </Suspense>
+                  <LinkButton to={routes.dashboard.root} variant="outlined">
+                    {t('components:viewLayout.message.noAccess.action')}
+                  </LinkButton>
+                </Stack>
+              </Box>
+            </ContainerContent>
+          </Container>
+        ) : (
+          <Container maxWidth={containerWidth} {...containerProps}>
+            <ContainerContent>
+              <ViewHeading>
+                {isDefaultVariant && <Breadcrumbs />}
+                <Stack
+                  direction="row"
+                  gap={2}
+                  alignItems="center"
+                  justifyContent={
+                    title && titleSlot
+                      ? 'space-between'
+                      : isDefaultVariant
+                      ? 'flex-start'
+                      : 'center'
+                  }
+                >
+                  {title && <Typography variant="h1">{title}</Typography>}
+                  {titleSlot && (
+                    <Stack direction="row" gap={2}>
+                      {titleSlot}
+                    </Stack>
+                  )}
+                </Stack>
+              </ViewHeading>
+              {navigationSlot && (
+                <NavigationSlot>{navigationSlot}</NavigationSlot>
               )}
-              <Footer />
-            </ViewBody>
-          </ContainerContent>
-        </Container>
+              <ViewBody>
+                {disableSuspense ? (
+                  children
+                ) : (
+                  <Suspense fallback={preloader ? preloader : <Preloader />}>
+                    {children}
+                  </Suspense>
+                )}
+                <Footer />
+              </ViewBody>
+            </ContainerContent>
+          </Container>
+        )}
         {slot}
       </Wrapper>
     </ViewContextProvider>

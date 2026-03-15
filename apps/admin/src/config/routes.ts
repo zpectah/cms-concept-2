@@ -70,4 +70,12 @@ export const routes = {
   demo: {
     root: '/demo',
   },
-};
+} as Record<
+  string,
+  {
+    root: string;
+    detail?: string;
+    panels?: Record<string, string>;
+    token?: string;
+  }
+>;

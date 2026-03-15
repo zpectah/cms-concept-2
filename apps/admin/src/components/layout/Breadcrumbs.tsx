@@ -19,7 +19,7 @@ const Breadcrumbs = () => {
 
   return (
     <div role="presentation">
-      <MuiBreadcrumbs aria-label="breadcrumb">
+      <MuiBreadcrumbs aria-label="breadcrumb" sx={{ opacity: 0.75 }}>
         <Typography variant="button" sx={{ color: 'text.primary' }}>
           {meta.title}
         </Typography>

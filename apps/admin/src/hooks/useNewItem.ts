@@ -1,6 +1,8 @@
-import { modelKeys, ModelNames } from '@model';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { modelKeys, ModelNames } from '@model';
 import { getConfig } from '../config';
+import { useUserActions } from './useUserActions';
 
 interface UseNewItemProps {
   current?: ModelNames;
@@ -10,7 +12,37 @@ export const useNewItem = ({ current }: UseNewItemProps) => {
   const { routes } = getConfig();
 
   const { t } = useTranslation();
+  const { groups, getGroupByModel } = useUserActions(undefined);
 
+  const modelLinks = useMemo(() => {
+    return [
+      /** Also used for order */
+      modelKeys.articles,
+      modelKeys.categories,
+      modelKeys.customFields,
+      modelKeys.files,
+      modelKeys.members,
+      modelKeys.menu,
+      modelKeys.pages,
+      modelKeys.tags,
+      modelKeys.translations,
+      modelKeys.users,
+    ].map((item) => {
+      const group = getGroupByModel(item);
+      const isHidden = !group ? true : !groups[group].view;
+
+      return {
+        id: item,
+        label: t(`button.new.${item}`),
+        path: `${routes[item].root}/id/new`,
+        disabled: false,
+        hidden: isHidden,
+      };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [t, groups]);
+
+  /*
   const modelLinkItems = [
     {
       id: modelKeys.articles,
@@ -73,10 +105,11 @@ export const useNewItem = ({ current }: UseNewItemProps) => {
       disabled: false,
     },
   ];
+  */
 
   return {
-    current: modelLinkItems.find((item) => item.id === current),
-    options: modelLinkItems.filter((item) => item.id !== current),
-    all: modelLinkItems,
+    current: modelLinks.find((item) => item.id === current),
+    options: modelLinks.filter((item) => item.id !== current),
+    all: modelLinks,
   };
 };

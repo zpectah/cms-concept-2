@@ -5,7 +5,7 @@ import { usersTypeDefault, UsersDetail } from '@model';
 export const useProfile = () => {
   const { userDetailQuery } = useUserQuery();
 
-  const { data: detailData, isLoading } = userDetailQuery;
+  const { data: detailData, isLoading, isFetchedAfterMount } = userDetailQuery;
 
   const defaults = {
     user: {
@@ -23,19 +23,23 @@ export const useProfile = () => {
       deleted: false,
     } as UsersDetail,
     active: false,
+    isLoaded: false,
   };
 
-  return useMemo(
-    () =>
-      detailData
-        ? detailData
-        : isLoading
-        ? {
-            ...defaults,
-            active: true,
-          }
-        : defaults,
+  return useMemo(() => {
+    const baseData = detailData
+      ? detailData
+      : isLoading
+      ? {
+          ...defaults,
+          active: true,
+        }
+      : defaults;
+
+    return {
+      ...baseData,
+      isLoaded: isFetchedAfterMount,
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [detailData, isLoading]
-  );
+  }, [detailData, isLoading, isFetchedAfterMount]);
 };

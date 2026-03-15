@@ -58,15 +58,19 @@ const NewItemButton = ({ model }: NewItemButtonProps) => {
               horizontal: 'left',
             }}
           >
-            {options.map((item) => (
-              <MenuItem
-                key={item.id}
-                onClick={() => linkHandler(item.path)}
-                disabled={item?.disabled}
-              >
-                {item.label}
-              </MenuItem>
-            ))}
+            {options.map((item) => {
+              if (item.hidden) return null;
+
+              return (
+                <MenuItem
+                  key={item.id}
+                  onClick={() => linkHandler(item.path)}
+                  disabled={item?.disabled}
+                >
+                  {item.label}
+                </MenuItem>
+              );
+            })}
           </Menu>
         </>
       )}
