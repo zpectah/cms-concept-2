@@ -168,6 +168,7 @@ export interface IDataListContext {
     tags?: Tags;
     types: string[];
     pages: number[];
+    showExplicit: boolean;
   };
   /** Keys for ordering, sorting and filtering */
   keys: {
@@ -194,4 +195,7 @@ export interface IDataListContext {
   /** List control panel */
   controlsOpen: boolean;
   setControlsOpen: (open: boolean) => void;
+  /** Controls Explicit attribute */
+  isExplicitAttribute: boolean;
+  setShowExplicit: (showExplicit: boolean) => void;
 }

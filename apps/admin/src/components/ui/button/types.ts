@@ -3,6 +3,7 @@ import {
   TooltipProps,
   ButtonProps as MuiButtonProps,
 } from '@mui/material';
+import { CheckboxProps } from '../checkbox';
 
 export interface IconButtonPlusProps extends IconButtonProps {
   tooltip?: string;
@@ -25,4 +26,8 @@ export type NewButtonProps = Omit<ButtonProps, 'color'> & {};
 export type CheckboxButtonProps = Omit<IconButtonPlusProps, 'children'> & {
   isSelected?: boolean;
   iconSize?: string;
+};
+
+export type ButtonWithCheckboxProps = Partial<MuiButtonProps> & {
+  checkboxProps?: Partial<Omit<CheckboxProps, 'ref'>>;
 };

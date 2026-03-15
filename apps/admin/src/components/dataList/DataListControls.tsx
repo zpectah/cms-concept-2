@@ -31,6 +31,7 @@ import {
 import { useDataListContext } from './DataList.context';
 import { dataListCheckboxStateKeys, dataListSortOrderKeys } from './enums';
 import { dataListIconSizeDefault } from './constants';
+import ButtonWithCheckbox from '../ui/button/ButtonWithCheckbox';
 
 const DataListControls = () => {
   const { t } = useTranslation(['common', 'form', 'model', 'components']);
@@ -56,6 +57,8 @@ const DataListControls = () => {
     onSelectAll,
     controlsOpen,
     setControlsOpen,
+    isExplicitAttribute,
+    setShowExplicit,
   } = useDataListContext();
   const { model: modelActions } = useUserActions(model);
 
@@ -314,6 +317,7 @@ const DataListControls = () => {
       </Stack>
     );
   }, [
+    t,
     checkboxState,
     showDeleted,
     modelActions,
@@ -401,8 +405,8 @@ const DataListControls = () => {
         }
       >
         <Grid container spacing={2}>
-          <Grid size={12}>
-            {!!orderByActive && (
+          {!!orderByActive && (
+            <Grid size={12}>
               <TagSelect
                 label={t('components:dataList.label.sortOrder')}
                 value={sortBy}
@@ -416,11 +420,10 @@ const DataListControls = () => {
                   )
                 }
               />
-            )}
-          </Grid>
-
-          <Grid size={12}>
-            {!!filterByTypeActive && (
+            </Grid>
+          )}
+          {!!filterByTypeActive && (
+            <Grid size={12}>
               <TagSelect
                 label={t('components:dataList.label.filterType')}
                 value={filter.types}
@@ -433,11 +436,10 @@ const DataListControls = () => {
                 options={typesOptionsList}
                 multiple
               />
-            )}
-          </Grid>
-
-          <Grid size={12}>
-            {!!filterByCategoriesActive && (
+            </Grid>
+          )}
+          {!!filterByCategoriesActive && (
+            <Grid size={12}>
               <TagSelect
                 label={t('components:dataList.label.filterCategories')}
                 value={filter.categories}
@@ -450,11 +452,10 @@ const DataListControls = () => {
                 options={categoriesOptionsList}
                 multiple
               />
-            )}
-          </Grid>
-
-          <Grid size={12}>
-            {!!filterByTagsActive && (
+            </Grid>
+          )}
+          {!!filterByTagsActive && (
+            <Grid size={12}>
               <TagSelect
                 label={t('components:dataList.label.filterTags')}
                 value={filter.tags}
@@ -467,8 +468,20 @@ const DataListControls = () => {
                 options={tagsOptionsList}
                 multiple
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
+          {isExplicitAttribute && (
+            <Grid size={12}>
+              <ButtonWithCheckbox
+                onClick={() => setShowExplicit(!options?.showExplicit)}
+                checkboxProps={{
+                  checked: options?.showExplicit,
+                }}
+              >
+                Show explicit
+              </ButtonWithCheckbox>
+            </Grid>
+          )}
         </Grid>
       </Drawer>
     </>

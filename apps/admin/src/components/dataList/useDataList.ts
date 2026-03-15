@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { Categories, Tags, ListModelItem } from '@model';
+import { getConfig } from '../../config';
 import { DataListFilter, DataListSortOrder, UseDataListProps } from './types';
 import { searchItems, sortItems } from './helpers';
 import { dataListSortOrderKeys } from './enums';
@@ -18,6 +19,10 @@ export const useDataList = <T extends ListModelItem>({
   activeOnly,
   onSelect,
 }: UseDataListProps<T>) => {
+  const {
+    cms: { features },
+  } = getConfig();
+
   const [controlsOpen, setControlsOpen] = useState<boolean>(false);
   const [showDeleted, setShowDeleted] = useState<boolean>(false);
   const [selected, setSelected] = useState<number[]>([]);
@@ -29,8 +34,17 @@ export const useDataList = <T extends ListModelItem>({
   const [orderBy, setOrderBy] = useState<DataListSortOrder>(
     dataListOrderByDefault
   );
+  const [showExplicit, setShowExplicit] = useState<boolean>(true);
 
   const rawRows = searchItems(items, query, searchKeys);
+
+  const isExplicitAttribute = useMemo(() => {
+    if (!features['content.explicit']) return false;
+
+    return [...rawRows].some(
+      (item: T & { explicit?: boolean }) => !!item.explicit
+    );
+  }, [rawRows, features]);
 
   const rows = useMemo(() => {
     return [...rawRows]
@@ -59,8 +73,22 @@ export const useDataList = <T extends ListModelItem>({
 
         return tags.some((t) => filter.tags?.includes(t));
       })
+      .filter((item: T & { explicit?: boolean }) => {
+        if (!isExplicitAttribute) return true;
+        if (showExplicit) return true;
+
+        return !item.explicit;
+      })
       .sort(sortItems(sortBy, orderBy));
-  }, [rawRows, showDeleted, sortBy, orderBy, filter]);
+  }, [
+    rawRows,
+    showDeleted,
+    sortBy,
+    orderBy,
+    filter,
+    isExplicitAttribute,
+    showExplicit,
+  ]);
 
   const typeOptions = useMemo(() => {
     const types: string[] = [];
@@ -200,6 +228,7 @@ export const useDataList = <T extends ListModelItem>({
       categories: categoriesOptions,
       tags: tagsOptions,
       pages: dataListRowsPerPageOptions,
+      showExplicit,
     },
     sortBy,
     orderBy,
@@ -212,5 +241,7 @@ export const useDataList = <T extends ListModelItem>({
     onDeselect: () => setSelected([]),
     controlsOpen,
     setControlsOpen,
+    isExplicitAttribute,
+    setShowExplicit,
   };
 };

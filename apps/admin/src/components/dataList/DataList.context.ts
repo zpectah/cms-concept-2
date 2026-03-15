@@ -33,6 +33,7 @@ const defaultDataListContext: IDataListContext = {
     tags: [],
     types: [],
     pages: [],
+    showExplicit: false,
   },
   keys: {
     order: [],
@@ -67,6 +68,8 @@ const defaultDataListContext: IDataListContext = {
   onDeselect: () => null,
   controlsOpen: false,
   setControlsOpen: () => null,
+  isExplicitAttribute: false,
+  setShowExplicit: () => null,
 };
 
 export const DataListContext = createContext(defaultDataListContext);
